@@ -2,36 +2,55 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    float moveSped = 5f;
+    [SerializeField] private float speed;
+    [SerializeField] private float jumpPower;
+    [SerializeField] private LayerMask groundLayer;
 
-    private Rigidbody2D _rb;
-    private CapsuleCollider2D _col;
-    private bool _cachedQueryStartInColliders;
-    private Vector2 _frameVelocity;
+    private bool grounded;  //Temp fix
+    private Rigidbody2D body; 
+    private Animator anim;
+    private BoxCollider2D boxCollider;
 
     private void Awake()
     {
-        _rb = GetComponent<Rigidbody2D>();
-        _col = GetComponent<CapsuleCollider2D>();
-
-        _cachedQueryStartInColliders = Physics2D.queriesStartInColliders;
+        body = GetComponent<Rigidbody2D>();
+        anim = GetComponent<Animator>();
     }
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    private void Update()
     {
-        
+        float horizontalInput = Input.GetAxis("Horizontal");
+        body.linearVelocity = new Vector2(Input.GetAxis("Horizontal") * speed, body.linearVelocity.y);
+
+        if (horizontalInput > 0.01f)
+            transform.localScale = Vector3.one;
+        else if (horizontalInput < -0.01f)
+            transform.localScale = new Vector3(-1, 1, 1);
+
+        if (Input.GetKey(KeyCode.Space) && grounded)
+            Jump();
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Jump()
     {
-        bool JumpDown = Input.GetButtonDown("Jump");
-        _frameVelocity = new Vector2(Input.GetAxisRaw("Horizontal") * moveSped, _rb.linearVelocity.y);
+
+        body.linearVelocity = new Vector2(body.linearVelocity.x, jumpPower);
+        grounded = false;
+        //if (isGrounded())
+        //{
+        //    body.velocity = new Vector2(body.linearVelocity.x, jumpPower);
+        //}
+
     }
 
-
-    void FixedUpdate()
+    private void OnCollisionEnter2D(Collision2D collision)
     {
-        _rb.linearVelocity = _frameVelocity;
+        if (collision.gameObject.tag == "Ground") ;
+            grounded = true;
     }
+    //private bool isGrounded()
+    //{
+    //    RaycastHit2D raycastHit = Physics2D.BoxCast(boxCollider.bounds.center, boxCollider.bounds.size, 0, Vector2.down, 0.1f, groundLayer);
+    //    return raycastHit.collider != null;
+    //}
+
 }

@@ -2,19 +2,22 @@
 %TAG !u! tag:unity3d.com,2011:
 --- !u!78 &1
 TagManager:
-  serializedVersion: 2
-  tags: []
+  serializedVersion: 3
+  tags:
+  - Ground
+  - Checkpoint
+  - Platform
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Background
   - Water
   - UI
-  - 
-  - 
-  - 
-  - 
+  - Ground
+  - Foreground
+  - Player
+  - Enemy
   - 
   - 
   - 
@@ -41,3 +44,17 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Background
+    uniqueID: 278410367
+    locked: 0
+  - name: Foreground
+    uniqueID: 2024795343
+    locked: 0
+  - name: Player
+    uniqueID: 1545972033
+    locked: 0
+  - name: Ground
+    uniqueID: 1634531427
+    locked: 0
+  m_RenderingLayers:
+  - Default

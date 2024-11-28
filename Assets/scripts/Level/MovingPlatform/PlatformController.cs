@@ -95,7 +95,7 @@ public class PlatformController : MonoBehaviour
         {
             playerMovement.isOnPlatform = true;
             Debug.Log(playerMovement.isOnPlatform);
-            playerMovement.platformRb = rb;
+            // playerMovement.platformRb = rb;
             playerRb.gravityScale = playerRb.gravityScale * Gravity;
             Debug.Log(playerRb.gravityScale);
         }

@@ -17,21 +17,21 @@ public class PlayerAttack : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetMouseButton(0) && cooldownTimer > attackCooldown)        
-            Attack();
+        //if (Input.GetMouseButton(0) && cooldownTimer > attackCooldown)        
+        //    Attack();
 
-            cooldownTimer += Time.deltaTime;        
+        //    cooldownTimer += Time.deltaTime;        
     }
       
     private void Attack()
-        {
-            anim.SetTrigger("Attack");
-            cooldownTimer = 0;
+    {
+        anim.SetTrigger("Attack");
+        cooldownTimer = 0;
 
-            fireballs[0].transform.position = firePoint.position;
-            fireballs[0].GetComponent<Projectile>().SetDirection(Mathf.Sign(transform.localScale.x));
+        fireballs[0].transform.position = firePoint.position;
+        fireballs[0].GetComponent<Projectile>().SetDirection(Mathf.Sign(transform.localScale.x));
+    }
 
-        }
     private int FindFireball()
     {
         for (int i = 0; i < fireballs.Length; i++)

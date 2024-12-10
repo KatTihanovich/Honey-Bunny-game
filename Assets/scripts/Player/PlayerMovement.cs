@@ -112,7 +112,7 @@ public class PlayerMovement : MonoBehaviour
         {
             isJumping = false;
             isFalling = false;
-            verticalVelocity = Physics2D.gravity.y;
+            verticalVelocity = 0f;
         }
 
         // if (isJumping && rb.linearVelocity.y <= 0)

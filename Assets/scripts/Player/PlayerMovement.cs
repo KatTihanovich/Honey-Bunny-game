@@ -1,138 +1,222 @@
-using Spine.Unity;
 using UnityEngine;
+using UnityEngine.InputSystem.EnhancedTouch;
+using Spine.Unity;
+using ETouch = UnityEngine.InputSystem.EnhancedTouch;
+using UnityEngine.UI; 
 
 public class PlayerMovement : MonoBehaviour
 {
-    [SerializeField] private float moveSpeed = 12f;
-    [SerializeField] private float jumpHeight = 17f;
+    [Header("UI Elements")]
+    public Button jumpButton;
 
+    [Header("Joystick Settings")]
+    [SerializeField] private Vector2 JoystickSize = new Vector2(200, 200); // Size of the joystick
+    public JoyStick Joystick; // Reference to joystick UI
+    private Finger MovementFinger; // Finger tracking the joystick
+    public Vector2 MovementAmount; // Normalized movement direction
+
+    [Header("Player Movement")]
+    public Rigidbody2D playerRigidbody; // Player's Rigidbody2D
+    [SerializeField] private float moveSpeed = 12f; // Movement speed
+    [SerializeField] private float jumpHeight = 17f;
     [SerializeField] private float gravity = 33f;
 
-    // [SerializeField] private float jumpBufferTime;
-    [SerializeField] private LayerMask groundLayer;
-
-    private Rigidbody2D rb;
-    [SerializeField] private Collider2D collider;
-
-    // movement
-    private Vector2 moveVelocity;
-    private bool isFacingRight = true;
-
-    // collision check
-    private RaycastHit2D groundHit;
-    private bool isGrounded;
-
-    //jump
+    private bool isFacingRight = true; // For sprite flipping
+    private Vector2 moveVelocity; // Smoothed movement velocity
+    private bool isGrounded; // Check if player is grounded
+    private float verticalVelocity; // For jump and fall mechanics
     private bool isJumping;
     private bool isFalling;
-    private float verticalVelocity;
 
-    public bool isOnPlatform;
+    [Header("Collision")]
+    [SerializeField] private Collider2D collider;
+    [SerializeField] private LayerMask groundLayer;
+
+    [Header("Animation")]
     public SkeletonAnimation skeletonAnimation;
     public AnimationReferenceAsset idle, walking, falling, jumping;
-    public string currentState;
-    public string currentAnimation;
+    private string currentAnimation;
 
-    private void Awake()
-    {
-        isFacingRight = true;
-        rb = GetComponent<Rigidbody2D>();
-    }
-
-    private void Move(Vector2 moveInput)
-    {
-        Turn(moveInput);
-        if (moveInput.x != 0)
-        {
-            Vector2 targetVelocity = new Vector2(moveInput.x, 0f) * moveSpeed;
-            moveVelocity = Vector2.Lerp(moveVelocity, targetVelocity, 5f * Time.fixedDeltaTime);
-            rb.linearVelocity = new Vector2(moveVelocity.x, rb.linearVelocity.y);
-        }
-        else if (moveInput.x == 0)
-        {
-            moveVelocity = Vector2.Lerp(moveVelocity, Vector2.zero, 20f * Time.fixedDeltaTime);
-            rb.linearVelocity = new Vector2(moveVelocity.x, rb.linearVelocity.y);
-        }
-    }
-
-    private void Turn(Vector2 moveInput)
-    {
-        if (isFacingRight && moveInput.x < 0f)
-        {
-            isFacingRight = false;
-            transform.Rotate(0f, -180f, 0f);
-        }
-        else if (!isFacingRight && moveInput.x > 0f)
-        {
-            isFacingRight = true;
-            transform.Rotate(0f, 180f, 0f);
-        }
-    }
+    public bool isOnPlatform;
+    private Rigidbody2D platformRigidbody;
 
     private void Start()
     {
+        playerRigidbody = GetComponent<Rigidbody2D>();
+        jumpButton.onClick.AddListener(InitiateJump);
+
+        // Enable Enhanced Touch support
+        EnhancedTouchSupport.Enable();
+        ETouch.Touch.onFingerDown += HandleFingerDown;
+        ETouch.Touch.onFingerUp += HandleLoseFinger;
+        ETouch.Touch.onFingerMove += HandleFingerMove;
+
+        // Set initial animation state
+        SetCharacterState("Idle");
+    }
+    private void SetJoystickPosition(Vector2 position)
+{
+    RectTransform joystickRect = Joystick.joyStickObj.GetComponent<RectTransform>();
+
+    // Set the anchor and position to a fixed screen point
+    joystickRect.anchorMin = new Vector2(0, 0);
+    joystickRect.anchorMax = new Vector2(0, 0);
+    joystickRect.anchoredPosition = position; // Fixed position in screen coordinates
+
+    // Ensure the joystick base cannot be moved
+    joystickRect.GetComponent<CanvasGroup>().blocksRaycasts = true;
+}
+
+
+    private void OnDisable()
+    {
+        ETouch.Touch.onFingerDown -= HandleFingerDown;
+        ETouch.Touch.onFingerUp -= HandleLoseFinger;
+        ETouch.Touch.onFingerMove -= HandleFingerMove;
+        EnhancedTouchSupport.Disable();
+    }
+
+    private void FixedUpdate()
+{
+    MovePlayer();
+    IsGrounded();
+    HandleJump();
+
+    // Add platform velocity if the player is on a platform
+    if (isOnPlatform && platformRigidbody != null)
+    {
+        playerRigidbody.linearVelocity += platformRigidbody.linearVelocity;
+    }
+}
+
+    private void Update()
+    {
+        UpdateAnimationState();
+        SetJoystickPosition(JoystickSize);
+    }
+
+    // Handle joystick finger down
+    private void HandleFingerDown(Finger touchedFinger)
+    {
+        if (MovementFinger == null && touchedFinger.screenPosition.x <= 250 & touchedFinger.screenPosition.y <= 240)
         {
-            currentState = "Idle";
-            SetCharacterState(currentState);
+            MovementFinger = touchedFinger;
+            MovementAmount = Vector2.zero;
         }
+    }
+
+    // Handle joystick finger move
+   private void HandleFingerMove(Finger movedFinger)
+{
+    if (movedFinger == MovementFinger)
+    {
+        // Get the touch position in screen space
+        Vector2 touchPosition = movedFinger.currentTouch.screenPosition;
+
+        // Get the RectTransform of the joystick (this is in screen space)
+        RectTransform joystickRect = Joystick.joyStickObj.GetComponent<RectTransform>();
+
+        // Convert touch position to local space relative to the joystick's RectTransform
+        Vector2 localTouchPosition = joystickRect.InverseTransformPoint(touchPosition);
+
+        // Calculate the maximum movement radius of the joystick knob (half the width)
+        float maxMovement = JoystickSize.x / 2f;
+
+        // Clamp the local position to the joystick's boundaries
+        localTouchPosition = Vector2.ClampMagnitude(localTouchPosition, maxMovement);
+
+        // Update the joystick knob position
+        Joystick.Knob.anchoredPosition = localTouchPosition;
+
+        // Set the player's movement amount based on the joystick's position
+        MovementAmount = new Vector2(localTouchPosition.x / maxMovement, 0f); // Only horizontal movement
+    }
+}
+
+    // Handle joystick finger up
+    private void HandleLoseFinger(Finger lostFinger)
+    {
+        if (lostFinger == MovementFinger)
+        {
+            MovementFinger = null;
+            Joystick.Knob.anchoredPosition = Vector2.zero;
+            MovementAmount = Vector2.zero;
+        }
+    }
+
+    private void MovePlayer()
+    {
+        //if (isGrounded && !isFalling)
+    //{
+        // Smoothly apply horizontal movement
+        Vector2 targetVelocity = MovementAmount * moveSpeed;
+        moveVelocity = Vector2.Lerp(moveVelocity, targetVelocity, 5f * Time.fixedDeltaTime);
+        playerRigidbody.linearVelocity = new Vector2(moveVelocity.x, playerRigidbody.linearVelocity.y);
+
+        // Handle sprite flipping
+        if (isFacingRight && MovementAmount.x < 0f)
+        {
+            Flip();
+        }
+        else if (!isFacingRight && MovementAmount.x > 0f)
+        {
+            Flip();
+        }
+    //}
+    }
+
+    private void Flip()
+    {
+        isFacingRight = !isFacingRight;
+        transform.Rotate(0f, 180f, 0f);
     }
 
     private void IsGrounded()
     {
         Vector2 boxCastOrigin = new Vector2(collider.bounds.center.x, collider.bounds.min.y);
         Vector2 boxCastSize = new Vector2(collider.bounds.size.x, 0.1f);
+        isGrounded = Physics2D.BoxCast(boxCastOrigin, boxCastSize, 0f, Vector2.down, 0.1f, groundLayer);
 
-        groundHit = Physics2D.BoxCast(boxCastOrigin, boxCastSize, 0f, Vector2.down, 0.1f, groundLayer.value);
-        isGrounded = groundHit.collider;
+        if (!isGrounded && !isJumping)
+    {
+        isFalling = true;
+    }
     }
 
-    private void InitiateJump()
+    private void HandleJump()
+{
+    if (isJumping)
+    {
+        verticalVelocity -= gravity * Time.fixedDeltaTime;
+        if (verticalVelocity < 0f && !isFalling)
+        {
+            isJumping = false;
+            isFalling = true;
+        }
+    }
+    else if (isGrounded && isFalling)
+    {
+        isFalling = false;
+        verticalVelocity = 0f;
+    }
+
+    playerRigidbody.gravityScale = isJumping ? 1f : 15f;  // Increase gravity when falling
+    playerRigidbody.linearVelocity = new Vector2(playerRigidbody.linearVelocity.x, verticalVelocity);
+}
+
+
+
+    public void InitiateJump()
     {
         if (isGrounded && !isJumping && !isFalling)
         {
             isJumping = true;
-            // var grav = -(2f * jumpHeight) / Mathf.Pow(0.35f, 2f);
-            // verticalVelocity = Mathf.Abs(grav) * 0.35f;
             verticalVelocity = jumpHeight;
         }
     }
 
-    private void Jump()
+    private void UpdateAnimationState()
     {
-        if (!isGrounded)
-        {
-            verticalVelocity -= gravity * Time.fixedDeltaTime;
-            if (verticalVelocity < 0f && !isFalling)
-            {
-                isJumping = false;
-                isFalling = true;
-            }
-        }
-        else if (isGrounded && isFalling)
-        {
-            isJumping = false;
-            isFalling = false;
-            verticalVelocity = 0f;
-        }
-
-        // if (isJumping && rb.linearVelocity.y <= 0)
-        // {
-        //     isJumping = false;
-        // }
-        // if (!isGrounded)
-        // {
-        //     rb.linearVelocity += new Vector2(0, -gravity * Time.fixedDeltaTime);
-        // }
-        rb.linearVelocity = new Vector2(rb.linearVelocity.x, verticalVelocity);
-    }
-
-    private void Update()
-    {
-        if (InputManager.JumpWasPressed)
-        {
-            InitiateJump();
-        }
-
         if (isJumping)
         {
             SetCharacterState("Jumping");
@@ -143,31 +227,8 @@ public class PlayerMovement : MonoBehaviour
         }
         else
         {
-            SetCharacterState(InputManager.Movement.x != 0 ? "Walking" : "Idle");
+            SetCharacterState(MovementAmount.x != 0 ? "Walking" : "Idle");
         }
-    }
-
-    private void FixedUpdate()
-    {
-        Move(InputManager.Movement);
-        IsGrounded();
-        Jump();
-
-
-        // if (isOnPlatform)
-        // {
-        //     rb.linearVelocity = new Vector2(Input.GetAxis("Horizontal") * walkSpeed + platformRb.linearVelocity.x, rb.linearVelocity.y);
-        // }
-        // else
-        // {
-        //    rb.linearVelocity = new Vector2(Input.GetAxis("Horizontal") * walkSpeed, rb.linearVelocity.y);
-        // }
-    }
-
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        // if (collision.gameObject.tag == "Ground") ;
-        // grounded = true;
     }
 
     private void SetAnimation(AnimationReferenceAsset animation, bool loop, float timescale)
@@ -183,21 +244,42 @@ public class PlayerMovement : MonoBehaviour
 
     private void SetCharacterState(string state)
     {
-        if (state.Equals("Idle"))
+        if (state == "Idle")
         {
             SetAnimation(idle, true, 1f);
         }
-        else if (state.Equals("Walking"))
+        else if (state == "Walking")
         {
             SetAnimation(walking, true, 1f);
         }
-        else if (state.Equals("Falling"))
+        else if (state == "Falling")
         {
-            SetAnimation(falling, true, 0.1f);
+            SetAnimation(falling, true, 0.5f);
         }
-        else if (state.Equals("Jumping"))
+        else if (state == "Jumping")
         {
-            SetAnimation(jumping, false, 0.1f);
+            SetAnimation(jumping, false, 1f);
         }
     }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+{
+    // Check if the player is colliding with a moving platform
+    if (collision.gameObject.CompareTag("MovingPlatform"))
+    {
+        isOnPlatform = true;
+        platformRigidbody = collision.rigidbody;
+    }
+}
+
+// Handle when the player leaves the platform
+private void OnCollisionExit2D(Collision2D collision)
+{
+    if (collision.gameObject.CompareTag("MovingPlatform"))
+    {
+        isOnPlatform = false;
+        platformRigidbody = null;
+    }
+}
+
 }

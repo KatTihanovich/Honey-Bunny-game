@@ -8,6 +8,5 @@ public class JoyStick : MonoBehaviour
     {
         joyStickObj = GetComponent<RectTransform>();
     }
-
     
 }

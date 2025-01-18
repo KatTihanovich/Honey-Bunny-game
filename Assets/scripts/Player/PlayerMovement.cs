@@ -3,16 +3,22 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
+    [Header("Horizontal Parameters")]
     [SerializeField] private float moveSpeed = 12f;
+    [Header("Jumping Parameters")]
+    [SerializeField] private float jumpBufferTime;
+    private float jumpBufferCounter;
+    [SerializeField] private float coyoteTime;
+    private float coyoteCounter;
     [SerializeField] private float jumpHeight = 17f;
-
+    [Header("Gravity Parameters")]
     [SerializeField] private float gravity = 33f;
 
-    // [SerializeField] private float jumpBufferTime;
+
     [SerializeField] private LayerMask groundLayer;
 
     private Rigidbody2D rb;
-    [SerializeField] private Collider2D collider;
+    [SerializeField] private Collider2D playerCollider;
 
     // movement
     private Vector2 moveVelocity;
@@ -27,16 +33,19 @@ public class PlayerMovement : MonoBehaviour
     private bool isFalling;
     private float verticalVelocity;
 
+    private Health health;
+
     public bool isOnPlatform;
     public SkeletonAnimation skeletonAnimation;
     public AnimationReferenceAsset idle, walking, falling, jumping;
-    public string currentState;
-    public string currentAnimation;
+    private string currentAnimation;
+
 
     private void Awake()
     {
         isFacingRight = true;
         rb = GetComponent<Rigidbody2D>();
+        health = GetComponent<Health>();
     }
 
     private void Move(Vector2 moveInput)
@@ -72,15 +81,15 @@ public class PlayerMovement : MonoBehaviour
     private void Start()
     {
         {
-            currentState = "Idle";
-            SetCharacterState(currentState);
+            SetCharacterState("Idle");
+            Application.targetFrameRate = 60;
         }
     }
 
     private void IsGrounded()
     {
-        Vector2 boxCastOrigin = new Vector2(collider.bounds.center.x, collider.bounds.min.y);
-        Vector2 boxCastSize = new Vector2(collider.bounds.size.x, 0.1f);
+        Vector2 boxCastOrigin = new Vector2(playerCollider.bounds.center.x, playerCollider.bounds.min.y);
+        Vector2 boxCastSize = new Vector2(playerCollider.bounds.size.x, 0.1f);
 
         groundHit = Physics2D.BoxCast(boxCastOrigin, boxCastSize, 0f, Vector2.down, 0.1f, groundLayer.value);
         isGrounded = groundHit.collider;
@@ -88,12 +97,12 @@ public class PlayerMovement : MonoBehaviour
 
     private void InitiateJump()
     {
-        if (isGrounded && !isJumping && !isFalling)
+        if (isGrounded && !isJumping && !isFalling || coyoteCounter > 0)
         {
             isJumping = true;
-            // var grav = -(2f * jumpHeight) / Mathf.Pow(0.35f, 2f);
-            // verticalVelocity = Mathf.Abs(grav) * 0.35f;
             verticalVelocity = jumpHeight;
+            jumpBufferCounter = 0; 
+            coyoteCounter = 0;
         }
     }
 
@@ -102,10 +111,12 @@ public class PlayerMovement : MonoBehaviour
         if (!isGrounded)
         {
             verticalVelocity -= gravity * Time.fixedDeltaTime;
+
             if (verticalVelocity < 0f && !isFalling)
             {
                 isJumping = false;
                 isFalling = true;
+
             }
         }
         else if (isGrounded && isFalling)
@@ -114,25 +125,32 @@ public class PlayerMovement : MonoBehaviour
             isFalling = false;
             verticalVelocity = 0f;
         }
-
-        // if (isJumping && rb.linearVelocity.y <= 0)
-        // {
-        //     isJumping = false;
-        // }
-        // if (!isGrounded)
-        // {
-        //     rb.linearVelocity += new Vector2(0, -gravity * Time.fixedDeltaTime);
-        // }
         rb.linearVelocity = new Vector2(rb.linearVelocity.x, verticalVelocity);
     }
 
     private void Update()
     {
-        if (InputManager.JumpWasPressed)
+       // Debug.Log($"CoyoteCounter Decreased: {coyoteCounter}");
+        if (isGrounded && !isJumping && !isFalling)
+        {
+            coyoteCounter = coyoteTime;
+        }
+        else
+        {
+            coyoteCounter -= Time.fixedDeltaTime;
+        }
+        if (Input.GetButtonDown("Jump"))
+        {
+            jumpBufferCounter = jumpBufferTime;
+        }
+        else
+        {
+            jumpBufferCounter -= Time.fixedDeltaTime;
+        }
+        if (jumpBufferCounter > 0f)
         {
             InitiateJump();
         }
-
         if (isJumping)
         {
             SetCharacterState("Jumping");
@@ -152,25 +170,9 @@ public class PlayerMovement : MonoBehaviour
         Move(InputManager.Movement);
         IsGrounded();
         Jump();
-
-
-        // if (isOnPlatform)
-        // {
-        //     rb.linearVelocity = new Vector2(Input.GetAxis("Horizontal") * walkSpeed + platformRb.linearVelocity.x, rb.linearVelocity.y);
-        // }
-        // else
-        // {
-        //    rb.linearVelocity = new Vector2(Input.GetAxis("Horizontal") * walkSpeed, rb.linearVelocity.y);
-        // }
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        // if (collision.gameObject.tag == "Ground") ;
-        // grounded = true;
-    }
-
-    private void SetAnimation(AnimationReferenceAsset animation, bool loop, float timescale)
+    public void SetAnimation(AnimationReferenceAsset animation, bool loop, float timescale)
     {
         if (animation.name.Equals(currentAnimation))
         {
@@ -193,11 +195,12 @@ public class PlayerMovement : MonoBehaviour
         }
         else if (state.Equals("Falling"))
         {
-            SetAnimation(falling, true, 0.1f);
+            SetAnimation(falling, true, 1f);
         }
         else if (state.Equals("Jumping"))
         {
-            SetAnimation(jumping, false, 0.1f);
+            SetAnimation(jumping, true, 1f);
         }
     }
+
 }

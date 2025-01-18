@@ -1,78 +1,67 @@
+using Spine.Unity;
 using UnityEngine;
-using System.Collections;
-using System.Collections.Generic;
 
 public class Health : MonoBehaviour
 {
-    [Header ("Health")]
+    [Header("Health Settings")]
     [SerializeField] private float startingHealth;
-    public float currentHealth { get; private set; }
-    private bool dead;
+    public float CurrentHealth { get; private set; }
+    private bool isDead = false;
 
+    [Header("Animation Settings")]
+    public SkeletonAnimation skeletonAnimation;
+    public AnimationReferenceAsset hit, death;
 
-    [Header("Health")]
-    [SerializeField] private float iFramesDuration;
-    [SerializeField] private int numberofFlashes;
-    [SerializeField] private SpriteRenderer spriteRend;
-
-
-
+    public event System.Action<float> OnHealthChanged;
+    public event System.Action OnDeath;
+    private string currentAnimation;
 
     private void Awake()
     {
-        currentHealth = startingHealth;
-        spriteRend = GetComponent<SpriteRenderer>();
+        CurrentHealth = startingHealth;
     }
-    public void TakeDamage(float _damage)
+
+    public void TakeDamage(float damage)
     {
-        currentHealth = Mathf.Clamp(currentHealth - _damage, 0, startingHealth);
-        if (currentHealth > 0)
-        {
-            StartCoroutine(Invunerability());
-        }
-        else
-        {
-            if (!dead)
-            {
-                GetComponent<PlayerMovement>().enabled = false;
-                dead = true;
-            }
+        if (isDead) return;
 
+        CurrentHealth = Mathf.Clamp(CurrentHealth - damage, 0, startingHealth);
+        OnHealthChanged?.Invoke(CurrentHealth);
+
+        SetAnimation(hit, false, 1f);
+
+        if (CurrentHealth <= 0 && !isDead)
+        {
+            SetAnimation(death, false, 1f);
+            isDead = true;
+            OnDeath?.Invoke();
         }
     }
 
-
-    private void Update()
+    public void AddHealth(float value)
     {
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            TakeDamage(1);
-        }
+        CurrentHealth = Mathf.Clamp(CurrentHealth + value, 0, startingHealth);
+        OnHealthChanged?.Invoke(CurrentHealth);
     }
+
+    public bool IsDead() => isDead;
 
     public void Respawn()
     {
-        AddHealth(startingHealth);
-        dead = false;
-        GetComponent<PlayerMovement>().enabled = true;
-        StartCoroutine(Invunerability());
-
+        CurrentHealth = startingHealth;
+        isDead = false;
+        OnHealthChanged?.Invoke(CurrentHealth);
     }
-    public void AddHealth(float _value)
+    private void SetAnimation(AnimationReferenceAsset animation, bool loop, float timescale)
     {
-        currentHealth = Mathf.Clamp(currentHealth + _value, 0, startingHealth);
-    }
-    private IEnumerator Invunerability()
-    {
-        Physics2D.IgnoreLayerCollision(8,9, true);
-        for (int i = 0; i < numberofFlashes; i++)
+        if (animation.name.Equals(currentAnimation))
         {
-
-            spriteRend.color = new Color(1, 0, 0, 0.5f);
-            yield return new WaitForSeconds(iFramesDuration / (numberofFlashes * 2));
-            spriteRend.color = Color.white;
-            yield return new WaitForSeconds(iFramesDuration / (numberofFlashes * 2));
+            return;
         }
-        Physics2D.IgnoreLayerCollision(8,9, false);
+
+        skeletonAnimation.state.SetAnimation(0, animation, loop).TimeScale = timescale;
+        currentAnimation = animation.name;
     }
 }
+
+

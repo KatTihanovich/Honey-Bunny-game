@@ -6,6 +6,9 @@ public class CoinManager : MonoBehaviour
     public static CoinManager Instance { get; private set; }
 
     [SerializeField] private Text coinText; 
+    //[SerializeField] private GameObject starBar;
+    //[SerializeField] private float TargetStars = 3;
+   
     private int totalCoins; 
 
     private void Awake()
@@ -22,6 +25,7 @@ public class CoinManager : MonoBehaviour
 
     private void Start()
     {
+        //starBar = starBar.GetComponent<Slider>();
         UpdateCoinUI(); 
     }
 
@@ -29,6 +33,9 @@ public class CoinManager : MonoBehaviour
     {
         totalCoins += amount;
         UpdateCoinUI();
+
+        //float progressPerCoin = 1f / TargetStars;
+        //starBar.IncrementProgress(progressPerCoin);
     }
 
     private void UpdateCoinUI()

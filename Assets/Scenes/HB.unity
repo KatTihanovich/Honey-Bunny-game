@@ -1699,26 +1699,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a5ac11cc976e418e8d13136b07e1f52, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_SerializedVersion: 0
-  m_AgentTypeID: 0
-  m_CollectObjects: 0
-  m_Size: {x: 10, y: 10, z: 10}
-  m_Center: {x: 0, y: 2, z: 0}
-  m_LayerMask:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_UseGeometry: 0
-  m_DefaultArea: 0
-  m_GenerateLinks: 0
-  m_IgnoreNavMeshAgent: 1
-  m_IgnoreNavMeshObstacle: 1
-  m_OverrideTileSize: 0
-  m_TileSize: 256
-  m_OverrideVoxelSize: 0
-  m_VoxelSize: 0.16666667
-  m_MinRegionArea: 2
-  m_NavMeshData: {fileID: 0}
-  m_BuildHeightMesh: 0
 --- !u!1 &645943568
 GameObject:
   m_ObjectHideFlags: 0
@@ -2652,9 +2632,11 @@ MonoBehaviour:
   MovementAmount: {x: 0, y: 0}
   playerRigidbody: {fileID: 888159045}
   moveSpeed: 12
+  jumpBufferTime: 0
+  coyoteTime: 0
   jumpHeight: 17
   gravity: 33
-  collider: {fileID: 309442112}
+  collider: {fileID: 398275251}
   groundLayer:
     serializedVersion: 2
     m_Bits: 64
@@ -2833,7 +2815,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 356f4edd614c02f4ca44ae472eea5c0c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackButton: {fileID: 200846709}
+  attackButton: {fileID: 0}
   anim: {fileID: 0}
   firePoint: {fileID: 0}
   fireballs: []

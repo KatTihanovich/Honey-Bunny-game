@@ -6,17 +6,22 @@ using UnityEngine.UI;
 
 public class PlayerMovement : MonoBehaviour
 {
+     [Header("Audio Settings")]
+    [SerializeField] private AudioClip jumpSound; 
+    [SerializeField] private float volume = 1.0f; 
+
     [Header("UI Elements")]
     public Button jumpButton;
 
     [Header("Joystick Settings")]
     [SerializeField] private Vector2 JoystickSize = new Vector2(200, 200); // Size of the joystick
-    public JoyStick Joystick; // Reference to joystick UI
+    [SerializeField] private Vector2 JoystickPosition = new Vector2(300, 250);
+    public JoyStick Joystick;
     private Finger MovementFinger; // Finger tracking the joystick
     public Vector2 MovementAmount; // Normalized movement direction
 
     [Header("Player Movement")]
-    public Rigidbody2D playerRigidbody; // Player's Rigidbody2D
+    public Rigidbody2D playerRigidbody;
     [SerializeField] private float moveSpeed = 12f;
     [Header("Jumping Parameters")]
     [SerializeField] private float jumpBufferTime;
@@ -46,7 +51,7 @@ public class PlayerMovement : MonoBehaviour
     [Header("Collision")]
     [SerializeField] private Collider2D collider;
     [SerializeField] private LayerMask groundLayer;
-    private float verticalVelocity;
+
 
     private Health health;
 
@@ -94,10 +99,9 @@ public class PlayerMovement : MonoBehaviour
         ETouch.Touch.onFingerUp -= HandleLoseFinger;
         ETouch.Touch.onFingerMove -= HandleFingerMove;
         EnhancedTouchSupport.Disable();
-    private string currentAnimation;
+    
+    }
 
-
-   
 
     private void FixedUpdate()
 {
@@ -115,13 +119,13 @@ public class PlayerMovement : MonoBehaviour
     private void Update()
     {
         UpdateAnimationState();
-        SetJoystickPosition(JoystickSize);
+        SetJoystickPosition(JoystickPosition);
     }
 
     // Handle joystick finger down
     private void HandleFingerDown(Finger touchedFinger)
     {
-        if (MovementFinger == null && touchedFinger.screenPosition.x <= 250 & touchedFinger.screenPosition.y <= 240)
+        if (MovementFinger == null && touchedFinger.screenPosition.x <= 400 & touchedFinger.screenPosition.y <= 400)
         {
             MovementFinger = touchedFinger;
             MovementAmount = Vector2.zero;
@@ -169,8 +173,6 @@ public class PlayerMovement : MonoBehaviour
 
     private void MovePlayer()
     {
-        //if (isGrounded && !isFalling)
-    //{
         // Smoothly apply horizontal movement
         Vector2 targetVelocity = MovementAmount * moveSpeed;
         moveVelocity = Vector2.Lerp(moveVelocity, targetVelocity, 5f * Time.fixedDeltaTime);
@@ -185,7 +187,7 @@ public class PlayerMovement : MonoBehaviour
         {
             Flip();
         }
-    //}
+    
     }
 
     private void Flip()
@@ -208,14 +210,18 @@ public class PlayerMovement : MonoBehaviour
     }
     }
 
-    private void InitiateJump()
+    public void InitiateJump()
     {
-        if (isGrounded && !isJumping && !isFalling || coyoteCounter > 0)
+        if (isGrounded && !isJumping && !isFalling)
         {
             isJumping = true;
-            // var grav = -(2f * jumpHeight) / Mathf.Pow(0.35f, 2f);
-            // verticalVelocity = Mathf.Abs(grav) * 0.35f;
             verticalVelocity = jumpHeight;
+
+            
+            if (jumpSound != null)
+            {
+                AudioSource.PlayClipAtPoint(jumpSound, transform.position, volume);
+            }
         }
     }
 
@@ -236,20 +242,13 @@ public class PlayerMovement : MonoBehaviour
         verticalVelocity = 0f;
     }
 
-    playerRigidbody.gravityScale = isJumping ? 1f : 15f;  // Increase gravity when falling
+    playerRigidbody.gravityScale = isJumping ? 1f : 20f;  // Increase gravity when falling
     playerRigidbody.linearVelocity = new Vector2(playerRigidbody.linearVelocity.x, verticalVelocity);
 }
 
 
-
-    public void InitiateJump()
+    private void UpdateAnimationState()
     {
-        if (isGrounded && !isJumping && !isFalling)
-        {
-            isJumping = true;
-            verticalVelocity = jumpHeight;
-        }
-
         if (isJumping)
         {
             SetCharacterState("Jumping");
@@ -264,28 +263,6 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    private void FixedUpdate()
-    {
-        Move(InputManager.Movement);
-        IsGrounded();
-        Jump();
-
-
-        // if (isOnPlatform)
-        // {
-        //     rb.linearVelocity = new Vector2(Input.GetAxis("Horizontal") * walkSpeed + platformRb.linearVelocity.x, rb.linearVelocity.y);
-        // }
-        // else
-        // {
-        //    rb.linearVelocity = new Vector2(Input.GetAxis("Horizontal") * walkSpeed, rb.linearVelocity.y);
-        // }
-    }
-
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        // if (collision.gameObject.tag == "Ground") ;
-        // grounded = true;
-    }
 
     private void SetAnimation(AnimationReferenceAsset animation, bool loop, float timescale)
     {
@@ -314,7 +291,7 @@ public class PlayerMovement : MonoBehaviour
         }
         else if (state == "Jumping")
         {
-            SetAnimation(jumping, true, 0.1f);
+            SetAnimation(jumping, true, 1f);
         }
     }
 

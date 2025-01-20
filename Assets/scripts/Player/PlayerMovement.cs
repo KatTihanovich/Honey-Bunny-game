@@ -87,10 +87,8 @@ public class PlayerMovement : MonoBehaviour
     joystickRect.anchorMin = new Vector2(0, 0);
     joystickRect.anchorMax = new Vector2(0, 0);
     joystickRect.anchoredPosition = position; // Fixed position in screen coordinates
-
-    // Ensure the joystick base cannot be moved
-    joystickRect.GetComponent<CanvasGroup>().blocksRaycasts = true;
 }
+
 
 
     private void OnDisable()

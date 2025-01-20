@@ -8,6 +8,9 @@ public class InstructionPanelController : MonoBehaviour
     [SerializeField] private Button okButton;
     [SerializeField] private Button backButton; 
     [SerializeField] private string mainMenuSceneName = "MainMenu"; 
+    [Header("Audio Settings")]
+    [SerializeField] private AudioClip buttonSound;
+    [SerializeField] private float volume = 1.0f;
 
     private bool isPaused = true; // Tracks whether interactions are paused
 
@@ -49,6 +52,11 @@ public class InstructionPanelController : MonoBehaviour
 
     private void OnOkButtonClicked()
     {
+        if (buttonSound != null)
+        {
+            AudioSource.PlayClipAtPoint(buttonSound, transform.position, volume);
+        } 
+
         if (instructionPanel != null)
         {
             instructionPanel.SetActive(false);
@@ -58,6 +66,11 @@ public class InstructionPanelController : MonoBehaviour
 
     private void OnBackButtonClicked()
     {
+        if (buttonSound != null)
+        {
+            AudioSource.PlayClipAtPoint(buttonSound, transform.position, volume);
+        }
+        
         SceneManager.LoadScene(mainMenuSceneName);
     }
 

@@ -811,6 +811,7 @@ GameObject:
   - component: {fileID: 196942484}
   - component: {fileID: 196942482}
   - component: {fileID: 196942483}
+  - component: {fileID: 196942487}
   m_Layer: 5
   m_Name: UICanvas
   m_TagString: Untagged
@@ -941,6 +942,20 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 1
   m_TargetDisplay: 0
+--- !u!114 &196942487
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 196942480}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0c9b3d43f09a4400f92d54a46b19b485, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  buttonSound: {fileID: 8300000, guid: aa58915660e35418a94128a8d717c0d3, type: 3}
+  volume: 8
 --- !u!1 &261875813
 GameObject:
   m_ObjectHideFlags: 0
@@ -1127,8 +1142,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -132.8, y: -74.39}
-  m_SizeDelta: {x: 44.98, y: 28.27}
+  m_AnchoredPosition: {x: -172, y: -97}
+  m_SizeDelta: {x: 57.4367, y: 40.7267}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &267437178
 MonoBehaviour:
@@ -1539,7 +1554,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 481.75, y: 371.33}
+  m_SizeDelta: {x: 625.6941, y: 458.5268}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &323704274
 MonoBehaviour:
@@ -1764,7 +1779,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &345001688
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1782,7 +1797,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0.0049438477, y: 0}
+  m_AnchoredPosition: {x: 0.0048828125, y: 0}
   m_SizeDelta: {x: -513.85, y: -209.41}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &345001689
@@ -1839,6 +1854,8 @@ MonoBehaviour:
   okButton: {fileID: 1554659393}
   backButton: {fileID: 267437178}
   mainMenuSceneName: MainMenu
+  buttonSound: {fileID: 0}
+  volume: 1
 --- !u!1 &381324477
 GameObject:
   m_ObjectHideFlags: 0
@@ -3679,6 +3696,18 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
+      - m_Target: {fileID: 196942487}
+        m_TargetAssemblyTypeName: ButtonClickSound, Assembly-CSharp
+        m_MethodName: PlayClickSound
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
       - m_Target: {fileID: 15374854}
         m_TargetAssemblyTypeName: PauseMenu, Assembly-CSharp
         m_MethodName: Pause
@@ -4272,6 +4301,18 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
+      - m_Target: {fileID: 196942487}
+        m_TargetAssemblyTypeName: ButtonClickSound, Assembly-CSharp
+        m_MethodName: PlayClickSound
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
       - m_Target: {fileID: 196942483}
         m_TargetAssemblyTypeName: ButtonImageToggler, Assembly-CSharp
         m_MethodName: ToggleImage
@@ -4938,8 +4979,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 133, y: -74.39001}
-  m_SizeDelta: {x: 32.81, y: 28.27}
+  m_AnchoredPosition: {x: 170, y: -97}
+  m_SizeDelta: {x: 49.4189, y: 42.1108}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1554659393
 MonoBehaviour:

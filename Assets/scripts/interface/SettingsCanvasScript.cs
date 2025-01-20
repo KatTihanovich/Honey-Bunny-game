@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
+
 public class SettingsCanvasScript : MonoBehaviour
 {
     public GameObject panel;  
@@ -7,6 +8,7 @@ public class SettingsCanvasScript : MonoBehaviour
     public Button info_button;       
     public Button arrow_button;  
     private bool isPanelVisible = false; 
+
     void Start()
     {
         panel.SetActive(false);

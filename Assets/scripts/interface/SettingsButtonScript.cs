@@ -4,7 +4,6 @@ using UnityEngine.UI;
 public class SettingsButtonScript : MonoBehaviour
 {
     public GameObject panel;  
-    public Button settingsToggleButton; 
     public Button button_main1;        
     public Button button_main2;       
     public Button button_main3;  

@@ -73,7 +73,7 @@ public class EnemyPatrol : MonoBehaviour
         Vector3 localScale = baseScale;
         localScale.x *= (direction > 0 ? 1 : -1); // Инверсия по X в зависимости от направления
         enemy.localScale = localScale;
-
+        
         rb.linearVelocity = new Vector2(direction * speed, rb.linearVelocity.y);
     }
 

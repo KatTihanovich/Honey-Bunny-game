@@ -1,5 +1,6 @@
 using Spine.Unity;
 using UnityEngine;
+using UnityEngine.Playables;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -14,38 +15,48 @@ public class PlayerMovement : MonoBehaviour
     [Header("Gravity Parameters")]
     [SerializeField] private float gravity = 33f;
 
-
     [SerializeField] private LayerMask groundLayer;
 
     private Rigidbody2D rb;
     [SerializeField] private Collider2D playerCollider;
 
-    // movement
+    [Header("Attack Parameters")]
+    [SerializeField] private BoxCollider2D boxCollider; // Коллайдер для определения центра проверки
+    [SerializeField] private LayerMask entityLayer; // Слой для фильтрации сущностей
+    [SerializeField] private float colliderDistanceX = 1f; // Смещение по X
+    [SerializeField] private float colliderDistanceY = 0.5f; // Смещение по Y
+    [SerializeField] private float rangeX = 1.5f; // Ширина области
+    [SerializeField] private float rangeY = 1f; // Высота области
+    [SerializeField] private int damage = 10; // Урон
+    [SerializeField] private float attackCD = 10; // Урон
+    private float attackCounter = Mathf.Infinity;
+    private Health entityHealth;
+
+    // Movement
     private Vector2 moveVelocity;
     private bool isFacingRight = true;
 
-    // collision check
+    // Collision
     private RaycastHit2D groundHit;
     private bool isGrounded;
 
-    //jump
+    // Jumping
     private bool isJumping;
     private bool isFalling;
     private float verticalVelocity;
-
-    private Health health;
+    private bool isAttacking = false; // Флаг, чтобы предотвратить переключение состояний
 
     public bool isOnPlatform;
     public SkeletonAnimation skeletonAnimation;
-    public AnimationReferenceAsset idle, walking, falling, jumping;
-    private string currentAnimation;
+    public AnimationReferenceAsset idle, walking, falling, jumping, attacking;
 
+    private PlayerState currentState;
 
     private void Awake()
     {
         isFacingRight = true;
         rb = GetComponent<Rigidbody2D>();
-        health = GetComponent<Health>();
+        currentState = PlayerState.Idle;
     }
 
     private void Move(Vector2 moveInput)
@@ -57,7 +68,7 @@ public class PlayerMovement : MonoBehaviour
             moveVelocity = Vector2.Lerp(moveVelocity, targetVelocity, 5f * Time.fixedDeltaTime);
             rb.linearVelocity = new Vector2(moveVelocity.x, rb.linearVelocity.y);
         }
-        else if (moveInput.x == 0)
+        else
         {
             moveVelocity = Vector2.Lerp(moveVelocity, Vector2.zero, 20f * Time.fixedDeltaTime);
             rb.linearVelocity = new Vector2(moveVelocity.x, rb.linearVelocity.y);
@@ -80,10 +91,8 @@ public class PlayerMovement : MonoBehaviour
 
     private void Start()
     {
-        {
-            SetCharacterState("Idle");
-            Application.targetFrameRate = 60;
-        }
+        SetCharacterState(PlayerState.Idle);
+        Application.targetFrameRate = 60;
     }
 
     private void IsGrounded()
@@ -101,7 +110,7 @@ public class PlayerMovement : MonoBehaviour
         {
             isJumping = true;
             verticalVelocity = jumpHeight;
-            jumpBufferCounter = 0; 
+            jumpBufferCounter = 0;
             coyoteCounter = 0;
         }
     }
@@ -116,7 +125,6 @@ public class PlayerMovement : MonoBehaviour
             {
                 isJumping = false;
                 isFalling = true;
-
             }
         }
         else if (isGrounded && isFalling)
@@ -125,12 +133,14 @@ public class PlayerMovement : MonoBehaviour
             isFalling = false;
             verticalVelocity = 0f;
         }
+
         rb.linearVelocity = new Vector2(rb.linearVelocity.x, verticalVelocity);
     }
 
     private void Update()
     {
-       // Debug.Log($"CoyoteCounter Decreased: {coyoteCounter}");
+
+        attackCounter += Time.fixedDeltaTime;
         if (isGrounded && !isJumping && !isFalling)
         {
             coyoteCounter = coyoteTime;
@@ -139,6 +149,7 @@ public class PlayerMovement : MonoBehaviour
         {
             coyoteCounter -= Time.fixedDeltaTime;
         }
+
         if (Input.GetButtonDown("Jump"))
         {
             jumpBufferCounter = jumpBufferTime;
@@ -147,21 +158,29 @@ public class PlayerMovement : MonoBehaviour
         {
             jumpBufferCounter -= Time.fixedDeltaTime;
         }
+
         if (jumpBufferCounter > 0f)
         {
             InitiateJump();
         }
+
         if (isJumping)
         {
-            SetCharacterState("Jumping");
+            SetCharacterState(PlayerState.Jumping);
         }
         else if (isFalling)
         {
-            SetCharacterState("Falling");
+            SetCharacterState(PlayerState.Falling);
         }
         else
         {
-            SetCharacterState(InputManager.Movement.x != 0 ? "Walking" : "Idle");
+            SetCharacterState(InputManager.Movement.x != 0 ? PlayerState.Walking : PlayerState.Idle);
+        }
+
+        if (Input.GetMouseButtonDown(0) && attackCounter >= attackCD)
+        {
+            attackCounter = 0;
+            StartAttack();
         }
     }
 
@@ -172,35 +191,107 @@ public class PlayerMovement : MonoBehaviour
         Jump();
     }
 
+    private void SetCharacterState(PlayerState state)
+    {
+        // Не менять состояние, если уже в атаке
+        if (isAttacking && state != PlayerState.Attacking) return;
+
+        if (currentState == state && state != PlayerState.Attacking) return;
+
+        currentState = state;
+        switch (state)
+        {
+            case PlayerState.Idle:
+                SetAnimation(idle, true, 1f);
+                break;
+            case PlayerState.Walking:
+                SetAnimation(walking, true, 1f);
+                break;
+            case PlayerState.Jumping:
+                SetAnimation(jumping, true, 1f);
+                break;
+            case PlayerState.Falling:
+                SetAnimation(falling, true, 1f);
+                break;
+            case PlayerState.Attacking:
+                isAttacking = true; // Устанавливаем флаг атаки
+                SetAnimation(attacking, false, 1.7f);
+                skeletonAnimation.state.GetCurrent(0).Complete += OnAttackAnimationComplete;
+                break;
+        }
+    }
+
+    private void OnAttackAnimationComplete(Spine.TrackEntry trackEntry)
+    {
+        // Снимаем флаг атаки
+        isAttacking = false;
+
+        // Возвращаем состояние в Idle или Walking
+        SetCharacterState(InputManager.Movement.x != 0 ? PlayerState.Walking : PlayerState.Idle);
+    }
+
+
     public void SetAnimation(AnimationReferenceAsset animation, bool loop, float timescale)
     {
-        if (animation.name.Equals(currentAnimation))
-        {
-            return;
-        }
-
         skeletonAnimation.state.SetAnimation(0, animation, loop).TimeScale = timescale;
-        currentAnimation = animation.name;
     }
 
-    private void SetCharacterState(string state)
+    public void ApplyAreaDamage()
     {
-        if (state.Equals("Idle"))
+        Collider2D[] hits = Physics2D.OverlapBoxAll(
+            boxCollider.bounds.center + transform.up * transform.localScale.y * colliderDistanceY + transform.right * transform.localScale.x * colliderDistanceX,
+            new Vector2(boxCollider.bounds.size.x * rangeX, boxCollider.bounds.size.y * rangeY),
+            0, entityLayer); // Используем OverlapBoxAll вместо BoxCastAll
+
+        foreach (var hit in hits)
         {
-            SetAnimation(idle, true, 1f);
-        }
-        else if (state.Equals("Walking"))
-        {
-            SetAnimation(walking, true, 1f);
-        }
-        else if (state.Equals("Falling"))
-        {
-            SetAnimation(falling, true, 1f);
-        }
-        else if (state.Equals("Jumping"))
-        {
-            SetAnimation(jumping, true, 1f);
+            if (hit != null && hit.CompareTag("Enemy"))
+            {
+                Health entityHealth = hit.GetComponent<Health>();
+                if (entityHealth != null)
+                {
+                    entityHealth.TakeDamage(damage);
+                }
+                else
+                {
+                }
+            }
         }
     }
 
+
+    private void StartAttack()
+    {
+        isAttacking = true;
+        SetCharacterState(PlayerState.Attacking);
+
+        // После завершения анимации атаки, сбрасываем флаг
+        skeletonAnimation.state.Complete += OnAttackAnimationComplete;
+    }
+
+
+
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.color = Color.red;
+        Vector3 boxSize = new Vector3(
+            boxCollider.bounds.size.x * rangeX,
+            boxCollider.bounds.size.y * rangeY,
+            boxCollider.bounds.size.z);
+        Vector3 boxCenter = boxCollider.bounds.center +
+            transform.up * transform.localScale.y * colliderDistanceY +
+            transform.right * transform.localScale.x * colliderDistanceX;
+
+        Gizmos.DrawWireCube(boxCenter, boxSize);
+    }
+    public enum PlayerState
+    {
+        Idle,
+        Walking,
+        Jumping,
+        Falling,
+        Attacking
+    }
 }

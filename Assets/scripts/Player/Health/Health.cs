@@ -10,7 +10,7 @@ public class Health : MonoBehaviour
 
     [Header("Animation Settings")]
     public SkeletonAnimation skeletonAnimation;
-    public AnimationReferenceAsset hit, death;
+    public AnimationReferenceAsset hit, death, idle;
 
     public event System.Action<float> OnHealthChanged;
     public event System.Action OnDeath;
@@ -19,6 +19,12 @@ public class Health : MonoBehaviour
     private void Awake()
     {
         CurrentHealth = startingHealth;
+        skeletonAnimation.state.Complete += OnAnimationComplete; // Подписка на событие
+    }
+
+    private void OnDestroy()
+    {
+        skeletonAnimation.state.Complete -= OnAnimationComplete; // Отписка от события
     }
 
     public void TakeDamage(float damage)
@@ -28,13 +34,15 @@ public class Health : MonoBehaviour
         CurrentHealth = Mathf.Clamp(CurrentHealth - damage, 0, startingHealth);
         OnHealthChanged?.Invoke(CurrentHealth);
 
-        SetAnimation(hit, false, 1f);
-
-        if (CurrentHealth <= 0 && !isDead)
+        if (CurrentHealth <= 0)
         {
-            SetAnimation(death, false, 1f);
             isDead = true;
             OnDeath?.Invoke();
+            SetAnimation(death, false); // Анимация смерти
+        }
+        else
+        {
+            SetAnimation(hit, false); // Анимация удара
         }
     }
 
@@ -51,17 +59,23 @@ public class Health : MonoBehaviour
         CurrentHealth = startingHealth;
         isDead = false;
         OnHealthChanged?.Invoke(CurrentHealth);
+        SetAnimation(idle, true); // Возвращаем Idle
     }
-    private void SetAnimation(AnimationReferenceAsset animation, bool loop, float timescale)
-    {
-        if (animation.name.Equals(currentAnimation))
-        {
-            return;
-        }
 
-        skeletonAnimation.state.SetAnimation(0, animation, loop).TimeScale = timescale;
+    private void SetAnimation(AnimationReferenceAsset animation, bool loop)
+    {
+        if (animation == null || currentAnimation == animation.name)
+            return;
+
+        skeletonAnimation.state.SetAnimation(0, animation, loop).TimeScale = 1f;
         currentAnimation = animation.name;
     }
+
+    private void OnAnimationComplete(Spine.TrackEntry trackEntry)
+    {
+        if (currentAnimation == hit.name) // Если завершилась анимация удара
+        {
+            SetAnimation(idle, true); // Возвращаем Idle
+        }
+    }
 }
-
-

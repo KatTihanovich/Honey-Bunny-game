@@ -33,7 +33,7 @@ public class MeleeEnemy_0 : MonoBehaviour
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        baseScale = transform.localScale; // Сохраняем базовый масштаб
+        baseScale = transform.localScale; // РЎРѕС…СЂР°РЅСЏРµРј Р±Р°Р·РѕРІС‹Р№ РјР°СЃС€С‚Р°Р±
     }
 
     private void Update()
@@ -44,7 +44,7 @@ public class MeleeEnemy_0 : MonoBehaviour
             return;
         }
 
-        cooldownTimer += Time.deltaTime;
+        cooldownTimer += Time.fixedDeltaTime;
 
         float velocityX = rb.linearVelocity.x;
         if (Mathf.Abs(velocityX) > 0.1f)
@@ -79,13 +79,13 @@ public class MeleeEnemy_0 : MonoBehaviour
     {
         if (patrolScript != null)
         {
-            patrolScript.StopMovement(); // Остановить движение во время атаки
+            patrolScript.StopMovement(); // РћСЃС‚Р°РЅРѕРІРёС‚СЊ РґРІРёР¶РµРЅРёРµ РІРѕ РІСЂРµРјСЏ Р°С‚Р°РєРё
         }
 
         isAttacking = true;
         SetAnimation(attacking, false, 1f);
 
-        // После завершения анимации атаки, сбрасываем флаг
+        // РџРѕСЃР»Рµ Р·Р°РІРµСЂС€РµРЅРёСЏ Р°РЅРёРјР°С†РёРё Р°С‚Р°РєРё, СЃР±СЂР°СЃС‹РІР°РµРј С„Р»Р°Рі
         skeletonAnimation.state.Complete += OnAttackComplete;
     }
 
@@ -97,7 +97,7 @@ public class MeleeEnemy_0 : MonoBehaviour
 
             if (patrolScript != null)
             {
-                patrolScript.ResumeMovement(); // Возобновить движение
+                patrolScript.ResumeMovement(); // Р’РѕР·РѕР±РЅРѕРІРёС‚СЊ РґРІРёР¶РµРЅРёРµ
             }
 
             skeletonAnimation.state.Complete -= OnAttackComplete;
@@ -133,6 +133,13 @@ public class MeleeEnemy_0 : MonoBehaviour
             Debug.Log("Player not in sight, no damage dealt.");
         }
     }
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireCube(
+            boxCollider.bounds.center + transform.up * transform.localScale.y * colliderDistanceY + transform.right * transform.localScale.x * colliderDistanceX,
+            new Vector3(boxCollider.bounds.size.x * rangeX, boxCollider.bounds.size.y * rangeY, boxCollider.bounds.size.z));
+    }
 
     private void SetAnimation(AnimationReferenceAsset animation, bool loop, float timescale)
     {
@@ -145,11 +152,5 @@ public class MeleeEnemy_0 : MonoBehaviour
         currentAnimation = animation.name;
     }
 
-    private void OnDrawGizmos()
-    {
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireCube(
-            boxCollider.bounds.center + transform.up * transform.localScale.y * colliderDistanceY + transform.right * transform.localScale.x * colliderDistanceX,
-            new Vector3(boxCollider.bounds.size.x * rangeX, boxCollider.bounds.size.y * rangeY, boxCollider.bounds.size.z));
-    }
+
 }

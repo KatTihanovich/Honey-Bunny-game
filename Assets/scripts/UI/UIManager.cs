@@ -7,5 +7,6 @@ public class UIManager : MonoBehaviour
     public void GameOver()
     {
         gameOverScreen.SetActive(true);
+        Time.timeScale = 0f;
     }
 }

@@ -48,6 +48,7 @@ namespace Spine.Unity.Examples {
 		public bool logDebugMessage = false;
 
 		Spine.EventData eventData;
+		public Renderer objectRenderer;
 
 		void OnValidate () {
 			if (skeletonAnimation == null) GetComponent<SkeletonAnimation>();
@@ -60,6 +61,8 @@ namespace Spine.Unity.Examples {
 			skeletonAnimation.Initialize(false);
 			if (!skeletonAnimation.valid) return;
 
+			objectRenderer = GetComponent<Renderer>();
+
 			eventData = skeletonAnimation.Skeleton.Data.FindEvent(eventName);
 			skeletonAnimation.AnimationState.Event += HandleAnimationStateEvent;
 		}
@@ -68,7 +71,7 @@ namespace Spine.Unity.Examples {
 			if (logDebugMessage) Debug.Log("Event fired! " + e.Data.Name);
 			//bool eventMatch = string.Equals(e.Data.Name, eventName, System.StringComparison.Ordinal); // Testing recommendation: String compare.
 			bool eventMatch = (eventData == e.Data); // Performance recommendation: Match cached reference instead of string.
-			if (eventMatch) {
+			if (eventMatch && IsObjectVisible()) {
 				Play();
 			}
 		}
@@ -77,6 +80,9 @@ namespace Spine.Unity.Examples {
 			audioSource.pitch = basePitch + Random.Range(-randomPitchOffset, randomPitchOffset);
 			audioSource.clip = audioClip;
 			audioSource.Play();
+		}
+		private bool IsObjectVisible() {
+			return objectRenderer != null && objectRenderer.isVisible;
 		}
 	}
 

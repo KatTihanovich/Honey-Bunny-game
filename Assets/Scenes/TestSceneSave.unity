@@ -119,135 +119,6 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!1 &11198953
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 11198956}
-  - component: {fileID: 11198955}
-  m_Layer: 0
-  m_Name: Backround Audio
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!82 &11198955
-AudioSource:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 11198953}
-  m_Enabled: 1
-  serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 7439933574938557468, guid: b7aad94fe0c3c4ba4a14d95707c80208, type: 2}
-  m_audioClip: {fileID: 8300000, guid: 9ba36f052db1645f18d64a1eee4f165e, type: 3}
-  m_Resource: {fileID: 8300000, guid: 9ba36f052db1645f18d64a1eee4f165e, type: 3}
-  m_PlayOnAwake: 1
-  m_Volume: 0.324
-  m_Pitch: 1
-  Loop: 1
-  Mute: 0
-  Spatialize: 0
-  SpatializePostEffects: 0
-  Priority: 128
-  DopplerLevel: 1
-  MinDistance: 1
-  MaxDistance: 500
-  Pan2D: 0
-  rolloffMode: 0
-  BypassEffects: 0
-  BypassListenerEffects: 0
-  BypassReverbZones: 0
-  rolloffCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 1
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  panLevelCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  spreadCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  reverbZoneMixCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
---- !u!4 &11198956
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 11198953}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.3129349, y: 0.39889556, z: 144.1824}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &15374849
 GameObject:
   m_ObjectHideFlags: 0
@@ -682,6 +553,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 345446316}
     m_Modifications:
+    - target: {fileID: 169408892582910437, guid: 5da057f6fd3b3c845ada258edaa2a612, type: 3}
+      propertyPath: audioManager
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 887821886656021788, guid: 5da057f6fd3b3c845ada258edaa2a612, type: 3}
       propertyPath: m_Name
       value: DestructiblePlatform (1)
@@ -1557,6 +1432,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 345446316}
     m_Modifications:
+    - target: {fileID: 169408892582910437, guid: 5da057f6fd3b3c845ada258edaa2a612, type: 3}
+      propertyPath: audioManager
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 887821886656021788, guid: 5da057f6fd3b3c845ada258edaa2a612, type: 3}
       propertyPath: m_Name
       value: DestructiblePlatform (9)
@@ -2841,6 +2720,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 345446316}
     m_Modifications:
+    - target: {fileID: 169408892582910437, guid: 5da057f6fd3b3c845ada258edaa2a612, type: 3}
+      propertyPath: audioManager
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 887821886656021788, guid: 5da057f6fd3b3c845ada258edaa2a612, type: 3}
       propertyPath: m_Name
       value: DestructiblePlatform (15)
@@ -4125,6 +4008,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1431606475}
     m_Modifications:
+    - target: {fileID: 2254245369258512554, guid: 19e3d33b6666043479738212e5f3d460, type: 3}
+      propertyPath: audioSource
+      value: 
+      objectReference: {fileID: 896875442}
+    - target: {fileID: 2254245369258512554, guid: 19e3d33b6666043479738212e5f3d460, type: 3}
+      propertyPath: objectRenderer
+      value: 
+      objectReference: {fileID: 896875448}
     - target: {fileID: 3288115900434756051, guid: 19e3d33b6666043479738212e5f3d460, type: 3}
       propertyPath: m_Mesh
       value: 
@@ -5564,6 +5455,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 345446316}
     m_Modifications:
+    - target: {fileID: 169408892582910437, guid: 5da057f6fd3b3c845ada258edaa2a612, type: 3}
+      propertyPath: audioManager
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 887821886656021788, guid: 5da057f6fd3b3c845ada258edaa2a612, type: 3}
       propertyPath: m_Name
       value: DestructiblePlatform (13)
@@ -5634,6 +5529,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 345446316}
     m_Modifications:
+    - target: {fileID: 169408892582910437, guid: 5da057f6fd3b3c845ada258edaa2a612, type: 3}
+      propertyPath: audioManager
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 887821886656021788, guid: 5da057f6fd3b3c845ada258edaa2a612, type: 3}
       propertyPath: m_Name
       value: DestructiblePlatform (18)
@@ -7596,6 +7495,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 6775023028694193347, guid: eacc451426d927a489819e640a61a66e, type: 3}
   m_PrefabInstance: {fileID: 705497753}
   m_PrefabAsset: {fileID: 0}
+--- !u!23 &724283285 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 1012942500694819198, guid: 2061a69b68c433e4a8951c039ec94354, type: 3}
+  m_PrefabInstance: {fileID: 1364714461}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &737116966
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -8218,6 +8122,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 345446316}
     m_Modifications:
+    - target: {fileID: 169408892582910437, guid: 5da057f6fd3b3c845ada258edaa2a612, type: 3}
+      propertyPath: audioManager
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 887821886656021788, guid: 5da057f6fd3b3c845ada258edaa2a612, type: 3}
       propertyPath: m_Name
       value: DestructiblePlatform (16)
@@ -8926,7 +8834,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3af89a0da5e6ebd44814c3f791f5d3ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startingHealth: 3
+  startingHealth: 10
   skeletonAnimation: {fileID: 888159046}
   hit: {fileID: 11400000, guid: 5442b1519dee80c42afd90fa22c1db9a, type: 2}
   death: {fileID: 11400000, guid: fd93b5750b02abd4f85e0d971f7af56b, type: 2}
@@ -8945,6 +8853,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   iFramesDuration: 2
   numberOfFlashes: 2
+--- !u!82 &896875442 stripped
+AudioSource:
+  m_CorrespondingSourceObject: {fileID: 3755071999130615475, guid: 19e3d33b6666043479738212e5f3d460, type: 3}
+  m_PrefabInstance: {fileID: 413907945}
+  m_PrefabAsset: {fileID: 0}
+--- !u!23 &896875448 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 1060844534765496578, guid: 19e3d33b6666043479738212e5f3d460, type: 3}
+  m_PrefabInstance: {fileID: 413907945}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &902925322
 GameObject:
   m_ObjectHideFlags: 0
@@ -9023,6 +8941,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 345446316}
     m_Modifications:
+    - target: {fileID: 169408892582910437, guid: 5da057f6fd3b3c845ada258edaa2a612, type: 3}
+      propertyPath: audioManager
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 887821886656021788, guid: 5da057f6fd3b3c845ada258edaa2a612, type: 3}
       propertyPath: m_Name
       value: DestructiblePlatform (14)
@@ -9093,6 +9015,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 345446316}
     m_Modifications:
+    - target: {fileID: 169408892582910437, guid: 5da057f6fd3b3c845ada258edaa2a612, type: 3}
+      propertyPath: audioManager
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 887821886656021788, guid: 5da057f6fd3b3c845ada258edaa2a612, type: 3}
       propertyPath: m_Name
       value: DestructiblePlatform (10)
@@ -10319,6 +10245,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1049382634}
     - target: {fileID: 2254245369258512554, guid: 19e3d33b6666043479738212e5f3d460, type: 3}
+      propertyPath: objectRenderer
+      value: 
+      objectReference: {fileID: 1049382635}
+    - target: {fileID: 2254245369258512554, guid: 19e3d33b6666043479738212e5f3d460, type: 3}
       propertyPath: logDebugMessage
       value: 0
       objectReference: {fileID: 0}
@@ -10399,6 +10329,11 @@ Transform:
 --- !u!82 &1049382634 stripped
 AudioSource:
   m_CorrespondingSourceObject: {fileID: 3755071999130615475, guid: 19e3d33b6666043479738212e5f3d460, type: 3}
+  m_PrefabInstance: {fileID: 1049382632}
+  m_PrefabAsset: {fileID: 0}
+--- !u!23 &1049382635 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 1060844534765496578, guid: 19e3d33b6666043479738212e5f3d460, type: 3}
   m_PrefabInstance: {fileID: 1049382632}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1057927647
@@ -13187,6 +13122,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da2c562140ad24ee6baafade7866df08, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  musicSource: {fileID: 0}
+  FXSource: {fileID: 0}
+  UISource: {fileID: 0}
+  background: {fileID: 0}
+  death: {fileID: 0}
+  checkpoint: {fileID: 0}
+  ui: {fileID: 0}
+  nipperAttack: {fileID: 0}
+  nickerAttack: {fileID: 0}
+  playerAttack: {fileID: 0}
+  jump: {fileID: 0}
+  destroyPlatform: {fileID: 0}
+  damage: {fileID: 0}
 --- !u!114 &1315140457
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13718,6 +13666,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 6
       objectReference: {fileID: 0}
+    - target: {fileID: 4249023165825189714, guid: c2ac7fcfe089c374a8167d7dab5026af, type: 3}
+      propertyPath: audioManager
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 5705958343798902316, guid: c2ac7fcfe089c374a8167d7dab5026af, type: 3}
       propertyPath: m_Sprite
       value: 
@@ -13868,6 +13820,10 @@ PrefabInstance:
       propertyPath: eventName
       value: NIPPER_VFX/NIPPER_VFX_STEP
       objectReference: {fileID: 0}
+    - target: {fileID: 3081662619291642573, guid: 2061a69b68c433e4a8951c039ec94354, type: 3}
+      propertyPath: objectRenderer
+      value: 
+      objectReference: {fileID: 724283285}
     - target: {fileID: 6400635739665061265, guid: 2061a69b68c433e4a8951c039ec94354, type: 3}
       propertyPath: m_Size.x
       value: 11
@@ -15345,6 +15301,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 345446316}
     m_Modifications:
+    - target: {fileID: 169408892582910437, guid: 5da057f6fd3b3c845ada258edaa2a612, type: 3}
+      propertyPath: audioManager
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 887821886656021788, guid: 5da057f6fd3b3c845ada258edaa2a612, type: 3}
       propertyPath: m_Name
       value: DestructiblePlatform (11)
@@ -15988,6 +15948,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 345446316}
     m_Modifications:
+    - target: {fileID: 169408892582910437, guid: 5da057f6fd3b3c845ada258edaa2a612, type: 3}
+      propertyPath: audioManager
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 887821886656021788, guid: 5da057f6fd3b3c845ada258edaa2a612, type: 3}
       propertyPath: m_Name
       value: DestructiblePlatform (2)
@@ -16946,6 +16910,16 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1645341445}
   m_CullTransparentMesh: 1
+--- !u!82 &1649196237 stripped
+AudioSource:
+  m_CorrespondingSourceObject: {fileID: 3755071999130615475, guid: 19e3d33b6666043479738212e5f3d460, type: 3}
+  m_PrefabInstance: {fileID: 1675932692}
+  m_PrefabAsset: {fileID: 0}
+--- !u!23 &1649196243 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 1060844534765496578, guid: 19e3d33b6666043479738212e5f3d460, type: 3}
+  m_PrefabInstance: {fileID: 1675932692}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1653748614
 GameObject:
   m_ObjectHideFlags: 0
@@ -17041,6 +17015,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1431606475}
     m_Modifications:
+    - target: {fileID: 2254245369258512554, guid: 19e3d33b6666043479738212e5f3d460, type: 3}
+      propertyPath: audioSource
+      value: 
+      objectReference: {fileID: 1649196237}
+    - target: {fileID: 2254245369258512554, guid: 19e3d33b6666043479738212e5f3d460, type: 3}
+      propertyPath: objectRenderer
+      value: 
+      objectReference: {fileID: 1649196243}
     - target: {fileID: 3288115900434756051, guid: 19e3d33b6666043479738212e5f3d460, type: 3}
       propertyPath: m_Mesh
       value: 
@@ -18510,6 +18492,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 345446316}
     m_Modifications:
+    - target: {fileID: 169408892582910437, guid: 5da057f6fd3b3c845ada258edaa2a612, type: 3}
+      propertyPath: audioManager
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 887821886656021788, guid: 5da057f6fd3b3c845ada258edaa2a612, type: 3}
       propertyPath: m_Name
       value: DestructiblePlatform (17)
@@ -19299,6 +19285,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 345446316}
     m_Modifications:
+    - target: {fileID: 169408892582910437, guid: 5da057f6fd3b3c845ada258edaa2a612, type: 3}
+      propertyPath: audioManager
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 887821886656021788, guid: 5da057f6fd3b3c845ada258edaa2a612, type: 3}
       propertyPath: m_Name
       value: DestructiblePlatform (12)
@@ -20444,6 +20434,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 345446316}
     m_Modifications:
+    - target: {fileID: 169408892582910437, guid: 5da057f6fd3b3c845ada258edaa2a612, type: 3}
+      propertyPath: audioManager
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 887821886656021788, guid: 5da057f6fd3b3c845ada258edaa2a612, type: 3}
       propertyPath: m_Name
       value: DestructiblePlatform (8)
@@ -20604,4 +20598,3 @@ SceneRoots:
   - {fileID: 2042700465}
   - {fileID: 962841418}
   - {fileID: 1550872268}
-  - {fileID: 11198956}

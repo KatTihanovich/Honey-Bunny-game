@@ -1,5 +1,7 @@
 using UnityEngine;
 using Spine.Unity;
+using UnityEngine;
+using UnityEngine.Playables;
 using UnityEngine.InputSystem.EnhancedTouch;
 using ETouch = UnityEngine.InputSystem.EnhancedTouch;
 using UnityEngine.UI; 
@@ -26,7 +28,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float moveSpeed = 12f;
 
     [Header("Collision")]
-    [SerializeField] private Collider2D collider;
+    [SerializeField] private Collider2D playerCollider;
     [SerializeField] private LayerMask groundLayer;
 
     [Header("Jumping Parameters")]
@@ -40,28 +42,39 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float gravity = 33f;
 
 
-    // movement
+    [Header("Attack Parameters")]
+    [SerializeField] private BoxCollider2D boxCollider; // ��������� ��� ����������� ������ ��������
+    [SerializeField] private LayerMask entityLayer; // ���� ��� ���������� ���������
+    [SerializeField] private float colliderDistanceX = 1f; // �������� �� X
+    [SerializeField] private float colliderDistanceY = 0.5f; // �������� �� Y
+    [SerializeField] private float rangeX = 1.5f; // ������ �������
+    [SerializeField] private float rangeY = 1f; // ������ �������
+    [SerializeField] private int damage = 10; // ����
+    [SerializeField] private float attackCD = 10; // ����
+    private float attackCounter = Mathf.Infinity;
+    private Health entityHealth;
+
+    // Movement
     private Vector2 moveVelocity;
     private bool isFacingRight = true;
 
-    // collision check
+    // Collision
     private RaycastHit2D groundHit;
     private bool isGrounded;
 
-    //jump
+    // Jumping
     private bool isJumping;
     private bool isFalling;
     private float verticalVelocity;
 
-
     //health
-    private Health health;
+    private bool isAttacking = false; // ����, ����� ������������� ������������ ���������
 
     [Header("Animation")]
     public SkeletonAnimation skeletonAnimation;
-    public AnimationReferenceAsset idle, walking, falling, jumping;
-    private string currentAnimation;
+    public AnimationReferenceAsset idle, walking, falling, jumping, attacking;
 
+    private PlayerState currentState;
     //platform
     public bool isOnPlatform;
 
@@ -69,7 +82,7 @@ public class PlayerMovement : MonoBehaviour
     {
         isFacingRight = true;
         playerRigidbody = GetComponent<Rigidbody2D>();
-        health = GetComponent<Health>();
+        currentState = PlayerState.Idle;
     }
 
     private void Start()
@@ -179,7 +192,7 @@ public class PlayerMovement : MonoBehaviour
         {
             isJumping = true;
             verticalVelocity = jumpHeight;
-            jumpBufferCounter = 0; 
+            jumpBufferCounter = 0;
             coyoteCounter = 0;
 
             if (jumpSound != null)
@@ -199,7 +212,6 @@ public class PlayerMovement : MonoBehaviour
             {
                 isJumping = false;
                 isFalling = true;
-
             }
         }
         else if (isGrounded && isFalling)
@@ -211,95 +223,165 @@ public class PlayerMovement : MonoBehaviour
         playerRigidbody.linearVelocity = new Vector2(playerRigidbody.linearVelocity.x, verticalVelocity);
     }
 
+    private void Update()
+    {
+
+        attackCounter += Time.fixedDeltaTime;
+        if (isGrounded && !isJumping && !isFalling)
+        {
+            coyoteCounter = coyoteTime;
+        }
+        else
+        {
+            coyoteCounter -= Time.fixedDeltaTime;
+        }
+
+        if (Input.GetButtonDown("Jump"))
+        {
+            jumpBufferCounter = jumpBufferTime;
+        }
+        else
+        {
+            jumpBufferCounter -= Time.fixedDeltaTime;
+        }
+
+        if (jumpBufferCounter > 0f)
+        {
+            InitiateJump();
+        }
+
 
     private void UpdateAnimationState()
     {
         if (isJumping)
         {
-            SetCharacterState("Jumping");
+            SetCharacterState(PlayerState.Jumping);
         }
         else if (isFalling)
         {
-            SetCharacterState("Falling");
+            SetCharacterState(PlayerState.Falling);
         }
         else
         {
-            SetCharacterState(MovementAmount.x != 0 ? "Walking" : "Idle");
+            SetCharacterState(InputManager.Movement.x != 0 ? PlayerState.Walking : PlayerState.Idle);
         }
+
+        if (Input.GetMouseButtonDown(0) && attackCounter >= attackCD)
+        {
+            attackCounter = 0;
+            StartAttack();
+        }
+        SetJoystickPosition(JoystickPosition);
     }
 
 
-    private void SetAnimation(AnimationReferenceAsset animation, bool loop, float timescale)
+    private void FixedUpdate()
     {
-        if (animation.name.Equals(currentAnimation))
-        {
-            return;
-        }
+        Move(MovementAmount);
+        IsGrounded();
+        Jump();
+    }
 
+    public void SetAnimation(AnimationReferenceAsset animation, bool loop, float timescale)
+    {
         skeletonAnimation.state.SetAnimation(0, animation, loop).TimeScale = timescale;
-        currentAnimation = animation.name;
     }
 
-    private void SetCharacterState(string state)
+     private void OnAttackAnimationComplete(Spine.TrackEntry trackEntry)
     {
-        if (state.Equals("Idle"))
-        {
-            SetAnimation(idle, true, 1f);
-        }
-        else if (state.Equals("Walking"))
-        {
-            SetAnimation(walking, true, 1f);
-        }
-        else if (state.Equals("Falling"))
-        {
-            SetAnimation(falling, true, 1f);
-        }
-        else if (state.Equals("Jumping"))
-        {
-            SetAnimation(jumping, true, 1f);
-        }
+        // Ñíèìàåì ôëàã àòàêè
+        isAttacking = false;
+
+        // Âîçâðàùàåì ñîñòîÿíèå â Idle èëè Walking
+        SetCharacterState(InputManager.Movement.x != 0 ? PlayerState.Walking : PlayerState.Idle);
     }
 
-    private void HandleFingerDown(Finger touchedFinger)
+    private void SetCharacterState(PlayerState state)
     {
-        if (MovementFinger == null && touchedFinger.screenPosition.x <= 400 & touchedFinger.screenPosition.y <= 400)
-        {
-            MovementFinger = touchedFinger;
-            MovementAmount = Vector2.zero;
-        }
-    }
+        // Íå ìåíÿòü ñîñòîÿíèå, åñëè óæå â àòàêå
+        if (isAttacking && state != PlayerState.Attacking) return;
 
-   
-    private void HandleFingerMove(Finger movedFinger)
-    {
-        if (movedFinger == MovementFinger)
+        if (currentState == state && state != PlayerState.Attacking) return;
+
+        currentState = state;
+        switch (state)
         {
-            Vector2 touchPosition = movedFinger.currentTouch.screenPosition;
-            Vector2 localTouchPosition = joystickRect.InverseTransformPoint(touchPosition);
-            float maxMovement = JoystickSize.x / 2f;
-            localTouchPosition = Vector2.ClampMagnitude(localTouchPosition, maxMovement);
-            Vector2 movementDirection = localTouchPosition.normalized;
-            MovementAmount = new Vector2(movementDirection.x, 0f);  
-            Joystick.Knob.anchoredPosition = localTouchPosition;  
+            case PlayerState.Idle:
+                SetAnimation(idle, true, 1f);
+                break;
+            case PlayerState.Walking:
+                SetAnimation(walking, true, 1f);
+                break;
+            case PlayerState.Jumping:
+                SetAnimation(jumping, true, 1f);
+                break;
+            case PlayerState.Falling:
+                SetAnimation(falling, true, 1f);
+                break;
+            case PlayerState.Attacking:
+                isAttacking = true; // Óñòàíàâëèâàåì ôëàã àòàêè
+                SetAnimation(attacking, false, 1.7f);
+                skeletonAnimation.state.GetCurrent(0).Complete += OnAttackAnimationComplete;
+                break;
         }
     }
 
-    private void HandleLoseFinger(Finger lostFinger)
+    public void ApplyAreaDamage()
     {
-        if (lostFinger == MovementFinger)
+        Collider2D[] hits = Physics2D.OverlapBoxAll(
+            boxCollider.bounds.center + transform.up * transform.localScale.y * colliderDistanceY + transform.right * transform.localScale.x * colliderDistanceX,
+            new Vector2(boxCollider.bounds.size.x * rangeX, boxCollider.bounds.size.y * rangeY),
+            0, entityLayer); // Èñïîëüçóåì OverlapBoxAll âìåñòî BoxCastAll
+
+        foreach (var hit in hits)
         {
-            MovementFinger = null;
-            Joystick.Knob.anchoredPosition = Vector2.zero;
-            MovementAmount = Vector2.zero;
+            if (hit != null && hit.CompareTag("Enemy"))
+            {
+                Health entityHealth = hit.GetComponent<Health>();
+                if (entityHealth != null)
+                {
+                    entityHealth.TakeDamage(damage);
+                }
+                else
+                {
+                }
+            }
         }
     }
 
-    private void OnDisable()
+    private void StartAttack()
     {
-        ETouch.Touch.onFingerDown -= HandleFingerDown;
-        ETouch.Touch.onFingerUp -= HandleLoseFinger;
-        ETouch.Touch.onFingerMove -= HandleFingerMove;
-        EnhancedTouchSupport.Disable();
-    
+        isAttacking = true;
+        SetCharacterState(PlayerState.Attacking);
+
+        // Ïîñëå çàâåðøåíèÿ àíèìàöèè àòàêè, ñáðàñûâàåì ôëàã
+        skeletonAnimation.state.Complete += OnAttackAnimationComplete;
     }
+
+
+
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.color = Color.red;
+        Vector3 boxSize = new Vector3(
+            boxCollider.bounds.size.x * rangeX,
+            boxCollider.bounds.size.y * rangeY,
+            boxCollider.bounds.size.z);
+        Vector3 boxCenter = boxCollider.bounds.center +
+            transform.up * transform.localScale.y * colliderDistanceY +
+            transform.right * transform.localScale.x * colliderDistanceX;
+
+        Gizmos.DrawWireCube(boxCenter, boxSize);
+    }
+    public enum PlayerState
+    {
+        Idle,
+        Walking,
+        Jumping,
+        Falling,
+        Attacking
+    }
+
 }

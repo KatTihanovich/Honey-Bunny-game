@@ -3,7 +3,7 @@ using UnityEngine;
 public class AudioManager : MonoBehaviour
 {
     [Header("Audio Sources")]
-    [SerializeField] AudioSource musicSource;
+    [SerializeField] AudioSource MusicSource;
     [SerializeField] AudioSource FXSource;
     [SerializeField] AudioSource UISource;
 
@@ -23,8 +23,8 @@ public class AudioManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
     }
     private void Start(){
-        musicSource.clip = background;
-        musicSource.Play();
+        MusicSource.clip = background;
+        MusicSource.Play();
     }
 
     public void PlaySFX(AudioClip clip){

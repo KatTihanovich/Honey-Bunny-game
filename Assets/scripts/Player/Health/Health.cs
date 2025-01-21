@@ -1,5 +1,6 @@
 using Spine.Unity;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Health : MonoBehaviour
 {
@@ -15,16 +16,21 @@ public class Health : MonoBehaviour
     public event System.Action<float> OnHealthChanged;
     public event System.Action OnDeath;
     private string currentAnimation;
+    public RestartWindow restartWindow;
 
     private void Awake()
     {
         CurrentHealth = startingHealth;
-        skeletonAnimation.state.Complete += OnAnimationComplete; // Подписка на событие
+        skeletonAnimation.state.Complete += OnAnimationComplete; // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+        if (restartWindow == null)
+        {
+            restartWindow = FindObjectOfType<RestartWindow>();
+        }
     }
 
     private void OnDestroy()
     {
-        skeletonAnimation.state.Complete -= OnAnimationComplete; // Отписка от события
+        skeletonAnimation.state.Complete -= OnAnimationComplete; // пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
     }
 
     public void TakeDamage(float damage)
@@ -38,16 +44,21 @@ public class Health : MonoBehaviour
         {
             isDead = true;
             OnDeath?.Invoke();
-            SetAnimation(death, false); // Анимация смерти
+            SetAnimation(death, false); // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
+            if (restartWindow != null)
+        {
+            restartWindow.ShowRestartWindow();
+        }
         }
         else
         {
-            SetAnimation(hit, false); // Анимация удара
+            SetAnimation(hit, false); // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
         }
     }
 
     public void AddHealth(float value)
     {
+        if (isDead) return;
         CurrentHealth = Mathf.Clamp(CurrentHealth + value, 0, startingHealth);
         OnHealthChanged?.Invoke(CurrentHealth);
     }
@@ -56,10 +67,11 @@ public class Health : MonoBehaviour
 
     public void Respawn()
     {
+        if (!isDead) return;
         CurrentHealth = startingHealth;
         isDead = false;
         OnHealthChanged?.Invoke(CurrentHealth);
-        SetAnimation(idle, true); // Возвращаем Idle
+        SetAnimation(idle, true); // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ Idle
     }
 
     private void SetAnimation(AnimationReferenceAsset animation, bool loop)
@@ -73,9 +85,9 @@ public class Health : MonoBehaviour
 
     private void OnAnimationComplete(Spine.TrackEntry trackEntry)
     {
-        if (currentAnimation == hit.name) // Если завершилась анимация удара
+        if (currentAnimation == hit.name) // пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
         {
-            SetAnimation(idle, true); // Возвращаем Idle
+            SetAnimation(idle, true); // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ Idle
         }
     }
 }

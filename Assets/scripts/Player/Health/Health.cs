@@ -1,6 +1,6 @@
 using Spine.Unity;
 using UnityEngine;
-
+using System.Collections;
 public class Health : MonoBehaviour
 {
     [Header("Health Settings")]
@@ -8,74 +8,39 @@ public class Health : MonoBehaviour
     public float CurrentHealth { get; private set; }
     private bool isDead = false;
 
-    [Header("Animation Settings")]
-    public SkeletonAnimation skeletonAnimation;
-    public AnimationReferenceAsset hit, death, idle;
-
     public event System.Action<float> OnHealthChanged;
-    public event System.Action OnDeath;
-    private string currentAnimation;
+
+
+
+    // Reference to the SkeletonAnimation
+
 
     private void Awake()
     {
         CurrentHealth = startingHealth;
-        skeletonAnimation.state.Complete += OnAnimationComplete; // Подписка на событие
-    }
-
-    private void OnDestroy()
-    {
-        skeletonAnimation.state.Complete -= OnAnimationComplete; // Отписка от события
     }
 
     public void TakeDamage(float damage)
     {
-        if (isDead) return;
+        if (isDead) return; // If already dead, no further damage can be taken
 
+        // Reduce health and invoke the health changed event
         CurrentHealth = Mathf.Clamp(CurrentHealth - damage, 0, startingHealth);
         OnHealthChanged?.Invoke(CurrentHealth);
-
-        if (CurrentHealth <= 0)
-        {
-            isDead = true;
-            OnDeath?.Invoke();
-            SetAnimation(death, false); // Анимация смерти
-        }
-        else
-        {
-            SetAnimation(hit, false); // Анимация удара
-        }
     }
 
     public void AddHealth(float value)
     {
+        if (isDead) return; // No health can be added if the character is dead
+
+        // Increase health and invoke the health changed event
         CurrentHealth = Mathf.Clamp(CurrentHealth + value, 0, startingHealth);
         OnHealthChanged?.Invoke(CurrentHealth);
     }
-
-    public bool IsDead() => isDead;
-
     public void Respawn()
     {
         CurrentHealth = startingHealth;
         isDead = false;
         OnHealthChanged?.Invoke(CurrentHealth);
-        SetAnimation(idle, true); // Возвращаем Idle
-    }
-
-    private void SetAnimation(AnimationReferenceAsset animation, bool loop)
-    {
-        if (animation == null || currentAnimation == animation.name)
-            return;
-
-        skeletonAnimation.state.SetAnimation(0, animation, loop).TimeScale = 1f;
-        currentAnimation = animation.name;
-    }
-
-    private void OnAnimationComplete(Spine.TrackEntry trackEntry)
-    {
-        if (currentAnimation == hit.name) // Если завершилась анимация удара
-        {
-            SetAnimation(idle, true); // Возвращаем Idle
-        }
     }
 }

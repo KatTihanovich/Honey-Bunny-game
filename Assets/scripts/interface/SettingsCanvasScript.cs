@@ -7,7 +7,6 @@ public class SettingsCanvasScript : MonoBehaviour
     public Button settings_button;        
     public Button info_button;       
     public Button arrow_button;  
-    private bool isPanelVisible = false; 
 
     void Start()
     {

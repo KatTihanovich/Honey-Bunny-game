@@ -680,7 +680,6 @@ GameObject:
   - component: {fileID: 803962419}
   - component: {fileID: 803962418}
   - component: {fileID: 803962417}
-  - component: {fileID: 803962416}
   m_Layer: 5
   m_Name: ExitButton
   m_TagString: Untagged
@@ -707,18 +706,6 @@ RectTransform:
   m_AnchoredPosition: {x: -40668.41, y: 53942.414}
   m_SizeDelta: {x: 3205.16, y: 3629.6}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &803962416
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 803962414}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c7838299f95d54390a7a589e994b071e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &803962417
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -775,7 +762,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 803962416}
+      - m_Target: {fileID: 1815930867}
         m_TargetAssemblyTypeName: GoToMainMenu, Assembly-CSharp
         m_MethodName: ChangeScene
         m_Mode: 1
@@ -2718,7 +2705,7 @@ GameObject:
   - component: {fileID: 1815930866}
   - component: {fileID: 1815930865}
   - component: {fileID: 1815930864}
-  - component: {fileID: 1815930863}
+  - component: {fileID: 1815930867}
   m_Layer: 5
   m_Name: ExitButton
   m_TagString: Untagged
@@ -2745,18 +2732,6 @@ RectTransform:
   m_AnchoredPosition: {x: -40709, y: 63391}
   m_SizeDelta: {x: 3205.16, y: 3629.6}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1815930863
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1815930861}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c7838299f95d54390a7a589e994b071e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &1815930864
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2813,7 +2788,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 1815930863}
+      - m_Target: {fileID: 1815930867}
         m_TargetAssemblyTypeName: GoToMainMenu, Assembly-CSharp
         m_MethodName: ChangeScene
         m_Mode: 1
@@ -2863,6 +2838,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1815930861}
   m_CullTransparentMesh: 1
+--- !u!114 &1815930867
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1815930861}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c7838299f95d54390a7a589e994b071e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1846452939
 GameObject:
   m_ObjectHideFlags: 0

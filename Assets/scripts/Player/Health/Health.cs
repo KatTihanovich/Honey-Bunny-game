@@ -1,6 +1,4 @@
-using Spine.Unity;
 using UnityEngine;
-using System.Collections;
 public class Health : MonoBehaviour
 {
     [Header("Health Settings")]

@@ -20,12 +20,11 @@ public class SettingsCanvasScript : MonoBehaviour
 
     public void TogglePanel()
     {
-        isPanelVisible = !isPanelVisible;
+        panel.SetActive(true);
 
-        panel.SetActive(isPanelVisible);
-
-        settings_button.interactable = !isPanelVisible;
-        info_button.interactable = !isPanelVisible;
-        arrow_button.interactable = !isPanelVisible;
+        settings_button.interactable = false;
+        info_button.interactable = false;
+        arrow_button.interactable = false;
     }
+
 }

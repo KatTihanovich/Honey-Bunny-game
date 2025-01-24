@@ -19,10 +19,25 @@ public class AudioManager : MonoBehaviour
     [SerializeField] public AudioClip destroyPlatform;
     [SerializeField] public AudioClip damage;
 
+      [Header("Volume Settings")]
+    public SoundManager soundManager;
+
+    public static AudioManager instance; 
+
     private void Awake(){
-        DontDestroyOnLoad(gameObject);
+        if (instance == null)
+        {
+            instance = this;
+            DontDestroyOnLoad(gameObject);
+        } else
+        {
+            Destroy(gameObject);
+        }
     }
     private void Start(){
+        if (PlayerPrefs.HasKey("musicVolume")){
+            soundManager.LoadValue();
+        }
         MusicSource.clip = background;
         MusicSource.Play();
     }

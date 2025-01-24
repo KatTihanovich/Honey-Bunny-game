@@ -1,25 +1,17 @@
+using Spine.Unity;
 using UnityEngine;
 
 public class HealthEventListener : MonoBehaviour
 {
-    [SerializeField] private Health health; // Ссылка на компонент Health
+    [SerializeField] private Health health;
+    [SerializeField] private Animator anim; // Animator доступен через инспектор
     private bool canMove = true;
 
-    private void OnEnable()
+    private void Start()
     {
         if (health != null)
         {
-            health.OnHealthChanged += HandleHealthChanged;
-            health.OnDeath += HandleDeath;
-        }
-    }
-
-    private void OnDisable()
-    {
-        if (health != null)
-        {
-            health.OnHealthChanged -= HandleHealthChanged;
-            health.OnDeath -= HandleDeath;
+            health.OnHealthChanged += HandleHealthChanged; // Подпишемся на событие изменения здоровья
         }
     }
 
@@ -28,19 +20,18 @@ public class HealthEventListener : MonoBehaviour
         if (currentHealth > 0)
         {
             Debug.Log("Health changed: " + currentHealth);
-
-            if (health.skeletonAnimation != null && health.hit != null)
-            {
-                health.skeletonAnimation.state.SetAnimation(0, health.hit, false).TimeScale = 1f;
-            }
+            anim.SetTrigger("GotHit");
+        }
+        else
+        {
+            anim.SetTrigger("Dead");
+            HandleDeath();
         }
     }
 
     private void HandleDeath()
     {
         Debug.Log("Character is dead.");
-        // Запускаем анимацию смерти
-        health.skeletonAnimation.state.SetAnimation(0, health.death, false).TimeScale = 1f;
         Invoke(nameof(DestroyObject), 2f);
     }
 

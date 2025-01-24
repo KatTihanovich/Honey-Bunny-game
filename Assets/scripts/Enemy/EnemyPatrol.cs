@@ -8,50 +8,50 @@ public class EnemyPatrol : MonoBehaviour
 
     [Header("Enemy")]
     [SerializeField] private Transform enemy;
+    [SerializeField] private Animator anim;
 
     [Header("Movement parameters")]
     [SerializeField] private float speed;
-    [SerializeField] private float waitTimeAtPoint; // Время ожидания на точке патрулирования
+    [SerializeField] private float waitTimeAtPoint;
 
     [Header("Components")]
     [SerializeField] private Rigidbody2D rb;
 
     private bool movingLeft;
-    private bool isStopped = false;
     private float waitTimer = 0f;
     private Vector3 baseScale;
 
     private void Start()
     {
-        baseScale = enemy.localScale; // Сохраняем базовый масштаб
+        baseScale = enemy.localScale;
+    }
+
+    private void OnDisable()
+    {
+        anim.SetBool("Run", false);
+        rb.linearVelocity = Vector2.zero;
     }
 
     private void Update()
     {
-        if (isStopped)
-        {
-            rb.linearVelocity = Vector2.zero;
-            return;
-        }
-
-        // Логика таймера ожидания
         if (waitTimer > 0f)
         {
             waitTimer -= Time.deltaTime;
-            rb.linearVelocity = Vector2.zero; // Остановить движение во время ожидания
+            rb.linearVelocity = Vector2.zero; 
             return;
         }
 
-        // Движение в сторону левой или правой границы
         if (movingLeft)
         {
             if (enemy.position.x >= leftEdge.position.x)
             {
                 MoveInDirection(-1);
+                anim.SetBool("Run", true);
             }
             else
             {
-                StartWaiting(); // Ожидание на левой точке
+                anim.SetBool("Run", false);
+                StartWaiting();
             }
         }
         else
@@ -59,43 +59,30 @@ public class EnemyPatrol : MonoBehaviour
             if (enemy.position.x <= rightEdge.position.x)
             {
                 MoveInDirection(1);
+                anim.SetBool("Run", true);
             }
             else
             {
-                StartWaiting(); // Ожидание на правой точке
+                anim.SetBool("Run", false);
+                StartWaiting();
+
             }
         }
     }
 
     private void MoveInDirection(int direction)
     {
-        // Устанавливаем направление, используя базовый масштаб
         Vector3 localScale = baseScale;
-        localScale.x *= (direction > 0 ? 1 : -1); // Инверсия по X в зависимости от направления
+        localScale.x *= direction > 0 ? 1 : -1;
         enemy.localScale = localScale;
-        
+
         rb.linearVelocity = new Vector2(direction * speed, rb.linearVelocity.y);
     }
 
-    private void StartWaiting()
+    public void StartWaiting()
     {
-        DirectionChange();
-        waitTimer = waitTimeAtPoint; // Устанавливаем время ожидания
-    }
-
-    private void DirectionChange()
-    {
-        movingLeft = !movingLeft;
-    }
-
-    public void StopMovement()
-    {
-        isStopped = true;
         rb.linearVelocity = Vector2.zero;
-    }
-
-    public void ResumeMovement()
-    {
-        isStopped = false;
+        movingLeft = !movingLeft;
+        waitTimer = waitTimeAtPoint;
     }
 }

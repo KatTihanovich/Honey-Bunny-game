@@ -1,0 +1,155 @@
+{
+"skeleton": {
+	"hash": "1KmliwwmV7tqhGIxwsZElbM9JAc",
+	"spine": "3.8",
+	"x": -150,
+	"y": -38,
+	"width": 298,
+	"height": 312,
+	"images": "D:/СЕССИЯ/Зима 2025/Honey&Bunny game/Star Anim/",
+	"audio": "D:\\СЕССИЯ\\Зима 2025\\Honey&Bunny game\\Star Anim"
+},
+"bones": [
+	{ "name": "root" },
+	{ "name": "Star", "parent": "root", "x": -5.05, "y": 118.43 },
+	{ "name": "Glow_star", "parent": "Star", "x": -0.27, "y": 12.9 },
+	{ "name": "Glow_Circle", "parent": "root", "x": 2.25, "y": 115.34 }
+],
+"slots": [
+	{ "name": "Glow_Circle", "bone": "Glow_Circle", "attachment": "Glow_Circle", "blend": "additive" },
+	{ "name": "Glow_star", "bone": "Glow_star", "attachment": "Glow_star" },
+	{ "name": "Star", "bone": "Star", "attachment": "Star" }
+],
+"skins": [
+	{
+		"name": "default",
+		"attachments": {
+			"Glow_Circle": {
+				"Glow_Circle": {
+					"type": "mesh",
+					"uvs": [ 1, 1, 0, 1, 0, 0, 1, 0 ],
+					"triangles": [ 1, 2, 3, 1, 3, 0 ],
+					"vertices": [ 130.75, -153.34, -135.25, -153.34, -135.25, 158.66, 130.75, 158.66 ],
+					"hull": 4,
+					"edges": [ 0, 2, 2, 4, 4, 6, 0, 6 ],
+					"width": 266,
+					"height": 312
+				}
+			},
+			"Glow_star": {
+				"Glow_star": {
+					"type": "mesh",
+					"uvs": [ 1, 1, 0, 1, 0, 0, 1, 0 ],
+					"triangles": [ 1, 2, 3, 1, 3, 0 ],
+					"vertices": [ 153.32, -158.34, -144.68, -158.34, -144.68, 131.66, 153.32, 131.66 ],
+					"hull": 4,
+					"edges": [ 0, 2, 2, 4, 4, 6, 0, 6 ],
+					"width": 298,
+					"height": 290
+				}
+			},
+			"Star": {
+				"Star": {
+					"type": "mesh",
+					"uvs": [ 1, 1, 0, 1, 0, 0, 1, 0 ],
+					"triangles": [ 1, 2, 3, 1, 3, 0 ],
+					"vertices": [ 128.05, -119.43, -117.95, -119.43, -117.95, 117.57, 128.05, 117.57 ],
+					"hull": 4,
+					"edges": [ 0, 2, 2, 4, 4, 6, 0, 6 ],
+					"width": 246,
+					"height": 237
+				}
+			}
+		}
+	}
+],
+"events": {
+	"DISSAPEARING": {}
+},
+"animations": {
+	"DISSAPEARING": {
+		"slots": {
+			"Glow_star": {
+				"color": [
+					{ "time": 0.6, "color": "ffffffff" },
+					{ "time": 0.7, "color": "ffffff00" }
+				]
+			},
+			"Glow_Circle": {
+				"color": [
+					{ "color": "ffffff00", "curve": "stepped" },
+					{ "time": 0.3, "color": "ffffff00" },
+					{ "time": 0.6, "color": "ffffffff", "curve": "stepped" },
+					{ "time": 0.7, "color": "ffffffff", "curve": 0.558, "c2": 0.01, "c3": 0.75 },
+					{ "time": 1, "color": "ffffff00" }
+				]
+			},
+			"Star": {
+				"color": [
+					{ "time": 0.6, "color": "ffffffff", "curve": 0.25, "c3": 0.75 },
+					{ "time": 0.7, "color": "ffffff00" }
+				]
+			}
+		},
+		"bones": {
+			"Star": {
+				"scale": [
+					{ "curve": 0.798, "c3": 0.75 },
+					{ "time": 0.3, "x": 1.112, "y": 1.112, "curve": 0.755, "c3": 0.75 },
+					{ "time": 0.6667, "x": 0.285, "y": 0.285 }
+				]
+			},
+			"root": {
+				"translate": [
+					{ "curve": 0.49, "c3": 0.452 },
+					{ "time": 0.3, "y": 22.48, "curve": 0.827, "c3": 0.75 },
+					{ "time": 0.6667, "x": 1.02, "y": 31.68 }
+				]
+			},
+			"Glow_Circle": {
+				"scale": [
+					{ "time": 0.3 },
+					{ "time": 0.4333, "x": 1.165, "y": 1.165, "curve": 0.861, "c3": 0.75 },
+					{ "time": 1, "x": 0.554, "y": 0.554 }
+				]
+			}
+		},
+		"drawOrder": [
+			{
+				"time": 0.3333,
+				"offsets": [
+					{ "slot": "Glow_Circle", "offset": 2 }
+				]
+			}
+		],
+		"events": [
+			{ "name": "DISSAPEARING" }
+		]
+	},
+	"IDLE": {
+		"slots": {
+			"Glow_Circle": {
+				"color": [
+					{ "color": "ffffff00" }
+				]
+			}
+		},
+		"bones": {
+			"Glow_star": {
+				"scale": [
+					{},
+					{ "time": 0.6667, "x": 1.059, "y": 1.059 },
+					{ "time": 1.3333 }
+				]
+			},
+			"Star": {
+				"translate": [
+					{ "curve": 0.25, "c3": 0.423 },
+					{ "time": 0.6667, "y": 9.1, "curve": 0.635, "c3": 0.75 },
+					{ "time": 1.3333 }
+				]
+			}
+		}
+	}
+}
+}

@@ -79,7 +79,6 @@ public class MeleeEnemy_0 : MonoBehaviour
     }
     public void DamagePlayer()
     {
-        Debug.Log("NECKKER_HIT event triggered!");
         if (PlayerInSight() && playerHealth != null)
         {
             playerHealth.TakeDamage(damage);
@@ -92,7 +91,7 @@ public class MeleeEnemy_0 : MonoBehaviour
     }
     public void TestSpineEvent()
 {
-    Debug.Log("NECKKER_HIT event received!");
+    Debug.Log("NECKKER_HIT event received!"); 
 }
 
     //private void OnDrawGizmos()

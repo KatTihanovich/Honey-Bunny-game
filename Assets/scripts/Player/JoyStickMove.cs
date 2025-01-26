@@ -21,7 +21,6 @@ public class JoyStickMove : MonoBehaviour
 
         if (Mathf.Abs(moveInputX) > 0.1f)
         {
-            Debug.Log($"TRUE Joystick Direction: {moveInputX}");
             Vector2 targetVelocity = new Vector2(moveInputX, 0f) * moveSpeed;
             moveVelocity = Vector2.Lerp(moveVelocity, targetVelocity, 5f * Time.fixedDeltaTime);
             rb.linearVelocity = new Vector2(moveVelocity.x, rb.linearVelocity.y);

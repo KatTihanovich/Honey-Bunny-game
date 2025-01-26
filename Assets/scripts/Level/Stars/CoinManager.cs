@@ -4,12 +4,11 @@ using UnityEngine.UI;
 public class CoinManager : MonoBehaviour
 {
     public static CoinManager Instance { get; private set; }
+    [SerializeField] private Slider coinSlider; 
+    [SerializeField] private int maxCoins = 100;
 
-    [SerializeField] private Text coinText; 
-    //[SerializeField] private GameObject starBar;
-    //[SerializeField] private float TargetStars = 3;
-   
-    private int totalCoins; 
+
+    public int totalCoins = 0; 
 
     private void Awake()
     {
@@ -25,21 +24,25 @@ public class CoinManager : MonoBehaviour
 
     private void Start()
     {
-        //starBar = starBar.GetComponent<Slider>();
-        UpdateCoinUI(); 
+        if (coinSlider != null)
+        {
+            coinSlider.maxValue = maxCoins; 
+            coinSlider.value = totalCoins; 
+        }
     }
 
     public void AddCoins(int amount)
     {
         totalCoins += amount;
-        UpdateCoinUI();
-
-        //float progressPerCoin = 1f / TargetStars;
-        //starBar.IncrementProgress(progressPerCoin);
+        UpdateSlider();
     }
-
-    private void UpdateCoinUI()
+    private void UpdateSlider()
     {
-        coinText.text = $"Coins: {totalCoins}";
+        if (coinSlider != null)
+        {
+            coinSlider.value = totalCoins; 
+        }
     }
+
+
 }

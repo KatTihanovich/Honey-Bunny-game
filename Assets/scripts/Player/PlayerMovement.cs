@@ -73,7 +73,7 @@ public class PlayerMovement : MonoBehaviour
         Application.targetFrameRate = 60;
 
         jumpButton.onClick.AddListener(InitiateJump);
-        joystickRect = Joystick.joyStickObj.GetComponent<RectTransform>();
+        //joystickRect = Joystick.joyStickObj.GetComponent<RectTransform>();
 
         EnhancedTouchSupport.Enable();
         ETouch.Touch.onFingerDown += HandleFingerDown;

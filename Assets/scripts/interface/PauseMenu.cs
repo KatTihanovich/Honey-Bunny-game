@@ -1,10 +1,13 @@
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 public class PauseMenu : MonoBehaviour
 {
     public GameObject pauseMenuUI;
-    // Update is called once per frame
+    public Image image; 
+    public Sprite defaultSprite; 
+
     void Update()
     {
         
@@ -15,6 +18,12 @@ public class PauseMenu : MonoBehaviour
         Time.timeScale = 1f;
     }
 
+    public void ResumeWithButton(){
+        pauseMenuUI.SetActive(false);
+        Time.timeScale = 1f;
+        image.sprite = defaultSprite;
+    }
+
     public void Pause(){
         pauseMenuUI.SetActive(true);
         Time.timeScale = 0f;
@@ -22,5 +31,10 @@ public class PauseMenu : MonoBehaviour
 
     public void LoadMenu(){
         SceneManager.LoadSceneAsync(0);
+    }
+    public void Restart()
+    {
+        Time.timeScale = 1f;
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 }

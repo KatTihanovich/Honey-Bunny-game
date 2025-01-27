@@ -4,15 +4,12 @@ using UnityEngine;
 public class PlatformController : MonoBehaviour
 {
     [SerializeField] private float Speed;
-    [SerializeField] private float Gravity;
     [SerializeField] private float waitDuration;
     Vector3 targetPos;
-
-    PlayerMovement playerMovement;
     Rigidbody2D rb;
     Vector2 moveDirection;
+    private Vector3 previousPosition;
 
-    Rigidbody2D playerRb;
 
 
     public GameObject ways;
@@ -25,9 +22,7 @@ public class PlatformController : MonoBehaviour
 
     private void Awake()
     {
-        playerMovement = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMovement>();
         rb = GetComponent<Rigidbody2D>();
-        playerRb = GameObject.FindGameObjectWithTag("Player").GetComponent<Rigidbody2D>();
 
         wayPoints = new Transform[ways.transform.childCount];
         for(int i = 0; i < ways.gameObject.transform.childCount; i++)
@@ -42,6 +37,7 @@ public class PlatformController : MonoBehaviour
         pointCount = wayPoints.Length;
         targetPos = wayPoints[1].transform.position;
         DirectionCalculate();
+        previousPosition = transform.position;
     }
 
     // Update is called once per frame
@@ -82,6 +78,20 @@ public class PlatformController : MonoBehaviour
     private void FixedUpdate()
     {
         rb.linearVelocity = moveDirection * Speed;
+        if (rb != null)
+        {
+            Vector3 deltaPosition = transform.position - previousPosition;
+
+            foreach (Transform child in transform)
+            {
+                if (child.CompareTag("Player") && child.parent == transform)
+                {
+                    child.position += deltaPosition; // Двигаем игрока только если он всё ещё дочерний объект
+                }
+            }
+
+            previousPosition = transform.position; // Обновить предыдущее положение
+        }
     }
 
     void DirectionCalculate()
@@ -91,23 +101,22 @@ public class PlatformController : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag("Player"))
-        {
-            playerMovement.isOnPlatform = true;
-            Debug.Log(playerMovement.isOnPlatform);
-            // playerMovement.platformRb = rb;
-            playerRb.gravityScale = playerRb.gravityScale * Gravity;
-            Debug.Log(playerRb.gravityScale);
-        }
+        //if (collision.CompareTag("Player"))
+        //{
+        //    Transform playerRoot = collision.transform.root;
+
+        //    playerRoot.SetParent(transform);
+        //    Debug.Log("Player attached to platform");
+        //}
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
         if (collision.CompareTag("Player"))
         {
-            playerMovement.isOnPlatform = false;
-            playerRb.gravityScale = playerRb.gravityScale / Gravity;
-            Debug.Log(playerRb.gravityScale);
+            Transform playerRoot = collision.transform.root;
+            playerRoot.SetParent(null, false); // Открепляем игрока
+            Debug.Log("Player detached from platform");
         }
     }
 }

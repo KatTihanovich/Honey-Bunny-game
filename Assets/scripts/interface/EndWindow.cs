@@ -1,16 +1,21 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using TMPro; 
 
 public class EndWindow : MonoBehaviour
 {
     [Header("UI Elements")]
     public GameObject endWindow; 
     public Button restartButton;
+    [SerializeField] private TextMeshProUGUI starsText; 
 
     void Start()
     {
-        endWindow.SetActive(false);
+        if (starsText != null)
+        {
+            starsText.text = CoinManager.Instance.totalCoins.ToString();
+        }
     }
 
     public void ShowEndWindow()

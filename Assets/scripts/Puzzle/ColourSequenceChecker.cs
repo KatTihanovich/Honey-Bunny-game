@@ -1,20 +1,24 @@
 using UnityEngine;
+using System.Collections;
 using System.Collections.Generic;
 
 public class SequenceChecker : MonoBehaviour
 {
-    [SerializeField] private List<string> correctSequence = new List<string>(); // Правильная последовательность
-    private List<string> playerSequence = new List<string>(); // Последовательность игрока
+    [SerializeField] private List<string> correctSequence = new List<string>(); // Correct interaction sequence
+    private List<string> playerSequence = new List<string>(); // Player's interaction sequence
 
-    [SerializeField] private GameObject objectToHide; // Объект, который нужно сделать невидимым и неосязаемым
+    [SerializeField] private GameObject objectToHide; // Object to hide upon correct sequence
 
-    // Метод для проверки последовательности
+    [SerializeField] private float colorChangeDuration = 0.5f; // Duration for color feedback
+    [SerializeField] private List<GameObject> interactableObjects = new List<GameObject>(); // Objects to change color
+
+    // Method to check the interaction sequence
     public void CheckSequence()
     {
-        // Получаем текущую последовательность взаимодействий
+        // Get the current sequence from InteractionZone
         playerSequence = InteractionZone.GetInteractionSequence();
 
-        // Проверяем длину последовательности
+        // Check if the sequence length is less than the correct sequence
         if (playerSequence.Count < correctSequence.Count)
         {
             Debug.Log("Sequence is incomplete. Keep interacting with objects.");
@@ -34,12 +38,14 @@ public class SequenceChecker : MonoBehaviour
         if (isCorrect)
         {
             Debug.Log("Puzzle solved! Correct sequence entered.");
-            
-            // Делаем объект невидимым и неосязаемым
+
+            // Change objects to green for feedback
+            StartCoroutine(ChangeObjectsColor(Color.green));
+
+            // Hide the object if assigned
             if (objectToHide != null)
             {
                 objectToHide.gameObject.SetActive(false);
-
                 Debug.Log("Object is now invisible and intangible.");
             }
             else
@@ -50,7 +56,37 @@ public class SequenceChecker : MonoBehaviour
         else
         {
             Debug.Log("Incorrect sequence! Resetting sequence.");
-            InteractionZone.ResetInteractionSequence(); 
+
+            // Change objects to red for feedback
+            StartCoroutine(ChangeObjectsColor(Color.red));
+
+            // Reset the interaction sequence
+            InteractionZone.ResetInteractionSequence();
+        }
+    }
+
+    // Coroutine to change objects' colors temporarily
+    private IEnumerator ChangeObjectsColor(Color color)
+    {
+        List<SpriteRenderer> renderers = new List<SpriteRenderer>();
+
+        // Collect SpriteRenderers from all interactable objects
+        foreach (GameObject obj in interactableObjects)
+        {
+            if (obj.TryGetComponent(out SpriteRenderer renderer))
+            {
+                renderers.Add(renderer);
+                renderer.color = color; // Change to the specified color
+            }
+        }
+
+        // Wait for the specified duration
+        yield return new WaitForSeconds(colorChangeDuration);
+
+        // Reset objects to their original colors
+        foreach (SpriteRenderer renderer in renderers)
+        {
+            renderer.color = Color.white; // Assuming original color is white
         }
     }
 

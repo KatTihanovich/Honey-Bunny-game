@@ -1,36 +1,52 @@
 using UnityEngine;
+using System.Collections;
 using System.Collections.Generic;
 
 public class InteractionZone : MonoBehaviour
 {
-    private bool playerInZone = false; 
+    private bool playerInZone = false;
 
     private static List<string> interactionSequence = new List<string>();
 
     [SerializeField] private SequenceChecker sequenceChecker;
 
-    public void Interact()
-{
-    if (playerInZone)
+    public float scaleFactor = 1.5f; // How much to scale up when interacting
+    public float scaleDuration = 0.2f; // Duration of the scaling effect
+
+    private Vector3 originalScale;
+
+    private void Start()
     {
-        Debug.Log($"{gameObject.name} interacted with the player!");
+        originalScale = transform.localScale; // Store the original scale of the object
+    }
 
-        interactionSequence.Add(gameObject.name);
-        Debug.Log("Interaction Sequence: " + string.Join(", ", interactionSequence));
-
-        if (interactionSequence.Count == 4)
+    public void Interact()
+    {
+        if (playerInZone)
         {
-            if (sequenceChecker != null)
+            Debug.Log($"{gameObject.name} interacted with the player!");
+
+            // Add to the interaction sequence
+            interactionSequence.Add(gameObject.name);
+            Debug.Log("Interaction Sequence: " + string.Join(", ", interactionSequence));
+
+            // Trigger the scaling effect
+            StartCoroutine(ScaleEffect());
+
+            // Check the sequence if the interaction count reaches 4
+            if (interactionSequence.Count == 4)
             {
-                sequenceChecker.CheckSequence();
-            }
-            else
-            {
-                Debug.LogError("SequenceChecker is not assigned in InteractionZone!");
+                if (sequenceChecker != null)
+                {
+                    sequenceChecker.CheckSequence();
+                }
+                else
+                {
+                    Debug.LogError("SequenceChecker is not assigned in InteractionZone!");
+                }
             }
         }
     }
-}
 
     private void OnTriggerEnter2D(Collider2D other)
     {
@@ -64,5 +80,30 @@ public class InteractionZone : MonoBehaviour
     {
         interactionSequence.Clear();
         Debug.Log("Interaction sequence reset.");
+    }
+
+    private IEnumerator ScaleEffect()
+    {
+        // Scale up
+        float elapsedTime = 0f;
+        while (elapsedTime < scaleDuration)
+        {
+            transform.localScale = Vector3.Lerp(originalScale, originalScale * scaleFactor, elapsedTime / scaleDuration);
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+
+        transform.localScale = originalScale * scaleFactor; // Ensure it's fully scaled
+
+        // Scale back to original
+        elapsedTime = 0f;
+        while (elapsedTime < scaleDuration)
+        {
+            transform.localScale = Vector3.Lerp(originalScale * scaleFactor, originalScale, elapsedTime / scaleDuration);
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+
+        transform.localScale = originalScale; // Ensure it's back to the original scale
     }
 }

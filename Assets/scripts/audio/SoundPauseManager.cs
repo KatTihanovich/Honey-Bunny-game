@@ -1,0 +1,12 @@
+using UnityEngine;
+
+public class SoundPauseManager : MonoBehaviour
+{
+    public void SoundControl(){
+        if(AudioListener.pause == true){
+            AudioListener.pause = false;
+        } else {
+            AudioListener.pause = true;
+        }
+    }
+}

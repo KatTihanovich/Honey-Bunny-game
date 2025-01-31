@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class JoyStickMove : MonoBehaviour
 {
+    private static readonly int Run = Animator.StringToHash("Run");
     public Joystick movementJoystick;
     public float moveSpeed = 12f;
     private Rigidbody2D rb;
@@ -16,34 +17,32 @@ public class JoyStickMove : MonoBehaviour
 
     private void FixedUpdate()
     {
-
-        float moveInputX = movementJoystick.Direction.x;
+        var moveInputX = movementJoystick.Direction.x;
 
         if (Mathf.Abs(moveInputX) > 0.1f)
         {
-            Vector2 targetVelocity = new Vector2(moveInputX, 0f) * moveSpeed;
+            var targetVelocity = new Vector2(moveInputX, 0f) * moveSpeed;
             moveVelocity = Vector2.Lerp(moveVelocity, targetVelocity, 5f * Time.fixedDeltaTime);
             rb.linearVelocity = new Vector2(moveVelocity.x, rb.linearVelocity.y);
-            anim.SetBool("Run", true);
-            if (moveInputX > 0 && transform.localScale.x < 0)
+            anim.SetBool(Run, true);
+            switch (moveInputX)
             {
-                Flip();
-            }
-            else if (moveInputX < 0 && transform.localScale.x > 0)
-            {
-                Flip();
+                case > 0 when transform.localScale.x < 0:
+                case < 0 when transform.localScale.x > 0:
+                    Flip();
+                    break;
             }
         }
         else
         {
             rb.linearVelocity = new Vector2(0, rb.linearVelocity.y);
-            anim.SetBool("Run", false);
+            anim.SetBool(Run, false);
         }
     }
 
     private void Flip()
     {
-        Vector3 scale = transform.localScale;
+        var scale = transform.localScale;
         scale.x *= -1;
         transform.localScale = scale;
     }

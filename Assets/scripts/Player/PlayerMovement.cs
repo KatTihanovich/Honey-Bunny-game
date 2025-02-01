@@ -1,5 +1,5 @@
 using UnityEngine;
-using UnityEngine.Serialization;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 using ETouch = UnityEngine.InputSystem.EnhancedTouch;
 
@@ -10,46 +10,49 @@ public class PlayerMovement : MonoBehaviour
     private static readonly int JumpPressed = Animator.StringToHash("JumpPressed");
     private static readonly int IsFalling = Animator.StringToHash("IsFalling");
 
-    [Header("Audio Settings")]
-    [SerializeField] private AudioClip jumpSound;
+    [Header("Audio Settings")] [SerializeField]
+    private AudioClip jumpSound;
+
     [SerializeField] private float volume = 1.0f;
     private AudioManager audioManager;
 
-    [Header("UI Elements")]
-    public Button jumpButton;
+    [Header("UI Elements")] public Button jumpButton;
     public Button kickButton;
 
-    [Header("Joystick Settings")]
-    private ETouch.Finger movementFinger;
+    [Header("Joystick Settings")] private ETouch.Finger movementFinger;
     private RectTransform joystickRect;
 
-    [Header("Player Movement")]
-    [SerializeField] private float moveSpeed = 12f;
+    [Header("Player Movement")] [SerializeField]
+    private float moveSpeed = 12f;
 
-    [Header("Jumping Parameters")]
-    [SerializeField] private float jumpBufferTime;
+    [Header("Jumping Parameters")] [SerializeField]
+    private float jumpBufferTime;
+
     private float jumpBufferCounter;
     [SerializeField] private float coyoteTime;
     private float coyoteCounter;
     [SerializeField] private float jumpHeight = 17f;
 
-    [Header("Gravity Parameters")]
-    [SerializeField] private float gravity = 33f;
+    [Header("Gravity Parameters")] [SerializeField]
+    private float gravity = 33f;
+
     private bool isGrounded;
     private bool isJumping;
     private bool isFalling;
 
-    [Header("What is Ground Parameters")]
-    [SerializeField] private LayerMask groundLayer;
+    [Header("What is Ground Parameters")] [SerializeField]
+    private LayerMask groundLayer;
+
     private Rigidbody2D rb;
     private RaycastHit2D groundHit;
     public bool isOnPlatform;
 
-    [Header("Starting point to cast ray to the ground")]
-    [SerializeField] private BoxCollider2D boxCollider;
+    [Header("Starting point to cast ray to the ground")] [SerializeField]
+    private BoxCollider2D boxCollider;
 
-    [Header("Attack Parameters")]
-    [SerializeField] private Collider2D playerCollider;
+    [Header("Attack Parameters")] [SerializeField]
+    private Collider2D playerCollider;
+
     [SerializeField] private LayerMask entityLayer;
     [SerializeField] private float colliderDistanceX = 1f;
     [SerializeField] private float colliderDistanceY = 0.5f;
@@ -69,10 +72,15 @@ public class PlayerMovement : MonoBehaviour
     private void Start()
     {
         SetCharacterState(PlayerState.Idle);
-        // Application.targetFrameRate = 60;
+
+        if (Application.isMobilePlatform)
+        {
+            QualitySettings.vSyncCount = 0;
+            Application.targetFrameRate = 60;
+        }
 
         jumpButton.onClick.AddListener(InitiateJump);
- 
+
         ETouch.EnhancedTouchSupport.Enable();
         ETouch.Touch.onFingerDown += HandleFingerDown;
         ETouch.Touch.onFingerUp += HandleLoseFinger;
@@ -102,7 +110,7 @@ public class PlayerMovement : MonoBehaviour
             coyoteCounter -= Time.fixedDeltaTime;
         }
 
-        if (Input.GetKey(KeyCode.Space))
+        if (Keyboard.current.spaceKey.isPressed)
         {
             jumpBufferCounter = jumpBufferTime;
         }
@@ -129,13 +137,14 @@ public class PlayerMovement : MonoBehaviour
             SetCharacterState(InputManager.Movement.x != 0 ? PlayerState.Walking : PlayerState.Idle);
         }
 
-        if (Input.GetKeyDown(KeyCode.F) && attackCounter >= attackCd)
+        if (Keyboard.current.fKey.isPressed && attackCounter >= attackCd)
         {
             anim.SetTrigger(AttackPressed);
             attackCounter = 0;
             StartAttack();
         }
     }
+
     public void TryJump()
     {
         if (isGrounded && !isJumping && !isFalling || coyoteCounter > 0)
@@ -143,6 +152,7 @@ public class PlayerMovement : MonoBehaviour
             InitiateJump();
         }
     }
+
     public void TryAttack()
     {
         if (attackCounter >= attackCd)
@@ -152,7 +162,7 @@ public class PlayerMovement : MonoBehaviour
             StartAttack();
         }
     }
-    
+
     private void IsGrounded()
     {
         Vector2 boxCastOrigin = new Vector2(playerCollider.bounds.center.x, playerCollider.bounds.min.y);
@@ -212,7 +222,7 @@ public class PlayerMovement : MonoBehaviour
         Walking,
         Jumping,
         Falling,
-        Attacking 
+        Attacking
     }
 
     private static void SetCharacterState(PlayerState state)
@@ -235,16 +245,14 @@ public class PlayerMovement : MonoBehaviour
         if (movementFinger == null && touchedFinger.screenPosition.x <= 400 & touchedFinger.screenPosition.y <= 400)
         {
             movementFinger = touchedFinger;
-           
         }
     }
-    
+
     private void HandleLoseFinger(ETouch.Finger lostFinger)
     {
         if (lostFinger == movementFinger)
         {
             movementFinger = null;
-           
         }
     }
 

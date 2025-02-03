@@ -2,15 +2,17 @@ using UnityEngine;
 
 public class HealthEventListener : MonoBehaviour
 {
+    private static readonly int GotHit = Animator.StringToHash("GotHit");
+    private static readonly int Dead = Animator.StringToHash("Dead");
     [SerializeField] private Health health;
-    [SerializeField] private Animator anim; // Animator доступен через инспектор
-    private bool canMove = true;
+    [SerializeField] private Animator anim; // Animator РґРѕСЃС‚СѓРїРµРЅ С‡РµСЂРµР· РёРЅСЃРїРµРєС‚РѕСЂ
+    private readonly bool canMove = true;
 
     private void Start()
     {
         if (health != null)
         {
-            health.OnHealthChanged += HandleHealthChanged; // Подпишемся на событие изменения здоровья
+            health.OnHealthChanged += HandleHealthChanged; // РџРѕРґРїРёС€РµРјСЃСЏ РЅР° СЃРѕР±С‹С‚РёРµ РёР·РјРµРЅРµРЅРёСЏ Р·РґРѕСЂРѕРІСЊСЏ
         }
     }
 
@@ -19,11 +21,11 @@ public class HealthEventListener : MonoBehaviour
         if (currentHealth > 0)
         {
             Debug.Log("Health changed: " + currentHealth);
-            anim.SetTrigger("GotHit");
+            anim.SetTrigger(GotHit);
         }
         else
         {
-            anim.SetTrigger("Dead");
+            anim.SetTrigger(Dead);
             HandleDeath();
         }
     }

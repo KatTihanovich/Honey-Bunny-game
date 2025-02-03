@@ -1,10 +1,14 @@
+using Unity.VisualScripting.FullSerializer;
 using UnityEngine;
 
 public class RandomAttack : StateMachineBehaviour
 {
+    private static readonly int Attack = Animator.StringToHash("RandomAttack");
+
     // OnStateMachineEnter is called when entering a state machine via its Entry Node
-    override public void OnStateMachineEnter(Animator animator, int stateMachinePathHash)
+    public override void OnStateMachineEnter(Animator animator, int stateMachinePathHash)
     {
-        animator.SetInteger("RandomAttack", Random.Range(0, 2));
+        Debug.Log("RandomAttack");
+        animator.SetInteger(Attack, Random.Range(0, 2));
     }
 }

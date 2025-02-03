@@ -2,6 +2,8 @@ using UnityEngine;
 
 public class MeleeEnemy_0 : MonoBehaviour
 {
+    private static readonly int Run = Animator.StringToHash("Run");
+    private static readonly int Attack = Animator.StringToHash("Attack");
 
     [Header("Attack Settings")]
     [SerializeField] private float attackCooldown;
@@ -35,12 +37,12 @@ public class MeleeEnemy_0 : MonoBehaviour
 
         if (PlayerInSight())
         {
-            anim.SetBool("Run", false);
+            anim.SetBool(Run, false);
 
             if (cooldownTimer >= attackCooldown)
             {
                 patrolScript.StartWaiting();
-                anim.SetTrigger("Attack");
+                anim.SetTrigger(Attack);
                 RotateTowardsPlayer();
             }
         }
@@ -64,7 +66,7 @@ public class MeleeEnemy_0 : MonoBehaviour
     private bool PlayerInSight()
     {
         RaycastHit2D hit = Physics2D.BoxCast(
-            boxCollider.bounds.center + transform.up * transform.localScale.y * colliderDistanceY + transform.right * transform.localScale.x * colliderDistanceX,
+            boxCollider.bounds.center + transform.up * (transform.localScale.y * colliderDistanceY) + transform.right * (transform.localScale.x * colliderDistanceX),
             new Vector3(boxCollider.bounds.size.x * rangeX, boxCollider.bounds.size.y * rangeY, boxCollider.bounds.size.z),
             0, Vector2.zero, 0, playerLayer);
 

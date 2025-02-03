@@ -62,6 +62,11 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float attackCd = 10; // CD
     private float attackCounter = Mathf.Infinity;
 
+    // will be moved later
+    [Header("UI elements")] [SerializeField]
+    public Image hitCooldownSprite;
+    public Button hitButton;
+    
     // Movement
     private Vector2 moveVelocity;
     private float verticalVelocity;
@@ -137,12 +142,26 @@ public class PlayerMovement : MonoBehaviour
             SetCharacterState(InputManager.Movement.x != 0 ? PlayerState.Walking : PlayerState.Idle);
         }
 
+        if (attackCounter >= attackCd)
+        {
+            hitButton.interactable = true;
+        }
+        
         if (Keyboard.current.fKey.isPressed && attackCounter >= attackCd)
         {
             anim.SetTrigger(AttackPressed);
             attackCounter = 0;
             StartAttack();
+            hitButton.interactable = false;
         }
+
+        var coold = attackCounter / attackCd;
+        
+        if (coold < 1.1)
+        {
+            hitCooldownSprite.fillAmount = coold;
+        }
+        
     }
 
     public void TryJump()
@@ -160,6 +179,7 @@ public class PlayerMovement : MonoBehaviour
             anim.SetTrigger(AttackPressed);
             attackCounter = 0;
             StartAttack();
+            hitButton.interactable = false;
         }
     }
 
@@ -266,5 +286,25 @@ public class PlayerMovement : MonoBehaviour
     private void StartAttack()
     {
         attackCounter = 0;
+    }
+    
+    public void ApplyAreaDamage()
+    {
+        Collider2D[] hits = Physics2D.OverlapBoxAll(
+            boxCollider.bounds.center + transform.up * (transform.localScale.y * colliderDistanceY) + transform.right * (transform.localScale.x * colliderDistanceX),
+            new Vector2(boxCollider.bounds.size.x * rangeX, boxCollider.bounds.size.y * rangeY),
+            0, entityLayer);
+
+        foreach (var hit in hits)
+        {
+            if (hit && hit.CompareTag("Enemy"))
+            {
+                Health entityHealth = hit.GetComponent<Health>();
+                if (entityHealth)
+                {
+                    entityHealth.TakeDamage(damage);
+                }
+            }
+        }
     }
 }

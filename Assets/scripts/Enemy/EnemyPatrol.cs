@@ -2,23 +2,26 @@ using UnityEngine;
 
 public class EnemyPatrol : MonoBehaviour
 {
-    [Header("Patrol Point")]
-    [SerializeField] private Transform leftEdge;
+    private static readonly int Run = Animator.StringToHash("Run");
+
+    [Header("Patrol Point")] [SerializeField]
+    private Transform leftEdge;
+
     [SerializeField] private Transform rightEdge;
 
-    [Header("Enemy")]
-    [SerializeField] private Transform enemy;
+    [Header("Enemy")] [SerializeField] private Transform enemy;
     [SerializeField] private Animator anim;
 
-    [Header("Movement parameters")]
-    [SerializeField] private float speed;
+    [Header("Movement parameters")] [SerializeField]
+    private float speed;
+
     [SerializeField] private float waitTimeAtPoint;
 
-    [Header("Components")]
-    [SerializeField] private Rigidbody2D rb;
+    [Header("Components")] [SerializeField]
+    private Rigidbody2D rb;
 
     private bool movingLeft;
-    private float waitTimer = 0f;
+    private float waitTimer;
     private Vector3 baseScale;
 
     private void Start()
@@ -28,16 +31,25 @@ public class EnemyPatrol : MonoBehaviour
 
     private void OnDisable()
     {
-        anim.SetBool("Run", false);
-        rb.linearVelocity = Vector2.zero;
+        anim.SetBool(Run, false);
+        if (rb)
+        {
+            rb.linearVelocity = Vector2.zero;
+        }
     }
 
     private void Update()
     {
+        if (!enemy) return;
+
         if (waitTimer > 0f)
         {
             waitTimer -= Time.deltaTime;
-            rb.linearVelocity = Vector2.zero; 
+            if (rb)
+            {
+                rb.linearVelocity = Vector2.zero;
+            }
+
             return;
         }
 
@@ -46,11 +58,11 @@ public class EnemyPatrol : MonoBehaviour
             if (enemy.position.x >= leftEdge.position.x)
             {
                 MoveInDirection(-1);
-                anim.SetBool("Run", true);
+                anim.SetBool(Run, true);
             }
             else
             {
-                anim.SetBool("Run", false);
+                anim.SetBool(Run, false);
                 StartWaiting();
             }
         }
@@ -59,13 +71,12 @@ public class EnemyPatrol : MonoBehaviour
             if (enemy.position.x <= rightEdge.position.x)
             {
                 MoveInDirection(1);
-                anim.SetBool("Run", true);
+                anim.SetBool(Run, true);
             }
             else
             {
-                anim.SetBool("Run", false);
+                anim.SetBool(Run, false);
                 StartWaiting();
-
             }
         }
     }

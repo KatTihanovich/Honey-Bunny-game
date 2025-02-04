@@ -7,6 +7,9 @@ public class HealthEventListener : MonoBehaviour
     [SerializeField] private Health health;
     [SerializeField] private Animator anim; // Animator доступен через инспектор
     private readonly bool canMove = true;
+    [SerializeField] private UltimateCooldown ultimateCooldown;
+
+    private bool isDeadAnimationPlayed;
 
     private void Start()
     {
@@ -25,6 +28,8 @@ public class HealthEventListener : MonoBehaviour
         }
         else
         {
+            if (isDeadAnimationPlayed) return;
+            isDeadAnimationPlayed = true;
             anim.SetTrigger(Dead);
             HandleDeath();
         }
@@ -32,6 +37,7 @@ public class HealthEventListener : MonoBehaviour
 
     private void HandleDeath()
     {
+        ultimateCooldown.AddPower();
         Debug.Log("Character is dead.");
         Invoke(nameof(DestroyObject), 2f);
     }

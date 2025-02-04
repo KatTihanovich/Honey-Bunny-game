@@ -22,6 +22,8 @@ public class Health : MonoBehaviour
     {
         if (isDead) return; // If already dead, no further damage can be taken
 
+        Handheld.Vibrate();
+        
         // Reduce health and invoke the health changed event
         CurrentHealth = Mathf.Clamp(CurrentHealth - damage, 0, startingHealth);
         OnHealthChanged?.Invoke(CurrentHealth);

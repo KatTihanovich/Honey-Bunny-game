@@ -31,9 +31,9 @@ public class EnemyPatrol : MonoBehaviour
 
     private void OnDisable()
     {
-        anim.SetBool(Run, false);
-        if (rb)
+        if (rb != null && anim != null)
         {
+            anim.SetBool(Run, false);
             rb.linearVelocity = Vector2.zero;
         }
     }

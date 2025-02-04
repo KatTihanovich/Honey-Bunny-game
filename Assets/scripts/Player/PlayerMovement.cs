@@ -105,14 +105,14 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
-        attackCounter += Time.fixedDeltaTime;
+        attackCounter += Time.deltaTime;
         if (isGrounded && !isJumping && !isFalling)
         {
             coyoteCounter = coyoteTime;
         }
         else
         {
-            coyoteCounter -= Time.fixedDeltaTime;
+            coyoteCounter -= Time.deltaTime;
         }
 
         if (Keyboard.current.spaceKey.isPressed)
@@ -121,7 +121,7 @@ public class PlayerMovement : MonoBehaviour
         }
         else
         {
-            jumpBufferCounter -= Time.fixedDeltaTime;
+            jumpBufferCounter -= Time.deltaTime;
         }
 
         if (jumpBufferCounter > 0f)
@@ -155,11 +155,11 @@ public class PlayerMovement : MonoBehaviour
             hitButton.interactable = false;
         }
 
-        var coold = attackCounter / attackCd;
+        var cooldownFactor = attackCounter / attackCd;
         
-        if (coold < 1.1)
+        if (cooldownFactor < 1.1)
         {
-            hitCooldownSprite.fillAmount = coold;
+            hitCooldownSprite.fillAmount = cooldownFactor;
         }
         
     }
@@ -214,7 +214,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if (!isGrounded)
         {
-            verticalVelocity -= gravity * Time.fixedDeltaTime;
+            verticalVelocity -= gravity * Time.deltaTime;
 
             if (verticalVelocity < 0f && !isFalling)
             {

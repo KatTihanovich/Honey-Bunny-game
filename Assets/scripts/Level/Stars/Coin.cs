@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class Coin : MonoBehaviour
 {
+    private static readonly int PickUp = Animator.StringToHash("PickUp");
     [SerializeField] private int coinValue = 1;
     [SerializeField] private AudioClip coinCollectSound;
     [SerializeField] private float volume = 1.0f;
@@ -20,7 +21,7 @@ public class Coin : MonoBehaviour
         {
             isCollected = true;
             Debug.Log("Collected!");
-            anim.SetTrigger("PickUp");
+            anim.SetTrigger(PickUp);
             CoinManager.Instance.AddCoins(coinValue); 
             PlaySound();
         }
@@ -32,13 +33,13 @@ public class Coin : MonoBehaviour
         {
             GameObject tempSoundObject = new GameObject("CoinSound");
             AudioSource audioSource = tempSoundObject.AddComponent<AudioSource>();
-
+            
             audioSource.clip = coinCollectSound;
             audioSource.volume = volume;
             audioSource.pitch = 1.0f + Random.Range(-pitchVariation, pitchVariation);
-
+            
             audioSource.Play();
-
+            
             Destroy(tempSoundObject, coinCollectSound.length / audioSource.pitch);
         }
     }

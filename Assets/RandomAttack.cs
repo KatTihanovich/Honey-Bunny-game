@@ -8,7 +8,6 @@ public class RandomAttack : StateMachineBehaviour
     // OnStateMachineEnter is called when entering a state machine via its Entry Node
     public override void OnStateMachineEnter(Animator animator, int stateMachinePathHash)
     {
-        Debug.Log("RandomAttack");
         animator.SetInteger(Attack, Random.Range(0, 2));
     }
 }

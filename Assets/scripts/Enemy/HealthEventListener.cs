@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Audio;
 
 public class HealthEventListener : MonoBehaviour
 {
@@ -10,6 +11,10 @@ public class HealthEventListener : MonoBehaviour
     [SerializeField] private UltimateCooldown ultimateCooldown;
 
     private bool isDeadAnimationPlayed;
+
+    [SerializeField] private AudioMixerGroup audioMixerGroup; 
+    public AudioClip deathSound;
+    [SerializeField] private float volume = 1.0f;
 
     private void Start()
     {
@@ -38,6 +43,7 @@ public class HealthEventListener : MonoBehaviour
     private void HandleDeath()
     {
         ultimateCooldown.AddPower();
+        Play(deathSound);
         Debug.Log("Character is dead.");
         Invoke(nameof(DestroyObject), 2f);
     }
@@ -46,4 +52,18 @@ public class HealthEventListener : MonoBehaviour
     {
         Destroy(gameObject);
     }
+
+    private void Play(AudioClip clip) {
+            if (clip != null && audioMixerGroup != null) {
+                GameObject tempAudio = new GameObject("TempAudioClip");
+                AudioSource audioSource = tempAudio.AddComponent<AudioSource>();
+
+                audioSource.outputAudioMixerGroup = audioMixerGroup;
+                audioSource.clip = clip;
+                audioSource.volume = volume;
+                audioSource.Play();
+
+                Destroy(tempAudio, clip.length);
+            }
+        }
 }

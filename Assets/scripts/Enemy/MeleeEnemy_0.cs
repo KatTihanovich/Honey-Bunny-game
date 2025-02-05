@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Audio;
 
 public class MeleeEnemy_0 : MonoBehaviour
 {
@@ -24,6 +25,11 @@ public class MeleeEnemy_0 : MonoBehaviour
     private float cooldownTimer = Mathf.Infinity;
     private Animator anim;
     private Vector3 baseScale;
+
+    [Header("Audio Settings")]
+    [SerializeField] public AudioMixerGroup audioMixerGroup; 
+    public AudioClip attackSound;
+    [SerializeField] private float volume = 1.0f;
 
     private void Start()
     {
@@ -83,6 +89,7 @@ public class MeleeEnemy_0 : MonoBehaviour
     {
         if (PlayerInSight() && playerHealth != null)
         {
+            Play(attackSound);
             playerHealth.TakeDamage(damage);
             Debug.Log("Player damaged by enemy!");
         }
@@ -95,6 +102,20 @@ public class MeleeEnemy_0 : MonoBehaviour
 {
     Debug.Log("NECKKER_HIT event received!"); 
 }
+
+    private void Play(AudioClip clip) {
+            if (clip != null && audioMixerGroup != null) {
+                GameObject tempAudio = new GameObject("TempAudioClip");
+                AudioSource audioSource = tempAudio.AddComponent<AudioSource>();
+
+                audioSource.outputAudioMixerGroup = audioMixerGroup;
+                audioSource.clip = clip;
+                audioSource.volume = volume;
+                audioSource.Play();
+
+                Destroy(tempAudio, clip.length);
+            }
+        }
 
     //private void OnDrawGizmos()
     //{

@@ -2,6 +2,8 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 using ETouch = UnityEngine.InputSystem.EnhancedTouch;
+using UnityEngine.SceneManagement;
+using UnityEngine.Audio;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -10,11 +12,15 @@ public class PlayerMovement : MonoBehaviour
     private static readonly int JumpPressed = Animator.StringToHash("JumpPressed");
     private static readonly int IsFalling = Animator.StringToHash("IsFalling");
 
-    [Header("Audio Settings")] [SerializeField]
-    private AudioClip jumpSound;
+    [Header("Audio Settings")]
+    [SerializeField] private AudioClip jumpSound;
+    [SerializeField] private AudioClip kickSound;
+    [SerializeField] private float volume = 1.0f;
+    [SerializeField] private AudioMixerGroup audioMixerGroup; 
 
     [SerializeField] private float volume = 1.0f;
-    private AudioManager audioManager;
+    [SerializeField] private AudioMixerGroup audioMixerGroup; 
+
 
     [Header("UI Elements")] public Button jumpButton;
     public Button kickButton;
@@ -203,10 +209,7 @@ public class PlayerMovement : MonoBehaviour
             jumpBufferCounter = 0;
             coyoteCounter = 0;
 
-            if (jumpSound != null)
-            {
-                AudioSource.PlayClipAtPoint(jumpSound, transform.position, volume);
-            }
+            PlaySound(jumpSound);
         }
     }
 
@@ -286,6 +289,7 @@ public class PlayerMovement : MonoBehaviour
     private void StartAttack()
     {
         attackCounter = 0;
+        PlaySound(kickSound);
     }
     
     public void ApplyAreaDamage()
@@ -306,5 +310,38 @@ public class PlayerMovement : MonoBehaviour
                 }
             }
         }
+    }
+
+    //private void OnDrawGizmos()
+    //{
+    //    Gizmos.color = Color.red;
+    //    Vector3 boxSize = new Vector3(
+    //        boxCollider.bounds.size.x * rangeX,
+    //        boxCollider.bounds.size.y * rangeY,
+    //        boxCollider.bounds.size.z);
+    //    Vector3 boxCenter = boxCollider.bounds.center +
+    //        transform.up * transform.localScale.y * colliderDistanceY +
+    //        transform.right * transform.localScale.x * colliderDistanceX;
+
+    //    Gizmos.DrawWireCube(boxCenter, boxSize);
+    //}
+
+    private void PlaySound(AudioClip clip)
+    {
+        if (clip != null)
+        {
+            GameObject tempAudio = new GameObject("TempAudio");
+            AudioSource audioSource = tempAudio.AddComponent<AudioSource>();
+            audioSource.clip = clip;
+            audioSource.volume = volume;
+            audioSource.outputAudioMixerGroup = audioMixerGroup;
+            audioSource.Play();
+            Destroy(tempAudio, clip.length);
+        }
+    }
+
+    public void RestartLevel()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 }

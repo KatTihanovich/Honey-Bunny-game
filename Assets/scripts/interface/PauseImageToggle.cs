@@ -1,22 +1,35 @@
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 public class PauseImageToggle : MonoBehaviour
 {
     public Button button;   
-    public SpriteRenderer frontImage;   
 
-    private bool isFrontVisible = false;
+    public Sprite image1_clicked;
+    public Sprite image2;
+
+    private Image buttonImage;
 
     void Start()
     {
-        frontImage.gameObject.SetActive(false);
+        buttonImage = button.GetComponent<Image>();
     }
 
     public void ToggleImage()
     {
-        isFrontVisible = !isFrontVisible;
+        buttonImage.sprite = image2;
+    }
 
-        frontImage.gameObject.SetActive(isFrontVisible);
+    public void OnPointerDown(PointerEventData eventData)
+    {
+        buttonImage.sprite = image1_clicked;
+        
+    }
+
+    public void OnPointerUp(PointerEventData eventData)
+    {
+
+        ToggleImage();
     }
 }

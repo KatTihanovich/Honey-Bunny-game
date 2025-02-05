@@ -1,4 +1,6 @@
 using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.Audio;
 public class Health : MonoBehaviour
 {
     [Header("Health Settings")]
@@ -6,16 +8,23 @@ public class Health : MonoBehaviour
     public float CurrentHealth { get; private set; }
     private bool isDead = false;
 
+    public RestartWindow restartWindow;
+
     public event System.Action<float> OnHealthChanged;
 
+    [SerializeField] private AudioMixerGroup audioMixerGroup; 
+    public AudioClip damageSound;
+    [SerializeField] private float volume = 1.0f;
 
-
-    // Reference to the SkeletonAnimation
 
 
     private void Awake()
     {
         CurrentHealth = startingHealth;
+        if (restartWindow == null)
+        {
+            restartWindow = FindObjectOfType<RestartWindow>();
+        }
     }
 
     public void TakeDamage(float damage)
@@ -25,6 +34,7 @@ public class Health : MonoBehaviour
         Handheld.Vibrate();
         
         // Reduce health and invoke the health changed event
+        Play(damageSound);
         CurrentHealth = Mathf.Clamp(CurrentHealth - damage, 0, startingHealth);
         OnHealthChanged?.Invoke(CurrentHealth);
     }
@@ -43,4 +53,18 @@ public class Health : MonoBehaviour
         isDead = false;
         OnHealthChanged?.Invoke(CurrentHealth);
     }
+
+    private void Play(AudioClip clip) {
+            if (clip != null && audioMixerGroup != null) {
+                GameObject tempAudio = new GameObject("TempAudioClip");
+                AudioSource audioSource = tempAudio.AddComponent<AudioSource>();
+
+                audioSource.outputAudioMixerGroup = audioMixerGroup;
+                audioSource.clip = clip;
+                audioSource.volume = volume;
+                audioSource.Play();
+
+                Destroy(tempAudio, clip.length);
+            }
+        }
 }

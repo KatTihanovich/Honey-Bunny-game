@@ -1,9 +1,9 @@
 using UnityEngine;
+using UnityEngine.Audio;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using ETouch = UnityEngine.InputSystem.EnhancedTouch;
-using UnityEngine.SceneManagement;
-using UnityEngine.Audio;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -12,15 +12,12 @@ public class PlayerMovement : MonoBehaviour
     private static readonly int JumpPressed = Animator.StringToHash("JumpPressed");
     private static readonly int IsFalling = Animator.StringToHash("IsFalling");
 
-    [Header("Audio Settings")]
-    [SerializeField] private AudioClip jumpSound;
+    [Header("Audio Settings")] [SerializeField]
+    private AudioClip jumpSound;
+
     [SerializeField] private AudioClip kickSound;
     [SerializeField] private float volume = 1.0f;
-    [SerializeField] private AudioMixerGroup audioMixerGroup; 
-
-    [SerializeField] private float volume = 1.0f;
-    [SerializeField] private AudioMixerGroup audioMixerGroup; 
-
+    [SerializeField] private AudioMixerGroup audioMixerGroup;
 
     [Header("UI Elements")] public Button jumpButton;
     public Button kickButton;
@@ -71,8 +68,9 @@ public class PlayerMovement : MonoBehaviour
     // will be moved later
     [Header("UI elements")] [SerializeField]
     public Image hitCooldownSprite;
+
     public Button hitButton;
-    
+
     // Movement
     private Vector2 moveVelocity;
     private float verticalVelocity;
@@ -152,7 +150,7 @@ public class PlayerMovement : MonoBehaviour
         {
             hitButton.interactable = true;
         }
-        
+
         if (Keyboard.current.fKey.isPressed && attackCounter >= attackCd)
         {
             anim.SetTrigger(AttackPressed);
@@ -162,12 +160,11 @@ public class PlayerMovement : MonoBehaviour
         }
 
         var cooldownFactor = attackCounter / attackCd;
-        
+
         if (cooldownFactor < 1.1)
         {
             hitCooldownSprite.fillAmount = cooldownFactor;
         }
-        
     }
 
     public void TryJump()
@@ -291,11 +288,12 @@ public class PlayerMovement : MonoBehaviour
         attackCounter = 0;
         PlaySound(kickSound);
     }
-    
+
     public void ApplyAreaDamage()
     {
         Collider2D[] hits = Physics2D.OverlapBoxAll(
-            boxCollider.bounds.center + transform.up * (transform.localScale.y * colliderDistanceY) + transform.right * (transform.localScale.x * colliderDistanceX),
+            boxCollider.bounds.center + transform.up * (transform.localScale.y * colliderDistanceY) +
+            transform.right * (transform.localScale.x * colliderDistanceX),
             new Vector2(boxCollider.bounds.size.x * rangeX, boxCollider.bounds.size.y * rangeY),
             0, entityLayer);
 

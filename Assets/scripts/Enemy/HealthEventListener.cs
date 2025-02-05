@@ -8,11 +8,11 @@ public class HealthEventListener : MonoBehaviour
     [SerializeField] private Health health;
     [SerializeField] private Animator anim; // Animator доступен через инспектор
     private readonly bool canMove = true;
-    [SerializeField] private UltimateCooldown ultimateCooldown;
+    private UltimateCooldown ultimateCooldown;
 
     private bool isDeadAnimationPlayed;
 
-    [SerializeField] private AudioMixerGroup audioMixerGroup; 
+    [SerializeField] private AudioMixerGroup audioMixerGroup;
     public AudioClip deathSound;
     [SerializeField] private float volume = 1.0f;
 
@@ -22,6 +22,8 @@ public class HealthEventListener : MonoBehaviour
         {
             health.OnHealthChanged += HandleHealthChanged; // Подпишемся на событие изменения здоровья
         }
+
+        ultimateCooldown = GameObject.Find("UltimateCooldown").GetComponent<UltimateCooldown>();
     }
 
     private void HandleHealthChanged(float currentHealth)
@@ -53,17 +55,19 @@ public class HealthEventListener : MonoBehaviour
         Destroy(gameObject);
     }
 
-    private void Play(AudioClip clip) {
-            if (clip != null && audioMixerGroup != null) {
-                GameObject tempAudio = new GameObject("TempAudioClip");
-                AudioSource audioSource = tempAudio.AddComponent<AudioSource>();
+    private void Play(AudioClip clip)
+    {
+        if (clip != null && audioMixerGroup != null)
+        {
+            GameObject tempAudio = new GameObject("TempAudioClip");
+            AudioSource audioSource = tempAudio.AddComponent<AudioSource>();
 
-                audioSource.outputAudioMixerGroup = audioMixerGroup;
-                audioSource.clip = clip;
-                audioSource.volume = volume;
-                audioSource.Play();
+            audioSource.outputAudioMixerGroup = audioMixerGroup;
+            audioSource.clip = clip;
+            audioSource.volume = volume;
+            audioSource.Play();
 
-                Destroy(tempAudio, clip.length);
-            }
+            Destroy(tempAudio, clip.length);
         }
+    }
 }

@@ -219,7 +219,7 @@ Rigidbody2D:
   m_ExcludeLayers:
     serializedVersion: 2
     m_Bits: 0
-  m_Interpolate: 0
+  m_Interpolate: 1
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 4
@@ -275,13 +275,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   jumpSound: {fileID: 0}
+  kickSound: {fileID: 0}
   volume: 1
+  audioMixerGroup: {fileID: 0}
   jumpButton: {fileID: 0}
   kickButton: {fileID: 0}
-  JoystickSize: {x: 200, y: 200}
-  JoystickPosition: {x: 300, y: 250}
-  Joystick: {fileID: 0}
-  MovementAmount: {x: 0, y: 0}
   moveSpeed: 12
   jumpBufferTime: 0.1
   coyoteTime: 0.4
@@ -301,7 +299,9 @@ MonoBehaviour:
   rangeX: 6.32
   rangeY: 13.08
   damage: 1
-  attackCD: 0.6
+  attackCd: 10
+  hitCooldownSprite: {fileID: 0}
+  hitButton: {fileID: 0}
 --- !u!114 &3872109104760278329
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -315,6 +315,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   startingHealth: 10
+  restartWindow: {fileID: 0}
+  audioMixerGroup: {fileID: 0}
+  damageSound: {fileID: 0}
+  volume: 1
 --- !u!114 &4228889663623138041
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -349,6 +353,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: {fileID: 3872109104760278329}
   anim: {fileID: 7619422197877684169}
+  ultimateCooldown: {fileID: 0}
+  audioMixerGroup: {fileID: 0}
+  deathSound: {fileID: 0}
+  volume: 1
 --- !u!1 &4654799500142453331
 GameObject:
   m_ObjectHideFlags: 0

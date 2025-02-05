@@ -9,9 +9,9 @@ public class Coin : MonoBehaviour
     [SerializeField] private float volume = 1.0f;
     [SerializeField] private float pitchVariation = 0.1f;
     [SerializeField] private Transform collectionBarImage; // Assign in Inspector
-    [SerializeField] private float scaleUpAmount = 1.2f; // How much it grows
-    [SerializeField] private float rotationAmount = 15f; // Rotation in degrees
-    [SerializeField] private float animationDuration = 0.2f; // Duration of effect
+    [SerializeField] private float scaleUpAmount = 1.5f; // How much it grows
+    [SerializeField] private float rotationAmount = 60f; // Rotation in degrees
+    [SerializeField] private float animationDuration = 0.4f; // Duration of effect
 
     private Animator anim;
     private bool isCollected = false;

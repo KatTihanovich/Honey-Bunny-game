@@ -2,8 +2,8 @@ using UnityEngine;
 
 public class DestructiblePlatformController : MonoBehaviour
 {
-    [SerializeField] private float destroyTime = 1f; // Время до разрушения
-    [SerializeField] private float respawnTime = 5f; // Время до восстановления
+    [SerializeField] private float destroyTime = 1f; // Р’СЂРµРјСЏ РґРѕ СЂР°Р·СЂСѓС€РµРЅРёСЏ
+    [SerializeField] private float respawnTime = 5f; // Р’СЂРµРјСЏ РґРѕ РІРѕСЃСЃС‚Р°РЅРѕРІР»РµРЅРёСЏ
 
     private Vector3 initialPosition;
     private Quaternion initialRotation;
@@ -12,7 +12,7 @@ public class DestructiblePlatformController : MonoBehaviour
 
     private void Awake()
     {
-        // Сохраняем начальное состояние платформы
+        // РЎРѕС…СЂР°РЅСЏРµРј РЅР°С‡Р°Р»СЊРЅРѕРµ СЃРѕСЃС‚РѕСЏРЅРёРµ РїР»Р°С‚С„РѕСЂРјС‹
         initialPosition = transform.position;
         initialRotation = transform.rotation;
         initialScale = transform.localScale;
@@ -22,26 +22,26 @@ public class DestructiblePlatformController : MonoBehaviour
     {
         if (coll.gameObject.tag == "Player" && !isDestroyed)
         {
-            isDestroyed = true; // Флаг разрушения
-            Invoke(nameof(DestroyPlatform), destroyTime); // Задержка перед разрушением
+            isDestroyed = true; // Р¤Р»Р°Рі СЂР°Р·СЂСѓС€РµРЅРёСЏ
+            Invoke(nameof(DestroyPlatform), destroyTime); // Р—Р°РґРµСЂР¶РєР° РїРµСЂРµРґ СЂР°Р·СЂСѓС€РµРЅРёРµРј
         }
     }
 
     private void DestroyPlatform()
     {
-        // Отключаем платформу
+        // РћС‚РєР»СЋС‡Р°РµРј РїР»Р°С‚С„РѕСЂРјСѓ
         gameObject.SetActive(false);
-        // Планируем восстановление через respawnTime
+        // РџР»Р°РЅРёСЂСѓРµРј РІРѕСЃСЃС‚Р°РЅРѕРІР»РµРЅРёРµ С‡РµСЂРµР· respawnTime
         Invoke(nameof(RespawnPlatform), respawnTime);
     }
 
     private void RespawnPlatform()
     {
-        // Восстанавливаем платформу в начальное состояние
+        // Р’РѕСЃСЃС‚Р°РЅР°РІР»РёРІР°РµРј РїР»Р°С‚С„РѕСЂРјСѓ РІ РЅР°С‡Р°Р»СЊРЅРѕРµ СЃРѕСЃС‚РѕСЏРЅРёРµ
         transform.position = initialPosition;
         transform.rotation = initialRotation;
         transform.localScale = initialScale;
-        gameObject.SetActive(true); // Включаем платформу
-        isDestroyed = false; // Сбрасываем флаг разрушения
+        gameObject.SetActive(true); // Р’РєР»СЋС‡Р°РµРј РїР»Р°С‚С„РѕСЂРјСѓ
+        isDestroyed = false; // РЎР±СЂР°СЃС‹РІР°РµРј С„Р»Р°Рі СЂР°Р·СЂСѓС€РµРЅРёСЏ
     }
 }

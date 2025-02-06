@@ -30,6 +30,7 @@ public class Coin : MonoBehaviour
             anim.SetTrigger(PickUp);
             CoinManager.Instance.AddCoins(coinValue); 
             PlaySound();
+            StartCoroutine(AnimateCollectionEffect());
         }
     }
 

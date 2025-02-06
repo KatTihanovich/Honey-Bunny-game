@@ -8,6 +8,7 @@ using ETouch = UnityEngine.InputSystem.EnhancedTouch;
 public class PlayerMovement : MonoBehaviour
 {
     private static readonly int AttackPressed = Animator.StringToHash("AttackPressed");
+    private static readonly int UltimatePressed = Animator.StringToHash("UltimatePressed");
     private static readonly int IsFlying = Animator.StringToHash("IsFlying");
     private static readonly int JumpPressed = Animator.StringToHash("JumpPressed");
     private static readonly int IsFalling = Animator.StringToHash("IsFalling");
@@ -77,6 +78,8 @@ public class PlayerMovement : MonoBehaviour
 
     // Animation
     private Animator anim;
+
+    private bool isUltimateAttack;
 
     private void Start()
     {
@@ -289,8 +292,40 @@ public class PlayerMovement : MonoBehaviour
         PlaySound(kickSound);
     }
 
+    public void StartUltimate()
+    {
+        isUltimateAttack = true;
+        anim.SetTrigger(UltimatePressed);
+        PlaySound(kickSound);
+    }
+
+    public void ApplyUltimateDamage()
+    {
+        Collider2D[] hits = Physics2D.OverlapBoxAll(
+            boxCollider.bounds.center + transform.up * (transform.localScale.y * colliderDistanceY) +
+            transform.right * (transform.localScale.x * colliderDistanceX),
+            new Vector2(boxCollider.bounds.size.x * rangeX, boxCollider.bounds.size.y * rangeY),
+            0, entityLayer);
+
+        foreach (var hit in hits)
+        {
+            if (hit && hit.CompareTag("Enemy"))
+            {
+                Health entityHealth = hit.GetComponent<Health>();
+                if (entityHealth)
+                {
+                    entityHealth.TakeDamage(damage * 2);
+                }
+            }
+        }
+
+        isUltimateAttack = false;
+    }
+
     public void ApplyAreaDamage()
     {
+        // this function uses AnimatedEvent, so I used bool flag to prevent calling this function on ultimate
+        if (isUltimateAttack) return;
         Collider2D[] hits = Physics2D.OverlapBoxAll(
             boxCollider.bounds.center + transform.up * (transform.localScale.y * colliderDistanceY) +
             transform.right * (transform.localScale.x * colliderDistanceX),

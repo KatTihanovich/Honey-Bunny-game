@@ -8,7 +8,7 @@ public class Health : MonoBehaviour
     public float CurrentHealth { get; private set; }
     private bool isDead = false;
 
-    public RestartWindow restartWindow;
+    public GameObject deathCanvas;
 
     public event System.Action<float> OnHealthChanged;
 
@@ -21,10 +21,6 @@ public class Health : MonoBehaviour
     private void Awake()
     {
         CurrentHealth = startingHealth;
-        if (restartWindow == null)
-        {
-            restartWindow = FindObjectOfType<RestartWindow>();
-        }
     }
 
     public void TakeDamage(float damage)
@@ -36,6 +32,11 @@ public class Health : MonoBehaviour
         // Reduce health and invoke the health changed event
         Play(damageSound);
         CurrentHealth = Mathf.Clamp(CurrentHealth - damage, 0, startingHealth);
+        if (CurrentHealth == 0 && deathCanvas != null)
+        {
+            deathCanvas.SetActive(true);
+            Time.timeScale = 0f;
+        }
         OnHealthChanged?.Invoke(CurrentHealth);
     }
 

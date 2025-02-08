@@ -47,6 +47,11 @@ public class HealthEventListener : MonoBehaviour
         ultimateCooldown.AddPower();
         Play(deathSound);
         Debug.Log("Character is dead.");
+
+        if (gameObject.CompareTag("Enemy")) 
+        {
+            EndWindow.IncreaseEnemyCount();
+        }
         Invoke(nameof(DestroyObject), 2f);
     }
 

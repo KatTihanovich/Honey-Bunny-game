@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 
 public class Coin : MonoBehaviour
@@ -8,10 +9,13 @@ public class Coin : MonoBehaviour
     [SerializeField] private AudioClip coinCollectSound;
     [SerializeField] private float volume = 1.0f;
     [SerializeField] private float pitchVariation = 0.1f;
-    [SerializeField] private Transform collectionBarImage; // Assign in Inspector
-    [SerializeField] private float scaleUpAmount = 1.5f; // How much it grows
-    [SerializeField] private float rotationAmount = 60f; // Rotation in degrees
-    [SerializeField] private float animationDuration = 0.4f; // Duration of effect
+    [SerializeField] private Transform collectionBarTransform; 
+    [SerializeField] private Image collectionBarImage; 
+    public Sprite defaultSprite; 
+    public Sprite collectedSprite;
+    [SerializeField] private float scaleUpAmount = 3f; 
+    [SerializeField] private float rotationAmount = 60f; 
+    [SerializeField] private float animationDuration = 0.4f;
 
     private Animator anim;
     private bool isCollected = false;
@@ -52,14 +56,15 @@ public class Coin : MonoBehaviour
 
     private IEnumerator AnimateCollectionEffect()
     {
-        if (collectionBarImage == null)
+        if (collectionBarTransform == null)
         {
             Debug.LogWarning("Collection Bar Image is not assigned!");
             yield break;
         }
+        collectionBarImage.sprite = collectedSprite;
 
-        Vector3 originalScale = collectionBarImage.localScale;
-        Quaternion originalRotation = collectionBarImage.rotation;
+        Vector3 originalScale = collectionBarTransform.localScale;
+        Quaternion originalRotation = collectionBarTransform.rotation;
 
         Vector3 targetScale = originalScale * scaleUpAmount;
         Quaternion targetRotation = Quaternion.Euler(0, 0, rotationAmount);
@@ -70,8 +75,8 @@ public class Coin : MonoBehaviour
         while (elapsedTime < animationDuration)
         {
             float t = elapsedTime / animationDuration;
-            collectionBarImage.localScale = Vector3.Lerp(originalScale, targetScale, t);
-            collectionBarImage.rotation = Quaternion.Lerp(originalRotation, targetRotation, t);
+            collectionBarTransform.localScale = Vector3.Lerp(originalScale, targetScale, t);
+            collectionBarTransform.rotation = Quaternion.Lerp(originalRotation, targetRotation, t);
             elapsedTime += Time.deltaTime;
             yield return null;
         }
@@ -81,14 +86,15 @@ public class Coin : MonoBehaviour
         while (elapsedTime < animationDuration)
         {
             float t = elapsedTime / animationDuration;
-            collectionBarImage.localScale = Vector3.Lerp(targetScale, originalScale, t);
-            collectionBarImage.rotation = Quaternion.Lerp(targetRotation, originalRotation, t);
+            collectionBarTransform.localScale = Vector3.Lerp(targetScale, originalScale, t);
+            collectionBarTransform.rotation = Quaternion.Lerp(targetRotation, originalRotation, t);
             elapsedTime += Time.deltaTime;
             yield return null;
         }
 
-        collectionBarImage.localScale = originalScale;
-        collectionBarImage.rotation = originalRotation;
+        collectionBarTransform.localScale = originalScale;
+        collectionBarTransform.rotation = originalRotation;
+        collectionBarImage.sprite = defaultSprite;
     }
 
     private void KillIt()

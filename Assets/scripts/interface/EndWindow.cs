@@ -9,6 +9,8 @@ public class EndWindow : MonoBehaviour
     public GameObject endWindow; 
     public Button restartButton;
     [SerializeField] private TextMeshProUGUI starsText; 
+    [SerializeField] private TextMeshProUGUI mobsText; 
+    public static int enemiesDefeated = 0;
 
     void Start()
     {
@@ -16,6 +18,16 @@ public class EndWindow : MonoBehaviour
         {
             starsText.text = CoinManager.Instance.totalCoins.ToString();
         }
+        if (mobsText != null)
+        {
+            mobsText.text = enemiesDefeated.ToString();
+        }
+    }
+
+    public static void IncreaseEnemyCount()
+    {
+        enemiesDefeated++;
+        Debug.Log("Enemies Defeated: " + enemiesDefeated);
     }
 
     public void ShowEndWindow()

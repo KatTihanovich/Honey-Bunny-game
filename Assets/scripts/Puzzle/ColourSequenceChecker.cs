@@ -1,28 +1,23 @@
 using UnityEngine;
-using System.Collections;
 using System.Collections.Generic;
 
 public class SequenceChecker : MonoBehaviour
 {
-    [SerializeField] private List<string> correctSequence = new List<string>(); // Correct interaction sequence
-    private List<string> playerSequence = new List<string>(); // Player's interaction sequence
+    [SerializeField] private List<string> correctSequence = new List<string>(); 
+    [SerializeField] private GameObject objectToHide; 
+    [SerializeField] private List<InteractionZone> interactableZones = new List<InteractionZone>(); 
 
-    [SerializeField] private GameObject objectToHide; // Object to hide upon correct sequence
-
-    [SerializeField] private float colorChangeDuration = 0.5f; // Duration for color feedback
-    [SerializeField] private List<GameObject> interactableObjects = new List<GameObject>(); // Objects to change color
-
-    // Method to check the interaction sequence
-    public void CheckSequence()
+    public bool CheckSequence()
     {
-        // Get the current sequence from InteractionZone
-        playerSequence = InteractionZone.GetInteractionSequence();
+        List<string> playerSequence = InteractionZone.GetInteractionSequence();
 
-        // Check if the sequence length is less than the correct sequence
+        // 🚀 Вывод последовательности в консоль
+        Debug.Log("Current Player Sequence: " + string.Join(", ", playerSequence));
+
         if (playerSequence.Count < correctSequence.Count)
         {
-            Debug.Log("Sequence is incomplete. Keep interacting with objects.");
-            return;
+            Debug.Log("Sequence is incomplete. Keep interacting.");
+            return false;
         }
 
         bool isCorrect = true;
@@ -35,63 +30,36 @@ public class SequenceChecker : MonoBehaviour
             }
         }
 
+        // Обратная связь для всех объектов
+        foreach (var zone in interactableZones)
+        {
+            if (isCorrect)
+                zone.TriggerWinAnimation();
+            else
+                zone.TriggerLoseAnimation();
+        }
+
         if (isCorrect)
         {
-            Debug.Log("Puzzle solved! Correct sequence entered.");
-
-            // Change objects to green for feedback
-            StartCoroutine(ChangeObjectsColor(Color.green));
-
-            // Hide the object if assigned
+            Debug.Log("Puzzle solved!");
             if (objectToHide != null)
-            {
-                objectToHide.gameObject.SetActive(false);
-                Debug.Log("Object is now invisible and intangible.");
-            }
+                objectToHide.SetActive(false);
             else
-            {
                 Debug.LogWarning("No object assigned to hide.");
-            }
         }
         else
         {
-            Debug.Log("Incorrect sequence! Resetting sequence.");
-
-            // Change objects to red for feedback
-            StartCoroutine(ChangeObjectsColor(Color.red));
-
-            // Reset the interaction sequence
+            Debug.Log("Incorrect sequence! Resetting.");
             InteractionZone.ResetInteractionSequence();
         }
+
+        return isCorrect;
     }
 
-    // Coroutine to change objects' colors temporarily
-    private IEnumerator ChangeObjectsColor(Color color)
-    {
-        List<SpriteRenderer> renderers = new List<SpriteRenderer>();
-
-        // Collect SpriteRenderers from all interactable objects
-        foreach (GameObject obj in interactableObjects)
-        {
-            if (obj.TryGetComponent(out SpriteRenderer renderer))
-            {
-                renderers.Add(renderer);
-                renderer.color = color; // Change to the specified color
-            }
-        }
-
-        // Wait for the specified duration
-        yield return new WaitForSeconds(colorChangeDuration);
-
-        // Reset objects to their original colors
-        foreach (SpriteRenderer renderer in renderers)
-        {
-            renderer.color = Color.white; // Assuming original color is white
-        }
-    }
-
+    // 📋 Новый метод для логирования последовательности в любой момент
     public void LogPlayerSequence()
     {
+        List<string> playerSequence = InteractionZone.GetInteractionSequence();
         Debug.Log("Player Sequence: " + string.Join(", ", playerSequence));
     }
 }

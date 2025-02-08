@@ -33,7 +33,7 @@ namespace Level.Stick
                 animator.SetTrigger(PickUpTrigger);
                 receiver?.SendMessage("OnStickCollected", SendMessageOptions.DontRequireReceiver);
                 PlaySound();
-                Destroy(gameObject, 2f);
+                Destroy(gameObject, coinCollectSound ? coinCollectSound.length : 2.0f);
             }
         }
         

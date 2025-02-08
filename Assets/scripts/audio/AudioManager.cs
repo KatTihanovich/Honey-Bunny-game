@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.Audio;
+using UnityEngine.SceneManagement;
 
 public class AudioManager : MonoBehaviour
 {
@@ -9,53 +10,64 @@ public class AudioManager : MonoBehaviour
     [SerializeField] AudioSource UISource;
 
     [Header("Audio Clips")]
-    [SerializeField] AudioClip background;
-    [SerializeField] public AudioClip death;
-    [SerializeField] public AudioClip checkpoint;
-    [SerializeField] public AudioClip ui;
-    [SerializeField] public AudioClip nipperAttack;
-    [SerializeField] public AudioClip nickerAttack;
-    [SerializeField] public AudioClip playerAttack;
-    [SerializeField] public AudioClip jump;
-    [SerializeField] public AudioClip destroyPlatform;
-    [SerializeField] public AudioClip damage;
+    [SerializeField] private AudioClip[] backgroundMusic;
 
-      [Header("Volume Settings")]
+    [Header("Volume Settings")]
     public SoundManager soundManager;
 
-    public static AudioManager instance; 
+    public static AudioManager instance;
 
-    private void Awake(){
+    private void Awake()
+    {
         if (instance == null)
         {
             instance = this;
             DontDestroyOnLoad(gameObject);
-        } else
+            SceneManager.sceneLoaded += OnSceneLoaded; 
+        }
+        else
         {
             Destroy(gameObject);
         }
     }
-    private void Start(){
-        if (PlayerPrefs.HasKey("musicVolume")){
+
+    private void Start()
+    {
+        if (PlayerPrefs.HasKey("musicVolume"))
+        {
             soundManager.LoadValue();
         }
-        MusicSource.clip = background;
-        MusicSource.Play();
+        PlayBackgroundMusic(SceneManager.GetActiveScene().buildIndex);
     }
 
-    public void PlaySFX(AudioClip clip){
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        PlayBackgroundMusic(scene.buildIndex);
+    }
+
+    private void PlayBackgroundMusic(int sceneIndex)
+    {
+        AudioClip newClip = backgroundMusic[sceneIndex];
+
+        if (MusicSource.clip != newClip) 
+        {
+            MusicSource.clip = newClip;
+            MusicSource.Play();
+        }
+    }
+
+    public void PlaySFX(AudioClip clip)
+    {
         FXSource.PlayOneShot(clip);
     }
 
-    public void PlayUI(){
-        UISource.PlayOneShot(ui);
+    public void PlayUI(AudioClip clip)
+    {
+        UISource.PlayOneShot(clip);
     }
 
-    public void SoundControl(){
-        if(AudioListener.pause == true){
-            AudioListener.pause = false;
-        } else {
-            AudioListener.pause = true;
-        }
+    public void SoundControl()
+    {
+        AudioListener.pause = !AudioListener.pause;
     }
 }

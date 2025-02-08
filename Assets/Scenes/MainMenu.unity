@@ -474,7 +474,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -8.415283, y: 72.21301}
+  m_AnchoredPosition: {x: -8.415161, y: 72.21301}
   m_SizeDelta: {x: -1410.4423, y: -144.43}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &518947661
@@ -1153,16 +1153,10 @@ MonoBehaviour:
   MusicSource: {fileID: 999337778}
   FXSource: {fileID: 1503699212}
   UISource: {fileID: 1465571201}
-  background: {fileID: 8300000, guid: 9ba36f052db1645f18d64a1eee4f165e, type: 3}
-  death: {fileID: 8300000, guid: 445d8d19e96404590baa31d276c497e3, type: 3}
-  checkpoint: {fileID: 0}
-  ui: {fileID: 8300000, guid: aa58915660e35418a94128a8d717c0d3, type: 3}
-  nipperAttack: {fileID: 0}
-  nickerAttack: {fileID: 0}
-  playerAttack: {fileID: 8300000, guid: adea45e66850042909274afe7d7927c0, type: 3}
-  jump: {fileID: 8300000, guid: 51f0c54706b53c14c9c24bbd63bb18a6, type: 3}
-  destroyPlatform: {fileID: 8300000, guid: e41eb8542d82e45b3ba121be25f67ce4, type: 3}
-  damage: {fileID: 0}
+  backgroundMusic:
+  - {fileID: 8300000, guid: 9ba36f052db1645f18d64a1eee4f165e, type: 3}
+  - {fileID: 8300000, guid: db5edba94d9f04f7b9c51d1dff494ef2, type: 3}
+  - {fileID: 8300000, guid: 9ba36f052db1645f18d64a1eee4f165e, type: 3}
   soundManager: {fileID: 2049130072}
 --- !u!4 &1013906774
 Transform:
@@ -1801,7 +1795,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 3286163911610860551, guid: 54945c2714d4445dc8c7487e60fbd9c2, type: 3}
+  m_Sprite: {fileID: 8219197297540800566, guid: 4eb07302bd3994f08bef6b268237c812, type: 3}
   m_Type: 0
   m_PreserveAspect: 1
   m_FillCenter: 1
@@ -1832,8 +1826,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   button: {fileID: 1268194394}
-  defaultSprite: {fileID: 5933999548748652254, guid: 0e676c3ea63f84f368c334d4bb94e6b6, type: 3}
-  clickedSprite: {fileID: 6103571190283479199, guid: 53075c6808e93481c9bea9eb06cfbc59, type: 3}
+  defaultSprite: {fileID: 8219197297540800566, guid: 4eb07302bd3994f08bef6b268237c812, type: 3}
+  clickedSprite: {fileID: 4538569975176304391, guid: b80913e3bac3344ad844405f533a1813, type: 3}
   scaleFactor: 1.9
 --- !u!1 &1320762935
 GameObject:

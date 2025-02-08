@@ -13,7 +13,7 @@ namespace Enemy
             if (other.CompareTag("Player"))
             {
                 playerInside = true;
-                // Debug.Log("Игрок вошел в триггер!");
+                Debug.Log("Игрок вошел в триггер!");
             }
         }
 
@@ -21,7 +21,7 @@ namespace Enemy
         {
             if (other.CompareTag("Player"))
             {
-                // Debug.Log("Игрок вышел из триггера!");
+                Debug.Log("Игрок вышел из триггера!");
                 playerInside = false;
             }
         }

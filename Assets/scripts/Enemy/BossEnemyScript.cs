@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Enemy
@@ -19,16 +20,22 @@ namespace Enemy
         public GameObject attackArea;
         public float damage = 1f;
 
+        private Coroutine attackCoroutine;
+        private int attackCount;
+
         private Health health;
 
         private GameObject player;
         private Health playerHealth;
 
-        // TODO: Use Find by tag instead of export! 
+
         [Header("Boss portal")] public GameObject portal;
         private Animator portalAnimator;
-        
+
         private bool isAlive = true;
+        
+        [Header("Tails objects")] 
+        public List<GameObject> tails;
 
         private void Start()
         {
@@ -60,7 +67,7 @@ namespace Enemy
             {
                 health.OnHealthChanged += HandleHealthChanged; // Подпишемся на событие изменения здоровья
             }
-            
+
             initialScale = transform.localScale;
             StartCoroutine(AttackChainCoroutine());
         }
@@ -75,7 +82,7 @@ namespace Enemy
                 transform.localScale = new Vector3(initialScale.x * -direction, initialScale.y, initialScale.z);
             }
         }
-        
+
         private void HandleHealthChanged(float currentHealth)
         {
             Debug.Log("BOSS HP: " + currentHealth);
@@ -85,12 +92,15 @@ namespace Enemy
                 isAlive = false;
                 StartCoroutine(PortalDissapear());
             }
-            
         }
 
         private IEnumerator PortalDissapear()
         {
             portalAnimator.SetTrigger(DissapearTrigger);
+            foreach (var tail in tails)
+            {
+                tail.GetComponent<TailBossEnemyScript>().HideOrKill();
+            }
             yield return new WaitForSeconds(1f);
         }
 
@@ -98,36 +108,44 @@ namespace Enemy
         {
             while (isAlive)
             {
-                portalAnimator.SetTrigger(AppearTrigger);
-                animator.SetTrigger(AppearTrigger);
-                yield return new WaitForSeconds(0.5f);
-                if (attackArea)
+                for (var i = 0; i < 3; i++)
                 {
-                    attackArea.SetActive(true);
-                    boxCollider.enabled = true;
-                }
-
-                yield return new WaitForSeconds(delay);
-                if (isAlive)
-                {
+                    portalAnimator.SetTrigger(AppearTrigger);
+                    animator.SetTrigger(AppearTrigger);
+                    yield return new WaitForSeconds(0.5f);
                     if (attackArea)
                     {
-                        attackArea.SetActive(false);
-                        boxCollider.enabled = false;
+                        attackArea.SetActive(true);
+                        boxCollider.enabled = true;
                     }
 
-                    animator.SetTrigger(HideTrigger);
-                    yield return new WaitForSeconds(1f);
-                    portalAnimator.SetTrigger(DissapearTrigger);
-                    yield return new WaitForSeconds(1f);
-                    if (player != null)
+                    yield return new WaitForSeconds(delay);
+                    if (isAlive)
                     {
-                        transform.position = new Vector3(player.transform.position.x, transform.position.y,
-                            transform.position.z);
-                        portal.transform.position = new Vector3(player.transform.position.x, -2.11f,
-                            transform.position.z);
+                        if (attackArea)
+                        {
+                            attackArea.SetActive(false);
+                            boxCollider.enabled = false;
+                        }
+
+                        animator.SetTrigger(HideTrigger);
+                        yield return new WaitForSeconds(1f);
+                        portalAnimator.SetTrigger(DissapearTrigger);
+                        yield return new WaitForSeconds(1f);
+                        if (player != null)
+                        {
+                            transform.position = new Vector3(player.transform.position.x, transform.position.y,
+                                transform.position.z);
+                        }
                     }
                 }
+
+                Debug.Log("10 секунд на атаку по площади");
+                foreach (var tail in tails)
+                {
+                    tail.GetComponent<TailBossEnemyScript>().RespawnOrAppear();
+                }
+                yield return new WaitForSeconds(10);
             }
         }
 

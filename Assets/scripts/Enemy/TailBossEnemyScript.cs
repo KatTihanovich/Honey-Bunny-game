@@ -10,9 +10,11 @@ namespace Enemy
 
         [Header("Boss")] public GameObject tailBoss;
         private Animator animator;
-
+        private BoxCollider2D tailBossCollider2D;
+        
         [Header("Boss portal")] public GameObject tailPortal;
         private Animator portalAnimator;
+  
 
         private Health health;
 
@@ -34,7 +36,7 @@ namespace Enemy
             portalAnimator = tailPortal.GetComponent<Animator>();
 
             health = tailBoss.GetComponent<Health>();
-
+            tailBossCollider2D = tailBoss.GetComponent<BoxCollider2D>();
             if (health != null)
             {
                 health.OnHealthChanged += HandleHealthChanged;
@@ -76,11 +78,14 @@ namespace Enemy
         {
             StartCoroutine(MoveY(tailBoss, startY, targetY, duration));
             portalAnimator.SetTrigger(AppearTrigger);
+            tailBossCollider2D.enabled = true;
         }
 
         public void HideOrKill()
         {
+            StopAllCoroutines();
             portalAnimator.SetTrigger(DissapearTrigger);
+            tailBossCollider2D.enabled = false;
             StartCoroutine(MoveY(tailBoss, targetY, startY, duration));
             StartCoroutine(PortalDissapear());
         }
@@ -110,6 +115,7 @@ namespace Enemy
         private IEnumerator PortalDissapear()
         {
             portalAnimator.SetTrigger(DissapearTrigger);
+            tailBossCollider2D.enabled = false;
             yield return new WaitForSeconds(1f);
         }
 

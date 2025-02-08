@@ -27,7 +27,7 @@ namespace Enemy
 
         private GameObject player;
         private Health playerHealth;
-
+        
 
         [Header("Boss portal")] public GameObject portal;
         private Animator portalAnimator;
@@ -69,7 +69,7 @@ namespace Enemy
             }
 
             initialScale = transform.localScale;
-            StartCoroutine(AttackChainCoroutine());
+            attackCoroutine = StartCoroutine(AttackChainCoroutine());
         }
 
         private void Update()
@@ -90,6 +90,7 @@ namespace Enemy
             if (currentHealth <= 0)
             {
                 isAlive = false;
+                StopCoroutine(attackCoroutine);
                 StartCoroutine(PortalDissapear());
             }
         }

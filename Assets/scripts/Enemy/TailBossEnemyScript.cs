@@ -69,9 +69,6 @@ namespace Enemy
 
             if (currentHealth <= 0)
             {
-                print("kill 1");
-                
-                // Le спрятать нах
                 HideOrKill();
             }
         }

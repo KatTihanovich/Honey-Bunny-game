@@ -66,6 +66,9 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float attackCd = 10; // CD
     private float attackCounter = Mathf.Infinity;
 
+    // hero have a stick
+    public bool canAttack;
+    
     // will be moved later
     [Header("UI elements")] [SerializeField]
     public Image hitCooldownSprite;

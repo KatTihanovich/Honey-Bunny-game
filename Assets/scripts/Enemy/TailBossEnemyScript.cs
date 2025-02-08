@@ -69,6 +69,8 @@ namespace Enemy
 
             if (currentHealth <= 0)
             {
+                print("kill 1");
+                
                 // Le спрятать нах
                 HideOrKill();
             }
@@ -84,18 +86,14 @@ namespace Enemy
         public void HideOrKill()
         {
             StopAllCoroutines();
-            portalAnimator.SetTrigger(DissapearTrigger);
-            tailBossCollider2D.enabled = false;
-            StartCoroutine(MoveY(tailBoss, targetY, startY, duration));
             StartCoroutine(PortalDissapear());
+            StartCoroutine(MoveY(tailBoss, targetY, startY, duration));
         }
 
         private static IEnumerator MoveY(GameObject target, float fromY, float toY, float time)
         {
             if (target == null) yield break;
-
-            yield return new WaitForSeconds(1f);
-
+            
             float elapsedTime = 0f;
             Vector3 startPosition =
                 new Vector3(target.transform.localPosition.x, fromY, target.transform.localPosition.z);

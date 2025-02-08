@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 using ETouch = UnityEngine.InputSystem.EnhancedTouch;
 
@@ -84,6 +85,8 @@ public class PlayerMovement : MonoBehaviour
 
     private bool isUltimateAttack;
 
+    public bool isHavingStick;
+    
     private void Start()
     {
         SetCharacterState(PlayerState.Idle);
@@ -99,6 +102,9 @@ public class PlayerMovement : MonoBehaviour
         ETouch.EnhancedTouchSupport.Enable();
         ETouch.Touch.onFingerDown += HandleFingerDown;
         ETouch.Touch.onFingerUp += HandleLoseFinger;
+
+        attackCounter = 0f;
+        hitButton.interactable = false;
     }
 
     private void Awake()
@@ -115,7 +121,11 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
-        attackCounter += Time.deltaTime;
+        if (isHavingStick)
+        {
+            attackCounter += Time.deltaTime;
+        }
+        
         if (isGrounded && !isJumping && !isFalling)
         {
             coyoteCounter = coyoteTime;
@@ -317,7 +327,7 @@ public class PlayerMovement : MonoBehaviour
                 Health entityHealth = hit.GetComponent<Health>();
                 if (entityHealth)
                 {
-                    entityHealth.TakeDamage(damage * 2);
+                    entityHealth.TakeDamage(damage + damage);
                 }
             }
         }
@@ -379,5 +389,11 @@ public class PlayerMovement : MonoBehaviour
     public void RestartLevel()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+
+    public void OnStickCollected()
+    {
+        print("OnStickCollected!!!!!");
+        isHavingStick = true;
     }
 }

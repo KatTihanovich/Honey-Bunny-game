@@ -100,6 +100,7 @@ namespace Enemy
             portalAnimator.SetTrigger(DissapearTrigger);
             foreach (var tail in tails)
             {
+                print("kill 2");
                 tail.GetComponent<TailBossEnemyScript>().HideOrKill();
             }
             yield return new WaitForSeconds(1f);

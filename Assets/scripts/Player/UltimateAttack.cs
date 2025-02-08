@@ -14,8 +14,8 @@ namespace Player
         {
             animator.SetInteger(Attack, Random.Range(0, 2));
         }
-
-        public override void OnStateMachineExit(Animator animator, int stateMachinePathHash, AnimatorControllerPlayable controller)
+        
+        public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex, AnimatorControllerPlayable controller)
         {
             PlayerMovement playerMovement = animator.GetComponent<PlayerMovement>();
             if (playerMovement != null)

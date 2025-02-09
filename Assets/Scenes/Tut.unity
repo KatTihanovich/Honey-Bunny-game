@@ -10314,10 +10314,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ba358a56edeccd419f507701fabe959, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  coinSlider: {fileID: 958927055}
   coinText: {fileID: 96230247}
   maxCoins: 7
   totalCoins: 0
+  enableRedWarning: 0
+  normalColor: {r: 1, g: 1, b: 1, a: 1}
+  lowCoinColor: {r: 1, g: 0, b: 0, a: 1}
 --- !u!1 &961767406
 GameObject:
   m_ObjectHideFlags: 0
@@ -16725,7 +16727,13 @@ MonoBehaviour:
   - PuzzleMushroom3
   - PuzzleMushroom2
   objectToHide: {fileID: 0}
+  objectAnimator: {fileID: 0}
+  animationTrigger: Open
   interactableZones: []
+  audioMixerGroup: {fileID: 0}
+  winSound: {fileID: 0}
+  loseSound: {fileID: 0}
+  volume: 1
 --- !u!4 &1582428106
 Transform:
   m_ObjectHideFlags: 0

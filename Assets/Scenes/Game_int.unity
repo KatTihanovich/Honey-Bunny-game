@@ -1177,6 +1177,9 @@ MonoBehaviour:
   - {fileID: 825768861}
   - {fileID: 2137695031}
   - {fileID: 1444165437}
+  audioGroup: {fileID: -1040233043583867831, guid: b7aad94fe0c3c4ba4a14d95707c80208, type: 2}
+  winClip: {fileID: 8300000, guid: 7db8c7c6e93c14215903d3e9885bba6f, type: 3}
+  loseClip: {fileID: 8300000, guid: 5611fb84125e04ca58f961cf5b773227, type: 3}
 --- !u!1 &39862687
 GameObject:
   m_ObjectHideFlags: 0
@@ -3486,8 +3489,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sequenceChecker: {fileID: 38732035}
   correctSequence: 
-  interactionSound: {fileID: 0}
-  audioMixerGroup: {fileID: 0}
+  interactionSound: {fileID: 8300000, guid: 02fbc4134ece84bc1a5e4938264f9012, type: 3}
+  audioMixerGroup: {fileID: -1040233043583867831, guid: b7aad94fe0c3c4ba4a14d95707c80208, type: 2}
   volume: 1
 --- !u!61 &162363584
 BoxCollider2D:
@@ -15808,8 +15811,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sequenceChecker: {fileID: 38732035}
   correctSequence: 
-  interactionSound: {fileID: 0}
-  audioMixerGroup: {fileID: 0}
+  interactionSound: {fileID: 8300000, guid: 57aea9ec3583c450f9cce16764ed85b5, type: 3}
+  audioMixerGroup: {fileID: -1040233043583867831, guid: b7aad94fe0c3c4ba4a14d95707c80208, type: 2}
   volume: 1
 --- !u!1 &836407677
 GameObject:
@@ -18616,6 +18619,7 @@ GameObject:
   - component: {fileID: 1030591058}
   - component: {fileID: 1030591057}
   - component: {fileID: 1030591056}
+  - component: {fileID: 1030591060}
   m_Layer: 0
   m_Name: Flower_A
   m_TagString: Untagged
@@ -18752,6 +18756,20 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1030591054}
   m_Mesh: {fileID: 0}
+--- !u!114 &1030591060
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1030591054}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cb6daae65bd6c40818f346c6e4d75a20, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  otherFlowerMelody: {fileID: 8300000, guid: 312456049dbd64a328d5879403888997, type: 3}
+  otherFlowerAudioGroup: {fileID: -1040233043583867831, guid: b7aad94fe0c3c4ba4a14d95707c80208, type: 2}
 --- !u!1 &1031733733
 GameObject:
   m_ObjectHideFlags: 0
@@ -27665,8 +27683,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sequenceChecker: {fileID: 38732035}
   correctSequence: 
-  interactionSound: {fileID: 0}
-  audioMixerGroup: {fileID: 0}
+  interactionSound: {fileID: 8300000, guid: b6af5b1dd5e264462a32f98213151956, type: 3}
+  audioMixerGroup: {fileID: -1040233043583867831, guid: b7aad94fe0c3c4ba4a14d95707c80208, type: 2}
   volume: 1
 --- !u!1001 &1444281522
 PrefabInstance:
@@ -39337,8 +39355,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sequenceChecker: {fileID: 38732035}
   correctSequence: 
-  interactionSound: {fileID: 0}
-  audioMixerGroup: {fileID: 0}
+  interactionSound: {fileID: 8300000, guid: 17758c010953f4f71aa4f88cf6dbc12f, type: 3}
+  audioMixerGroup: {fileID: -1040233043583867831, guid: b7aad94fe0c3c4ba4a14d95707c80208, type: 2}
   volume: 1
 --- !u!61 &2137695032
 BoxCollider2D:

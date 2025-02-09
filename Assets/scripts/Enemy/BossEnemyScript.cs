@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Audio;
 
 namespace Enemy
 {
@@ -33,6 +34,10 @@ namespace Enemy
         private Animator portalAnimator;
 
         private bool isAlive = true;
+
+        [SerializeField] private AudioMixerGroup audioMixerGroup; 
+        public AudioClip portalSound;
+        [SerializeField] private float volume = 1.0f;
         
         [Header("Tails objects")] 
         public List<GameObject> tails;
@@ -100,6 +105,7 @@ namespace Enemy
             portalAnimator.SetTrigger(DissapearTrigger);
             foreach (var tail in tails)
             {
+                Play(portalSound);
                 tail.GetComponent<TailBossEnemyScript>().HideOrKill();
             }
             yield return new WaitForSeconds(1f);
@@ -111,6 +117,7 @@ namespace Enemy
             {
                 for (var i = 0; i < 3; i++)
                 {
+                    Play(portalSound);
                     portalAnimator.SetTrigger(AppearTrigger);
                     animator.SetTrigger(AppearTrigger);
                     yield return new WaitForSeconds(0.5f);
@@ -129,6 +136,7 @@ namespace Enemy
                             boxCollider.enabled = false;
                         }
 
+                        Play(portalSound);
                         animator.SetTrigger(HideTrigger);
                         yield return new WaitForSeconds(1f);
                         portalAnimator.SetTrigger(DissapearTrigger);
@@ -175,5 +183,19 @@ namespace Enemy
                 Debug.LogError("Player heath is null!");
             }
         }
+        private void Play(AudioClip clip) {
+            if (clip != null && audioMixerGroup != null) {
+                GameObject tempAudio = new GameObject("TempAudioClip");
+                AudioSource audioSource = tempAudio.AddComponent<AudioSource>();
+
+                audioSource.outputAudioMixerGroup = audioMixerGroup;
+                audioSource.clip = clip;
+                audioSource.volume = volume;
+                audioSource.Play();
+
+                Destroy(tempAudio, clip.length);
+            }
+        }
     }
+
 }

@@ -1,54 +1,77 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.Audio;
 
 public class InteractionZone : MonoBehaviour
 {
     private bool playerInZone = false;
-
     private static List<string> interactionSequence = new List<string>();
 
     [SerializeField] private SequenceChecker sequenceChecker;
-    [SerializeField] private List<int> correctSequence; // Assuming correctSequence is a list of integers
-
-    private Vector3 originalScale;
+    [SerializeField] private List<int> correctSequence;
 
     private Animator anim;
 
+    // 🎵 Sound variables
+    [SerializeField] private AudioClip interactionSound;
+    [SerializeField] private AudioMixerGroup audioMixerGroup; 
+    [SerializeField] private float volume = 1.0f;
+
     private void Start()
     {
-        originalScale = transform.localScale; // Store the original scale of the object
         anim = GetComponent<Animator>();
     }
 
     public void Interact()
-{
-    if (playerInZone)
     {
-        Debug.Log($"{gameObject.name} interacted with the player!");
-
-        // Добавляем в последовательность
-        interactionSequence.Add(gameObject.name);
-        Debug.Log("Interaction Sequence: " + string.Join(", ", interactionSequence));
-
-        // Запускаем анимацию взаимодействия
-        anim.SetTrigger("Klick");
-
-        // Проверяем последовательность
-        if (interactionSequence.Count >= 5)
+        if (playerInZone)
         {
-            if (sequenceChecker != null)
+            Debug.Log($"{gameObject.name} interacted with the player!");
+
+            // Add to sequence
+            interactionSequence.Add(gameObject.name);
+            Debug.Log("Interaction Sequence: " + string.Join(", ", interactionSequence));
+
+            // Play animation
+            anim.SetTrigger("Klick");
+
+            // 🎵 Play sound
+            PlayInteractionSound();
+
+            // Check sequence
+            if (interactionSequence.Count >= 5)
             {
-                bool isCorrect = sequenceChecker.CheckSequence();
-            }
-            else
-            {
-                Debug.LogError("SequenceChecker is not assigned in InteractionZone!");
+                if (sequenceChecker != null)
+                {
+                    bool isCorrect = sequenceChecker.CheckSequence();
+                }
+                else
+                {
+                    Debug.LogError("SequenceChecker is not assigned in InteractionZone!");
+                }
             }
         }
     }
-}
 
+    private void PlayInteractionSound()
+    {
+        if (interactionSound != null && audioMixerGroup != null) {
+                GameObject tempAudio = new GameObject("TempAudioClip");
+                AudioSource audioSource = tempAudio.AddComponent<AudioSource>();
+
+                audioSource.outputAudioMixerGroup = audioMixerGroup;
+                audioSource.clip = interactionSound;
+                audioSource.volume = volume;
+                audioSource.Play();
+
+                Destroy(tempAudio, interactionSound.length);
+            }
+        else
+        {
+            Debug.LogWarning($"No sound assigned for {gameObject.name}");
+        }
+    }
 
     private void OnTriggerEnter2D(Collider2D other)
     {

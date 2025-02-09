@@ -113,6 +113,6 @@ public class FlowerSequenceChecker : MonoBehaviour
         Debug.Log("Puzzle sequence reset on restart.");
     
         if (objectToDeActivate != null)
-            objectToDeActivate.GetComponent<BoxCollider2D>().isTrigger = true; 
+            objectToDeActivate.GetComponent<BoxCollider2D>().isTrigger = false; 
     }
 }

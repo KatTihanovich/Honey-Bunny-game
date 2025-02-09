@@ -29,6 +29,8 @@ namespace Enemy
 
         private GameObject player;
         private Health playerHealth;
+        
+        public GameObject blackHolder;
 
         public void Start()
         {
@@ -75,6 +77,7 @@ namespace Enemy
 
         public void RespawnOrAppear()
         {
+            blackHolder.SetActive(true);
             StartCoroutine(MoveY(tailBoss, startY, targetY, duration));
             portalAnimator.SetTrigger(AppearTrigger);
             tailBossCollider2D.enabled = true;
@@ -82,6 +85,7 @@ namespace Enemy
 
         public void HideOrKill()
         {
+            blackHolder.SetActive(false);
             StopAllCoroutines();
             StartCoroutine(PortalDissapear());
             StartCoroutine(MoveY(tailBoss, targetY, startY, duration));

@@ -9,6 +9,7 @@ namespace Level
 
         public void NextLevel()
         {
+            Time.timeScale = 1f;
             SceneManager.LoadSceneAsync(nextLevelIndex);
         }
     }

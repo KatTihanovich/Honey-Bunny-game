@@ -9,11 +9,11 @@ public class CoinManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI coinText; 
 
     [Header("Coin Settings")]
-    [SerializeField] private int maxCoins = 100;
+    [SerializeField] private int maxCoins;
     public int totalCoins = 0;
 
     [Header("Color Settings")]
-    [SerializeField] private bool enableRedWarning = true; // Toggle in Inspector
+    [SerializeField] private bool enableRedWarning = true;
     [SerializeField] private Color normalColor = Color.white;
     [SerializeField] private Color lowCoinColor = Color.red;
 
@@ -61,17 +61,14 @@ public class CoinManager : MonoBehaviour
             }
             else
             {
-                coinText.color = normalColor; // Always white if warning is disabled
+                coinText.color = normalColor; 
             }
         }
     }
 
-    /// <summary>
-    /// Allows toggling the red text warning from code if needed.
-    /// </summary>
     public void SetRedWarning(bool enable)
     {
         enableRedWarning = enable;
-        CheckCoinColor(); // Refresh text color immediately
+        CheckCoinColor();
     }
 }

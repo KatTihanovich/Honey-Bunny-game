@@ -280,7 +280,7 @@ MonoBehaviour:
   audioMixerGroup: {fileID: 0}
   jumpButton: {fileID: 0}
   kickButton: {fileID: 0}
-  moveSpeed: 12
+  moveSpeed: 10
   jumpBufferTime: 0.1
   coyoteTime: 0.4
   jumpHeight: 17
@@ -300,8 +300,10 @@ MonoBehaviour:
   rangeY: 13.08
   damage: 1
   attackCd: 10
+  canAttack: 0
   hitCooldownSprite: {fileID: 0}
   hitButton: {fileID: 0}
+  isHavingStick: 0
 --- !u!114 &3872109104760278329
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -315,7 +317,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   startingHealth: 10
-  restartWindow: {fileID: 0}
+  deathCanvas: {fileID: 0}
   audioMixerGroup: {fileID: 0}
   damageSound: {fileID: 0}
   volume: 1
@@ -353,7 +355,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: {fileID: 3872109104760278329}
   anim: {fileID: 7619422197877684169}
-  ultimateCooldown: {fileID: 0}
   audioMixerGroup: {fileID: 0}
   deathSound: {fileID: 0}
   volume: 1

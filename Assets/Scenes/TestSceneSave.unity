@@ -235,6 +235,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pauseMenuUI: {fileID: 15374849}
+  image: {fileID: 0}
+  defaultSprite: {fileID: 0}
 --- !u!1001 &24029585
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -544,6 +546,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   coinSlider: {fileID: 0}
+  coinText: {fileID: 0}
   maxCoins: 100
   totalCoins: 0
 --- !u!1001 &57252207
@@ -975,6 +978,7 @@ MonoBehaviour:
   button: {fileID: 88970507}
   defaultSprite: {fileID: -2747395218884212066, guid: 2e50ac317c84d450a93d5a89819816d2, type: 3}
   clickedSprite: {fileID: -1132726290569362874, guid: 48a9d3366936d4f398018714e7e09d40, type: 3}
+  scaleFactor: 1.7
 --- !u!114 &88970507
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1686,6 +1690,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pauseMenuUI: {fileID: 1021516863}
+  image: {fileID: 0}
+  defaultSprite: {fileID: 0}
 --- !u!114 &196942483
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1700,7 +1706,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   button: {fileID: 1315140457}
   image1: {fileID: 1208040086343421634, guid: 246614f5123334578b4d0faddd5cc3ee, type: 3}
+  image1_clicked: {fileID: 0}
   image2: {fileID: -2805692500329987794, guid: cd9a55a2ee1cb463db7b2c0f81ffe6c5, type: 3}
+  image2_clicked: {fileID: 0}
+  scaleFactor: 1.7
 --- !u!114 &196942484
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1778,6 +1787,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   buttonSound: {fileID: 8300000, guid: aa58915660e35418a94128a8d717c0d3, type: 3}
   volume: 1
+  audioMixerGroup: {fileID: 0}
 --- !u!1001 &221295708
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3257,6 +3267,7 @@ MonoBehaviour:
   button: {fileID: 325602153}
   defaultSprite: {fileID: 7469117703651201999, guid: d402d3d071a8f49a2ba2dc3ea779055b, type: 3}
   clickedSprite: {fileID: -8496262863844538633, guid: 4c029d9ef288e48a88a31360fd7b03a6, type: 3}
+  scaleFactor: 1.7
 --- !u!114 &325602153
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4774,7 +4785,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerHealth: {fileID: 0}
-  totalhealthBar: {fileID: 0}
   currenthealthBar: {fileID: 541631442}
 --- !u!1001 &505880870
 PrefabInstance:
@@ -5156,6 +5166,7 @@ MonoBehaviour:
   button: {fileID: 560685944}
   defaultSprite: {fileID: -3258023544316703143, guid: e167e256191da4f5fb78718697d1ef6c, type: 3}
   clickedSprite: {fileID: 8700578520148268190, guid: b29f60552c8fe451688b7ebe7246a423, type: 3}
+  scaleFactor: 1.7
 --- !u!114 &560685944
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7230,7 +7241,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   movementJoystick: {fileID: 445161878701564364}
-  moveSpeed: 12
+  moveSpeed: 10
 --- !u!1001 &705497753
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -8960,6 +8971,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   coinSlider: {fileID: 0}
+  coinText: {fileID: 0}
   maxCoins: 100
   totalCoins: 0
 --- !u!1 &962841417
@@ -12497,16 +12509,7 @@ MonoBehaviour:
   MusicSource: {fileID: 0}
   FXSource: {fileID: 0}
   UISource: {fileID: 0}
-  background: {fileID: 0}
-  death: {fileID: 0}
-  checkpoint: {fileID: 0}
-  ui: {fileID: 0}
-  nipperAttack: {fileID: 0}
-  nickerAttack: {fileID: 0}
-  playerAttack: {fileID: 0}
-  jump: {fileID: 0}
-  destroyPlatform: {fileID: 0}
-  damage: {fileID: 0}
+  backgroundMusic: []
   soundManager: {fileID: 0}
 --- !u!114 &1315140457
 MonoBehaviour:
@@ -14788,6 +14791,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pauseMenuUI: {fileID: 1535314078}
+  image: {fileID: 0}
+  defaultSprite: {fileID: 0}
 --- !u!114 &1535314082
 MonoBehaviour:
   m_ObjectHideFlags: 0

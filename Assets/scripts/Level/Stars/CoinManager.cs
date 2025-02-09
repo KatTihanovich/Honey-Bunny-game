@@ -1,15 +1,21 @@
 using UnityEngine;
-using UnityEngine.UI;
-using TMPro;  // Include TextMeshPro namespace
+using TMPro;  // For TextMeshPro
 
 public class CoinManager : MonoBehaviour
 {
     public static CoinManager Instance { get; private set; }
-    [SerializeField] private Slider coinSlider;
-    [SerializeField] private TextMeshProUGUI coinText;  // Change to TextMeshProUGUI
-    [SerializeField] private int maxCoins = 100;
 
+    [Header("UI Elements")]
+    [SerializeField] private TextMeshProUGUI coinText; 
+
+    [Header("Coin Settings")]
+    [SerializeField] private int maxCoins = 100;
     public int totalCoins = 0;
+
+    [Header("Color Settings")]
+    [SerializeField] private bool enableRedWarning = true; // Toggle in Inspector
+    [SerializeField] private Color normalColor = Color.white;
+    [SerializeField] private Color lowCoinColor = Color.red;
 
     private void Awake()
     {
@@ -25,34 +31,47 @@ public class CoinManager : MonoBehaviour
 
     private void Start()
     {
-        if (coinSlider != null)
-        {
-            coinSlider.maxValue = maxCoins;
-            coinSlider.value = totalCoins;
-        }
-        UpdateCoinText(); // Ensure the text starts correctly
+        UpdateCoinText();
     }
 
     public void AddCoins(int amount)
     {
         totalCoins += amount;
-        UpdateSlider();
-        UpdateCoinText(); // Update the coin text when coins are added
-    }
-
-    private void UpdateSlider()
-    {
-        if (coinSlider != null)
-        {
-            coinSlider.value = totalCoins;
-        }
+        UpdateCoinText();
     }
 
     private void UpdateCoinText()
     {
         if (coinText != null)
         {
-            coinText.text = $"{totalCoins}/{maxCoins}"; // Display in format "currentCoins/maxCoins"
+            coinText.text = $"{totalCoins}/{maxCoins}";
+            CheckCoinColor();
         }
+    }
+
+    private void CheckCoinColor()
+    {
+        if (coinText != null)
+        {
+            float percentage = (float)totalCoins / maxCoins;
+            
+            if (enableRedWarning)
+            {
+                coinText.color = (percentage < 0.8f) ? lowCoinColor : normalColor;
+            }
+            else
+            {
+                coinText.color = normalColor; // Always white if warning is disabled
+            }
+        }
+    }
+
+    /// <summary>
+    /// Allows toggling the red text warning from code if needed.
+    /// </summary>
+    public void SetRedWarning(bool enable)
+    {
+        enableRedWarning = enable;
+        CheckCoinColor(); // Refresh text color immediately
     }
 }

@@ -8,6 +8,8 @@ namespace Enemy
         public GameObject hpBarFilled;
         public Health health;
         
+        public float maxHP = 5f;
+        
         private Image hpBarFill;
         
         void Start()
@@ -24,7 +26,7 @@ namespace Enemy
         {
             if (currentHealth > 0)
             {
-                hpBarFill.fillAmount = currentHealth / 5f;
+                hpBarFill.fillAmount = currentHealth / maxHP;
             }
             else
             {

@@ -9258,9 +9258,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 261875820}
-        m_TargetAssemblyTypeName: UIButtonSound, Assembly-CSharp
-        m_MethodName: PlayClickSound
+      - m_Target: {fileID: 469634878}
+        m_TargetAssemblyTypeName: Level.LevelLoader, Assembly-CSharp
+        m_MethodName: NextLevel
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -9270,9 +9270,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 469634878}
-        m_TargetAssemblyTypeName: Level.LevelLoader, Assembly-CSharp
-        m_MethodName: NextLevel
+      - m_Target: {fileID: 261875820}
+        m_TargetAssemblyTypeName: UIButtonSound, Assembly-CSharp
+        m_MethodName: PlayClickSound
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -13935,7 +13935,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   movementJoystick: {fileID: 445161878701564364}
-  moveSpeed: 12
+  moveSpeed: 10
 --- !u!114 &704355364 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3872109104760278329, guid: a100ad444e68d0d4fba49254084dc7e7, type: 3}
@@ -30783,6 +30783,10 @@ PrefabInstance:
       propertyPath: audioMixerGroup
       value: 
       objectReference: {fileID: -1040233043583867831, guid: b7aad94fe0c3c4ba4a14d95707c80208, type: 2}
+    - target: {fileID: 4654799500142453331, guid: a100ad444e68d0d4fba49254084dc7e7, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5606989402840032183, guid: a100ad444e68d0d4fba49254084dc7e7, type: 3}
       propertyPath: m_LocalPosition.y
       value: -0.12
@@ -30855,6 +30859,10 @@ PrefabInstance:
       propertyPath: kickSound
       value: 
       objectReference: {fileID: 8300000, guid: 8b9b2d5520bf642bcb039b5b23348a0d, type: 3}
+    - target: {fileID: 9092091134410398152, guid: a100ad444e68d0d4fba49254084dc7e7, type: 3}
+      propertyPath: moveSpeed
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 9092091134410398152, guid: a100ad444e68d0d4fba49254084dc7e7, type: 3}
       propertyPath: jumpButton
       value: 
@@ -34216,7 +34224,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: -6974072543812244248, guid: 147790ea5e6bcf348b08eacee7224940, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 1
@@ -38175,6 +38183,10 @@ PrefabInstance:
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 1221417109160316417, guid: 551d51021954dfb46a69a225c055d409, type: 3}
+    - target: {fileID: 7093217611828102834, guid: 750409d06875dad40bce93986bba4c5a, type: 3}
+      propertyPath: m_SortingOrder
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8313598985778881884, guid: 750409d06875dad40bce93986bba4c5a, type: 3}
       propertyPath: m_Size.x
       value: 3.2

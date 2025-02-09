@@ -5,13 +5,16 @@ public class SequenceChecker : MonoBehaviour
 {
     [SerializeField] private List<string> correctSequence = new List<string>(); 
     [SerializeField] private GameObject objectToHide; 
+    [SerializeField] private Animator objectAnimator; 
+    [SerializeField] private string animationTrigger = "Open";
     [SerializeField] private List<InteractionZone> interactableZones = new List<InteractionZone>(); 
+    private float animationDuration = 2f; // Установите длительность анимации вручную или получайте из аниматора
 
     private void OnEnable()
     {
         ResetPuzzle(); 
     }
-    public bool CheckSequence()
+    public bool CheckSequence(InteractionZone triggeringObject)
     {
         List<string> playerSequence = InteractionZone.GetInteractionSequence();
 
@@ -46,9 +49,11 @@ public class SequenceChecker : MonoBehaviour
         if (isCorrect)
         {
             Debug.Log("Puzzle solved!");
-            if (objectToHide != null)
-                objectToHide.SetActive(false);
-            else
+            if (objectAnimator != null)
+            {
+                objectAnimator.SetTrigger("Open");
+                Invoke(nameof(HideObject), animationDuration); // Скрытие объекта после анимации
+            }else
                 Debug.LogWarning("No object assigned to hide.");
         }
         else
@@ -60,7 +65,12 @@ public class SequenceChecker : MonoBehaviour
         return isCorrect;
     }
 
-    // 📋 Новый метод для логирования последовательности в любой момент
+private void HideObject()
+    {
+        if (objectToHide != null)
+            objectToHide.SetActive(false);
+    }
+
     public void LogPlayerSequence()
     {
         List<string> playerSequence = InteractionZone.GetInteractionSequence();

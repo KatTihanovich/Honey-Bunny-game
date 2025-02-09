@@ -1,0 +1,275 @@
+{
+"skeleton": {
+	"hash": "wT2lCjVcLlBygwZOrKgec5CHuEo",
+	"spine": "3.8",
+	"x": -158,
+	"y": -414,
+	"width": 317,
+	"height": 413.79,
+	"images": "",
+	"audio": "D:/СЕССИЯ/Зима 2025/Honey&Bunny game/Anims/Music Flower B Anim"
+},
+"bones": [
+	{ "name": "root" },
+	{ "name": "Thread2", "parent": "root", "length": 96.6, "rotation": -89.59, "x": -1.27, "y": -2.69 },
+	{ "name": "Thread3", "parent": "Thread2", "length": 96.6, "x": 96.6 },
+	{ "name": "Flower2", "parent": "Thread3", "length": 118.7, "rotation": -1.52, "x": 97.99, "y": 1.37 },
+	{ "name": "Eye_white2", "parent": "Flower2", "x": 59.42, "y": 3.49 },
+	{ "name": "Eye_pupil2", "parent": "Eye_white2", "x": -0.05, "y": -6.44 }
+],
+"slots": [
+	{ "name": "Thread2", "bone": "Thread2", "attachment": "Thread2" },
+	{ "name": "Flower2", "bone": "Flower2", "attachment": "Flower2" },
+	{ "name": "Eye_white2", "bone": "Eye_white2", "attachment": "Eye_white2" },
+	{ "name": "Eye_pupil2", "bone": "Eye_pupil2", "attachment": "Eye_pupil2" },
+	{ "name": "Eye_closed", "bone": "Eye_white2", "attachment": "Eye_closed" }
+],
+"skins": [
+	{
+		"name": "default",
+		"attachments": {
+			"Thread2": {
+				"Thread2": {
+					"type": "mesh",
+					"uvs": [ 0, 0.01013, 0.46007, 0.01013, 1, 0.01013, 1, 0.23916, 1, 0.46991, 1, 0.69555, 1, 0.92632, 1, 1, 0.49203, 0.99991, 0, 0.99982, 0, 0.92835, 0, 0.69841, 0, 0.46889, 0, 0.23907, 0.46006, 0.23947, 0.46006, 0.46944, 0.46006, 0.69724, 0.46006, 0.92769 ],
+					"triangles": [ 15, 4, 5, 16, 12, 15, 16, 15, 5, 16, 11, 12, 16, 5, 6, 17, 11, 16, 17, 16, 6, 10, 11, 17, 9, 10, 17, 7, 8, 17, 9, 17, 8, 7, 17, 6, 13, 0, 1, 1, 2, 3, 14, 13, 1, 3, 14, 1, 12, 13, 14, 15, 14, 3, 15, 12, 14, 4, 15, 3 ],
+					"vertices": [ 1, 1, -2.51, -4.71, 1, 1, 1, -2.47, 1.27, 1, 1, 1, -2.42, 8.29, 1, 2, 1, 47.51, 7.93, 0.8, 2, -49.1, 7.93, 0.2, 2, 1, 97.81, 7.57, 0.50049, 2, 1.21, 7.57, 0.49951, 2, 1, 147, 7.22, 0.192, 2, 50.39, 7.22, 0.808, 1, 2, 100.7, 6.86, 1, 1, 2, 116.76, 6.75, 1, 1, 2, 116.7, 0.15, 1, 1, 2, 116.63, -6.25, 1, 1, 2, 101.05, -6.14, 1, 2, 1, 147.53, -5.78, 0.136, 2, 50.92, -5.78, 0.864, 2, 1, 97.49, -5.42, 0.49963, 2, 0.89, -5.42, 0.50037, 2, 1, 47.39, -5.07, 0.8, 2, -49.21, -5.07, 0.2, 2, 1, 47.52, 0.91, 0.8, 2, -49.08, 0.91, 0.2, 2, 1, 97.65, 0.56, 0.44731, 2, 1.05, 0.56, 0.55269, 2, 1, 147.31, 0.2, 0.144, 2, 50.71, 0.2, 0.856, 1, 2, 100.95, -0.16, 1 ],
+					"hull": 14,
+					"edges": [ 4, 6, 6, 8, 8, 10, 10, 12, 12, 14, 18, 20, 20, 22, 22, 24, 24, 26, 0, 26, 0, 2, 2, 4, 2, 28, 28, 30, 30, 32, 32, 34, 14, 16, 16, 18, 34, 16 ],
+					"width": 13,
+					"height": 218
+				}
+			},
+			"Eye_closed": {
+				"Eye_closed": {
+					"type": "mesh",
+					"uvs": [ 1, 1, 0, 1, 0, 0, 1, 0 ],
+					"triangles": [ 1, 2, 3, 1, 3, 0 ],
+					"vertices": [ -2.8, 13.12, 13.28, 14.69, 16.39, -17.25, 0.3, -18.81 ],
+					"hull": 4,
+					"edges": [ 0, 2, 2, 4, 4, 6, 0, 6 ],
+					"width": 68,
+					"height": 135
+				}
+			},
+			"Flower2": {
+				"Flower2": {
+					"type": "mesh",
+					"uvs": [ 1, 1, 0, 1, 0, 0, 1, 0 ],
+					"triangles": [ 1, 2, 3, 1, 3, 0 ],
+					"vertices": [ 213.64, 161.68, 219.78, -155.26, -13.18, -159.77, -19.32, 157.17 ],
+					"hull": 4,
+					"edges": [ 0, 2, 2, 4, 4, 6, 0, 6 ],
+					"width": 317,
+					"height": 233
+				}
+			},
+			"Eye_white2": {
+				"Eye_white2": {
+					"type": "mesh",
+					"uvs": [ 1, 1, 0, 1, 0, 0, 1, 0 ],
+					"triangles": [ 1, 2, 3, 1, 3, 0 ],
+					"vertices": [ 16.02, 12.49, 16.6, -17.51, -14.4, -18.11, -14.98, 11.89 ],
+					"hull": 4,
+					"edges": [ 0, 2, 2, 4, 4, 6, 0, 6 ],
+					"width": 30,
+					"height": 31
+				}
+			},
+			"Eye_pupil2": {
+				"Eye_pupil2": {
+					"type": "mesh",
+					"uvs": [ 1, 1, 0, 1, 0, 0, 1, 0 ],
+					"triangles": [ 1, 2, 3, 1, 3, 0 ],
+					"vertices": [ 10.18, 12.81, 10.53, -5.18, -9.47, -5.57, -9.81, 12.43 ],
+					"hull": 4,
+					"edges": [ 0, 2, 2, 4, 4, 6, 0, 6 ],
+					"width": 18,
+					"height": 20
+				}
+			}
+		}
+	}
+],
+"events": {
+	"KLICK": {},
+	"LOSE": {},
+	"WIN": {}
+},
+"animations": {
+	"IDLE": {
+		"slots": {
+			"Eye_closed": {
+				"color": [
+					{ "color": "ffffff00" }
+				]
+			}
+		},
+		"bones": {
+			"Thread3": {
+				"rotate": [
+					{ "angle": -2.64, "curve": 0.364, "c2": 0.64, "c3": 0.701 },
+					{ "time": 0.3333, "angle": -2.96, "curve": 0.25, "c3": 0.75 },
+					{ "time": 3, "angle": 2.19, "curve": 0.244, "c3": 0.702, "c4": 0.8 },
+					{ "time": 5.3333, "angle": -2.64 }
+				]
+			},
+			"Flower2": {
+				"rotate": [
+					{ "angle": -2.01, "curve": 0.379, "c2": 0.6, "c3": 0.724 },
+					{ "time": 0.6667, "angle": -2.96, "curve": 0.25, "c3": 0.75 },
+					{ "time": 3.3333, "angle": 2.19, "curve": 0.242, "c3": 0.667, "c4": 0.67 },
+					{ "time": 5.3333, "angle": -2.01 }
+				]
+			},
+			"Thread2": {
+				"rotate": [
+					{ "angle": -1.23, "curve": 0.25, "c3": 0.75 },
+					{ "time": 2.6667, "angle": 1.44, "curve": 0.25, "c3": 0.75 },
+					{ "time": 5.3333, "angle": -1.23 }
+				]
+			}
+		}
+	},
+	"KLICK": {
+		"slots": {
+			"Eye_pupil2": {
+				"color": [
+					{ "color": "ffffffff" },
+					{ "time": 0.4, "color": "e3fffdff" },
+					{ "time": 0.8333, "color": "ffffffff" }
+				]
+			},
+			"Eye_closed": {
+				"color": [
+					{ "color": "ffffff00" }
+				]
+			},
+			"Flower2": {
+				"color": [
+					{ "color": "ffffffff" },
+					{ "time": 0.4, "color": "e3fffdff" },
+					{ "time": 0.8333, "color": "ffffffff" }
+				]
+			},
+			"Eye_white2": {
+				"color": [
+					{ "color": "ffffffff" },
+					{ "time": 0.4, "color": "e3fffdff" },
+					{ "time": 0.8333, "color": "ffffffff" }
+				]
+			},
+			"Thread2": {
+				"color": [
+					{ "color": "ffffffff" },
+					{ "time": 0.4, "color": "e3fffdff" },
+					{ "time": 0.8333, "color": "ffffffff" }
+				]
+			}
+		},
+		"bones": {
+			"Thread3": {
+				"rotate": [
+					{ "curve": 0.25, "c3": 0.75 },
+					{ "time": 0.1667, "angle": 4.26, "curve": 0.25, "c3": 0.75 },
+					{ "time": 0.3333, "angle": -4.08, "curve": 0.25, "c3": 0.75 },
+					{ "time": 0.5, "angle": 3.28, "curve": 0.25, "c3": 0.75 },
+					{ "time": 0.6667, "angle": -2.35, "curve": 0.25, "c3": 0.75 },
+					{ "time": 0.8333 }
+				]
+			},
+			"Flower2": {
+				"rotate": [
+					{ "angle": -0.61, "curve": 0.375, "c2": 0.62, "c3": 0.716 },
+					{ "time": 0.0667, "curve": 0.25, "c3": 0.75 },
+					{ "time": 0.2333, "angle": 4.26, "curve": 0.25, "c3": 0.75 },
+					{ "time": 0.4, "angle": -4.08, "curve": 0.25, "c3": 0.75 },
+					{ "time": 0.5667, "angle": 3.28, "curve": 0.25, "c3": 0.625, "c4": 0.5 },
+					{ "time": 0.7333, "angle": -2.35, "curve": 0.347, "c2": 0.38, "c3": 0.694, "c4": 0.76 },
+					{ "time": 0.8333, "angle": -0.61 }
+				]
+			}
+		},
+		"events": [
+			{ "name": "KLICK" }
+		]
+	},
+	"LOSE": {
+		"slots": {
+			"Eye_pupil2": {
+				"color": [
+					{ "time": 0.3, "color": "ffffffff" },
+					{ "time": 0.3333, "color": "ffffff00", "curve": "stepped" },
+					{ "time": 1.1, "color": "ffffff00" },
+					{ "time": 1.1333, "color": "ffffffff", "curve": "stepped" },
+					{ "time": 1.1667, "color": "ffffffff" }
+				]
+			},
+			"Eye_closed": {
+				"color": [
+					{ "color": "ffffff00", "curve": "stepped" },
+					{ "time": 0.3, "color": "ffffff00" },
+					{ "time": 0.3333, "color": "ffffffff", "curve": "stepped" },
+					{ "time": 1.1, "color": "ffffffff" },
+					{ "time": 1.1333, "color": "ffffff00" }
+				]
+			},
+			"Eye_white2": {
+				"color": [
+					{ "time": 0.3, "color": "ffffffff" },
+					{ "time": 0.3333, "color": "ffffff00", "curve": "stepped" },
+					{ "time": 1.1, "color": "ffffff00" },
+					{ "time": 1.1333, "color": "ffffffff" }
+				]
+			}
+		},
+		"bones": {
+			"Thread3": {
+				"translate": [
+					{ "curve": 0.25, "c3": 0.75 },
+					{ "time": 0.1667, "x": -17.37, "y": 0.12, "curve": 0, "c2": 0.24, "c3": 0.75 },
+					{ "time": 0.5 }
+				]
+			},
+			"Eye_white2": {
+				"scale": [
+					{ "curve": 0.25, "c3": 0.75 },
+					{ "time": 0.1667, "x": 1.132, "curve": 0.25, "c3": 0.75 },
+					{ "time": 0.3333 }
+				]
+			}
+		},
+		"events": [
+			{ "name": "LOSE" }
+		]
+	},
+	"WIN": {
+		"slots": {
+			"Eye_pupil2": {
+				"color": [
+					{ "color": "ffffff00" }
+				]
+			},
+			"Eye_white2": {
+				"color": [
+					{ "color": "ffffff00" }
+				]
+			}
+		},
+		"deform": {
+			"default": {
+				"Eye_closed": {
+					"Eye_closed": [
+						{
+							"vertices": [ 11.86119, -32.1324, -20.37276, -34.37743, -24.83012, 29.61662, 7.40393, 31.86186 ]
+						}
+					]
+				}
+			}
+		},
+		"events": [
+			{ "name": "WIN" }
+		]
+	}
+}
+}

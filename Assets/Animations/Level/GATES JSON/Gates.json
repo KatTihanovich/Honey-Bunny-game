@@ -1,0 +1,120 @@
+{
+"skeleton": {
+	"hash": "k6ZL6tKmiUHWffr1LQiR308F8+c",
+	"spine": "3.8",
+	"x": -1348,
+	"y": -15.55,
+	"width": 2536,
+	"height": 995.55,
+	"images": "",
+	"audio": ""
+},
+"bones": [
+	{ "name": "root" },
+	{ "name": "Teeth", "parent": "root", "x": -622.19, "y": 465.48 }
+],
+"slots": [
+	{ "name": "Body", "bone": "root", "attachment": "Body" },
+	{ "name": "Mouth2", "bone": "root", "attachment": "Mouth" },
+	{ "name": "Mouth_Mask", "bone": "root", "attachment": "Mouth2" },
+	{ "name": "Teeth", "bone": "Teeth", "attachment": "Teeth" },
+	{ "name": "Sign", "bone": "root", "attachment": "Sign" }
+],
+"skins": [
+	{
+		"name": "default",
+		"attachments": {
+			"Body": {
+				"Body": { "x": 54, "y": 487, "width": 2268, "height": 986 }
+			},
+			"Sign": {
+				"Sign": { "x": -1176.5, "y": 222.5, "width": 343, "height": 461 }
+			},
+			"Mouth_Mask": {
+				"Mouth2": {
+					"type": "clipping",
+					"end": "Teeth",
+					"vertexCount": 33,
+					"vertices": [ -942.81, -3.56, -916.33, 38.11, -892.41, 84.76, -874.7, 133.8, -855.39, 196.98, -841.48, 255.68, -820.4, 337.46, -813.4, 368.07, -798.42, 405.36, -774.13, 446.02, -753.77, 471.65, -722.25, 496.83, -688.73, 514.72, -656.84, 526.7, -615.37, 532.89, -586.5, 532.08, -547.01, 524.48, -503.45, 505.56, -465.67, 479.95, -438.87, 454.28, -416.79, 421.04, -393.43, 375.2, -375.92, 326.24, -360.63, 282.23, -338.49, 221.14, -317.89, 164.68, -299.49, 133.13, -277.78, 101.8, -252.9, 73.73, -231.15, 51.7, -205.38, 30.82, -171.66, 13.01, -130, -5.26 ],
+					"color": "ce3a3aff"
+				}
+			},
+			"Teeth": {
+				"Teeth": {
+					"type": "mesh",
+					"uvs": [ 1, 1, 0, 1, 0, 0, 1, 0 ],
+					"triangles": [ 1, 2, 3, 1, 3, 0 ],
+					"vertices": [ 250.19, -473.48, -228.81, -473.48, -228.81, 114.52, 250.19, 114.52 ],
+					"hull": 4,
+					"edges": [ 0, 2, 2, 4, 4, 6, 0, 6 ],
+					"width": 479,
+					"height": 588
+				}
+			},
+			"Mouth2": {
+				"Mouth": {
+					"type": "mesh",
+					"uvs": [ 1, 1, 0, 1, 0, 0, 1, 0 ],
+					"triangles": [ 1, 2, 3, 1, 3, 0 ],
+					"vertices": [ -128.3, -15.55, -945.83, -5.78, -943.3, 534.45, -128.3, 534.45 ],
+					"hull": 4,
+					"edges": [ 0, 2, 2, 4, 4, 6, 0, 6 ],
+					"width": 815,
+					"height": 550
+				}
+			}
+		}
+	}
+],
+"events": {
+	"OPENING": {}
+},
+"animations": {
+	"IDLE_CLOSED": {},
+	"IDLE_OPEN": {
+		"bones": {
+			"Teeth": {
+				"translate": [
+					{ "y": 333.33 }
+				]
+			}
+		}
+	},
+	"OPENING_WITHOUT_QUAKE": {
+		"bones": {
+			"Teeth": {
+				"translate": [
+					{ "time": 0.1333, "curve": 0.25, "c3": 0.75 },
+					{ "time": 1.7, "y": 333.33 }
+				]
+			}
+		}
+	},
+	"OPENING_WITH_QUAKE": {
+		"bones": {
+			"root": {
+				"translate": [
+					{},
+					{ "time": 0.0333, "x": -4.66 },
+					{ "time": 0.0667, "x": 2.33 },
+					{ "time": 0.1, "x": -6.99 },
+					{ "time": 0.1333, "x": 2.33 },
+					{ "time": 0.1667 },
+					{ "time": 0.2, "x": 6.99 },
+					{ "time": 0.2333, "x": -6.99 },
+					{ "time": 0.3 }
+				]
+			},
+			"Teeth": {
+				"translate": [
+					{ "time": 0.4333, "curve": 0.25, "c3": 0.75 },
+					{ "time": 2, "y": 333.33 }
+				]
+			}
+		},
+		"events": [
+			{ "name": "OPENING" }
+		]
+	}
+}
+}

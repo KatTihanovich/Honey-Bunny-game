@@ -44,7 +44,7 @@ public class InteractionZone : MonoBehaviour
             {
                 if (sequenceChecker != null)
                 {
-                    bool isCorrect = sequenceChecker.CheckSequence();
+                StartCoroutine(WaitForClickAndCheckSequence());
                 }
                 else
                 {
@@ -73,6 +73,15 @@ public class InteractionZone : MonoBehaviour
         }
     }
 
+private IEnumerator WaitForClickAndCheckSequence()
+    {
+        // Ожидаем 0.5 секунды (время проигрывания анимации клика)
+        yield return new WaitForSeconds(0.75f);
+
+        // Передаем ссылку на текущий объект в SequenceChecker
+        sequenceChecker.CheckSequence(this);
+    }
+    
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("Player"))
@@ -107,13 +116,17 @@ public class InteractionZone : MonoBehaviour
         Debug.Log("Interaction sequence reset.");
     }
 
-    public void TriggerWinAnimation()
-    {
-        anim.SetTrigger("Win");
-    }
+        public void TriggerWinAnimation()
+{
+    anim.ResetTrigger("Lose");
+    anim.ResetTrigger("Klick"); // Сбрасываем анимацию клика
+    anim.SetTrigger("Win");
+}
 
-    public void TriggerLoseAnimation()
-    {
-        anim.SetTrigger("Lose");
-    }
+public void TriggerLoseAnimation()
+{
+    anim.ResetTrigger("Win");
+    anim.ResetTrigger("Klick"); // Сбрасываем анимацию клика
+    anim.SetTrigger("Lose");
+}
 }

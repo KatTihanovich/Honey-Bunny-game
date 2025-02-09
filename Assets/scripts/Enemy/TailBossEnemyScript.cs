@@ -31,7 +31,8 @@ namespace Enemy
         private Health playerHealth;
         
         public GameObject blackHolder;
-
+        private MeshRenderer meshRenderer;
+        
         public void Start()
         {
             animator = tailBoss.GetComponent<Animator>();
@@ -56,6 +57,8 @@ namespace Enemy
 
             health = GetComponent<Health>();
 
+            meshRenderer = tailBoss.GetComponent<MeshRenderer>();
+            
             // Le показать нах
             StartCoroutine(MoveY(tailBoss, startY, targetY, duration));
         }
@@ -78,6 +81,7 @@ namespace Enemy
         public void RespawnOrAppear()
         {
             blackHolder.SetActive(true);
+            meshRenderer.enabled = true;
             StartCoroutine(MoveY(tailBoss, startY, targetY, duration));
             portalAnimator.SetTrigger(AppearTrigger);
             tailBossCollider2D.enabled = true;
@@ -85,7 +89,6 @@ namespace Enemy
 
         public void HideOrKill()
         {
-            blackHolder.SetActive(false);
             StopAllCoroutines();
             StartCoroutine(PortalDissapear());
             StartCoroutine(MoveY(tailBoss, targetY, startY, duration));
@@ -116,6 +119,8 @@ namespace Enemy
             portalAnimator.SetTrigger(DissapearTrigger);
             tailBossCollider2D.enabled = false;
             yield return new WaitForSeconds(1f);
+            meshRenderer.enabled = false;
+            blackHolder.SetActive(false);
         }
 
         // NOTE: Used by attack BoxCollider2D trigger!

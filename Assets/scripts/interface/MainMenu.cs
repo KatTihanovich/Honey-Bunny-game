@@ -14,11 +14,4 @@ public class MainMenu : MonoBehaviour
         Time.timeScale = 1f;
         SceneManager.LoadSceneAsync(2);
     }
-    
-    // TODO: Delete after
-    public void PlayBossLevel()
-    {
-        Time.timeScale = 1f;
-        SceneManager.LoadSceneAsync(4);
-    }
 }

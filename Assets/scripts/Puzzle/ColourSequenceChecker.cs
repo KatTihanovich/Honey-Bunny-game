@@ -7,6 +7,10 @@ public class SequenceChecker : MonoBehaviour
     [SerializeField] private GameObject objectToHide; 
     [SerializeField] private List<InteractionZone> interactableZones = new List<InteractionZone>(); 
 
+    private void OnEnable()
+    {
+        ResetPuzzle(); 
+    }
     public bool CheckSequence()
     {
         List<string> playerSequence = InteractionZone.GetInteractionSequence();
@@ -61,5 +65,14 @@ public class SequenceChecker : MonoBehaviour
     {
         List<string> playerSequence = InteractionZone.GetInteractionSequence();
         Debug.Log("Player Sequence: " + string.Join(", ", playerSequence));
+    }
+
+    public void ResetPuzzle()
+    {
+        InteractionZone.ResetInteractionSequence(); // Clears the interaction history
+        Debug.Log("Puzzle sequence reset on restart.");
+    
+        if (objectToHide != null)
+            objectToHide.SetActive(true); // Re-enable the hidden object
     }
 }

@@ -43,11 +43,18 @@ public class PlatformController : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
-        if (Vector2.Distance(transform.position, targetPos) < 0.05f)
-        {
-            NextPoint();
-        }
+    // Move the platform towards the target at each physics step (no overshoot).
+    float step = Speed * Time.fixedDeltaTime;
+    transform.position = Vector3.MoveTowards(transform.position, targetPos, step);
+
+    // Check if we arrived at or passed the target
+    if (Vector3.Distance(transform.position, targetPos) < 0.001f)
+    {
+        // Force it exactly on the waypoint
+        transform.position = targetPos;
+        NextPoint();
     }
+}
 
     void NextPoint()
     {
@@ -86,11 +93,11 @@ public class PlatformController : MonoBehaviour
             {
                 if (child.CompareTag("Player") && child.parent == transform)
                 {
-                    child.position += deltaPosition; // Двигаем игрока только если он всё ещё дочерний объект
+                    child.position += deltaPosition; // пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
                 }
             }
 
-            previousPosition = transform.position; // Обновить предыдущее положение
+            previousPosition = transform.position; // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
         }
     }
 
@@ -115,7 +122,7 @@ public class PlatformController : MonoBehaviour
         if (collision.CompareTag("Player"))
         {
             Transform playerRoot = collision.transform.root;
-            playerRoot.SetParent(null, false); // Открепляем игрока
+            playerRoot.SetParent(null, false); // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
             Debug.Log("Player detached from platform");
         }
     }

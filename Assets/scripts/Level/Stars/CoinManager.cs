@@ -1,28 +1,15 @@
 using UnityEngine;
-using TMPro;
+using UnityEngine.UI;
+using TMPro;  // Include TextMeshPro namespace
 
 public class CoinManager : MonoBehaviour
 {
     public static CoinManager Instance { get; private set; }
+    [SerializeField] private Slider coinSlider;
+    [SerializeField] private TextMeshProUGUI coinText;  // Change to TextMeshProUGUI
+    [SerializeField] private int maxCoins = 100;
 
-    [Header("UI Elements")]
-    [SerializeField] private TextMeshProUGUI coinTextWithWarning;  // UI with warning
-    [SerializeField] private TextMeshProUGUI coinTextWithoutWarning;  // UI without warning
-
-    [Header("Coin Settings")]
-    [SerializeField] private int maxCoins = 4;  // Max for main coins
-    [SerializeField] private int maxSpecialCoins = 4; // Max for special coins (Score)
-    
-    public int totalCoins = 0;   // First counter
-    private int specialCoins = 0; // Second counter (e.g., collectibles, bonuses)
-
-    [Header("Color Settings")]
-    [SerializeField] private bool enableRedWarning = true;
-    [SerializeField] private Color normalColor = Color.white;
-    [SerializeField] private Color lowCoinColor = Color.red;
-
-    private const string StarsKey = "TotalStars";  // Key for PlayerPrefs
-    private int totalStars;
+    public int totalCoins = 0;
 
     private void Awake()
     {
@@ -38,55 +25,34 @@ public class CoinManager : MonoBehaviour
 
     private void Start()
     {
-        UpdateCoinTexts();
+        if (coinSlider != null)
+        {
+            coinSlider.maxValue = maxCoins;
+            coinSlider.value = totalCoins;
+        }
+        UpdateCoinText(); // Ensure the text starts correctly
     }
 
-    /// <summary>
-    /// Adds coins to the **main counter** (with warning).
-    /// </summary>
     public void AddCoins(int amount)
     {
         totalCoins += amount;
-        totalCoins = Mathf.Clamp(totalCoins, 0, maxCoins); // Prevent overflow
-        UpdateCoinTexts();
+        UpdateSlider();
+        UpdateCoinText(); // Update the coin text when coins are added
     }
 
-    /// <summary>
-    /// Adds coins to the **special counter** (without warning).
-    /// </summary>
-    public void AddSpecialCoins(int amount)
+    private void UpdateSlider()
     {
-        specialCoins += amount;
-        specialCoins = Mathf.Clamp(specialCoins, 0, maxSpecialCoins); // Prevent overflow
-        UpdateCoinTexts();
-        PlayerPrefs.SetInt(StarsKey, totalStars);
-        PlayerPrefs.Save();
-    }
-
-    private void UpdateCoinTexts()
-    {
-        if (coinTextWithWarning != null)
+        if (coinSlider != null)
         {
-            coinTextWithWarning.text = $"{totalCoins}/{maxCoins}";
-            CheckCoinColor();
-        }
-
-        if (coinTextWithoutWarning != null)
-        {
-            coinTextWithoutWarning.text = $"{specialCoins}/{maxSpecialCoins}";
+            coinSlider.value = totalCoins;
         }
     }
-    private void LoadStars()
-    {
-        totalStars = PlayerPrefs.GetInt(StarsKey, 0);  // Default is 0
-    }
 
-    private void CheckCoinColor()
+    private void UpdateCoinText()
     {
-        if (coinTextWithWarning != null)
+        if (coinText != null)
         {
-            float percentage = (float)totalCoins / maxCoins;
-            coinTextWithWarning.color = (enableRedWarning && percentage < 0.8f) ? lowCoinColor : normalColor;
+            coinText.text = $"{totalCoins}/{maxCoins}"; // Display in format "currentCoins/maxCoins"
         }
     }
 }

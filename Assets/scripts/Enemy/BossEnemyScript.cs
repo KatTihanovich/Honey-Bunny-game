@@ -2,6 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
+using UnityEngine.Video; 
+using UnityEngine.UI;
+using UnityEngine.SceneManagement;
+
 
 namespace Enemy
 {
@@ -41,6 +45,12 @@ namespace Enemy
         
         [Header("Tails objects")] 
         public List<GameObject> tails;
+
+        [Header("Cutscene")]
+        public VideoPlayer cutsceneVideo;
+        public GameObject UICanvas;
+        public Image fadePanel; 
+        public float fadeDuration = 1.5f;
 
         private void Start()
         {
@@ -97,9 +107,69 @@ namespace Enemy
                 isAlive = false;
                 StopCoroutine(attackCoroutine);
                 StartCoroutine(PortalDissapear());
+                // Включение кат-сцены после смерти босса
+                                // Запускаем затемнение и кат-сцену
+                if (cutsceneVideo != null && fadePanel != null)
+                {
+                    StartCoroutine(PlayCutscene());
+                }
+                else
+                {
+                    Debug.LogError("VideoPlayer или fadePanel не назначены!");
+                }
             }
         }
+      
+    private IEnumerator PlayCutscene()
+{
+    // Smooth fade to black
+    float elapsedTime = 0f;
+    Color panelColor = fadePanel.color;
+    
+    while (elapsedTime < fadeDuration)
+    {
+        panelColor.a = Mathf.Lerp(0f, 1f, elapsedTime / fadeDuration);
+        fadePanel.color = panelColor;
+        elapsedTime += Time.deltaTime;
+        yield return null;
+    }
+    
+    panelColor.a = 1f;
+    fadePanel.color = panelColor;
 
+    // Enable and play video
+    if (cutsceneVideo != null)
+    {
+        cutsceneVideo.gameObject.SetActive(true);
+        cutsceneVideo.Prepare();
+        yield return new WaitUntil(() => cutsceneVideo.isPrepared);
+        
+        UICanvas.SetActive(false);
+        cutsceneVideo.Play();
+
+        // Wait for video to finish, with a timeout
+        float videoTimeout = 15f; // Set based on your video length
+        elapsedTime = 0f;
+
+        while (cutsceneVideo.isPlaying && elapsedTime < videoTimeout)
+        {
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+
+        // Stop video if still playing
+        cutsceneVideo.Stop();
+    }
+    else
+    {
+        Debug.LogError("VideoPlayer is not assigned!");
+    }
+
+    // Load the main menu
+    SceneManager.LoadScene("MainMenu"); // Replace with actual scene name or index
+}
+
+        
         private IEnumerator PortalDissapear()
         {
             portalAnimator.SetTrigger(DissapearTrigger);

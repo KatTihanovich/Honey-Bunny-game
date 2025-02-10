@@ -250,7 +250,6 @@ GameObject:
   - component: {fileID: 6811693}
   - component: {fileID: 6811696}
   - component: {fileID: 6811695}
-  - component: {fileID: 6811694}
   m_Layer: 5
   m_Name: Star
   m_TagString: Untagged
@@ -274,27 +273,9 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 12.105}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -469.77, y: -438.73}
+  m_AnchoredPosition: {x: -469.77, y: -438.73004}
   m_SizeDelta: {x: 1.3971, y: 1.3971}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &6811694
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6811692}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3ba358a56edeccd419f507701fabe959, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  coinText: {fileID: 276588493}
-  maxCoins: 9
-  totalCoins: 0
-  enableRedWarning: 1
-  normalColor: {r: 0.85490197, g: 0.7921569, b: 0, a: 1}
-  lowCoinColor: {r: 1, g: 0, b: 0, a: 1}
 --- !u!114 &6811695
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -315,7 +296,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 2247945685787279174, guid: 855eb161ba6e14bc6ba5129d3027131f, type: 3}
+  m_Sprite: {fileID: 4606157284126940538, guid: 6df9b40719b964470895519548a7610a, type: 3}
   m_Type: 0
   m_PreserveAspect: 1
   m_FillCenter: 1
@@ -7883,10 +7864,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ba358a56edeccd419f507701fabe959, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  coinText: {fileID: 540348342}
+  coinTextWithWarning: {fileID: 276588493}
+  coinTextWithoutWarning: {fileID: 540348342}
   maxCoins: 4
+  maxSpecialCoins: 4
   totalCoins: 0
-  enableRedWarning: 0
+  enableRedWarning: 1
   normalColor: {r: 1, g: 1, b: 1, a: 1}
   lowCoinColor: {r: 1, g: 0, b: 0, a: 1}
 --- !u!1 &337194475
@@ -11058,11 +11041,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6775023028694193347, guid: eacc451426d927a489819e640a61a66e, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 433.85
+      value: 433.44
       objectReference: {fileID: 0}
     - target: {fileID: 6775023028694193347, guid: eacc451426d927a489819e640a61a66e, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 3.3443
+      value: 2.97
       objectReference: {fileID: 0}
     - target: {fileID: 6775023028694193347, guid: eacc451426d927a489819e640a61a66e, type: 3}
       propertyPath: m_LocalPosition.z
@@ -11097,6 +11080,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6944135315899882319, guid: eacc451426d927a489819e640a61a66e, type: 3}
+      propertyPath: m_Color.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6944135315899882319, guid: eacc451426d927a489819e640a61a66e, type: 3}
       propertyPath: m_Color.b
       value: 0.3329477
       objectReference: {fileID: 0}
@@ -11107,6 +11094,10 @@ PrefabInstance:
     - target: {fileID: 6944135315899882319, guid: eacc451426d927a489819e640a61a66e, type: 3}
       propertyPath: m_Color.r
       value: 0.8113208
+      objectReference: {fileID: 0}
+    - target: {fileID: 6944135315899882319, guid: eacc451426d927a489819e640a61a66e, type: 3}
+      propertyPath: m_SortingOrder
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -11138,7 +11129,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9299c0091f1db4db59cf424496420ad3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  endScreen: {fileID: 0}
+  endScreen: {fileID: 1791737280}
 --- !u!1 &481601091
 GameObject:
   m_ObjectHideFlags: 0
@@ -11747,7 +11738,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 2247945685787279174, guid: 855eb161ba6e14bc6ba5129d3027131f, type: 3}
+  m_Sprite: {fileID: 4606157284126940538, guid: 6df9b40719b964470895519548a7610a, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -24339,7 +24330,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gateAnimator: {fileID: 921426060}
-  requiredStars: 7
+  requiredStars: 4
   gateCollider: {fileID: 921426061}
 --- !u!95 &921426060
 Animator:
@@ -50365,7 +50356,7 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: 9be1d9e2c827bbd49b85942847c13f90, type: 2}
     - target: {fileID: 7508433837340778834, guid: a100ad444e68d0d4fba49254084dc7e7, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -40.399994
+      value: -27.1
       objectReference: {fileID: 0}
     - target: {fileID: 7508433837340778834, guid: a100ad444e68d0d4fba49254084dc7e7, type: 3}
       propertyPath: m_LocalPosition.y

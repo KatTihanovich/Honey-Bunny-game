@@ -53,6 +53,7 @@ public class FlowerSequenceChecker : MonoBehaviour
         {
             Debug.Log("Puzzle solved!");
             PlaySound(winClip, audioGroup);
+            EndWindow.puzzlesSolved++;
 
             if (objectToDeActivate != null)
             {

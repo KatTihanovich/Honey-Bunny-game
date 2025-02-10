@@ -10,7 +10,9 @@ public class EndWindow : MonoBehaviour
     public Button restartButton;
     [SerializeField] private TextMeshProUGUI starsText; 
     [SerializeField] private TextMeshProUGUI mobsText; 
+    [SerializeField] private TextMeshProUGUI puzzlesText; 
     public static int enemiesDefeated = 0;
+    public static int puzzlesSolved = 0;
 
     void Start()
     {
@@ -21,6 +23,10 @@ public class EndWindow : MonoBehaviour
         if (mobsText != null)
         {
             mobsText.text = enemiesDefeated.ToString();
+        }
+        if (puzzlesText != null)
+        {
+            puzzlesText.text = puzzlesSolved.ToString();
         }
     }
 

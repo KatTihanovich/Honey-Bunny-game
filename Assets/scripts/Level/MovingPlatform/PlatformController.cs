@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class PlatformController : MonoBehaviour
 {
-    [SerializeField] private float Speed;
+    [SerializeField] private float Speed = 2.5f;
     [SerializeField] private float waitDuration;
     Vector3 targetPos;
     Rigidbody2D rb;
@@ -40,21 +40,19 @@ public class PlatformController : MonoBehaviour
         previousPosition = transform.position;
     }
 
-    // Update is called once per frame
     private void Update()
     {
-    // Move the platform towards the target at each physics step (no overshoot).
-    float step = Speed * Time.fixedDeltaTime;
-    transform.position = Vector3.MoveTowards(transform.position, targetPos, step);
+        if (Time.timeScale == 0) return; 
 
-    // Check if we arrived at or passed the target
-    if (Vector3.Distance(transform.position, targetPos) < 0.001f)
-    {
-        // Force it exactly on the waypoint
-        transform.position = targetPos;
-        NextPoint();
+        float step = Speed * Time.deltaTime; 
+        transform.position = Vector3.MoveTowards(transform.position, targetPos, step);
+
+        if (Vector3.Distance(transform.position, targetPos) < 0.001f)
+        {
+            transform.position = targetPos;
+            NextPoint();
+        }
     }
-}
 
     void NextPoint()
     {

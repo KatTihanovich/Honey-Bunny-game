@@ -568,9 +568,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7eadc9e0069e44f118c7efaf458e02c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mainMenuImage: {fileID: 1150012127}
-  defaultSprite: {fileID: 8698065776152020010, guid: 986ff80d8eecd40a8a72b49d3a73f3ce, type: 3}
-  bossDefeatedSprite: {fileID: 3421344079157506075, guid: 449fe32885e7b414a9113263584b831b, type: 3}
+  backgroundImage: {fileID: 1150012127}
+  normalBackground: {fileID: 8698065776152020010, guid: 986ff80d8eecd40a8a72b49d3a73f3ce, type: 3}
+  bossDefeatedBackground: {fileID: 3421344079157506075, guid: 449fe32885e7b414a9113263584b831b, type: 3}
+  bossDefeated: 0
 --- !u!114 &148015311
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1048,7 +1049,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -8.415283, y: 72.21301}
+  m_AnchoredPosition: {x: -8.415344, y: 72.21301}
   m_SizeDelta: {x: -1410.4423, y: -144.43}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &518947661
@@ -5672,6 +5673,10 @@ PrefabInstance:
     - target: {fileID: 2648081884296648691, guid: e25fa197b3726430083e48a1c76fe207, type: 3}
       propertyPath: m_Name
       value: Main Camera
+      objectReference: {fileID: 0}
+    - target: {fileID: 7502912845578735929, guid: e25fa197b3726430083e48a1c76fe207, type: 3}
+      propertyPath: bossDefeated
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

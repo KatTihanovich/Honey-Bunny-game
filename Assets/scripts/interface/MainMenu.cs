@@ -1,33 +1,79 @@
-using JetBrains.Annotations;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
+
 public class MainMenu : MonoBehaviour
 {
-    public Image mainMenuImage;
-    public Sprite defaultSprite;
-    public Sprite bossDefeatedSprite; 
+    [Header("UI Elements")]
+    [SerializeField] private Image backgroundImage;
+    
+    [Header("Backgrounds")]
+    [SerializeField] private Sprite normalBackground;
+    [SerializeField] private Sprite bossDefeatedBackground;
 
-    void Start()
+    [Header("Boss Defeat Status")]
+    [SerializeField] private bool bossDefeated = false;  // Visible in Inspector
+
+    private void Start()
     {
-        if (PlayerPrefs.GetInt("BossDefeated", 0) == 1)
-        {
-            mainMenuImage.sprite = bossDefeatedSprite;
-        }
-        else
-        {
-            mainMenuImage.sprite = defaultSprite;
-        }
-    }
-    public void PlayGame()
-    {
-        Time.timeScale = 1f;
-        SceneManager.LoadSceneAsync(1);
+        // Load saved boss status
+        bossDefeated = PlayerPrefs.GetInt("BossDefeated", 0) == 1;
+        UpdateBackground();
     }
 
-    public void PlayTutorial()
+    public void SetBossDefeated(bool defeated)
     {
-        Time.timeScale = 1f;
-        SceneManager.LoadSceneAsync(2);
+        bossDefeated = defeated;
+        PlayerPrefs.SetInt("BossDefeated", defeated ? 1 : 0);
+        PlayerPrefs.Save();
+        UpdateBackground();
+        Debug.Log($"BossDefeated set to: {defeated}");
+    }
+
+    private void UpdateBackground()
+    {
+        if (backgroundImage != null)
+        {
+            backgroundImage.sprite = bossDefeated ? bossDefeatedBackground : normalBackground;
+        }
+    }
+
+    public void StartGame()
+    {
+        SceneManager.LoadScene("GameScene"); // Change to your actual game scene
+    }
+
+    public void QuitGame()
+    {
+        Application.Quit();
     }
 }
+
+#if UNITY_EDITOR
+[CustomEditor(typeof(MainMenu))]
+public class MainMenuEditor : Editor
+{
+    public override void OnInspectorGUI()
+    {
+        DrawDefaultInspector();
+
+        MainMenu menu = (MainMenu)target;
+
+        GUILayout.Space(10);
+
+        if (GUILayout.Button("✅ Set Boss as Defeated"))
+        {
+            menu.SetBossDefeated(true);
+        }
+
+        if (GUILayout.Button("❌ Reset Boss Status"))
+        {
+            menu.SetBossDefeated(false);
+        }
+    }
+}
+#endif

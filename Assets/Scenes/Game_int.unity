@@ -1561,7 +1561,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 733, y: 407}
+  m_AnchoredPosition: {x: 715, y: 384}
   m_SizeDelta: {x: 233.5827, y: 43.7967}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &71835126
@@ -1623,31 +1623,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 71835128}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 261875820}
-        m_TargetAssemblyTypeName: UIButtonSound, Assembly-CSharp
-        m_MethodName: PlayClickSound
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 196942482}
-        m_TargetAssemblyTypeName: PauseMenu, Assembly-CSharp
-        m_MethodName: LoadMenu
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &71835128
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18532,14 +18508,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ba358a56edeccd419f507701fabe959, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  coinTextWithWarning: {fileID: 0}
-  coinTextWithoutWarning: {fileID: 96230247}
+  coinSlider: {fileID: 0}
+  coinText: {fileID: 96230247}
   maxCoins: 7
-  maxSpecialCoins: 7
   totalCoins: 0
-  enableRedWarning: 0
-  normalColor: {r: 1, g: 1, b: 1, a: 1}
-  lowCoinColor: {r: 1, g: 0, b: 0, a: 1}
 --- !u!1 &962841417
 GameObject:
   m_ObjectHideFlags: 0
@@ -21871,7 +21843,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1109227947
 RectTransform:
   m_ObjectHideFlags: 0
@@ -21964,15 +21936,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 1109227946}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5530cbf689a9f4dcca9c1de6e26def9f, type: 3}
+  m_Script: {fileID: 11500000, guid: ddc4d17183d6a48b0b3abd79d609ee97, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pauseMenuUI: {fileID: 1109227946}
-  menusToDisable:
-  - {fileID: 1535314078}
-  - {fileID: 196942480}
-  image: {fileID: 0}
-  defaultSprite: {fileID: 0}
+  instructionPanel: {fileID: 1109227946}
+  okButton: {fileID: 0}
+  backButton: {fileID: 71835127}
+  mainMenuSceneName: MainMenu
+  buttonSound: {fileID: 8300000, guid: aa58915660e35418a94128a8d717c0d3, type: 3}
+  volume: 1
 --- !u!1 &1109297855
 GameObject:
   m_ObjectHideFlags: 0
@@ -29670,8 +29642,8 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
       - m_Target: {fileID: 1109227951}
-        m_TargetAssemblyTypeName: PauseMenu, Assembly-CSharp
-        m_MethodName: PauseWithDisabling
+        m_TargetAssemblyTypeName: InstructionPanelController, Assembly-CSharp
+        m_MethodName: ShowInstructionPanel
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

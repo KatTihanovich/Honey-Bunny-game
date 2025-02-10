@@ -8600,14 +8600,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ba358a56edeccd419f507701fabe959, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  coinTextWithWarning: {fileID: 0}
-  coinTextWithoutWarning: {fileID: 96230247}
+  coinSlider: {fileID: 0}
+  coinText: {fileID: 0}
   maxCoins: 0
-  maxSpecialCoins: 0
   totalCoins: 0
-  enableRedWarning: 0
-  normalColor: {r: 1, g: 1, b: 1, a: 1}
-  lowCoinColor: {r: 1, g: 0, b: 0, a: 1}
 --- !u!1 &962841417
 GameObject:
   m_ObjectHideFlags: 0
@@ -16040,6 +16036,7 @@ MonoBehaviour:
   UICanvas: {fileID: 196942480}
   fadePanel: {fileID: 293680976}
   fadeDuration: 1.5
+  audioMixer: {fileID: 24100000, guid: b7aad94fe0c3c4ba4a14d95707c80208, type: 2}
 --- !u!61 &1915925011
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -17172,6 +17169,7 @@ MonoBehaviour:
   UICanvas: {fileID: 196942480}
   fadePanel: {fileID: 293680976}
   fadeDuration: 1.5
+  audioMixer: {fileID: 0}
 --- !u!1 &2109852934
 GameObject:
   m_ObjectHideFlags: 0

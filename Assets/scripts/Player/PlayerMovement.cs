@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.Audio;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 using UnityEngine.Serialization;
@@ -96,8 +97,16 @@ public class PlayerMovement : MonoBehaviour
             QualitySettings.vSyncCount = 0;
             Application.targetFrameRate = 60;
         }
+        EventTrigger trigger = jumpButton.gameObject.AddComponent<EventTrigger>();
+        EventTrigger.Entry entry = new EventTrigger.Entry
+        {
+            eventID = EventTriggerType.PointerDown
+        };
+        entry.callback.AddListener((data) => { InitiateJump(); });
 
-        jumpButton.onClick.AddListener(InitiateJump);
+        trigger.triggers.Add(entry);
+        
+        // jumpButton.onClick.AddListener(InitiateJump);
 
         ETouch.EnhancedTouchSupport.Enable();
         ETouch.Touch.onFingerDown += HandleFingerDown;

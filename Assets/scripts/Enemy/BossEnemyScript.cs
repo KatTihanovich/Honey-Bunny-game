@@ -2,8 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
-using UnityEngine.Video; 
-using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 
@@ -46,15 +44,6 @@ namespace Enemy
         [Header("Tails objects")] 
         public List<GameObject> tails;
 
-        [Header("Cutscene")]
-        public VideoPlayer cutsceneVideo;
-        public GameObject UICanvas;
-        public Image fadePanel; 
-        public float fadeDuration = 1.5f;
-
-        [Header("Audio Settings")]
-        [SerializeField] private AudioMixer audioMixer;
-        private const string musicVolumeParam = "MusicVolume";
 
         private void Start()
         {
@@ -113,69 +102,8 @@ namespace Enemy
                 StartCoroutine(PortalDissapear());
                 PlayerPrefs.SetInt("BossDefeated", 1);
                 PlayerPrefs.Save();
-                // Включение кат-сцены после смерти босса
-                                // Запускаем затемнение и кат-сцену
-                if (cutsceneVideo != null && fadePanel != null)
-                {
-                    StartCoroutine(PlayCutscene());
-                }
-                else
-                {
-                    Debug.LogError("VideoPlayer или fadePanel не назначены!");
-                }
             }
         }
-      
-    private IEnumerator PlayCutscene()
-{
-    if (audioMixer != null)
-            {
-                audioMixer.SetFloat(musicVolumeParam, -80f); // Set volume to -80dB (mute)
-            }
-    // Smooth fade to black
-    float elapsedTime = 0f;
-    Color panelColor = fadePanel.color;
-
-    while (elapsedTime < fadeDuration)
-    {
-        panelColor.a = Mathf.Lerp(0f, 1f, elapsedTime / fadeDuration);
-        fadePanel.color = panelColor;
-        elapsedTime += Time.deltaTime;
-        yield return null;
-    }
-
-    panelColor.a = 1f;
-    fadePanel.color = panelColor;
-
-    // Enable and play video
-    if (cutsceneVideo != null)
-    {
-        cutsceneVideo.gameObject.SetActive(true);
-        cutsceneVideo.Prepare();
-        yield return new WaitUntil(() => cutsceneVideo.isPrepared);
-
-        UICanvas.SetActive(false);
-        cutsceneVideo.Play();
-
-        // Add listener to load the main menu after the video ends
-        cutsceneVideo.loopPointReached += OnVideoFinished;
-    }
-    else
-    {
-        Debug.LogError("VideoPlayer is not assigned!");
-    }
-}
-
-// Method called when video finishes
-    private void OnVideoFinished(VideoPlayer vp)
-    {
-        SceneManager.LoadScene("MainMenu"); 
-        
-        if (audioMixer != null)
-            {
-                audioMixer.SetFloat(musicVolumeParam, 0f); // Restore volume (0dB)
-            }
-    }
 
         
         private IEnumerator PortalDissapear()

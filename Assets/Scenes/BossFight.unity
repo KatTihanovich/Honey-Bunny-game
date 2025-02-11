@@ -4385,7 +4385,7 @@ MonoBehaviour:
   okButton: {fileID: 1554659393}
   backButton: {fileID: 0}
   mainMenuSceneName: MainMenu
-  buttonSound: {fileID: 0}
+  buttonSound: {fileID: 8300000, guid: aa58915660e35418a94128a8d717c0d3, type: 3}
   volume: 1
 --- !u!1 &373529805
 GameObject:
@@ -8649,6 +8649,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bossHealth: {fileID: 1915925012}
+  cutsceneVideo: {fileID: 373529807}
+  UICanvas: {fileID: 196942480}
+  fadePanel: {fileID: 293680976}
+  fadeDuration: 1.5
+  audioMixer: {fileID: 24100000, guid: b7aad94fe0c3c4ba4a14d95707c80208, type: 2}
 --- !u!1 &964417765
 GameObject:
   m_ObjectHideFlags: 0
@@ -16032,11 +16037,6 @@ MonoBehaviour:
   - {fileID: 1461781164}
   - {fileID: 326105540}
   - {fileID: 1801272912}
-  cutsceneVideo: {fileID: 373529807}
-  UICanvas: {fileID: 196942480}
-  fadePanel: {fileID: 293680976}
-  fadeDuration: 1.5
-  audioMixer: {fileID: 24100000, guid: b7aad94fe0c3c4ba4a14d95707c80208, type: 2}
 --- !u!61 &1915925011
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -17165,11 +17165,6 @@ MonoBehaviour:
   portalSound: {fileID: 0}
   volume: 1
   tails: []
-  cutsceneVideo: {fileID: 373529807}
-  UICanvas: {fileID: 196942480}
-  fadePanel: {fileID: 293680976}
-  fadeDuration: 1.5
-  audioMixer: {fileID: 0}
 --- !u!1 &2109852934
 GameObject:
   m_ObjectHideFlags: 0

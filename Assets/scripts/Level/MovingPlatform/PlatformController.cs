@@ -82,7 +82,7 @@ public class PlatformController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        rb.linearVelocity = moveDirection * Speed;
+        //rb.linearVelocity = moveDirection * Speed;
         if (rb != null)
         {
             Vector3 deltaPosition = transform.position - previousPosition;

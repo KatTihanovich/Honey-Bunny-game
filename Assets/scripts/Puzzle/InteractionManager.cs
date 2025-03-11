@@ -3,7 +3,7 @@ using UnityEngine;
 public class InteractionManager : MonoBehaviour
 {
     public void OnInteractionButtonClick()
-{
+    {
     // Найти все объекты с компонентом InteractionZone
     InteractionZone[] zones = FindObjectsOfType<InteractionZone>();
     FlowerInteraction[] flowerZones = FindObjectsOfType<FlowerInteraction>();

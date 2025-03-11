@@ -5,7 +5,7 @@ using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
-using ETouch = UnityEngine.InputSystem.EnhancedTouch;
+// using ETouch = UnityEngine.InputSystem.EnhancedTouch;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -25,8 +25,9 @@ public class PlayerMovement : MonoBehaviour
     [Header("UI Elements")] public Button jumpButton;
     public Button kickButton;
 
-    [Header("Joystick Settings")] private ETouch.Finger movementFinger;
-    private RectTransform joystickRect;
+    // [Header("Joystick Settings")] 
+    // private ETouch.Finger movementFinger;
+    // private RectTransform joystickRect;
 
     [Header("Player Movement")] [SerializeField]
     private float moveSpeed = 12f;
@@ -80,6 +81,7 @@ public class PlayerMovement : MonoBehaviour
     // Movement
     private Vector2 moveVelocity;
     private float verticalVelocity;
+    private static readonly int Run = Animator.StringToHash("Run");
 
     // Animation
     private Animator anim;
@@ -108,9 +110,9 @@ public class PlayerMovement : MonoBehaviour
         
         // jumpButton.onClick.AddListener(InitiateJump);
 
-        ETouch.EnhancedTouchSupport.Enable();
-        ETouch.Touch.onFingerDown += HandleFingerDown;
-        ETouch.Touch.onFingerUp += HandleLoseFinger;
+        // ETouch.EnhancedTouchSupport.Enable();
+        // ETouch.Touch.onFingerDown += HandleFingerDown;
+        // ETouch.Touch.onFingerUp += HandleLoseFinger;
 
         attackCounter = 0f;
         hitButton.interactable = false;
@@ -124,6 +126,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
+        Move();
         IsGrounded();
         Jump();
     }
@@ -144,7 +147,7 @@ public class PlayerMovement : MonoBehaviour
             coyoteCounter -= Time.deltaTime;
         }
 
-        if (Keyboard.current.spaceKey.isPressed)
+        if (Keyboard.current.spaceKey.isPressed || Keyboard.current.wKey.isPressed || Keyboard.current.upArrowKey.isPressed)
         {
             jumpBufferCounter = jumpBufferTime;
         }
@@ -285,27 +288,43 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    private void HandleFingerDown(ETouch.Finger touchedFinger)
+    private void Move()
     {
-        if (movementFinger == null && touchedFinger.screenPosition.x <= 400 & touchedFinger.screenPosition.y <= 400)
+        float horizontalInput = 0;
+
+        if (Keyboard.current.aKey.isPressed || Keyboard.current.leftArrowKey.isPressed)
+            horizontalInput = -1;
+        if (Keyboard.current.dKey.isPressed || Keyboard.current.rightArrowKey.isPressed
+)
+            horizontalInput = 1;
+
+        if (horizontalInput is > 0 or < 0)
         {
-            movementFinger = touchedFinger;
+            var targetVelocity = new Vector2(horizontalInput, 0f) * moveSpeed;
+            moveVelocity = Vector2.Lerp(moveVelocity, targetVelocity, 5f * Time.fixedDeltaTime);
+            rb.linearVelocity = new Vector2(moveVelocity.x, rb.linearVelocity.y);
+            
+            anim.SetBool(Run, true);
+            switch (horizontalInput)
+            {
+                case > 0 when transform.localScale.x < 0:
+                case < 0 when transform.localScale.x > 0:
+                    Flip();
+                    break;
+            }
+        }
+        else
+        {
+            rb.linearVelocity = new Vector2(0, rb.linearVelocity.y);
+            anim.SetBool(Run, false);
         }
     }
 
-    private void HandleLoseFinger(ETouch.Finger lostFinger)
+    private void Flip()
     {
-        if (lostFinger == movementFinger)
-        {
-            movementFinger = null;
-        }
-    }
-
-    private void OnDisable()
-    {
-        ETouch.Touch.onFingerDown -= HandleFingerDown;
-        ETouch.Touch.onFingerUp -= HandleLoseFinger;
-        ETouch.EnhancedTouchSupport.Disable();
+        var scale = transform.localScale;
+        scale.x *= -1;
+        transform.localScale = scale;
     }
 
     private void StartAttack()
@@ -367,19 +386,6 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    //private void OnDrawGizmos()
-    //{
-    //    Gizmos.color = Color.red;
-    //    Vector3 boxSize = new Vector3(
-    //        boxCollider.bounds.size.x * rangeX,
-    //        boxCollider.bounds.size.y * rangeY,
-    //        boxCollider.bounds.size.z);
-    //    Vector3 boxCenter = boxCollider.bounds.center +
-    //        transform.up * transform.localScale.y * colliderDistanceY +
-    //        transform.right * transform.localScale.x * colliderDistanceX;
-
-    //    Gizmos.DrawWireCube(boxCenter, boxSize);
-    //}
 
     private void PlaySound(AudioClip clip)
     {

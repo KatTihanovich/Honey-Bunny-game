@@ -2,18 +2,19 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-public class ButtonImageToggler : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
+public class ButtonImageToggler : MonoBehaviour, ISelectHandler, IDeselectHandler, ISubmitHandler
 {
     public Button button;
     public Sprite image1;
-    public Sprite image1_clicked;
+    public Sprite image1_selected;
     public Sprite image2;
-    public Sprite image2_clicked;
+    public Sprite image2_selected;
 
     private Image buttonImage;
     private bool isImage1 = true;
+    private bool isSelected = false;
 
-    public float scaleFactor = 1.7f; // How much to scale the button when clicked
+    public float scaleFactor = 1.7f; 
     private Vector3 originalScale;
 
     void Start()
@@ -23,59 +24,53 @@ public class ButtonImageToggler : MonoBehaviour, IPointerDownHandler, IPointerUp
         if (buttonImage != null)
         {
             originalScale = buttonImage.rectTransform.localScale;
+            buttonImage.sprite = image1; 
         }
     }
 
-    public void ToggleImage()
+    public void OnSelect(BaseEventData eventData)
     {
-        if (isImage1)
+        isSelected = true;
+        UpdateImage();
+        ScaleUp();
+    }
+
+    public void OnDeselect(BaseEventData eventData)
+    {
+        isSelected = false;
+        UpdateImage();
+        ResetScale();
+    }
+
+    public void OnSubmit(BaseEventData eventData) // Triggered by keyboard Enter/Space
+    {
+        ToggleImage();
+        UpdateImage();
+    }
+
+    private void UpdateImage()
+    {
+        if (isSelected)
         {
-            buttonImage.sprite = image2;
+            buttonImage.sprite = isImage1 ? image1_selected : image2_selected;
         }
         else
         {
-            buttonImage.sprite = image1;
+            buttonImage.sprite = isImage1 ? image1 : image2;
         }
+    }
+
+    private void ToggleImage()
+    {
         isImage1 = !isImage1;
     }
 
-    public void OnPointerDown(PointerEventData eventData)
+    private void ScaleUp()
     {
-        if (isImage1)
-        {
-            buttonImage.sprite = image1_clicked;
-        }
-        else
-        {
-            buttonImage.sprite = image2_clicked;
-        }
-
         if (buttonImage != null)
         {
-            // Scale the button up when pressed
             buttonImage.rectTransform.localScale = originalScale * scaleFactor;
         }
-    }
-
-    public void OnPointerUp(PointerEventData eventData)
-    {
-        if (buttonImage != null)
-        {
-            // Reset the scale back to the original size
-            ResetScale();
-        }
-
-        if (isImage1)
-        {
-            buttonImage.sprite = image1;
-        }
-        else
-        {
-            buttonImage.sprite = image2;
-        }
-
-        // Toggle the image state
-        ToggleImage();
     }
 
     private void ResetScale()

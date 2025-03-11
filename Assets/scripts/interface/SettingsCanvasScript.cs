@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 public class SettingsCanvasScript : MonoBehaviour
 {
@@ -7,6 +8,7 @@ public class SettingsCanvasScript : MonoBehaviour
     public Button settings_button;        
     public Button info_button;       
     public Button arrow_button;  
+    public GameObject toBeSelectedButton; 
 
     void Start()
     {
@@ -20,6 +22,7 @@ public class SettingsCanvasScript : MonoBehaviour
     public void TogglePanel()
     {
         panel.SetActive(true);
+        EventSystem.current.SetSelectedGameObject(toBeSelectedButton.gameObject);
 
         settings_button.interactable = false;
         info_button.interactable = false;

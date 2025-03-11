@@ -1,31 +1,54 @@
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 public class SettingsButtonScript : MonoBehaviour
 {
-    public GameObject panel;  
-    public Button button_main1;        
-    public Button button_main2;       
-    public Button button_main3;  
-    private bool isPanelVisible = false; 
+    public GameObject panel; 
+    public Button arrowButton; 
+    public Button[] mainMenuButtons; 
+
+    private bool isPanelVisible = false;
+
     void Start()
     {
         panel.SetActive(false);
-
-        button_main1.interactable = true;
-        button_main2.interactable = true;
-        button_main3.interactable = true;
+        SetNavigationForArrowOnly();
     }
-
 
     public void TogglePanel()
     {
         isPanelVisible = !isPanelVisible;
-
         panel.SetActive(isPanelVisible);
 
-        button_main1.interactable = !isPanelVisible;
-        button_main2.interactable = !isPanelVisible;
-        button_main3.interactable = !isPanelVisible;
+        if (isPanelVisible)
+        {
+            SetNavigationForDropdown();
+        }
+        else
+        {
+            SetNavigationForArrowOnly();
+        }
+    }
+
+    private void SetNavigationForArrowOnly()
+    {
+        foreach (Button btn in mainMenuButtons)
+        {
+            btn.interactable = true;
+        }
+    }
+
+    private void SetNavigationForDropdown()
+    {
+        EventSystem.current.SetSelectedGameObject(arrowButton.gameObject);
+
+        Navigation nav = new Navigation { mode = Navigation.Mode.Vertical };
+        arrowButton.navigation = nav;
+
+        foreach (Button btn in mainMenuButtons)
+        {
+            btn.interactable = false;
+        }
     }
 }

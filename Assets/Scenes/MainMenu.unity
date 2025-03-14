@@ -119,17 +119,6 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!114 &142131208 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 3232923542975171250, guid: 48ad39cf9449643cbbfb7caa659d6633, type: 3}
-  m_PrefabInstance: {fileID: 2214964432413066763}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bc501cfc5f9904fbea5dbb59d9489d3f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &148015306
 GameObject:
   m_ObjectHideFlags: 0
@@ -1146,9 +1135,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 142131208}
-        m_TargetAssemblyTypeName: SelectLevelScript, Assembly-CSharp
-        m_MethodName: TogglePanel
+      - m_Target: {fileID: 2214964432413066764}
+        m_TargetAssemblyTypeName: InstructionPanelController, Assembly-CSharp
+        m_MethodName: ShowInstructionPanel
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -3046,11 +3035,26 @@ PrefabInstance:
       propertyPath: m_Name
       value: SelectLevelCanvas
       objectReference: {fileID: 0}
+    - target: {fileID: 7874176771078719396, guid: 48ad39cf9449643cbbfb7caa659d6633, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 48ad39cf9449643cbbfb7caa659d6633, type: 3}
+--- !u!114 &2214964432413066764 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8057272204749630618, guid: 48ad39cf9449643cbbfb7caa659d6633, type: 3}
+  m_PrefabInstance: {fileID: 2214964432413066763}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ddc4d17183d6a48b0b3abd79d609ee97, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &4501309338438568566
 PrefabInstance:
   m_ObjectHideFlags: 0

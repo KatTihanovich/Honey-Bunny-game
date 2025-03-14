@@ -96,6 +96,7 @@ GameObject:
   - component: {fileID: 3872109104760278329}
   - component: {fileID: 4228889663623138041}
   - component: {fileID: 327513566432602487}
+  - component: {fileID: 7161858688376145493}
   m_Layer: 8
   m_Name: Bunny
   m_TagString: Player
@@ -302,7 +303,7 @@ MonoBehaviour:
   canAttack: 0
   hitCooldownSprite: {fileID: 0}
   hitButton: {fileID: 0}
-  isHavingStick: 0
+  isHavingStick: 1
 --- !u!114 &3872109104760278329
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -358,6 +359,36 @@ MonoBehaviour:
   audioMixerGroup: {fileID: -1040233043583867831, guid: b7aad94fe0c3c4ba4a14d95707c80208, type: 2}
   deathSound: {fileID: 8300000, guid: 829f10ff5587243ae8f50fbcdbf25dca, type: 3}
   volume: 1
+--- !u!114 &7161858688376145493
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2463405000098002070}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
+  m_NotificationBehavior: 0
+  m_UIInputModule: {fileID: 0}
+  m_DeviceLostEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_DeviceRegainedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ControlsChangedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ActionEvents: []
+  m_NeverAutoSwitchControlSchemes: 0
+  m_DefaultControlScheme: 
+  m_DefaultActionMap: Player
+  m_SplitScreenIndex: -1
+  m_Camera: {fileID: 0}
 --- !u!1 &4654799500142453331
 GameObject:
   m_ObjectHideFlags: 0

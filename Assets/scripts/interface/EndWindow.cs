@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using TMPro; 
+using UnityEngine.EventSystems;
 
 public class EndWindow : MonoBehaviour
 {
@@ -13,6 +14,7 @@ public class EndWindow : MonoBehaviour
     [SerializeField] private TextMeshProUGUI puzzlesText; 
     public static int enemiesDefeated = 0;
     public static int puzzlesSolved = 0;
+    public GameObject toSelect; 
 
     void Start()
     {
@@ -38,6 +40,7 @@ public class EndWindow : MonoBehaviour
 
     public void ShowEndWindow()
     {
+        EventSystem.current.SetSelectedGameObject(toSelect);
         endWindow.SetActive(true);
         Time.timeScale = 0f;
     }

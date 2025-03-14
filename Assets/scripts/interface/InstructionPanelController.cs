@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.SceneManagement; 
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 public class InstructionPanelController : MonoBehaviour
 {
@@ -8,6 +9,7 @@ public class InstructionPanelController : MonoBehaviour
     [SerializeField] private Button okButton;
     [SerializeField] private Button backButton; 
     [SerializeField] private string mainMenuSceneName = "MainMenu"; 
+    public GameObject toSelect; 
 
     [Header("Audio Settings")]
     [SerializeField] private AudioClip buttonSound;
@@ -33,6 +35,7 @@ public class InstructionPanelController : MonoBehaviour
     {
         if (instructionPanel != null)
         {
+            EventSystem.current.SetSelectedGameObject(toSelect);
             instructionPanel.SetActive(true);
             PauseGame();
         }

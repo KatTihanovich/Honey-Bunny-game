@@ -26,7 +26,7 @@ Transform:
   m_GameObject: {fileID: 2154500809137966508}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: -0.12, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -111,7 +111,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2463405000098002070}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 24.102547, y: 4.1868057, z: 0}
   m_LocalScale: {x: 0.24999999, y: 0.22, z: 1}
   m_ConstrainProportionsScale: 0
@@ -151,8 +151,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: ad022b06b4ecbdf44a4bba61f9d10619, type: 2}
-  - {fileID: 2100000, guid: 6125c3123202e2045922a43a44836689, type: 2}
+  - {fileID: 2100000, guid: 9be1d9e2c827bbd49b85942847c13f90, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -172,7 +171,7 @@ MeshRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!95 &7619422197877684169
 Animator:
@@ -274,10 +273,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2001ac1a7f07dbc49bab1dfdeae635c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  jumpSound: {fileID: 0}
-  kickSound: {fileID: 0}
+  jumpSound: {fileID: 8300000, guid: 6b1ae02faabb24d968c92121a65c1b60, type: 3}
+  kickSound: {fileID: 8300000, guid: 8b9b2d5520bf642bcb039b5b23348a0d, type: 3}
   volume: 1
-  audioMixerGroup: {fileID: 0}
+  audioMixerGroup: {fileID: -1040233043583867831, guid: b7aad94fe0c3c4ba4a14d95707c80208, type: 2}
   jumpButton: {fileID: 0}
   kickButton: {fileID: 0}
   moveSpeed: 10
@@ -299,7 +298,7 @@ MonoBehaviour:
   rangeX: 6.32
   rangeY: 13.08
   damage: 1
-  attackCd: 10
+  attackCd: 1
   canAttack: 0
   hitCooldownSprite: {fileID: 0}
   hitButton: {fileID: 0}
@@ -318,8 +317,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   startingHealth: 10
   deathCanvas: {fileID: 0}
-  audioMixerGroup: {fileID: 0}
-  damageSound: {fileID: 0}
+  toSelect: {fileID: 0}
+  audioMixerGroup: {fileID: -1040233043583867831, guid: b7aad94fe0c3c4ba4a14d95707c80208, type: 2}
+  damageSound: {fileID: 8300000, guid: 40430eae56e0142219f9abc270dd409f, type: 3}
   volume: 1
 --- !u!114 &4228889663623138041
 MonoBehaviour:
@@ -334,9 +334,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   skeletonAnimation: {fileID: 0}
-  eventName: 
+  eventName: Death
   audioSource: {fileID: 0}
-  audioClip: {fileID: 0}
+  audioClip: {fileID: 8300000, guid: 829f10ff5587243ae8f50fbcdbf25dca, type: 3}
   basePitch: 1
   randomPitchOffset: 0.1
   logDebugMessage: 0
@@ -355,8 +355,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: {fileID: 3872109104760278329}
   anim: {fileID: 7619422197877684169}
-  audioMixerGroup: {fileID: 0}
-  deathSound: {fileID: 0}
+  audioMixerGroup: {fileID: -1040233043583867831, guid: b7aad94fe0c3c4ba4a14d95707c80208, type: 2}
+  deathSound: {fileID: 8300000, guid: 829f10ff5587243ae8f50fbcdbf25dca, type: 3}
   volume: 1
 --- !u!1 &4654799500142453331
 GameObject:

@@ -2,6 +2,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using System.Collections.Generic;
+using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
 
 public class PauseMenu : MonoBehaviour
 {
@@ -10,17 +12,22 @@ public class PauseMenu : MonoBehaviour
     public List<GameObject> menusToDisable = new List<GameObject>(); 
     public Image image;
     public Sprite defaultSprite;
+    public GameObject toSelect; 
+    [Header("Player Input")]
+    public PlayerInput playerInput; 
 
     public void Resume()
     {
         pauseMenuUI.SetActive(false);
         Time.timeScale = 1f;
+        playerInput.SwitchCurrentActionMap("Player");
     }
 
     public void ResumeWithButton()
     {
         pauseMenuUI.SetActive(false);
         Time.timeScale = 1f;
+        playerInput.SwitchCurrentActionMap("Player");
         if (image != null)
         {
             image.sprite = defaultSprite;
@@ -29,13 +36,19 @@ public class PauseMenu : MonoBehaviour
 
     public void Pause()
     {
+        EventSystem.current.SetSelectedGameObject(toSelect);
+
         pauseMenuUI.SetActive(true);
         Time.timeScale = 0f;
+        playerInput.SwitchCurrentActionMap("UI");
     }
 
     public void PauseWithDisabling()
     {
+        EventSystem.current.SetSelectedGameObject(toSelect);
         pauseMenuUI.SetActive(true);
+        Time.timeScale = 0f;
+        playerInput.SwitchCurrentActionMap("UI");
         
         foreach (GameObject menu in menusToDisable)
         {
@@ -44,8 +57,6 @@ public class PauseMenu : MonoBehaviour
                 menu.SetActive(false);
             }
         }
-
-        Time.timeScale = 0f;
     }
 
     public void LoadMenu()

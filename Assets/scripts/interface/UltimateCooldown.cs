@@ -3,68 +3,90 @@ using UnityEngine.UI;
 
 public class UltimateCooldown : MonoBehaviour
 {
-    [Header("Pulse Full Animation")] 
-    public float scaleAmplitude = 0.1f;
-    public float scaleSpeed = 2.0f;
-    private Vector3 initialScale;
+    [Header("Pulse Full Animation")]
+    public float scaleAmplitude = 0.1f;      // How much the icon pulses
+    public float scaleSpeed = 2.0f;          // Speed of the pulse animation
+    private Vector3 initialScale;            // Store original scale for animation reset
 
-    [Header("Full color")] public Color fullColor = Color.cyan;
+    [Header("Full color")]
+    public Color fullColor = Color.cyan;     // Color when ultimate is ready
 
-    [Header("Ultimate")] public bool isAvailable;
-    public int enemyCountToFill = 3;
-    private int ultimateProgressCount;
-    private Image ultimateCooldownImage;
-    public GameObject ultButton;
-    private Button ultButtonComponent;
+    [Header("Ultimate Settings")]
+    public bool isAvailable;                 // Whether ultimate is available
+    public int enemyCountToFill = 3;         // How many enemies to defeat to fill ultimate
+    private int ultimateProgressCount;       // Track current progress
+
+    private Image ultimateCooldownImage;     // Reference to cooldown UI image
+
+    [Header("Input Settings")]
+    public KeyCode ultimateKey = KeyCode.R;  // Key to trigger ultimate (default: "R")
 
     void Start()
     {
-        initialScale = transform.localScale;
+        initialScale = transform.localScale; // Store initial scale for pulse effect
+        ultimateCooldownImage = GetComponent<Image>(); // Get the Image component
 
-        ultimateCooldownImage = gameObject.GetComponent<Image>();
-        ultButtonComponent = ultButton.GetComponent<Button>();
-
-        SetActive(isAvailable);
-        ultimateCooldownImage.fillAmount = (float) ultimateProgressCount / enemyCountToFill;
+        SetActive(isAvailable); // Set initial availability state
+        ultimateCooldownImage.fillAmount = (float)ultimateProgressCount / enemyCountToFill; // Update visual
     }
 
     void Update()
     {
+        // Pulse animation if ultimate is ready
         if (isAvailable)
         {
             float scaleFactor = 1 + Mathf.Sin(Time.time * scaleSpeed) * scaleAmplitude;
             transform.localScale = initialScale * scaleFactor;
+
+            // Check for ultimate activation input
+            if (Input.GetKeyDown(ultimateKey))
+            {
+                UsePower(); // Trigger ultimate when key is pressed
+            }
         }
     }
 
+    // Update ultimate availability and color
     private void SetActive(bool isActive)
     {
-        if (ultButtonComponent != null && ultimateCooldownImage != null)
+        if (ultimateCooldownImage != null)
         {
-            ultButtonComponent.interactable = isActive;
-            ultimateCooldownImage.color = isActive ? fullColor : Color.white;
+            ultimateCooldownImage.color = isActive ? fullColor : Color.white; // Change color
         }
-        isAvailable = isActive;
+        isAvailable = isActive; // Update availability flag
     }
-    
+
+    // Call this method to increase ultimate charge (e.g., when an enemy is defeated)
     public void AddPower()
     {
-        ultimateProgressCount += 1;
-        ultimateCooldownImage.fillAmount = (float) ultimateProgressCount / enemyCountToFill;
+        if (isAvailable) return; // Ignore if already available
 
-        if (ultimateProgressCount == enemyCountToFill)
+        ultimateProgressCount++;
+        ultimateCooldownImage.fillAmount = (float)ultimateProgressCount / enemyCountToFill;
+
+        // Activate ultimate if fully charged
+        if (ultimateProgressCount >= enemyCountToFill)
         {
             SetActive(true);
         }
     }
-    
+
+    // Trigger the ultimate and reset progress
     public void UsePower()
     {
+        if (!isAvailable) return; // Ignore if not available
+
+        // Reset ultimate
         ultimateProgressCount = 0;
         ultimateCooldownImage.fillAmount = 0;
-        
+
+        // Provide feedback (vibration for mobile, can customize for other platforms)
         Handheld.Vibrate();
-        
+
+        // Custom ultimate logic (Add your ultimate attack effect here)
+        Debug.Log("Ultimate Activated!");
+
+        // Disable ultimate until recharged
         SetActive(false);
     }
 }

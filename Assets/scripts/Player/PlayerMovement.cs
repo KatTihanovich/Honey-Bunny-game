@@ -147,7 +147,7 @@ public class PlayerMovement : MonoBehaviour
             coyoteCounter -= Time.deltaTime;
         }
 
-        if (Keyboard.current.spaceKey.isPressed || Keyboard.current.wKey.isPressed || Keyboard.current.upArrowKey.isPressed)
+        if (Keyboard.current.spaceKey.wasPressedThisFrame || Keyboard.current.wKey.wasPressedThisFrame || Keyboard.current.upArrowKey.wasPressedThisFrame)
         {
             jumpBufferCounter = jumpBufferTime;
         }
@@ -179,7 +179,7 @@ public class PlayerMovement : MonoBehaviour
             hitButton.interactable = true;
         }
 
-        if (Keyboard.current.fKey.isPressed && attackCounter >= attackCd)
+        if (Keyboard.current.fKey.wasPressedThisFrame && attackCounter >= attackCd)
         {
             anim.SetTrigger(AttackPressed);
             attackCounter = 0;
@@ -193,6 +193,11 @@ public class PlayerMovement : MonoBehaviour
         {
             hitCooldownSprite.fillAmount = cooldownFactor;
         }
+
+        // if (Keyboard.current.rKey.isPressed)
+        // {
+        //     StartUltimate();
+        // }
     }
 
     public void TryJump()

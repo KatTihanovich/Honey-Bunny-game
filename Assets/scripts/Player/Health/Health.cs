@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Audio;
+using UnityEngine.EventSystems;
 public class Health : MonoBehaviour
 {
     [Header("Health Settings")]
@@ -9,13 +10,13 @@ public class Health : MonoBehaviour
     private bool isDead = false;
 
     public GameObject deathCanvas;
+    public GameObject toSelect; 
 
     public event System.Action<float> OnHealthChanged;
 
     [SerializeField] private AudioMixerGroup audioMixerGroup; 
     public AudioClip damageSound;
     [SerializeField] private float volume = 1.0f;
-
 
 
     private void Awake()
@@ -34,6 +35,7 @@ public class Health : MonoBehaviour
         CurrentHealth = Mathf.Clamp(CurrentHealth - damage, 0, startingHealth);
         if (CurrentHealth == 0 && deathCanvas != null)
         {
+            EventSystem.current.SetSelectedGameObject(toSelect);
             deathCanvas.SetActive(true);
             Time.timeScale = 0f;
         }

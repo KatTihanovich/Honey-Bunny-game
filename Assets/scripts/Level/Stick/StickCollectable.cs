@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 namespace Level.Stick
 {
@@ -17,6 +18,7 @@ namespace Level.Stick
         [SerializeField] private float pitchVariation = 0.1f;
 
         [SerializeField] private GameObject notificationPanel;
+        public Button toSelectButton; 
 
         void Start()
         {
@@ -50,6 +52,7 @@ namespace Level.Stick
                 if (notificationPanel != null)
                 {
                     notificationPanel.SetActive(true);
+                    EventSystem.current.SetSelectedGameObject(toSelectButton.gameObject);
                 }
             }
         }

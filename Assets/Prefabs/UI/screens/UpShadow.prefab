@@ -196,7 +196,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1657095144669905793}
         m_TargetAssemblyTypeName: UIButtonSound, Assembly-CSharp
         m_MethodName: PlayClickSound
         m_Mode: 1
@@ -360,7 +360,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1657095144669905793}
         m_TargetAssemblyTypeName: UIButtonSound, Assembly-CSharp
         m_MethodName: PlayClickSound
         m_Mode: 1
@@ -505,6 +505,7 @@ GameObject:
   - component: {fileID: 534974205581933652}
   - component: {fileID: 9105759288493309180}
   - component: {fileID: 8878229767620659777}
+  - component: {fileID: 1657095144669905793}
   m_Layer: 5
   m_Name: UpShadow
   m_TagString: Untagged
@@ -574,6 +575,21 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 1
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &1657095144669905793
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3177749634111575892}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0c9b3d43f09a4400f92d54a46b19b485, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  buttonSound: {fileID: 0}
+  volume: 1
+  audioMixerGroup: {fileID: 0}
 --- !u!1 &4808688506094509199
 GameObject:
   m_ObjectHideFlags: 0
@@ -639,7 +655,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: LEVEL 1 - FOREST
+  m_text: BOSS FIGHT
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 60965cb1c79b4470699ba445d29c8a78, type: 2}
   m_sharedMaterial: {fileID: 5637670021054491185, guid: 60965cb1c79b4470699ba445d29c8a78, type: 2}
@@ -920,7 +936,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   coinSlider: {fileID: 0}
   coinText: {fileID: 163992423804708793}
-  maxCoins: 6
+  maxCoins: 4
   totalCoins: 0
 --- !u!1 &5825814062661755514
 GameObject:

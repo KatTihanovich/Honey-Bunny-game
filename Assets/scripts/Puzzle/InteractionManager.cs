@@ -1,32 +1,52 @@
 using UnityEngine;
+using UnityEngine.InputSystem; // Подключаем новую систему ввода
 
 public class InteractionManager : MonoBehaviour
 {
-    public void OnInteractionButtonClick()
-    {
-    // Найти все объекты с компонентом InteractionZone
-    InteractionZone[] zones = FindObjectsOfType<InteractionZone>();
-    FlowerInteraction[] flowerZones = FindObjectsOfType<FlowerInteraction>();
+    private PlayerInputActions inputActions;
 
-    // Проверить InteractionZone
-    foreach (var zone in zones)
+    private void Awake()
     {
-        if (zone.IsPlayerInZone())
-        {
-            zone.Interact();
-            return;
-        }
+        inputActions = new PlayerInputActions();
+        inputActions.Player.Interact.performed += ctx => HandleInteraction(); // Подписка на кнопку
     }
 
-    // Проверить FlowerInteraction
-    foreach (var flowerZone in flowerZones)
+    private void OnEnable()
     {
-        if (flowerZone.IsPlayerInZone())
-        {
-            flowerZone.Interact();
-            return;
-        }
+        inputActions.Enable();
     }
+
+    private void OnDisable()
+    {
+        inputActions.Disable();
+    }
+
+    private void HandleInteraction()
+    {
+        Debug.Log("Interaction key pressed!");
+
+        InteractionZone[] zones = FindObjectsOfType<InteractionZone>();
+        FlowerInteraction[] flowerZones = FindObjectsOfType<FlowerInteraction>();
+
+        foreach (var zone in zones)
+        {
+            if (zone.IsPlayerInZone())
+            {
+                Debug.Log("Interacting with InteractionZone: " + zone.name);
+                zone.Interact();
+                return;
+            }
+        }
+
+        foreach (var flowerZone in flowerZones)
+        {
+            if (flowerZone.IsPlayerInZone())
+            {
+                Debug.Log("Interacting with FlowerInteraction: " + flowerZone.name);
+                flowerZone.Interact();
+                return;
+            }
+        }
 
         Debug.Log("Player is not in any interaction zone.");
     }

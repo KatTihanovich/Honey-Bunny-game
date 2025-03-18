@@ -74,7 +74,7 @@ public class UltimateCooldown : MonoBehaviour
         ultimateCooldownImage.fillAmount = 0;
 
         // Provide feedback (vibration for mobile, can customize for other platforms)
-        Handheld.Vibrate();
+        // Handheld.Vibrate();
 
         // Custom ultimate logic (Add your ultimate attack effect here)
         Debug.Log("Ultimate Activated!");

@@ -28,7 +28,7 @@ public class Health : MonoBehaviour
     {
         if (isDead) return; // If already dead, no further damage can be taken
 
-        Handheld.Vibrate();
+        // Handheld.Vibrate();
         
         // Reduce health and invoke the health changed event
         Play(damageSound);

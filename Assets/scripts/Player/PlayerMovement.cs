@@ -195,7 +195,7 @@ public class PlayerMovement : MonoBehaviour
             hitCooldownSprite.fillAmount = cooldownFactor;
         }
 
-        if (Keyboard.current.rKey.wasPressedThisFrame && ultimateCooldown.isAvailable)
+        if (Keyboard.current.qKey.wasPressedThisFrame && ultimateCooldown.isAvailable)
             {
                 StartUltimate();
                 ultimateCooldown.UsePower();

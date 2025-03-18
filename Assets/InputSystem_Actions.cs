@@ -53,6 +53,15 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""UltraAttack"",
+                    ""type"": ""Button"",
+                    ""id"": ""726eea90-ff64-4f4b-8888-f8380499386e"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -86,6 +95,17 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": "";Touch;Gamepad"",
                     ""action"": ""Attack"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""8575a59d-f3fe-40c3-9454-cae12cf4d2a8"",
+                    ""path"": ""<Keyboard>/r"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""UltraAttack"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -692,6 +712,7 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         m_Player_Move = m_Player.FindAction("Move", throwIfNotFound: true);
         m_Player_Jump = m_Player.FindAction("Jump", throwIfNotFound: true);
         m_Player_Attack = m_Player.FindAction("Attack", throwIfNotFound: true);
+        m_Player_UltraAttack = m_Player.FindAction("UltraAttack", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -774,6 +795,7 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Move;
     private readonly InputAction m_Player_Jump;
     private readonly InputAction m_Player_Attack;
+    private readonly InputAction m_Player_UltraAttack;
     public struct PlayerActions
     {
         private @InputSystem_Actions m_Wrapper;
@@ -781,6 +803,7 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         public InputAction @Move => m_Wrapper.m_Player_Move;
         public InputAction @Jump => m_Wrapper.m_Player_Jump;
         public InputAction @Attack => m_Wrapper.m_Player_Attack;
+        public InputAction @UltraAttack => m_Wrapper.m_Player_UltraAttack;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -799,6 +822,9 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
             @Attack.started += instance.OnAttack;
             @Attack.performed += instance.OnAttack;
             @Attack.canceled += instance.OnAttack;
+            @UltraAttack.started += instance.OnUltraAttack;
+            @UltraAttack.performed += instance.OnUltraAttack;
+            @UltraAttack.canceled += instance.OnUltraAttack;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -812,6 +838,9 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
             @Attack.started -= instance.OnAttack;
             @Attack.performed -= instance.OnAttack;
             @Attack.canceled -= instance.OnAttack;
+            @UltraAttack.started -= instance.OnUltraAttack;
+            @UltraAttack.performed -= instance.OnUltraAttack;
+            @UltraAttack.canceled -= instance.OnUltraAttack;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -1015,6 +1044,7 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         void OnMove(InputAction.CallbackContext context);
         void OnJump(InputAction.CallbackContext context);
         void OnAttack(InputAction.CallbackContext context);
+        void OnUltraAttack(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {

@@ -169,9 +169,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 1497491026597454932}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: PauseMenu, Assembly-CSharp
-        m_MethodName: Resume
+        m_MethodName: HideSettings
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -878,7 +878,6 @@ GameObject:
   - component: {fileID: 6887330332824029510}
   - component: {fileID: 6298599277894562051}
   - component: {fileID: 554769563486249907}
-  - component: {fileID: 1497491026597454932}
   - component: {fileID: 500115358514047314}
   m_Layer: 0
   m_Name: Settings
@@ -971,24 +970,6 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
---- !u!114 &1497491026597454932
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8525395564564828852}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5530cbf689a9f4dcca9c1de6e26def9f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  pauseMenuUI: {fileID: 8525395564564828852}
-  menusToDisable:
-  - {fileID: 0}
-  image: {fileID: 0}
-  defaultSprite: {fileID: 0}
-  toSelect: {fileID: 5663003539768506031}
 --- !u!114 &500115358514047314
 MonoBehaviour:
   m_ObjectHideFlags: 0

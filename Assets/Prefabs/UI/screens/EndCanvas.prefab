@@ -327,7 +327,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1424079418063961186}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: UIButtonSound, Assembly-CSharp
         m_MethodName: PlayClickSound
         m_Mode: 1
@@ -757,7 +757,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1424079418063961186}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: UIButtonSound, Assembly-CSharp
         m_MethodName: PlayClickSound
         m_Mode: 1
@@ -769,7 +769,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 3083775725517228287}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: PauseMenu, Assembly-CSharp
         m_MethodName: LoadMenu
         m_Mode: 1
@@ -796,7 +796,7 @@ MonoBehaviour:
   button: {fileID: 2180758569358315020}
   defaultSprite: {fileID: -5682802263403272867, guid: 618b56f118ad34cb2ba6d3e071344cbb, type: 3}
   selectedSprite: {fileID: 698815650650984178, guid: 5c217c6b084e142558b656f4a1ade099, type: 3}
-  scaleFactor: 2.6
+  scaleFactor: 2.4
 --- !u!1 &3417049110495445933
 GameObject:
   m_ObjectHideFlags: 0
@@ -994,7 +994,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1424079418063961186}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: UIButtonSound, Assembly-CSharp
         m_MethodName: PlayClickSound
         m_Mode: 1
@@ -1455,7 +1455,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: TUTORIAL
+  m_text: LEVEL 1 - FOREST
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 60965cb1c79b4470699ba445d29c8a78, type: 2}
   m_sharedMaterial: {fileID: 5637670021054491185, guid: 60965cb1c79b4470699ba445d29c8a78, type: 2}
@@ -1538,7 +1538,6 @@ GameObject:
   - component: {fileID: 7365688342114884389}
   - component: {fileID: 8278629781949518339}
   - component: {fileID: 1403238532688447547}
-  - component: {fileID: 3083775725517228287}
   - component: {fileID: 6286214116364880994}
   - component: {fileID: 1424079418063961186}
   m_Layer: 5
@@ -1631,24 +1630,6 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
---- !u!114 &3083775725517228287
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7668189261029553291}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5530cbf689a9f4dcca9c1de6e26def9f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  pauseMenuUI: {fileID: 7668189261029553291}
-  menusToDisable: []
-  image: {fileID: 0}
-  defaultSprite: {fileID: 0}
-  toSelect: {fileID: 488652128517538522}
-  playerInput: {fileID: 0}
 --- !u!114 &6286214116364880994
 MonoBehaviour:
   m_ObjectHideFlags: 0

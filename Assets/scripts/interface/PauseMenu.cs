@@ -9,10 +9,12 @@ public class PauseMenu : MonoBehaviour
 {
     [Header("UI Elements")]
     public GameObject pauseMenuUI;
+    public GameObject settingsUI;
     public List<GameObject> menusToDisable = new List<GameObject>(); 
     public Image image;
     public Sprite defaultSprite;
-    public GameObject toSelect; 
+    public GameObject toSelectOnPause; 
+    public GameObject toSelectOnSeetings; 
     [Header("Player Input")]
     public PlayerInput playerInput; 
 
@@ -36,7 +38,7 @@ public class PauseMenu : MonoBehaviour
 
     public void Pause()
     {
-        EventSystem.current.SetSelectedGameObject(toSelect);
+        EventSystem.current.SetSelectedGameObject(toSelectOnPause);
 
         pauseMenuUI.SetActive(true);
         Time.timeScale = 0f;
@@ -45,7 +47,7 @@ public class PauseMenu : MonoBehaviour
 
     public void PauseWithDisabling()
     {
-        EventSystem.current.SetSelectedGameObject(toSelect);
+        EventSystem.current.SetSelectedGameObject(toSelectOnPause);
         pauseMenuUI.SetActive(true);
         Time.timeScale = 0f;
         playerInput.SwitchCurrentActionMap("UI");
@@ -69,5 +71,15 @@ public class PauseMenu : MonoBehaviour
     {
         Time.timeScale = 1f;
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+    public void ShowSettings()
+    {
+        EventSystem.current.SetSelectedGameObject(toSelectOnSeetings);
+        settingsUI.SetActive(true);
+    }
+    public void HideSettings()
+    {
+        EventSystem.current.SetSelectedGameObject(toSelectOnPause);
+        settingsUI.SetActive(false);
     }
 }

@@ -67,6 +67,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float rangeY = 1f;
     [SerializeField] private int damage = 10;
     [SerializeField] private float attackCd = 10; // CD
+    public UltimateCooldown ultimateCooldown;
     private float attackCounter = Mathf.Infinity;
 
     // hero have a stick
@@ -194,10 +195,11 @@ public class PlayerMovement : MonoBehaviour
             hitCooldownSprite.fillAmount = cooldownFactor;
         }
 
-        // if (Keyboard.current.rKey.isPressed)
-        // {
-        //     StartUltimate();
-        // }
+        if (Keyboard.current.rKey.wasPressedThisFrame && ultimateCooldown.isAvailable)
+            {
+                StartUltimate();
+                ultimateCooldown.UsePower();
+            }
     }
 
     public void TryJump()

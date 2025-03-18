@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.InputSystem;
 
 public class UltimateCooldown : MonoBehaviour
 {
@@ -18,8 +19,6 @@ public class UltimateCooldown : MonoBehaviour
 
     private Image ultimateCooldownImage;     // Reference to cooldown UI image
 
-    [Header("Input Settings")]
-    public KeyCode ultimateKey = KeyCode.R;  // Key to trigger ultimate (default: "R")
 
     void Start()
     {
@@ -37,12 +36,6 @@ public class UltimateCooldown : MonoBehaviour
         {
             float scaleFactor = 1 + Mathf.Sin(Time.time * scaleSpeed) * scaleAmplitude;
             transform.localScale = initialScale * scaleFactor;
-
-            // Check for ultimate activation input
-            if (Input.GetKeyDown(ultimateKey))
-            {
-                UsePower(); // Trigger ultimate when key is pressed
-            }
         }
     }
 

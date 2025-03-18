@@ -48,6 +48,12 @@ public class ButtonImageToggler : MonoBehaviour, ISelectHandler, IDeselectHandle
         UpdateImage();
     }
 
+    public void ToggleFromExternal()
+    {
+        ToggleImage();
+        UpdateImage();
+    }
+
     private void UpdateImage()
     {
         if (isSelected)

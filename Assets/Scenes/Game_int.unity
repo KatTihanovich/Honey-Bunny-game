@@ -26267,6 +26267,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9092091134410398152, guid: a100ad444e68d0d4fba49254084dc7e7, type: 3}
+      propertyPath: ultimateCooldown
+      value: 
+      objectReference: {fileID: 822156346}
+    - target: {fileID: 9092091134410398152, guid: a100ad444e68d0d4fba49254084dc7e7, type: 3}
       propertyPath: hitCooldownSprite
       value: 
       objectReference: {fileID: 595706233}
@@ -33982,6 +33986,14 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 261875820}
+    - target: {fileID: 5525131110311399305, guid: 7c1506489f35f49d8b77dbec773a402d, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_Target
+      value: 
+      objectReference: {fileID: 7190360373211070829}
+    - target: {fileID: 5525131110311399305, guid: 7c1506489f35f49d8b77dbec773a402d, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_MethodName
+      value: ToggleFromExternal
+      objectReference: {fileID: 0}
     - target: {fileID: 7148407519389518042, guid: 7c1506489f35f49d8b77dbec773a402d, type: 3}
       propertyPath: image
       value: 
@@ -34382,6 +34394,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f23b74fdac9ef46a787ab3c6e42482ca, type: 3}
+--- !u!114 &7190360373211070829 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 9133976382736277600, guid: f23b74fdac9ef46a787ab3c6e42482ca, type: 3}
+  m_PrefabInstance: {fileID: 7190360373211070828}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1021516863}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f8cb2b897dd364ce9a4d9d7f77a9692a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

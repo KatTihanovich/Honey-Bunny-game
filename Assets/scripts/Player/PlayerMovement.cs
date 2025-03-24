@@ -223,6 +223,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void IsGrounded()
     {
+        //Changed by mentor in Estoty
         Vector2 boxCastOrigin = new Vector2(playerCollider.bounds.center.x, playerCollider.bounds.min.y);
         Vector2 boxCastSize = new Vector2(playerCollider.bounds.size.x, 0.1f);
 

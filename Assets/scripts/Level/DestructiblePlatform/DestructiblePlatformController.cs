@@ -23,6 +23,7 @@ public class DestructiblePlatformController : MonoBehaviour
     {
         isDestroyed = true; // Флаг разрушения
 
+        //Changed by mentor in estoty
         if (isDestroySequenceRunning == false)
         {
             isDestroySequenceRunning = true;

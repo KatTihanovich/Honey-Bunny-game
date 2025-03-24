@@ -21,15 +21,15 @@ public class PauseMenu : MonoBehaviour
     public void Resume()
     {
         pauseMenuUI.SetActive(false);
-        Time.timeScale = 1f;
         playerInput.SwitchCurrentActionMap("Player");
+        Time.timeScale = 1f;
     }
 
     public void ResumeWithButton()
     {
         pauseMenuUI.SetActive(false);
-        Time.timeScale = 1f;
         playerInput.SwitchCurrentActionMap("Player");
+        Time.timeScale = 1f;
         if (image != null)
         {
             image.sprite = defaultSprite;
@@ -40,16 +40,16 @@ public class PauseMenu : MonoBehaviour
     {
         pauseMenuUI.SetActive(true);
         EventSystem.current.SetSelectedGameObject(toSelectOnPause);
-        Time.timeScale = 0f;
         playerInput.SwitchCurrentActionMap("UI");
+        Time.timeScale = 0f;
     }
 
     public void PauseWithDisabling()
     {
         EventSystem.current.SetSelectedGameObject(toSelectOnPause);
         pauseMenuUI.SetActive(true);
-        Time.timeScale = 0f;
         playerInput.SwitchCurrentActionMap("UI");
+        Time.timeScale = 0f;
         
         foreach (GameObject menu in menusToDisable)
         {

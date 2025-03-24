@@ -9,6 +9,7 @@ public class DestructiblePlatformController : MonoBehaviour
     private Quaternion initialRotation;
     private Vector3 initialScale;
     private bool isDestroyed = false;
+    private bool isDestroySequenceRunning = false;
 
     private void Awake()
     {
@@ -18,13 +19,15 @@ public class DestructiblePlatformController : MonoBehaviour
         initialScale = transform.localScale;
     }
 
-    private void OnCollisionEnter2D(Collision2D coll)
+    public void StartDestroying()
     {
-        if (coll.gameObject.tag == "Player" && !isDestroyed)
+        isDestroyed = true; // Флаг разрушения
+
+        if (isDestroySequenceRunning == false)
         {
-            isDestroyed = true; // Флаг разрушения
+            isDestroySequenceRunning = true;
             Invoke(nameof(DestroyPlatform), destroyTime); // Задержка перед разрушением
-        }
+        }   
     }
 
     private void DestroyPlatform()
@@ -43,5 +46,6 @@ public class DestructiblePlatformController : MonoBehaviour
         transform.localScale = initialScale;
         gameObject.SetActive(true); // Включаем платформу
         isDestroyed = false; // Сбрасываем флаг разрушения
+        isDestroySequenceRunning = false;
     }
 }

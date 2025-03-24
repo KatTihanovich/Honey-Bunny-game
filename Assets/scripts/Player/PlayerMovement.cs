@@ -228,6 +228,11 @@ public class PlayerMovement : MonoBehaviour
 
         groundHit = Physics2D.BoxCast(boxCastOrigin, boxCastSize, 0f, Vector2.down, 0.1f, groundLayer.value);
         isGrounded = groundHit.collider;
+
+        if (groundHit.collider != null && groundHit.collider.TryGetComponent(out DestructiblePlatformController platform))
+        {
+            platform.StartDestroying();
+        }
     }
 
     private void InitiateJump()

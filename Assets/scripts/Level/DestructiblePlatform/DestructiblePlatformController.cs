@@ -1,5 +1,5 @@
 using UnityEngine;
-
+using Spine.Unity;
 public class DestructiblePlatformController : MonoBehaviour
 {
     [SerializeField] private float destroyTime = 1f; // Время до разрушения
@@ -10,6 +10,9 @@ public class DestructiblePlatformController : MonoBehaviour
     private Vector3 initialScale;
     private bool isDestroyed = false;
     private bool isDestroySequenceRunning = false;
+
+    public GameObject destroyAnimationPrefab;
+    public string destroyAnimationName = "animation";
 
     private void Awake()
     {
@@ -37,6 +40,19 @@ public class DestructiblePlatformController : MonoBehaviour
         gameObject.SetActive(false);
         // Планируем восстановление через respawnTime
         Invoke(nameof(RespawnPlatform), respawnTime);
+
+        Vector3 spawnPosition = transform.position + new Vector3(-2.5f, -0.63f, 0f);
+
+    // Spawn the destroy animation at the adjusted position
+    GameObject effect = Instantiate(destroyAnimationPrefab, spawnPosition, Quaternion.identity);
+
+    // Play the destroy animation
+    var skeletonAnimation = effect.GetComponent<SkeletonAnimation>();
+    skeletonAnimation.AnimationState.SetAnimation(0, destroyAnimationName, false);
+
+    // Auto-destroy effect after animation ends
+    float animationDuration = skeletonAnimation.skeleton.Data.FindAnimation(destroyAnimationName).Duration;
+    Destroy(effect, animationDuration);
     }
 
     private void RespawnPlatform()

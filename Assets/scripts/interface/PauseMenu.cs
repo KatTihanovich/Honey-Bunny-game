@@ -27,9 +27,7 @@ public class PauseMenu : MonoBehaviour
 
     public void ResumeWithButton()
     {
-        pauseMenuUI.SetActive(false);
-        playerInput.SwitchCurrentActionMap("Player");
-        Time.timeScale = 1f;
+        Resume();
         if (image != null)
         {
             image.sprite = defaultSprite;
@@ -46,11 +44,7 @@ public class PauseMenu : MonoBehaviour
 
     public void PauseWithDisabling()
     {
-        EventSystem.current.SetSelectedGameObject(toSelectOnPause);
-        pauseMenuUI.SetActive(true);
-        playerInput.SwitchCurrentActionMap("UI");
-        Time.timeScale = 0f;
-        
+        Pause();
         foreach (GameObject menu in menusToDisable)
         {
             if (menu != null)
@@ -69,6 +63,8 @@ public class PauseMenu : MonoBehaviour
     public void Restart()
     {
         Time.timeScale = 1f;
+        EndWindow.enemiesDefeated = 0;
+        CoinManager.Instance.totalCoins = 0;
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
     public void ShowSettings()

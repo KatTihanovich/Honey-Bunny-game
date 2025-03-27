@@ -182,10 +182,7 @@ public class PlayerMovement : MonoBehaviour
 
         if (Keyboard.current.fKey.wasPressedThisFrame && attackCounter >= attackCd)
         {
-            anim.SetTrigger(AttackPressed);
-            attackCounter = 0;
-            StartAttack();
-            hitButton.interactable = false;
+            TryAttack();
         }
 
         var cooldownFactor = attackCounter / attackCd;

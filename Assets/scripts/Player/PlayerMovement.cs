@@ -341,6 +341,7 @@ public class PlayerMovement : MonoBehaviour
     {
         attackCounter = 0;
         PlaySound(kickSound);
+        ApplyAreaDamage();
     }
 
     public void StartUltimate()
@@ -348,6 +349,7 @@ public class PlayerMovement : MonoBehaviour
         isUltimateAttack = true;
         anim.SetTrigger(UltimatePressed);
         PlaySound(kickSound);
+        ApplyUltimateDamage();
     }
 
     public void ApplyUltimateDamage()

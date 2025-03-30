@@ -38,7 +38,9 @@ namespace Enemy
             {
                 if (isDeadAnimationPlayed) return;
                 isDeadAnimationPlayed = true;
+                Debug.Log("Character is dead.1");
                 anim.SetTrigger(Dead);
+                Debug.Log("Character is dead.2");
                 HandleDeath();
             }
         }
@@ -47,7 +49,7 @@ namespace Enemy
         {
             ultimateCooldown.AddPower();
             Play(deathSound);
-            Debug.Log("Character is dead.");
+            Debug.Log("Character is dead.3");
             isDeadAnimationPlayed = false;
         }
         

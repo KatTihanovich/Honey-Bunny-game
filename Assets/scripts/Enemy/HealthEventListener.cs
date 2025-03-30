@@ -25,22 +25,50 @@ public class HealthEventListener : MonoBehaviour
 
         ultimateCooldown = GameObject.Find("UltimateCooldown").GetComponent<UltimateCooldown>();
     }
+    private void OnDestroy()
+{
+    if (health != null)
+    {
+        health.OnHealthChanged -= HandleHealthChanged;
+    }
+}
+
+    // private void HandleHealthChanged(float currentHealth)
+    // {
+    //     if (currentHealth > 0)
+    //     {
+    //         Debug.Log("Health changed: " + currentHealth);
+    //         anim.SetTrigger(GotHit);
+    //     }
+    //     else
+    //     {
+    //         //if (isDeadAnimationPlayed) return;
+    //         isDeadAnimationPlayed = true;
+    //         anim.SetTrigger(Dead);
+    //         HandleDeath();
+    //     }
+    // }
 
     private void HandleHealthChanged(float currentHealth)
+{
+    if (isDeadAnimationPlayed) return; // ✅ Добавляем проверку: если персонаж уже мёртв, игнорируем
+
+    if (currentHealth > 0)
     {
-        if (currentHealth > 0)
-        {
-            Debug.Log("Health changed: " + currentHealth);
-            anim.SetTrigger(GotHit);
-        }
-        else
-        {
-            if (isDeadAnimationPlayed) return;
-            isDeadAnimationPlayed = true;
-            anim.SetTrigger(Dead);
-            HandleDeath();
-        }
+        Debug.Log("Health changed: " + currentHealth);
+        anim.SetTrigger(GotHit);
     }
+    else
+    {
+       // if (currentHealth <= 0) 
+          Debug.Log("Character is dead.");
+        anim.SetTrigger(Dead);
+        isDeadAnimationPlayed = true;
+        HandleDeath();
+    }
+
+}
+
 
     private void HandleDeath()
     {
@@ -52,7 +80,7 @@ public class HealthEventListener : MonoBehaviour
         {
             EndWindow.IncreaseEnemyCount();
         }
-        Invoke(nameof(DestroyObject), 2f);
+        Invoke(nameof(DestroyObject), 1f);
     }
 
     private void DestroyObject()

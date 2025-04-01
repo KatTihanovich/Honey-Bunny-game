@@ -485,7 +485,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &88970504
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3503,11 +3503,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &822156342 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 154688178151982817, guid: 293b2e583bccb514bb4fb7681e6b7bd5, type: 3}
-  m_PrefabInstance: {fileID: 3109399393991575006}
-  m_PrefabAsset: {fileID: 0}
 --- !u!224 &822156343 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 610852306611309067, guid: 293b2e583bccb514bb4fb7681e6b7bd5, type: 3}
@@ -3518,7 +3513,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3886788143781769870, guid: 293b2e583bccb514bb4fb7681e6b7bd5, type: 3}
   m_PrefabInstance: {fileID: 3109399393991575006}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 822156342}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 94d47375780bd15498881a60c894c511, type: 3}
@@ -5999,7 +5994,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1439199073
 RectTransform:
   m_ObjectHideFlags: 0
@@ -6894,30 +6889,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 327513566432602487, guid: a100ad444e68d0d4fba49254084dc7e7, type: 3}
-      propertyPath: health
-      value: 
-      objectReference: {fileID: 704355364}
-    - target: {fileID: 327513566432602487, guid: a100ad444e68d0d4fba49254084dc7e7, type: 3}
-      propertyPath: deathSound
-      value: 
-      objectReference: {fileID: 8300000, guid: 829f10ff5587243ae8f50fbcdbf25dca, type: 3}
-    - target: {fileID: 327513566432602487, guid: a100ad444e68d0d4fba49254084dc7e7, type: 3}
-      propertyPath: audioMixerGroup
-      value: 
-      objectReference: {fileID: -1040233043583867831, guid: b7aad94fe0c3c4ba4a14d95707c80208, type: 2}
-    - target: {fileID: 327513566432602487, guid: a100ad444e68d0d4fba49254084dc7e7, type: 3}
-      propertyPath: ultimateCooldown
-      value: 
-      objectReference: {fileID: 822156346}
-    - target: {fileID: 327513566432602487, guid: a100ad444e68d0d4fba49254084dc7e7, type: 3}
-      propertyPath: ultimateCooldownIndicator
-      value: 
-      objectReference: {fileID: 822156342}
-    - target: {fileID: 2154500809137966508, guid: a100ad444e68d0d4fba49254084dc7e7, type: 3}
-      propertyPath: m_TagString
-      value: Player
-      objectReference: {fileID: 0}
     - target: {fileID: 2463405000098002070, guid: a100ad444e68d0d4fba49254084dc7e7, type: 3}
       propertyPath: m_Name
       value: Bunny
@@ -6927,49 +6898,9 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 744361450}
     - target: {fileID: 3872109104760278329, guid: a100ad444e68d0d4fba49254084dc7e7, type: 3}
-      propertyPath: deathSound
-      value: 
-      objectReference: {fileID: 8300000, guid: 829f10ff5587243ae8f50fbcdbf25dca, type: 3}
-    - target: {fileID: 3872109104760278329, guid: a100ad444e68d0d4fba49254084dc7e7, type: 3}
-      propertyPath: damageSound
-      value: 
-      objectReference: {fileID: 8300000, guid: 40430eae56e0142219f9abc270dd409f, type: 3}
-    - target: {fileID: 3872109104760278329, guid: a100ad444e68d0d4fba49254084dc7e7, type: 3}
       propertyPath: deathCanvas
       value: 
       objectReference: {fileID: 4828239110695636659}
-    - target: {fileID: 3872109104760278329, guid: a100ad444e68d0d4fba49254084dc7e7, type: 3}
-      propertyPath: audioMixerGroup
-      value: 
-      objectReference: {fileID: -1040233043583867831, guid: b7aad94fe0c3c4ba4a14d95707c80208, type: 2}
-    - target: {fileID: 4228889663623138041, guid: a100ad444e68d0d4fba49254084dc7e7, type: 3}
-      propertyPath: audioClip
-      value: 
-      objectReference: {fileID: 8300000, guid: 829f10ff5587243ae8f50fbcdbf25dca, type: 3}
-    - target: {fileID: 4228889663623138041, guid: a100ad444e68d0d4fba49254084dc7e7, type: 3}
-      propertyPath: eventName
-      value: Death
-      objectReference: {fileID: 0}
-    - target: {fileID: 4228889663623138041, guid: a100ad444e68d0d4fba49254084dc7e7, type: 3}
-      propertyPath: audioMixerGroup
-      value: 
-      objectReference: {fileID: -1040233043583867831, guid: b7aad94fe0c3c4ba4a14d95707c80208, type: 2}
-    - target: {fileID: 5606989402840032183, guid: a100ad444e68d0d4fba49254084dc7e7, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -0.12
-      objectReference: {fileID: 0}
-    - target: {fileID: 6457243935378208181, guid: a100ad444e68d0d4fba49254084dc7e7, type: 3}
-      propertyPath: m_SortingOrder
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6457243935378208181, guid: a100ad444e68d0d4fba49254084dc7e7, type: 3}
-      propertyPath: m_Materials.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6457243935378208181, guid: a100ad444e68d0d4fba49254084dc7e7, type: 3}
-      propertyPath: 'm_Materials.Array.data[0]'
-      value: 
-      objectReference: {fileID: 2100000, guid: 9be1d9e2c827bbd49b85942847c13f90, type: 2}
     - target: {fileID: 7508433837340778834, guid: a100ad444e68d0d4fba49254084dc7e7, type: 3}
       propertyPath: m_LocalPosition.x
       value: -81.77
@@ -7015,29 +6946,9 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 0}
     - target: {fileID: 9092091134410398152, guid: a100ad444e68d0d4fba49254084dc7e7, type: 3}
-      propertyPath: volume
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 9092091134410398152, guid: a100ad444e68d0d4fba49254084dc7e7, type: 3}
-      propertyPath: Joystick
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 9092091134410398152, guid: a100ad444e68d0d4fba49254084dc7e7, type: 3}
-      propertyPath: attackCd
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 9092091134410398152, guid: a100ad444e68d0d4fba49254084dc7e7, type: 3}
       propertyPath: hitButton
       value: 
       objectReference: {fileID: 88970507}
-    - target: {fileID: 9092091134410398152, guid: a100ad444e68d0d4fba49254084dc7e7, type: 3}
-      propertyPath: jumpSound
-      value: 
-      objectReference: {fileID: 8300000, guid: 6b1ae02faabb24d968c92121a65c1b60, type: 3}
-    - target: {fileID: 9092091134410398152, guid: a100ad444e68d0d4fba49254084dc7e7, type: 3}
-      propertyPath: kickSound
-      value: 
-      objectReference: {fileID: 8300000, guid: 8b9b2d5520bf642bcb039b5b23348a0d, type: 3}
     - target: {fileID: 9092091134410398152, guid: a100ad444e68d0d4fba49254084dc7e7, type: 3}
       propertyPath: jumpButton
       value: 
@@ -7046,22 +6957,6 @@ PrefabInstance:
       propertyPath: kickButton
       value: 
       objectReference: {fileID: 88970507}
-    - target: {fileID: 9092091134410398152, guid: a100ad444e68d0d4fba49254084dc7e7, type: 3}
-      propertyPath: isHavingStick
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 9092091134410398152, guid: a100ad444e68d0d4fba49254084dc7e7, type: 3}
-      propertyPath: audioMixerGroup
-      value: 
-      objectReference: {fileID: -1040233043583867831, guid: b7aad94fe0c3c4ba4a14d95707c80208, type: 2}
-    - target: {fileID: 9092091134410398152, guid: a100ad444e68d0d4fba49254084dc7e7, type: 3}
-      propertyPath: MovementAmount.x
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 9092091134410398152, guid: a100ad444e68d0d4fba49254084dc7e7, type: 3}
-      propertyPath: ultimateCooldown
-      value: 
-      objectReference: {fileID: 822156346}
     - target: {fileID: 9092091134410398152, guid: a100ad444e68d0d4fba49254084dc7e7, type: 3}
       propertyPath: hitCooldownSprite
       value: 

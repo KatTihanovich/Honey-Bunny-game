@@ -4,48 +4,48 @@ using UnityEngine.InputSystem;
 
 public class UltimateCooldown : MonoBehaviour
 {
-    [Header("Pulse Full Animation")]
-    public float scaleAmplitude = 0.1f;      // How much the icon pulses
-    public float scaleSpeed = 2.0f;          // Speed of the pulse animation
-    private Vector3 initialScale;            // Store original scale for animation reset
+    // [Header("Pulse Full Animation")]
+    // public float scaleAmplitude = 0.1f;      // How much the icon pulses
+    // public float scaleSpeed = 2.0f;          // Speed of the pulse animation
+    // private Vector3 initialScale;            // Store original scale for animation reset
 
-    [Header("Full color")]
-    public Color fullColor = Color.cyan;     // Color when ultimate is ready
+    // [Header("Full color")]
+    // public Color fullColor = Color.cyan;     // Color when ultimate is ready
 
     [Header("Ultimate Settings")]
     public bool isAvailable;                 // Whether ultimate is available
     public int enemyCountToFill = 3;         // How many enemies to defeat to fill ultimate
     private int ultimateProgressCount;       // Track current progress
 
-    private Image ultimateCooldownImage;     // Reference to cooldown UI image
+    // private Image ultimateCooldownImage;     // Reference to cooldown UI image
 
 
     void Start()
     {
-        initialScale = transform.localScale; // Store initial scale for pulse effect
-        ultimateCooldownImage = GetComponent<Image>(); // Get the Image component
+        // initialScale = transform.localScale; // Store initial scale for pulse effect
+        // ultimateCooldownImage = GetComponent<Image>(); // Get the Image component
 
         SetActive(isAvailable); // Set initial availability state
-        ultimateCooldownImage.fillAmount = (float)ultimateProgressCount / enemyCountToFill; // Update visual
+        // ultimateCooldownImage.fillAmount = (float)ultimateProgressCount / enemyCountToFill; // Update visual
     }
 
-    void Update()
-    {
-        // Pulse animation if ultimate is ready
-        if (isAvailable)
-        {
-            float scaleFactor = 1 + Mathf.Sin(Time.time * scaleSpeed) * scaleAmplitude;
-            transform.localScale = initialScale * scaleFactor;
-        }
-    }
+    // void Update()
+    // {
+    //     // Pulse animation if ultimate is ready
+    //     if (isAvailable)
+    //     {
+    //         float scaleFactor = 1 + Mathf.Sin(Time.time * scaleSpeed) * scaleAmplitude;
+    //         transform.localScale = initialScale * scaleFactor;
+    //     }
+    // }
 
     // Update ultimate availability and color
     private void SetActive(bool isActive)
     {
-        if (ultimateCooldownImage != null)
-        {
-            ultimateCooldownImage.color = isActive ? fullColor : Color.white; // Change color
-        }
+        // if (ultimateCooldownImage != null)
+        // {
+        //     ultimateCooldownImage.color = isActive ? fullColor : Color.white; // Change color
+        // }
         isAvailable = isActive; // Update availability flag
     }
 
@@ -55,7 +55,7 @@ public class UltimateCooldown : MonoBehaviour
         if (isAvailable) return; // Ignore if already available
 
         ultimateProgressCount++;
-        ultimateCooldownImage.fillAmount = (float)ultimateProgressCount / enemyCountToFill;
+        // ultimateCooldownImage.fillAmount = (float)ultimateProgressCount / enemyCountToFill;
 
         // Activate ultimate if fully charged
         if (ultimateProgressCount >= enemyCountToFill)
@@ -71,7 +71,7 @@ public class UltimateCooldown : MonoBehaviour
 
         // Reset ultimate
         ultimateProgressCount = 0;
-        ultimateCooldownImage.fillAmount = 0;
+        // ultimateCooldownImage.fillAmount = 0;
 
         // Provide feedback (vibration for mobile, can customize for other platforms)
         // Handheld.Vibrate();

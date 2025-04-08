@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1461071934339924692}
-  - component: {fileID: 981726137121866654}
+  - component: {fileID: 7369934401640249698}
   m_Layer: 9
   m_Name: Nipper_Patrol
   m_TagString: Enemy
@@ -35,7 +35,7 @@ Transform:
   - {fileID: 6952998661343811106}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &981726137121866654
+--- !u!114 &7369934401640249698
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -44,15 +44,25 @@ MonoBehaviour:
   m_GameObject: {fileID: 237957007216855655}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 949ccc31268e3b04eac278af389d1e7d, type: 3}
+  m_Script: {fileID: 11500000, guid: 663702151f4454c43a765f2b423d2d6b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerLayer:
+    serializedVersion: 2
+    m_Bits: 256
+  obstacleLayer:
+    serializedVersion: 2
+    m_Bits: 64
+  visionRange: 10
+  visionHeightOffset: 0.5
   leftEdge: {fileID: 3439481041175431890}
   rightEdge: {fileID: 6797889251444461571}
   enemy: {fileID: 6952998661343811106}
   anim: {fileID: 5552510611130062771}
-  speed: 2
-  waitTimeAtPoint: 4
+  speed: 3
+  waitTimeAtPoint: 3
+  player: {fileID: 0}
+  detectionRange: 10
   rb: {fileID: 1022056551005631497}
 --- !u!1 &345895175925996600
 GameObject:
@@ -137,6 +147,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   startingHealth: 2
+  deathCanvas: {fileID: 0}
+  toSelect: {fileID: 0}
+  audioMixerGroup: {fileID: -1040233043583867831, guid: b7aad94fe0c3c4ba4a14d95707c80208, type: 2}
+  damageSound: {fileID: 8300000, guid: 40430eae56e0142219f9abc270dd409f, type: 3}
+  volume: 1
 --- !u!1 &2402472768576901512
 GameObject:
   m_ObjectHideFlags: 0
@@ -323,9 +338,12 @@ MonoBehaviour:
   boxCollider: {fileID: 6210751162624073984}
   playerLayer:
     serializedVersion: 2
-    m_Bits: 256
+    m_Bits: 512
   rotateTowardsPlayer: 1
-  patrolScript: {fileID: 981726137121866654}
+  patrolScript: {fileID: 0}
+  audioMixerGroup: {fileID: -1040233043583867831, guid: b7aad94fe0c3c4ba4a14d95707c80208, type: 2}
+  attackSound: {fileID: 8300000, guid: adea45e66850042909274afe7d7927c0, type: 3}
+  volume: 1
 --- !u!50 &1022056551005631497
 Rigidbody2D:
   serializedVersion: 5
@@ -367,6 +385,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: {fileID: 5147257453704261016}
   anim: {fileID: 5552510611130062771}
+  audioMixerGroup: {fileID: -1040233043583867831, guid: b7aad94fe0c3c4ba4a14d95707c80208, type: 2}
+  deathSound: {fileID: 8300000, guid: 554d5ca862bfa4d2da73bf25bc98466d, type: 3}
+  volume: 1
 --- !u!1 &2827063643699953856
 GameObject:
   m_ObjectHideFlags: 0
@@ -406,7 +427,7 @@ BoxCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2827063643699953856}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Density: 1
   m_Material: {fileID: 6200000, guid: 26dee355a21a06e46ac026dbdb191209, type: 2}
@@ -470,7 +491,7 @@ Transform:
   m_GameObject: {fileID: 5156715849415046906}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 21, y: 1, z: 0}
+  m_LocalPosition: {x: 19, y: 1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -501,7 +522,7 @@ Transform:
   m_GameObject: {fileID: 7136875099817744874}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 43, y: 1, z: 0}
+  m_LocalPosition: {x: 50, y: 1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

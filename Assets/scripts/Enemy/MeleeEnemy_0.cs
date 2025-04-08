@@ -18,7 +18,7 @@ public class MeleeEnemy_0 : MonoBehaviour
 
     [Header("Movement Settings")]
     [SerializeField] private bool rotateTowardsPlayer = true;
-    [SerializeField] private EnemyPatrol patrolScript;
+    [SerializeField] private PatrolBase patrolScript;
 
     [Header("Animation Settings")]
     private Health playerHealth;

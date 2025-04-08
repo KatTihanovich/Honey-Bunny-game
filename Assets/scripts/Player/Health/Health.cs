@@ -5,7 +5,7 @@ using UnityEngine.EventSystems;
 public class Health : MonoBehaviour
 {
     [Header("Health Settings")]
-    [SerializeField] private float startingHealth;
+    [SerializeField] public float startingHealth;
     public float CurrentHealth { get; private set; }
     private bool isDead = false;
 

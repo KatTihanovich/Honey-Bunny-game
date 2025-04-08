@@ -6,9 +6,24 @@ public class HealthBar : MonoBehaviour
     [SerializeField] private Health playerHealth;
     [SerializeField] private Image currenthealthBar;
 
-    public void Update()
+    private void OnEnable()
     {
-        // for god sake why it in a Update ?!
-        currenthealthBar.fillAmount = playerHealth.CurrentHealth / 10;
+        playerHealth.OnHealthChanged += UpdateHealthBar;
+    }
+
+    private void OnDisable()
+    {
+        playerHealth.OnHealthChanged -= UpdateHealthBar;
+    }
+
+    private void Start()
+    {
+        // Set initial value
+        UpdateHealthBar(playerHealth.CurrentHealth);
+    }
+
+    private void UpdateHealthBar(float currentHealth)
+    {
+        currenthealthBar.fillAmount = currentHealth / playerHealth.startingHealth;
     }
 }

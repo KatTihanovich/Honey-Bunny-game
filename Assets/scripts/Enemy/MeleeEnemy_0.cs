@@ -12,7 +12,7 @@ public class MeleeEnemy_0 : MonoBehaviour
     [SerializeField] private float rangeY;
     [SerializeField] private float colliderDistanceX;
     [SerializeField] private float colliderDistanceY;
-    [SerializeField] private int damage;
+    [SerializeField] private float damage=20f;
     [SerializeField] private BoxCollider2D boxCollider;
     [SerializeField] private LayerMask playerLayer;
 
@@ -21,10 +21,12 @@ public class MeleeEnemy_0 : MonoBehaviour
     [SerializeField] private EnemyPatrol patrolScript;
 
     [Header("Animation Settings")]
-    private Health playerHealth;
+    private HealthNew playerHealth;
     private float cooldownTimer = Mathf.Infinity;
     private Animator anim;
     private Vector3 baseScale;
+    private HealthNew _healthNew;
+
 
     [Header("Audio Settings")]
     [SerializeField] public AudioMixerGroup audioMixerGroup; 
@@ -35,6 +37,17 @@ public class MeleeEnemy_0 : MonoBehaviour
     {
         baseScale = transform.localScale;
         anim = GetComponent<Animator>();
+        _healthNew = GetComponent<HealthNew>();
+
+        if (_healthNew != null)
+        {
+            _healthNew.OnDeath += HandleDeath;
+        }
+    }
+
+    public void HandleDeath() 
+    {
+        Destroy(gameObject);
     }
 
     private void Update()
@@ -44,7 +57,7 @@ public class MeleeEnemy_0 : MonoBehaviour
         if (PlayerInSight())
         {
             anim.SetBool(Run, false);
-
+      
             if (cooldownTimer >= attackCooldown)
             {
                 patrolScript.StartWaiting();
@@ -78,30 +91,40 @@ public class MeleeEnemy_0 : MonoBehaviour
 
         if (hit.collider != null && hit.collider.CompareTag("Player"))
         {
-            playerHealth = hit.transform.GetComponent<Health>();
-            return playerHealth != null;
+            playerHealth = hit.transform.GetComponent<HealthNew>();
+            PlayerController playerController = hit.transform.GetComponent<PlayerController>();
+
+            if (playerHealth != null && playerHealth.enabled && playerController != null && playerController.enabled)
+            {
+                return true;
+            }
         }
 
         playerHealth = null;
         return false;
     }
+
     public void DamagePlayer()
     {
-        if (PlayerInSight() && playerHealth != null)
+       
+    }
+
+
+    public void NIPPER_ATTACK()
+    {
+        if (playerHealth != null && PlayerInSight())
         {
             Play(attackSound);
-            playerHealth.TakeDamage(damage);
+            playerHealth.TakeDamage(20f);
             Debug.Log("Player damaged by enemy!");
         }
         else
         {
-            Debug.Log("Player not in sight, no damage dealt.");
+            Debug.Log("No player found to damage.");
         }
+
     }
-    public void TestSpineEvent()
-{
-    Debug.Log("NECKKER_HIT event received!"); 
-}
+      
 
     private void Play(AudioClip clip) {
             if (clip != null && audioMixerGroup != null) {

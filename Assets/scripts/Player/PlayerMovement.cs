@@ -50,6 +50,8 @@ public class PlayerMovement : MonoBehaviour
     [Header("What is Ground Parameters")] [SerializeField]
     private LayerMask groundLayer;
 
+
+
     private Rigidbody2D rb;
     private RaycastHit2D groundHit;
     public bool isOnPlatform;

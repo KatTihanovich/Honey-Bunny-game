@@ -10,11 +10,11 @@ public class Health : MonoBehaviour
     private bool isDead = false;
 
     public GameObject deathCanvas;
-    public GameObject toSelect; 
+    public GameObject toSelect;
 
     public event System.Action<float> OnHealthChanged;
 
-    [SerializeField] private AudioMixerGroup audioMixerGroup; 
+    [SerializeField] private AudioMixerGroup audioMixerGroup;
     public AudioClip damageSound;
     [SerializeField] private float volume = 1.0f;
 
@@ -29,7 +29,7 @@ public class Health : MonoBehaviour
         if (isDead) return; // If already dead, no further damage can be taken
 
         // Handheld.Vibrate();
-        
+
         // Reduce health and invoke the health changed event
         Play(damageSound);
         CurrentHealth = Mathf.Clamp(CurrentHealth - damage, 0, startingHealth);
@@ -57,17 +57,19 @@ public class Health : MonoBehaviour
         OnHealthChanged?.Invoke(CurrentHealth);
     }
 
-    private void Play(AudioClip clip) {
-            if (clip != null && audioMixerGroup != null) {
-                GameObject tempAudio = new GameObject("TempAudioClip");
-                AudioSource audioSource = tempAudio.AddComponent<AudioSource>();
+    private void Play(AudioClip clip)
+    {
+        if (clip != null && audioMixerGroup != null)
+        {
+            GameObject tempAudio = new GameObject("TempAudioClip");
+            AudioSource audioSource = tempAudio.AddComponent<AudioSource>();
 
-                audioSource.outputAudioMixerGroup = audioMixerGroup;
-                audioSource.clip = clip;
-                audioSource.volume = volume;
-                audioSource.Play();
+            audioSource.outputAudioMixerGroup = audioMixerGroup;
+            audioSource.clip = clip;
+            audioSource.volume = volume;
+            audioSource.Play();
 
-                Destroy(tempAudio, clip.length);
-            }
+            Destroy(tempAudio, clip.length);
         }
+    }
 }

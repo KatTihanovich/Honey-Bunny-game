@@ -9,6 +9,7 @@ public class PlayerAnimation : MonoBehaviour
     private bool _attackTriggered;
     private bool _damageTriggered;
     private bool _superAttackAnimPlayed = false;
+    private bool _isAnimationDamageExit = true;
 
 
     private void Start()
@@ -25,6 +26,16 @@ public class PlayerAnimation : MonoBehaviour
         }
     }
 
+    public bool IsAnimationDamageExit 
+    {
+        get { return _isAnimationDamageExit; }
+    }
+   
+    public bool ToggleDamageAnimationStatus()
+    {
+        _isAnimationDamageExit = !_isAnimationDamageExit;
+        return _isAnimationDamageExit;
+    }
     private void Update()
     {
     

@@ -49,6 +49,7 @@ public class PlayerController : MonoBehaviour
     private bool _isTakingDamage;
     private bool _isRunning;
     private bool _jumpTriggered;
+    private bool _isExitAnimationDagame;
 
     private Rigidbody2D _rb;
     private CapsuleCollider2D _coll;
@@ -74,7 +75,7 @@ public class PlayerController : MonoBehaviour
     public bool JumpTriggered() => _jumpTriggered;
     public void JumpTriggered(bool value) => _jumpTriggered = value;
     public bool IsFalling() => _rb.linearVelocity.y < -0.1f;
-    public bool IsFlying() => _rb.linearVelocity.y > 0.1f;
+    public bool IsFlying() => !_isGrounded && _rb.linearVelocity.y > 0.1f;
     public float GetRandomA() => Random.Range(0f, 1f);
     public Rigidbody2D Rb => _rb;
 
@@ -94,6 +95,7 @@ public class PlayerController : MonoBehaviour
         if (_health != null)
         {
             _health.OnDeath += HandleDeath;
+            _health.OnDamageTaken += GetDamage;
         }
     }
 
@@ -110,7 +112,19 @@ public class PlayerController : MonoBehaviour
     private void FixedUpdate()
     {
         if (_isDead) return;
+<<<<<<< HEAD
 
+
+        if (_isTakingDamage && !_playerAnimation.IsAnimationDamageExit)
+        {
+   
+            _rb.linearVelocity = Vector2.zero;
+            return;
+        }
+
+=======
+        CheckGrounded();
+>>>>>>> 943ecb0dffcb35b31bfce555e002a3f8c3058377
         HandleMovement();
         ApplyJumpPhysics();
     }
@@ -122,17 +136,21 @@ public class PlayerController : MonoBehaviour
 
     private void HandleInput()
     {
-        _horizontalInput = 0f;
-        if (Keyboard.current.aKey.isPressed || Keyboard.current.leftArrowKey.isPressed)
-            _horizontalInput = -1f;
-        if (Keyboard.current.dKey.isPressed || Keyboard.current.rightArrowKey.isPressed)
-            _horizontalInput = 1f;
+       
+            _horizontalInput = 0f;
+            if (Keyboard.current.aKey.isPressed || Keyboard.current.leftArrowKey.isPressed)
+                _horizontalInput = -1f;
+            if (Keyboard.current.dKey.isPressed || Keyboard.current.rightArrowKey.isPressed)
+                _horizontalInput = 1f;
 
-        if (Keyboard.current.spaceKey.wasPressedThisFrame & _isGrounded)
-        {
-            _jumpTriggered = true; 
-            _jumpBufferCounter = _jumpBufferTime;
-        }
+            if (Keyboard.current.spaceKey.wasPressedThisFrame & _isGrounded)
+            {
+                _jumpTriggered = true;
+                _jumpBufferCounter = _jumpBufferTime;
+            }
+        
+
+       
 
         if (_isAttacking || _isSuperAttacking) return;
         if (Keyboard.current.eKey.wasPressedThisFrame && _isGrounded && !_isAttacking)
@@ -156,14 +174,15 @@ public class PlayerController : MonoBehaviour
     }
 
 
- 
-   
+
+
 
 
     private void HandleMovement()
     {
-        if (_isAttacking) return;
+        if (_isAttacking || _isTakingDamage || !_playerAnimation.IsAnimationDamageExit) return;
 
+        Debug.Log(_isTakingDamage +" двигаемся");
         Vector2 targetVelocity = new Vector2(_horizontalInput * _moveSpeed, _rb.linearVelocity.y);
         _moveVelocity = Vector2.Lerp(_rb.linearVelocity, targetVelocity, _moveSmoothing * Time.fixedDeltaTime);
         _rb.linearVelocity = _moveVelocity;
@@ -202,6 +221,8 @@ public class PlayerController : MonoBehaviour
 
     private void HandleJumpInput()
     {
+        if (_isAttacking || _isTakingDamage || !_playerAnimation.IsAnimationDamageExit) return;
+
         if (_jumpBufferCounter > 0f && (_isGrounded || _coyoteTimeCounter > 0f) && _jumpTriggered)
         {
             Jump();
@@ -259,9 +280,18 @@ public class PlayerController : MonoBehaviour
         _soundManager.PlaySound("SuperAttack");
     }
 
-    public void GetDamage() 
+    public void GetDamage()
     {
-    
+        _isTakingDamage = true;
+        _rb.linearVelocity = Vector2.zero;
+        _soundManager.PlaySound("Damage");
+
+        Invoke(nameof(ResetDamageState), 0.5f);
+    }
+
+    private void ResetDamageState()
+    {
+        _isTakingDamage = false;
     }
 
 
@@ -282,5 +312,11 @@ public class PlayerController : MonoBehaviour
         _isDead = true;
         GetComponent<PlayerController>().enabled = false;
         GetComponent<HealthNew>().enabled = false;
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(_groundCheck.position, _groundCheckRadius);
     }
 }

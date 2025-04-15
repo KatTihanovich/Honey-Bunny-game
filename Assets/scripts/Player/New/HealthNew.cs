@@ -8,6 +8,7 @@ public class HealthNew : MonoBehaviour
     public bool IsDead => CurrentHealth <= 0f;
 
     public System.Action OnDeath;
+    public event System.Action OnDamageTaken;
     public System.Action<float> OnDamaged;
     public System.Action<float> OnHealed;
 
@@ -23,6 +24,7 @@ public class HealthNew : MonoBehaviour
         CurrentHealth -= amount;
         CurrentHealth = Mathf.Max(CurrentHealth, 0f);
         OnDamaged?.Invoke(amount);
+        OnDamageTaken?.Invoke();
         Debug.Log(gameObject.name +" получил урон"+"| осталось: " + CurrentHealth);
 
         if (IsDead)

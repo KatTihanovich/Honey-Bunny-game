@@ -10,6 +10,10 @@ public class MeleeEnemy_0 : MonoBehaviour
 {
     private static readonly int Run = Animator.StringToHash("Run");
     private static readonly int Attack = Animator.StringToHash("Attack");
+    private static readonly int GotHit = Animator.StringToHash("GotHit");
+    private static readonly int Dead = Animator.StringToHash("Dead");
+
+    private bool isDead = false;
 
     [Header("Attack Settings")]
     [SerializeField] private float attackCooldown;
@@ -47,16 +51,33 @@ public class MeleeEnemy_0 : MonoBehaviour
         if (_healthNew != null)
         {
             _healthNew.OnDeath += HandleDeath;
+            _healthNew.OnDamaged += HandleDamaged;
         }
     }
 
     public void HandleDeath() 
     {
-        Destroy(gameObject);
+        if (isDead) return;
+
+        isDead = true;
+        anim.SetTrigger(Dead);
+
+        if (TryGetComponent<Collider2D>(out var col)) col.enabled = false;
+        if (TryGetComponent<Rigidbody2D>(out var rb)) rb.linearVelocity = Vector2.zero;
+
+        Destroy(gameObject, 2f); 
+    }
+
+
+    private void HandleDamaged(float damage)
+    {
+        if (isDead) return;
+        anim.SetTrigger(GotHit);
     }
 
     private void Update()
     {
+        if (isDead) return;
         cooldownTimer += Time.deltaTime;
 
         if (PlayerInSight())

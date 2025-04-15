@@ -112,7 +112,6 @@ public class PlayerController : MonoBehaviour
     private void FixedUpdate()
     {
         if (_isDead) return;
-<<<<<<< HEAD
 
 
         if (_isTakingDamage && !_playerAnimation.IsAnimationDamageExit)
@@ -122,9 +121,7 @@ public class PlayerController : MonoBehaviour
             return;
         }
 
-=======
         CheckGrounded();
->>>>>>> 943ecb0dffcb35b31bfce555e002a3f8c3058377
         HandleMovement();
         ApplyJumpPhysics();
     }

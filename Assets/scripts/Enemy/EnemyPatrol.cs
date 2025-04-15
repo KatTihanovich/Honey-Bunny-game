@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class EnemyPatrol : MonoBehaviour
+public class EnemyPatrol : PatrolBase
 {
     private static readonly int Run = Animator.StringToHash("Run");
 
@@ -90,7 +90,7 @@ public class EnemyPatrol : MonoBehaviour
         rb.linearVelocity = new Vector2(direction * speed, rb.linearVelocity.y);
     }
 
-    public void StartWaiting()
+    public override void StartWaiting()
     {
         rb.linearVelocity = Vector2.zero;
         movingLeft = !movingLeft;

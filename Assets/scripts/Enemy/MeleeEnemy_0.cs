@@ -1,6 +1,11 @@
 using UnityEngine;
 using UnityEngine.Audio;
 
+public abstract class PatrolBase : MonoBehaviour
+{
+    public abstract void StartWaiting();
+}
+
 public class MeleeEnemy_0 : MonoBehaviour
 {
     private static readonly int Run = Animator.StringToHash("Run");
@@ -18,7 +23,7 @@ public class MeleeEnemy_0 : MonoBehaviour
 
     [Header("Movement Settings")]
     [SerializeField] private bool rotateTowardsPlayer = true;
-    [SerializeField] private EnemyPatrol patrolScript;
+    [SerializeField] private PatrolBase patrolScript;
 
     [Header("Animation Settings")]
     private HealthNew playerHealth;

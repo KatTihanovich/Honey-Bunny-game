@@ -74,7 +74,7 @@ public class PlayerController : MonoBehaviour
     public bool JumpTriggered() => _jumpTriggered;
     public void JumpTriggered(bool value) => _jumpTriggered = value;
     public bool IsFalling() => _rb.linearVelocity.y < -0.1f;
-    public bool IsFlying() => _rb.linearVelocity.y > 0.1f;
+    public bool IsFlying() => !_isGrounded && _rb.linearVelocity.y > 0.1f;
     public float GetRandomA() => Random.Range(0f, 1f);
     public Rigidbody2D Rb => _rb;
 
@@ -110,7 +110,7 @@ public class PlayerController : MonoBehaviour
     private void FixedUpdate()
     {
         if (_isDead) return;
-
+        CheckGrounded();
         HandleMovement();
         ApplyJumpPhysics();
     }
@@ -282,5 +282,11 @@ public class PlayerController : MonoBehaviour
         _isDead = true;
         GetComponent<PlayerController>().enabled = false;
         GetComponent<HealthNew>().enabled = false;
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(_groundCheck.position, _groundCheckRadius);
     }
 }

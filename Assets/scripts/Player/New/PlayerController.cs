@@ -140,7 +140,7 @@ public class PlayerController : MonoBehaviour
             if (Keyboard.current.dKey.isPressed || Keyboard.current.rightArrowKey.isPressed)
                 _horizontalInput = 1f;
 
-            if (Keyboard.current.spaceKey.wasPressedThisFrame & _isGrounded)
+            if (Keyboard.current.spaceKey.wasPressedThisFrame || Keyboard.current.wKey.wasPressedThisFrame || Keyboard.current.upArrowKey.wasPressedThisFrame & _isGrounded)
             {
                 _jumpTriggered = true;
                 _jumpBufferCounter = _jumpBufferTime;
@@ -243,7 +243,7 @@ public class PlayerController : MonoBehaviour
         {
             _rb.linearVelocity += Vector2.up * Physics2D.gravity.y * (_fallMultiplier - 1f) * Time.fixedDeltaTime;
         }
-        else if (_rb.linearVelocity.y > 0f && !Keyboard.current.spaceKey.isPressed)
+        else if (_rb.linearVelocity.y > 0f && !Keyboard.current.spaceKey.isPressed && !Keyboard.current.wKey.isPressed && !Keyboard.current.upArrowKey.isPressed)
         {
             _rb.linearVelocity += Vector2.up * Physics2D.gravity.y * (_lowJumpMultiplier - 1f) * Time.fixedDeltaTime;
         }

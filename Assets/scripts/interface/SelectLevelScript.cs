@@ -34,6 +34,12 @@ public class SelectLevelScript : MonoBehaviour
         Time.timeScale = 1f;
         SceneManager.LoadSceneAsync(3);
     }
+
+    public void PlayTest()
+    {
+        Time.timeScale = 1f;
+        SceneManager.LoadSceneAsync(5);
+    }
     
     public void PlayBossLevel()
     {

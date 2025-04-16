@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class NipperPatrol : PatrolBase
+public class NeckkerPatrol : PatrolBase
 {
     private static readonly int Run = Animator.StringToHash("Run");
     [Header("Vision Settings")]
@@ -48,20 +48,28 @@ public class NipperPatrol : PatrolBase
     }
 
     private void Update()
-    {
-        if (!enemy || !player) return;
+{
+    if (!enemy || !player) return;
 
-        if (CanSeePlayer() && IsPlayerWithinPatrolBounds())
-        {
-            isChasing = true;
-            ChasePlayer();
-        }
-        else
-        {
-            isChasing = false;
-            Patrol();
-        }
+    if (isAttacking) 
+    {
+        rb.linearVelocity = Vector2.zero;
+        anim.SetBool(Run, false);
+        return;
     }
+
+    if (CanSeePlayer() && IsPlayerWithinPatrolBounds())
+    {
+        isChasing = true;
+        ChasePlayer();
+    }
+    else
+    {
+        isChasing = false;
+        Patrol();
+    }
+}
+
 
 
     private void Patrol()
@@ -155,5 +163,17 @@ public class NipperPatrol : PatrolBase
         float playerX = player.position.x;
         return playerX >= leftEdge.position.x && playerX <= rightEdge.position.x;
     }
+
+    private bool isAttacking = false;
+
+public void SetAttacking(bool value)
+{
+    isAttacking = value;
+    if (value)
+    {
+        rb.linearVelocity = Vector2.zero;
+        anim.SetBool(Run, false);
+    }
+}
 
 }

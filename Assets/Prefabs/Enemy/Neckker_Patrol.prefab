@@ -126,6 +126,7 @@ GameObject:
   - component: {fileID: 6262378056454023382}
   - component: {fileID: 4799777526508239623}
   - component: {fileID: 8209381541858177527}
+  - component: {fileID: 2499066638225559400}
   m_Layer: 9
   m_Name: Neckker
   m_TagString: Enemy
@@ -288,6 +289,9 @@ MonoBehaviour:
     m_Bits: 256
   rotateTowardsPlayer: 1
   patrolScript: {fileID: 7631008794890611041}
+  audioMixerGroup: {fileID: 0}
+  attackSound: {fileID: 0}
+  volume: 1
 --- !u!114 &6262378056454023382
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -307,6 +311,7 @@ MonoBehaviour:
   basePitch: 1
   randomPitchOffset: 0.1
   logDebugMessage: 0
+  objectRenderer: {fileID: 0}
 --- !u!50 &4799777526508239623
 Rigidbody2D:
   serializedVersion: 5
@@ -346,8 +351,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 56ad534276f405e4a839ea25fbd71983, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: {fileID: 6488182225309596765}
+  health: {fileID: 0}
   anim: {fileID: 5525922188693636354}
+  audioMixerGroup: {fileID: 0}
+  deathSound: {fileID: 0}
+  volume: 1
+--- !u!114 &2499066638225559400
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4107158132694333027}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4171455bd44dbbc498ee1fd3d0ef1f98, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _maxHealth: 100
 --- !u!1 &5171377716426752606
 GameObject:
   m_ObjectHideFlags: 0
@@ -358,7 +379,6 @@ GameObject:
   m_Component:
   - component: {fileID: 6279209409239514602}
   - component: {fileID: 20033875690774736}
-  - component: {fileID: 6488182225309596765}
   m_Layer: 9
   m_Name: EntityBody
   m_TagString: Enemy
@@ -418,19 +438,6 @@ CapsuleCollider2D:
   m_Offset: {x: 0, y: 6}
   m_Size: {x: 4, y: 11}
   m_Direction: 0
---- !u!114 &6488182225309596765
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5171377716426752606}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3af89a0da5e6ebd44814c3f791f5d3ac, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  startingHealth: 2
 --- !u!1 &5498033857378129418
 GameObject:
   m_ObjectHideFlags: 0

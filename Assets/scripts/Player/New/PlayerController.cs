@@ -150,7 +150,7 @@ public class PlayerController : MonoBehaviour
        
 
         if (_isAttacking || _isSuperAttacking) return;
-        if (Keyboard.current.eKey.wasPressedThisFrame && _isGrounded && !_isAttacking)
+        if (Keyboard.current.fKey.wasPressedThisFrame && _isGrounded && !_isAttacking)
         {
             Debug.Log("Атака");
             _isAttacking = true;
@@ -179,7 +179,7 @@ public class PlayerController : MonoBehaviour
     {
         if (_isAttacking || _isTakingDamage || !_playerAnimation.IsAnimationDamageExit) return;
 
-        Debug.Log(_isTakingDamage +" двигаемся");
+        //Debug.Log(_isTakingDamage +" двигаемся");
         Vector2 targetVelocity = new Vector2(_horizontalInput * _moveSpeed, _rb.linearVelocity.y);
         _moveVelocity = Vector2.Lerp(_rb.linearVelocity, targetVelocity, _moveSmoothing * Time.fixedDeltaTime);
         _rb.linearVelocity = _moveVelocity;
@@ -208,6 +208,7 @@ public class PlayerController : MonoBehaviour
             {
                 _isJumping = false;
                 _jumpTriggered = false;
+                
             }
         }
         else

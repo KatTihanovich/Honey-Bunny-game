@@ -41,15 +41,16 @@ public class PlayerController : MonoBehaviour
     [Header("Sound Settings")]
     [SerializeField] private float _runSoundInterval = 0.3f;
 
-    private bool _isGrounded;
-    private bool _isAttacking;
-    private bool _isSuperAttacking;
-    private bool _isDead;
-    private bool _isJumping;
-    private bool _isTakingDamage;
-    private bool _isRunning;
-    private bool _jumpTriggered;
-    private bool _isExitAnimationDagame;
+  [SerializeField]  private bool _isGrounded;
+     [SerializeField] private bool _isAttacking;
+     [SerializeField] private bool _isSuperAttacking;
+     [SerializeField] private bool _isDead;
+     [SerializeField] private bool _isJumping;
+     [SerializeField] private bool _isTakingDamage;
+     [SerializeField] private bool _isRunning;
+     [SerializeField] private bool _jumpTriggered;
+    [SerializeField] private bool _isExitAnimationDagame;
+    [SerializeField] private bool _isIsFlying;
 
     private Rigidbody2D _rb;
     private CapsuleCollider2D _coll;
@@ -75,10 +76,15 @@ public class PlayerController : MonoBehaviour
     public bool JumpTriggered() => _jumpTriggered;
     public void JumpTriggered(bool value) => _jumpTriggered = value;
     public bool IsFalling() => _rb.linearVelocity.y < -0.1f;
-    public bool IsFlying() => !_isGrounded && _rb.linearVelocity.y > 0.1f;
+    public bool IsFlying()
+    {
+        bool groundedNow = Physics2D.OverlapCircle(_groundCheck.position, _groundCheckRadius, _groundLayer);
+        return !groundedNow && _rb.linearVelocity.y > 0.5f;
+    }
     public float GetRandomA() => Random.Range(0f, 1f);
     public Rigidbody2D Rb => _rb;
 
+    
     private void Awake()
     {
         _rb = GetComponent<Rigidbody2D>();
@@ -107,6 +113,7 @@ public class PlayerController : MonoBehaviour
         CheckGrounded();
         HandleJumpInput();
         HandleRunSound();
+        _isIsFlying = IsFlying();
     }
 
     private void FixedUpdate()

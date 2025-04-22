@@ -39,7 +39,7 @@ public class PlayerAnimation : MonoBehaviour
     private void Update()
     {
     
-        _animator.SetBool("isGrounded", _player.IsGrounded());
+        _animator.SetBool("Grounded", _player.IsGrounded());
         _animator.SetBool("Run", _player.IsRunning());
 
         if (_player.JumpTriggered() && _player.IsGrounded() && !_player.IsJumping())
@@ -78,9 +78,9 @@ public class PlayerAnimation : MonoBehaviour
 
 
 
-        _animator.SetFloat("velocityX", Mathf.Abs(_player.Rb.linearVelocity.x));
-        _animator.SetFloat("velocityY", _player.Rb.linearVelocity.y);
-        _animator.SetFloat("RandomA", _player.GetRandomA());
+        //_animator.SetFloat("velocityX", Mathf.Abs(_player.Rb.linearVelocity.x));
+        //_animator.SetFloat("velocityY", _player.Rb.linearVelocity.y);
+        //_animator.SetFloat("RandomA", _player.GetRandomA());
     }
 
     private void OnDestroy()

@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-public class ButtonImageSwitcher : MonoBehaviour, ISelectHandler, IDeselectHandler
+public class ButtonImageSwitcher : MonoBehaviour, ISelectHandler, IDeselectHandler, IPointerEnterHandler, IPointerExitHandler
 {
     public Button button;
     private Image targetImage;
@@ -35,6 +35,24 @@ public class ButtonImageSwitcher : MonoBehaviour, ISelectHandler, IDeselectHandl
     {
         ResetScale();
         targetImage.sprite = defaultSprite;
+    }
+
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        Debug.Log("Pointer entered button!");
+        if (targetImage != null)
+        {
+            targetImage.sprite = selectedSprite;
+        }
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        Debug.Log("Pointer exited button!");
+        if (targetImage != null)
+        {
+            targetImage.sprite = defaultSprite;
+        }
     }
 
     private void ResetScale()

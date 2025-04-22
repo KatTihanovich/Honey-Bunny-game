@@ -38,22 +38,16 @@ public class PlayerAnimation : MonoBehaviour
     }
     private void Update()
     {
-    
         _animator.SetBool("Grounded", _player.IsGrounded());
         _animator.SetBool("Run", _player.IsRunning());
+        _animator.SetBool("IsFlying", _player.IsFlying());
+        _animator.SetBool("IsFalling", _player.IsFalling());
 
         if (_player.JumpTriggered() && _player.IsGrounded() && !_player.IsJumping())
         {
             Debug.Log("Анимация прыжка: JumpPressed");
             _animator.SetTrigger("JumpPressed");
         }
-
-        if (_player.JumpTriggered()) 
-        {
-            _animator.SetBool("IsFlying", _player.Rb.linearVelocity.y > 0.1f && !_player.IsGrounded());
-        }
-   
-        _animator.SetBool("IsFalling", _player.Rb.linearVelocity.y < -0.1f && !_player.IsGrounded());
 
         if (_player.IsAttacking() && !_attackTriggered)
         {
@@ -75,12 +69,6 @@ public class PlayerAnimation : MonoBehaviour
         {
             _superAttackAnimPlayed = false;
         }
-
-
-
-        //_animator.SetFloat("velocityX", Mathf.Abs(_player.Rb.linearVelocity.x));
-        //_animator.SetFloat("velocityY", _player.Rb.linearVelocity.y);
-        //_animator.SetFloat("RandomA", _player.GetRandomA());
     }
 
     private void OnDestroy()

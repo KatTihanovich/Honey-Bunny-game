@@ -25,6 +25,7 @@ public class PlayerController : MonoBehaviour
     [Header("Movement Settings")]
     [SerializeField] private float _moveSpeed = 5f;
     [SerializeField] private float _moveSmoothing = 5f;
+    [SerializeField] private float _airControlMultiplier = 0.5f;
 
     [Header("Jump Settings")]
     [SerializeField] private float _jumpForce = 10f;
@@ -186,8 +187,10 @@ public class PlayerController : MonoBehaviour
     {
         if (_isAttacking || _isTakingDamage || !_playerAnimation.IsAnimationDamageExit) return;
 
-        //Debug.Log(_isTakingDamage +" двигаемся");
-        Vector2 targetVelocity = new Vector2(_horizontalInput * _moveSpeed, _rb.linearVelocity.y);
+        float control = _isGrounded ? 1f : _airControlMultiplier;
+        float targetXVelocity = _horizontalInput * _moveSpeed * control;
+
+        Vector2 targetVelocity = new Vector2(targetXVelocity, _rb.linearVelocity.y);
         _moveVelocity = Vector2.Lerp(_rb.linearVelocity, targetVelocity, _moveSmoothing * Time.fixedDeltaTime);
         _rb.linearVelocity = _moveVelocity;
 
@@ -202,6 +205,7 @@ public class PlayerController : MonoBehaviour
             );
         }
     }
+
 
     private void CheckGrounded()
     {

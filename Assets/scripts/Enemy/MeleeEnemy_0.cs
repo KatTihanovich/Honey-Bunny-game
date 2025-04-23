@@ -143,7 +143,7 @@ public class MeleeEnemy_0 : MonoBehaviour
         if (playerHealth != null && PlayerInSight())
         {
             Play(attackSound);
-            playerHealth.TakeDamage(20f);
+            playerHealth.TakeDamage(damage);
             Debug.Log("Player damaged by enemy!");
         }
         else
@@ -181,7 +181,7 @@ public void NECKKER_ATTACK()
         0f,
         playerLayer
     );
-
+  
     if (hit.collider != null && hit.collider.CompareTag("Player"))
     {
         HealthNew health = hit.collider.GetComponent<HealthNew>();

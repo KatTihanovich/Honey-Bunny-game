@@ -42,16 +42,21 @@ public class PlayerController : MonoBehaviour
     [Header("Sound Settings")]
     [SerializeField] private float _runSoundInterval = 0.3f;
 
-  [SerializeField]  private bool _isGrounded;
-     [SerializeField] private bool _isAttacking;
-     [SerializeField] private bool _isSuperAttacking;
-     [SerializeField] private bool _isDead;
-     [SerializeField] private bool _isJumping;
-     [SerializeField] private bool _isTakingDamage;
-     [SerializeField] private bool _isRunning;
-     [SerializeField] private bool _jumpTriggered;
-    [SerializeField] private bool _isExitAnimationDagame;
-    [SerializeField] private bool _isIsFlying;
+    [Header("Push Settings")]
+    [SerializeField] private float _pushPower = 2f;
+
+    private bool _isGrounded;
+    private bool _isAttacking;
+    private bool _isSuperAttacking;
+    private bool _isDead;
+    private bool _isJumping;
+    private bool _isTakingDamage;
+    private bool _isRunning;
+    private bool _jumpTriggered;
+    private bool _isExitAnimationDagame;
+    private bool _isIsFlying;
+    private bool _isMeditation;
+    private bool _isPush;
 
     private Rigidbody2D _rb;
     private CapsuleCollider2D _coll;
@@ -67,6 +72,7 @@ public class PlayerController : MonoBehaviour
     private Vector3 _originalScale;
     private float _runSoundTimer;
 
+    public bool IsPushed() => _isPush;
     public bool IsGrounded() => _isGrounded;
     public bool IsAttacking() => _isAttacking;
     public bool IsSuperAttacking() => _isSuperAttacking;
@@ -83,6 +89,11 @@ public class PlayerController : MonoBehaviour
         return !groundedNow && _rb.linearVelocity.y > 0.5f;
     }
     public float GetRandomA() => Random.Range(0f, 1f);
+    public bool IsMeditation 
+    {
+        get { return _isMeditation; }
+        set { _isMeditation = value; }
+    }
     public Rigidbody2D Rb => _rb;
 
     
@@ -178,9 +189,37 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    private void OnCollisionStay2D(Collision2D collision)
+    {
+        if (!_isGrounded)
+            return;
 
+        if (collision.gameObject.TryGetComponent<PushableObject>(out var pushable))
+        {
+          
+            bool sideContact = false;
+            foreach (var c in collision.contacts)
+                if (Mathf.Abs(c.normal.y) <= 0.5f) { sideContact = true; break; }
 
+            if (sideContact && Mathf.Abs(_horizontalInput) > 0.1f)
+            {
+                pushable.StartPushing(_horizontalInput);
+                _isPush = true;
+                return;
+            }
+        }
 
+        _isPush = false;
+    }
+
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        if (collision.gameObject.TryGetComponent<PushableObject>(out var pushable))
+        {
+            pushable.StopPushing();
+            _isPush = false;
+        }
+    }
 
 
     private void HandleMovement()

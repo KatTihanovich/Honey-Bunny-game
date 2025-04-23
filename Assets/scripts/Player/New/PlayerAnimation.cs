@@ -42,6 +42,8 @@ public class PlayerAnimation : MonoBehaviour
         _animator.SetBool("Run", _player.IsRunning());
         _animator.SetBool("IsFlying", _player.IsFlying());
         _animator.SetBool("IsFalling", _player.IsFalling());
+        _animator.SetBool("Save",_player.IsMeditation);
+        _animator.SetBool("Push", _player.IsPushed());
 
         if (_player.JumpTriggered() && _player.IsGrounded() && !_player.IsJumping())
         {

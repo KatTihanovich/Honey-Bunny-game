@@ -15,12 +15,16 @@ public class DestructiblePlatformController : MonoBehaviour
     private bool isDestroyed = false;
     private bool isDestroySequenceRunning = false;
 
-    public GameObject destroyAnimationPrefab;
-    public string destroyAnimationName = "animation";
+    private Animator animator;
+    private Collider2D platformCollider;
+
+
 
     private void Awake()
     {
         // Сохраняем начальное состояние платформы
+        animator = GetComponent<Animator>();
+        platformCollider = GetComponent<Collider2D>();
         initialPosition = transform.position;
         initialRotation = transform.rotation;
         initialScale = transform.localScale;
@@ -35,7 +39,7 @@ public class DestructiblePlatformController : MonoBehaviour
     private void CheckForPlayer()
 {
     Vector2 boxSize = new Vector2(5f, 1f);
-    Vector2 boxCenter = _raycastOrigin.position + new Vector3(0f, 0.5f, 0f); // Центр области проверки
+    Vector2 boxCenter = _raycastOrigin.position + new Vector3(2.5f, 1f, 0f); // Центр области проверки
 
     Collider2D playerCollider = Physics2D.OverlapBox(boxCenter, boxSize, 0f, _playerLayer);
 
@@ -55,15 +59,14 @@ private void OnDrawGizmosSelected()
     if (_raycastOrigin != null)
     {
         Gizmos.color = Color.green;
-        Gizmos.DrawWireCube(_raycastOrigin.position + new Vector3(0f, 0.5f, 0f), new Vector3(5f, 1f, 0f)); // Отображаем область
+        Gizmos.DrawWireCube(_raycastOrigin.position + new Vector3(2.5f, 1f, 0f), new Vector3(5f, 1f, 0f)); // Отображаем область
     }
 }
 
 
     public void StartDestroying()
     {
-        isDestroyed = true; // Флаг разрушения
-
+        isDestroyed = true; 
         if (isDestroySequenceRunning == false)
         {
             isDestroySequenceRunning = true;
@@ -73,34 +76,26 @@ private void OnDrawGizmosSelected()
 
     private void DestroyPlatform()
     {
+        animator.SetTrigger("Break");
         // Отключаем платформу
-        gameObject.SetActive(false);
+        platformCollider.enabled = false;
         // Планируем восстановление через respawnTime
         Invoke(nameof(RespawnPlatform), respawnTime);
 
         Vector3 spawnPosition = transform.position + new Vector3(-2.5f, -0.63f, 0f);
-
-        // Spawn the destroy animation at the adjusted position
-        GameObject effect = Instantiate(destroyAnimationPrefab, spawnPosition, Quaternion.identity);
-
-        // Play the destroy animation
-        var skeletonAnimation = effect.GetComponent<SkeletonAnimation>();
-        skeletonAnimation.AnimationState.SetAnimation(0, destroyAnimationName, false);
-
-        // Auto-destroy effect after animation ends
-        float animationDuration = skeletonAnimation.skeleton.Data.FindAnimation(destroyAnimationName).Duration;
-        Destroy(effect, animationDuration);
     }
 
     private void RespawnPlatform()
     {
-        // Восстанавливаем платформу в начальное состояние
+        // Возвращаем платформу
         transform.position = initialPosition;
         transform.rotation = initialRotation;
         transform.localScale = initialScale;
-        gameObject.SetActive(true); // Включаем платформу
-        isDestroyed = false; // Сбрасываем флаг разрушения
+        platformCollider.enabled = true;
+        isDestroyed = false;
         isDestroySequenceRunning = false;
+        animator.SetTrigger("Collect"); 
+
     }
 
 }

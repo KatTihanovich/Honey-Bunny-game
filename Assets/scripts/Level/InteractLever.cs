@@ -5,7 +5,8 @@ public class InteractableToggle : MonoBehaviour
 {
     public Animator animator;
     public GameObject doorBlocker;
-
+    private Animator doorAnimator;     
+    private Collider2D doorCollider; 
     private bool isOpen = false;
     private bool playerInside = false;
 
@@ -17,9 +18,14 @@ public class InteractableToggle : MonoBehaviour
             Debug.Log("Animator автоматически присвоен: " + (animator != null));
         }
 
-        if (doorBlocker != null)
-            doorBlocker.SetActive(true); // Закрыто по умолчанию
-        else
+        if (doorBlocker != null){
+            doorAnimator = doorBlocker.GetComponent<Animator>();
+            doorCollider = doorBlocker.GetComponent<Collider2D>();
+            doorBlocker.SetActive(true);
+            doorCollider.isTrigger = false;
+
+        }
+                else
             Debug.LogWarning("doorBlocker не назначен!");
     }
 
@@ -47,7 +53,9 @@ public class InteractableToggle : MonoBehaviour
             animator.SetTrigger("Close");
 
             if (doorBlocker != null)
-                doorBlocker.SetActive(true);
+            doorAnimator.SetTrigger("Close");
+            doorCollider.isTrigger = false; // Закрыто по умолчанию
+            Debug.Log("Закрыли дверь.");
 
             isOpen = false;
         }
@@ -57,7 +65,9 @@ public class InteractableToggle : MonoBehaviour
             animator.SetTrigger("Open");
 
             if (doorBlocker != null)
-                doorBlocker.SetActive(false);
+            doorAnimator.SetTrigger("Open");
+            doorCollider.isTrigger = true; // Закрыто по умолчанию
+            Debug.Log("Открыли дверь.");
 
             isOpen = true;
         }

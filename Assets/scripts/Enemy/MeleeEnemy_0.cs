@@ -36,6 +36,9 @@ public class MeleeEnemy_0 : MonoBehaviour
     private Vector3 baseScale;
     private HealthNew _healthNew;
 
+    [Header("Damage on Touch")]
+    private float contactDamageCooldown = 0f; 
+    [SerializeField] private float contactDamageDelay = 1.5f;
 
     [Header("Audio Settings")]
     [SerializeField] public AudioMixerGroup audioMixerGroup; 
@@ -52,6 +55,24 @@ public class MeleeEnemy_0 : MonoBehaviour
         {
             _healthNew.OnDeath += HandleDeath;
             _healthNew.OnDamaged += HandleDamaged;
+        }
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (isDead) return;
+
+        if (collision.gameObject.CompareTag("Player") && contactDamageCooldown >= contactDamageDelay)
+        {
+            HealthNew playerHealth = collision.gameObject.GetComponent<HealthNew>();
+            if (playerHealth != null && playerHealth.enabled)
+            {
+                Play(attackSound);
+                playerHealth.TakeDamage(damage);
+                Debug.Log("Player took delayed contact damage!");
+
+                contactDamageCooldown = 0f; 
+            }
         }
     }
 
@@ -79,6 +100,7 @@ public class MeleeEnemy_0 : MonoBehaviour
     {
         if (isDead) return;
         cooldownTimer += Time.deltaTime;
+        contactDamageCooldown += Time.deltaTime;
 
         if (PlayerInSight())
         {

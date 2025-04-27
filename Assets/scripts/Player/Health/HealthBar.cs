@@ -9,7 +9,7 @@ public class HealthBar : MonoBehaviour
     private void Start()
     {
         if (_health == null)
-            Debug.LogError("HealthBar: _health не назначен!");
+            Debug.LogError("HealthBar: _health пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ!");
 
         _health.OnDamaged += UpdateBar;
         _health.OnHealed += UpdateBar;
@@ -20,7 +20,6 @@ public class HealthBar : MonoBehaviour
 
     private void OnDestroy()
     {
- 
         _health.OnDamaged -= UpdateBar;
         _health.OnHealed -= UpdateBar;
         _health.OnDeath -= HandleDeath;

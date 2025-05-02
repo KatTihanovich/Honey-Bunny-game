@@ -1,12 +1,17 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using System.Collections;
 
 public class MeditationManager : MonoBehaviour
 {
     private bool isPlayerInZone = false;
+    private bool hasMeditatedOnce = false;
     private Animator animator;
-    
-    [SerializeField] private Animator secondaryAnimator; // Второй аниматор, задаётся в инспекторе
+    private HealthNew _health;
+    private PlayerController _player;
+
+    [SerializeField] private float _delayAfterAnimation = 1f;
+    [SerializeField] private Animator secondaryAnimator;
 
     private PlayerInputActions inputActions;
 
@@ -30,50 +35,44 @@ public class MeditationManager : MonoBehaviour
     {
         animator = GetComponent<Animator>();
         if (animator == null)
-        {
             Debug.LogWarning("Animator not found on this object.");
-        }
 
         if (secondaryAnimator == null)
-        {
             Debug.LogWarning("Secondary Animator is not assigned.");
-        }
     }
 
     private void TryMeditate()
     {
-        if (isPlayerInZone)
+        if (isPlayerInZone && !hasMeditatedOnce)
         {
-            Debug.Log("Meditate action triggered while player in zone.");
+            Debug.Log("Meditate action triggered.");
+            hasMeditatedOnce = true;
             Interact();
-        }
-        else
-        {
-            Debug.Log("Meditate action triggered but player is NOT in zone.");
         }
     }
 
     public void Interact()
     {
         if (animator != null)
-        {
-            Debug.Log("Triggering Meditation animation.");
             animator.SetTrigger("Meditation");
-        }
-        else
-        {
-            Debug.LogWarning("No animator found, cannot trigger animation.");
-        }
 
         if (secondaryAnimator != null)
-        {
-            Debug.Log("Triggering secondary animation.");
             secondaryAnimator.SetTrigger("Meditation");
-        }
-        else
+
+        if (_health != null)
         {
-            Debug.LogWarning("No secondary animator found.");
+            Debug.Log("Restoring full health.");
+            _health.RestoreFull();
         }
+
+        StartCoroutine(DeactivateAfterDelay());
+    }
+
+    private IEnumerator DeactivateAfterDelay()
+    {
+        yield return new WaitForSeconds(_delayAfterAnimation);
+        Debug.Log("Deactivating meditation object.");
+        gameObject.SetActive(false);
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -81,7 +80,8 @@ public class MeditationManager : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             isPlayerInZone = true;
-            Debug.Log("Player entered meditation zone.");
+            _player = other.GetComponent<PlayerController>();
+            _health = other.GetComponent<HealthNew>();
         }
     }
 
@@ -90,7 +90,8 @@ public class MeditationManager : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             isPlayerInZone = false;
-            Debug.Log("Player exited meditation zone.");
+            _player = null;
+            _health = null;
         }
     }
 }

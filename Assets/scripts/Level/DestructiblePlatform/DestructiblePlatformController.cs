@@ -38,8 +38,8 @@ public class DestructiblePlatformController : MonoBehaviour
 
     private void CheckForPlayer()
 {
-    Vector2 boxSize = new Vector2(5f, 1f);
-    Vector2 boxCenter = _raycastOrigin.position + new Vector3(2.5f, 1f, 0f); // Центр области проверки
+    Vector2 boxSize = new Vector2(4.8f, 1f);
+    Vector2 boxCenter = _raycastOrigin.position + new Vector3(0f, 0.5f, 0f); // Центр области проверки
 
     Collider2D playerCollider = Physics2D.OverlapBox(boxCenter, boxSize, 0f, _playerLayer);
 
@@ -59,7 +59,7 @@ private void OnDrawGizmosSelected()
     if (_raycastOrigin != null)
     {
         Gizmos.color = Color.green;
-        Gizmos.DrawWireCube(_raycastOrigin.position + new Vector3(2.5f, 1f, 0f), new Vector3(5f, 1f, 0f)); // Отображаем область
+        Gizmos.DrawWireCube(_raycastOrigin.position + new Vector3(0f, 0.5f, 0f), new Vector3(5f, 1f, 0f)); // Отображаем область
     }
 }
 

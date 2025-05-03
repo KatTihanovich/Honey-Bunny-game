@@ -6,6 +6,9 @@ public class HealthBar : MonoBehaviour
     [SerializeField] private Image _fillImage;
     [SerializeField] private HealthNew _health;
 
+    [SerializeField] private CameraShake _cameraShake;
+    [SerializeField] private VignetteController _vignetteController;
+
     private void Start()
     {
         if (_health == null)
@@ -30,7 +33,19 @@ public class HealthBar : MonoBehaviour
         float normalized = _health.CurrentHealth / _health.MaxHealth;
         Debug.Log("CurrentHealth: " + _health.CurrentHealth);
         _fillImage.fillAmount = Mathf.Clamp01(normalized);
+
+        if (normalized <= 0.5f)
+        {
+            _cameraShake.StartShaking();
+            _vignetteController.EnableVignette();
+        }
+        else
+        {
+            _cameraShake.StopShaking();
+            _vignetteController.DisableVignette();
+        }
     }
+
 
     private void HandleDeath()
     {

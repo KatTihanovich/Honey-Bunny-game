@@ -22,8 +22,6 @@ public class HealthEventListener : MonoBehaviour
         {
             health.OnHealthChanged += HandleHealthChanged; // Подпишемся на событие изменения здоровья
         }
-
-        ultimateCooldown = GameObject.Find("UltimateCooldown").GetComponent<UltimateCooldown>();
     }
     private void OnDestroy()
 {

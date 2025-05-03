@@ -815,8 +815,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a0ba90cb6f397ac4fb753f6590c05e9a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerHealth: {fileID: 0}
-  currenthealthBar: {fileID: 7724807040950793899}
+  _fillImage: {fileID: 7724807040950793899}
+  _health: {fileID: 0}
+  _cameraShake: {fileID: 0}
+  _vignetteController: {fileID: 0}
 --- !u!1 &5659709378764059723
 GameObject:
   m_ObjectHideFlags: 0
@@ -1085,7 +1087,6 @@ GameObject:
   - component: {fileID: 4297121135492437825}
   - component: {fileID: 424960079188030155}
   - component: {fileID: 7724807040950793899}
-  - component: {fileID: 6455708100663985795}
   m_Layer: 5
   m_Name: HPBar (1)
   m_TagString: Untagged
@@ -1150,17 +1151,3 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 1
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &6455708100663985795
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6895551618726445741}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a0ba90cb6f397ac4fb753f6590c05e9a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playerHealth: {fileID: 0}
-  currenthealthBar: {fileID: 7724807040950793899}

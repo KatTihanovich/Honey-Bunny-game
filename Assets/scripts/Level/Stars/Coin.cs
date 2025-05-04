@@ -20,9 +20,21 @@ public class Coin : MonoBehaviour
     private Animator anim;
     private bool isCollected = false;
 
+    private string _coinID;
+
     private void Awake()
     {
         anim = GetComponent<Animator>();
+    }
+
+    private void Start()
+    {
+        _coinID = $"{gameObject.scene.name}_{transform.position}";
+
+        if (CoinManager.Instance.IsCoinCollected(_coinID))
+        {
+            Destroy(gameObject);
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -32,7 +44,8 @@ public class Coin : MonoBehaviour
             isCollected = true;
             Debug.Log("Collected!");
             anim.SetTrigger(PickUp);
-            CoinManager.Instance.AddCoins(coinValue); 
+            CoinManager.Instance.AddCoins(coinValue);
+            CoinManager.Instance.MarkCoinCollected(_coinID);
             PlaySound();
             StartCoroutine(AnimateCollectionEffect());
         }

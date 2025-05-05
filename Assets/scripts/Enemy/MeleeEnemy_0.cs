@@ -108,8 +108,6 @@ public class MeleeEnemy_0 : MonoBehaviour
       
             if (cooldownTimer >= attackCooldown)
             {
-                patrolScript.StartWaiting(); // пусть остаётся — он делает паузу
-                StartAttack(); // <--- начинаем атаку
                 anim.SetTrigger(Attack);
                 RotateTowardsPlayer();
             }
@@ -179,70 +177,48 @@ public class MeleeEnemy_0 : MonoBehaviour
     [SerializeField] private Vector2 attackOffset = Vector2.zero; // смещение от центра врага (если нужно)
 
 
-private void OnDrawGizmosSelected()
-{
-    Gizmos.color = Color.red;
-
-    if (boxCollider == null) return;
-
-    Vector2 origin = boxCollider.bounds.center + transform.up * transform.localScale.y * colliderDistanceY + transform.right * transform.localScale.x * colliderDistanceX;
-    Vector2 size = new Vector2(boxCollider.bounds.size.x * rangeX, boxCollider.bounds.size.y * rangeY);
-
-    Gizmos.DrawWireCube(origin, size);
-}
-public void NECKKER_ATTACK()
-{
-    Vector2 origin = boxCollider.bounds.center + transform.up * transform.localScale.y * colliderDistanceY + transform.right * transform.localScale.x * colliderDistanceX;
-    Vector2 size = new Vector2(boxCollider.bounds.size.x * rangeX, boxCollider.bounds.size.y * rangeY);
-
-    RaycastHit2D hit = Physics2D.BoxCast(
-        origin,
-        size,
-        0f,
-        Vector2.zero,
-        0f,
-        playerLayer
-    );
-  
-    if (hit.collider != null && hit.collider.CompareTag("Player"))
+    private void OnDrawGizmosSelected()
     {
-        HealthNew health = hit.collider.GetComponent<HealthNew>();
-        if (health != null && health.enabled)
+        Gizmos.color = Color.red;
+
+        if (boxCollider == null) return;
+
+        Vector2 origin = boxCollider.bounds.center + transform.up * transform.localScale.y * colliderDistanceY + transform.right * transform.localScale.x * colliderDistanceX;
+        Vector2 size = new Vector2(boxCollider.bounds.size.x * rangeX, boxCollider.bounds.size.y * rangeY);
+
+        Gizmos.DrawWireCube(origin, size);
+    }
+    public void NECKKER_ATTACK()
+    {
+        Vector2 origin = boxCollider.bounds.center + transform.up * transform.localScale.y * colliderDistanceY + transform.right * transform.localScale.x * colliderDistanceX;
+        Vector2 size = new Vector2(boxCollider.bounds.size.x * rangeX, boxCollider.bounds.size.y * rangeY);
+
+        RaycastHit2D hit = Physics2D.BoxCast(
+            origin,
+            size,
+            0f,
+            Vector2.zero,
+            0f,
+            playerLayer
+        );
+    
+        if (hit.collider != null && hit.collider.CompareTag("Player"))
         {
-            Play(attackSound);
-            health.TakeDamage(damage);
-            Debug.Log("Neckker hit player with BoxCast: " + hit.collider.name);
-            cooldownTimer = 0; // сбрасываем кулдаун после атаки
+            HealthNew health = hit.collider.GetComponent<HealthNew>();
+            if (health != null && health.enabled)
+            {
+                Play(attackSound);
+                health.TakeDamage(damage);
+                Debug.Log("Neckker hit player with BoxCast: " + hit.collider.name);
+                cooldownTimer = 0; // сбрасываем кулдаун после атаки
+            }
+        }
+        else
+        {
+            Debug.Log("Neckker attack missed (BoxCast).");
         }
     }
-    else
-    {
-        Debug.Log("Neckker attack missed (BoxCast).");
-    }
-}
-
-private void StartAttack()
-{
-    if (patrolScript is NeckkerPatrol patrol)
-    {
-        patrol.SetAttacking(true);
-    }
-}
-
-private void EndAttack()
-{
-    if (patrolScript is NeckkerPatrol patrol)
-    {
-        patrol.SetAttacking(false);
-    }
-}
-
-public void EndAttackFromAnim()
-{
-    EndAttack();
-}
-
-      
+   
 
     private void Play(AudioClip clip) {
             if (clip != null && audioMixerGroup != null) {

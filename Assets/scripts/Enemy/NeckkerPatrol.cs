@@ -48,27 +48,20 @@ public class NeckkerPatrol : PatrolBase
     }
 
     private void Update()
-{
-    if (!enemy || !player) return;
+    {
+        if (!enemy || !player) return;
 
-    if (isAttacking) 
-    {
-        rb.linearVelocity = Vector2.zero;
-        anim.SetBool(Run, false);
-        return;
+        if (CanSeePlayer() && IsPlayerWithinPatrolBounds())
+        {
+            isChasing = true;
+            ChasePlayer();
+        }
+        else
+        {
+            isChasing = false;
+            Patrol();
+        }
     }
-
-    if (CanSeePlayer() && IsPlayerWithinPatrolBounds())
-    {
-        isChasing = true;
-        ChasePlayer();
-    }
-    else
-    {
-        isChasing = false;
-        Patrol();
-    }
-}
 
 
 
@@ -163,17 +156,5 @@ public class NeckkerPatrol : PatrolBase
         float playerX = player.position.x;
         return playerX >= leftEdge.position.x && playerX <= rightEdge.position.x;
     }
-
-    private bool isAttacking = false;
-
-public void SetAttacking(bool value)
-{
-    isAttacking = value;
-    if (value)
-    {
-        rb.linearVelocity = Vector2.zero;
-        anim.SetBool(Run, false);
-    }
-}
 
 }

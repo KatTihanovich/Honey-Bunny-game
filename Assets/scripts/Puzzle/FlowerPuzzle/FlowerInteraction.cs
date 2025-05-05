@@ -17,6 +17,8 @@ public class FlowerInteraction : MonoBehaviour
     [SerializeField] private AudioClip interactionSound;
     [SerializeField] private AudioMixerGroup audioMixerGroup; 
     [SerializeField] private float volume = 1.0f;
+    [SerializeField] private GameObject noteObject; 
+
 
     private void Start()
     {
@@ -27,23 +29,21 @@ public class FlowerInteraction : MonoBehaviour
 {
     if (playerInZone)
     {
-        // Анимация клика
         anim.SetTrigger("Klick");
         Debug.Log($"{gameObject.name} interacted with the player!");
 
-        // Добавляем объект в последовательность
         interactionSequence.Add(gameObject.name);
         Debug.Log("Interaction Sequence: " + string.Join(", ", interactionSequence));
 
-        // Воспроизведение звука
         PlayInteractionSound();
 
-        // Проверка последовательности
+        // Показать объект ноты
+        StartCoroutine(ShowNoteObject());
+
         if (interactionSequence.Count >= 4)
         {
             if (sequenceChecker != null)
             {
-                // Начинаем проверку последовательности через корутину
                 StartCoroutine(WaitForClickAndCheckSequence());
             }
             else
@@ -53,6 +53,21 @@ public class FlowerInteraction : MonoBehaviour
         }
     }
 }
+
+private IEnumerator ShowNoteObject()
+{
+    if (noteObject != null)
+    {
+        noteObject.SetActive(true);
+        yield return new WaitForSeconds(1f);
+        noteObject.SetActive(false);
+    }
+    else
+    {
+        Debug.LogWarning("Note object is not assigned.");
+    }
+}
+
 
     private void PlayInteractionSound()
     {
@@ -105,9 +120,10 @@ public class FlowerInteraction : MonoBehaviour
     }
 
     public static List<string> GetInteractionSequence()
-    {
-        return new List<string>(interactionSequence);
-    }
+{
+    return interactionSequence; // ← возвращаем сам список, а не его копию
+}
+
 
     public static void ResetInteractionSequence()
     {

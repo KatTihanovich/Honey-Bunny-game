@@ -4310,6 +4310,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 2127041004}
     m_Modifications:
+    - target: {fileID: 5695664855769640717, guid: 8fb66f9f2d2c5754e9c7380d078cf404, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9134236769305668503, guid: 8fb66f9f2d2c5754e9c7380d078cf404, type: 3}
+      propertyPath: Speed
+      value: 2.5
+      objectReference: {fileID: 0}
     - target: {fileID: 2698941322431407131, guid: 585cff1764a924443808150743ba4c8f, type: 3}
       propertyPath: m_LocalPosition.x
       value: 8.94
@@ -4357,14 +4365,6 @@ PrefabInstance:
     - target: {fileID: 7812370801518592755, guid: 585cff1764a924443808150743ba4c8f, type: 3}
       propertyPath: m_Name
       value: MovingPlatformNew
-      objectReference: {fileID: 0}
-    - target: {fileID: 5695664855769640717, guid: 8fb66f9f2d2c5754e9c7380d078cf404, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9134236769305668503, guid: 8fb66f9f2d2c5754e9c7380d078cf404, type: 3}
-      propertyPath: Speed
-      value: 2.5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -15050,6 +15050,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 2127041004}
     m_Modifications:
+    - target: {fileID: 4289892042509373289, guid: 8fb66f9f2d2c5754e9c7380d078cf404, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 5695664855769640717, guid: 8fb66f9f2d2c5754e9c7380d078cf404, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -4
+      objectReference: {fileID: 0}
+    - target: {fileID: 9134236769305668503, guid: 8fb66f9f2d2c5754e9c7380d078cf404, type: 3}
+      propertyPath: Speed
+      value: 2.5
+      objectReference: {fileID: 0}
     - target: {fileID: 2698941322431407131, guid: 585cff1764a924443808150743ba4c8f, type: 3}
       propertyPath: m_LocalPosition.x
       value: 91.5
@@ -15097,18 +15109,6 @@ PrefabInstance:
     - target: {fileID: 7812370801518592755, guid: 585cff1764a924443808150743ba4c8f, type: 3}
       propertyPath: m_Name
       value: MovingPlatformNew (2)
-      objectReference: {fileID: 0}
-    - target: {fileID: 4289892042509373289, guid: 8fb66f9f2d2c5754e9c7380d078cf404, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 15
-      objectReference: {fileID: 0}
-    - target: {fileID: 5695664855769640717, guid: 8fb66f9f2d2c5754e9c7380d078cf404, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -4
-      objectReference: {fileID: 0}
-    - target: {fileID: 9134236769305668503, guid: 8fb66f9f2d2c5754e9c7380d078cf404, type: 3}
-      propertyPath: Speed
-      value: 2.5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -46123,6 +46123,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 2127659687}
+  cameraShake: {fileID: 1990695722}
 --- !u!114 &1990695717
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -46269,7 +46270,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   intensity: 0.1
-  speed: 1
 --- !u!114 &1990695723
 MonoBehaviour:
   m_ObjectHideFlags: 0

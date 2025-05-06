@@ -88,6 +88,7 @@ GameObject:
   - component: {fileID: 2198344465582687006}
   - component: {fileID: 7608087023441662579}
   - component: {fileID: 659041347829544307}
+  - component: {fileID: 5872196678343016279}
   m_Layer: 5
   m_Name: ForestButton
   m_TagString: Untagged
@@ -208,9 +209,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 7790658682871088238}
-        m_TargetAssemblyTypeName: SelectLevelScript, Assembly-CSharp
-        m_MethodName: PlayForest
+      - m_Target: {fileID: 5872196678343016279}
+        m_TargetAssemblyTypeName: Level.LevelLoader, Assembly-CSharp
+        m_MethodName: NextLevel
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -236,6 +237,19 @@ MonoBehaviour:
   defaultSprite: {fileID: 9085546173938197295, guid: 503f422b1a0b94f72876f1d4ef96b5eb, type: 3}
   selectedSprite: {fileID: 7599915694637157297, guid: 08f006ce88d8a41c39f1ce6bf8325540, type: 3}
   scaleFactor: 1.5
+--- !u!114 &5872196678343016279
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 673000257839434525}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de03cd3a5d9f41d7986f84d71b083d32, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nextLevelIndex: 5
 --- !u!1 &1030547662703938140
 GameObject:
   m_ObjectHideFlags: 0

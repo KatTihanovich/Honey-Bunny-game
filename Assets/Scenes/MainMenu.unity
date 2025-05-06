@@ -3003,6 +3003,7 @@ GameObject:
   - component: {fileID: 1769127914}
   - component: {fileID: 1769127913}
   - component: {fileID: 1769127916}
+  - component: {fileID: 1769127917}
   m_Layer: 5
   m_Name: PlayButton
   m_TagString: Untagged
@@ -3073,9 +3074,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 148015310}
-        m_TargetAssemblyTypeName: MainMenu, Assembly-CSharp
-        m_MethodName: PlayForest
+      - m_Target: {fileID: 1769127917}
+        m_TargetAssemblyTypeName: Level.LevelLoader, Assembly-CSharp
+        m_MethodName: NextLevel
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -3151,6 +3152,19 @@ MonoBehaviour:
   defaultSprite: {fileID: 6491329920184171956, guid: a717f5ac4f3e9427290edebec5177853, type: 3}
   selectedSprite: {fileID: 8031181668953253490, guid: 615ff0c15202e4050b4cfd94e82857fa, type: 3}
   scaleFactor: 1.9
+--- !u!114 &1769127917
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1769127911}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de03cd3a5d9f41d7986f84d71b083d32, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nextLevelIndex: 5
 --- !u!1 &1786803393
 GameObject:
   m_ObjectHideFlags: 0

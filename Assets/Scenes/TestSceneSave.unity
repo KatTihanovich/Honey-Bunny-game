@@ -10016,6 +10016,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Meditation point (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 3946179196040944121, guid: a9d14486556a1de438e96208a64718b5, type: 3}
+      propertyPath: secondaryAnimator
+      value: 
+      objectReference: {fileID: 1277575627}
     - target: {fileID: 8655068089301909756, guid: a9d14486556a1de438e96208a64718b5, type: 3}
       propertyPath: m_LocalPosition.x
       value: 333.29
@@ -23105,7 +23109,7 @@ MonoBehaviour:
   anim: {fileID: 1761830843}
   speed: 2
   waitTimeAtPoint: 3
-  player: {fileID: 0}
+  player: {fileID: 1277575626}
   rb: {fileID: 1761830839}
 --- !u!1 &990227839
 GameObject:
@@ -25760,6 +25764,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 19603248980692507, guid: 8dab1cadc669f55418ecd8fd22825253, type: 3}
+      propertyPath: attackDelay
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7837906502553792585, guid: 8dab1cadc669f55418ecd8fd22825253, type: 3}
       propertyPath: m_LocalPosition.x
       value: 529.83
@@ -27300,7 +27308,7 @@ Transform:
   m_GameObject: {fileID: 1277575625}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 58.400024, y: 2.5999985, z: 0}
+  m_LocalPosition: {x: 521.55, y: 34.98, z: 0}
   m_LocalScale: {x: 0.22, y: 0.22, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -42534,7 +42542,7 @@ GameObject:
   - component: {fileID: 2007612727}
   m_Layer: 8
   m_Name: PlayerFoot
-  m_TagString: Player
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

@@ -25,7 +25,7 @@ public class HealthNew : MonoBehaviour
         CurrentHealth = Mathf.Max(CurrentHealth, 0f);
         OnDamaged?.Invoke(amount);
         OnDamageTaken?.Invoke();
-        Debug.Log(gameObject.name +" получил урон"+"| осталось: " + CurrentHealth);
+        Debug.Log(gameObject.name +" пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ"+"| пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ: " + CurrentHealth);
 
         if (IsDead)
             OnDeath?.Invoke();
@@ -47,7 +47,7 @@ public class HealthNew : MonoBehaviour
     {
         if (!IsDead)
         {
-            Debug.Log("Смерть");
+            Debug.Log("пїЅпїЅпїЅпїЅпїЅпїЅ");
             CurrentHealth = 0;
             OnDeath?.Invoke();
         }
@@ -56,7 +56,12 @@ public class HealthNew : MonoBehaviour
     public void RestoreFull()
     {
         if (!IsDead)
+        {
+            float actualHealed = _maxHealth - CurrentHealth;
             CurrentHealth = _maxHealth;
+            OnHealed?.Invoke(actualHealed);
+        }
+        
     }
 
     public void SetMaxHealth(float newMax)

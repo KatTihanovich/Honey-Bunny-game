@@ -18,71 +18,65 @@ public class FlowerSequenceChecker : MonoBehaviour
     }
 
     public bool CheckSequence(FlowerInteraction triggeringObject)
-    {
-        List<string> playerSequence = FlowerInteraction.GetInteractionSequence();
-        Debug.Log("Current Player Sequence: " + string.Join(", ", playerSequence));
-        Debug.Log("Correct Sequence: " + string.Join(", ", correctSequence));
+{
+    List<string> playerSequence = FlowerInteraction.GetInteractionSequence();
+    Debug.Log("Current Player Sequence: " + string.Join(", ", playerSequence));
+    Debug.Log("Correct Sequence: " + string.Join(", ", correctSequence));
 
-        if (playerSequence.Count < correctSequence.Count)
+    // Проверка префикса — сравниваем только введённую часть
+    for (int i = 0; i < playerSequence.Count; i++)
+    {
+        if (i >= correctSequence.Count || playerSequence[i] != correctSequence[i])
         {
-            Debug.Log("Sequence is incomplete. Keep interacting.");
+            // Debug.Log("Incorrect input at step " + i + ". Resetting.");
+            // PlaySound(loseClip, audioGroup);
+
+            // // Проигрываем анимации неудачи
+            // foreach (var zone in flowerZones)
+            //     zone.TriggerLoseAnimation();
+
+            FlowerInteraction.ResetInteractionSequence();
             return false;
         }
+    }
 
-        bool isCorrect = true;
-        for (int i = 0; i < correctSequence.Count; i++)
+    // Если последовательность пока корректна, но ещё не закончена
+    if (playerSequence.Count < correctSequence.Count)
+    {
+        Debug.Log("So far so good. Continue inputting the sequence.");
+        return false;
+    }
+
+    // Если последовательность полностью совпала
+    Debug.Log("Puzzle solved!");
+    PlaySound(winClip, audioGroup);
+    EndWindow.puzzlesSolved++;
+
+    foreach (var zone in flowerZones)
+        zone.TriggerWinAnimation();
+
+    if (objectToDeActivate != null)
+    {
+        Animator sleepingFlowerAnimator = objectToDeActivate.GetComponent<Animator>();
+        if (sleepingFlowerAnimator != null)
         {
-            if (playerSequence[i] != correctSequence[i])
-            {
-                isCorrect = false;
-                break;
-            }
-        }
-
-        // Play animations based on correctness
-        foreach (var zone in flowerZones)
-        {
-            if (isCorrect)
-                zone.TriggerWinAnimation();
-            else
-                zone.TriggerLoseAnimation();
-        }
-
-        // Additional actions if the sequence is correct
-        if (isCorrect)
-        {
-            Debug.Log("Puzzle solved!");
-            PlaySound(winClip, audioGroup);
-            EndWindow.puzzlesSolved++;
-
-            if (objectToDeActivate != null)
-            {
-                Animator sleepingFlowerAnimator = objectToDeActivate.GetComponent<Animator>();
-                if (sleepingFlowerAnimator != null)
-                {
-                    sleepingFlowerAnimator.SetTrigger("Awake"); 
-                    Debug.Log("Sleeping flower awakened!");
-                }
-                else
-                {
-                    Debug.LogWarning("Animator not found on ObjectToDeActivate.");
-                }
-                objectToDeActivate.GetComponent<BoxCollider2D>().isTrigger = true;
-            }
-            else
-            {
-                Debug.LogWarning("No object assigned to deactivate.");
-            }
+            sleepingFlowerAnimator.SetTrigger("Awake");
+            Debug.Log("Sleeping flower awakened!");
         }
         else
         {
-            Debug.Log("Incorrect sequence! Resetting.");
-            PlaySound(loseClip, audioGroup);
-            FlowerInteraction.ResetInteractionSequence();
+            Debug.LogWarning("Animator not found on ObjectToDeActivate.");
         }
 
-        return isCorrect;
+        objectToDeActivate.GetComponent<BoxCollider2D>().isTrigger = true;
     }
+    else
+    {
+        Debug.LogWarning("No object assigned to deactivate.");
+    }
+
+    return true;
+}
 
     private void PlaySound(AudioClip clip, AudioMixerGroup audioGroup)
     {

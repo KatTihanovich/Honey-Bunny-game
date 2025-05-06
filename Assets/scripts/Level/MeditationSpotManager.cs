@@ -53,6 +53,7 @@ public class MeditationManager : MonoBehaviour
 
     public void Interact()
     {
+        StartCoroutine(DeactivateAfterDelay());
         if (animator != null)
             animator.SetTrigger("Meditation");
 
@@ -64,8 +65,6 @@ public class MeditationManager : MonoBehaviour
             Debug.Log("Restoring full health.");
             _health.RestoreFull();
         }
-
-        StartCoroutine(DeactivateAfterDelay());
     }
 
     private IEnumerator DeactivateAfterDelay()

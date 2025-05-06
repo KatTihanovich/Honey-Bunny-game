@@ -7,13 +7,21 @@ public class CameraFollow : MonoBehaviour
     private Vector3 velocity = Vector3.zero;
 
     [SerializeField] private Transform target;
+    [SerializeField] private CameraShake cameraShake; 
 
-    private void Update()
+    private void LateUpdate()
     {
         if (target != null)
         {
             var targetPosition = target.position + offset;
-            transform.position = Vector3.SmoothDamp(transform.position, targetPosition, ref velocity, SmoothTime);
+            Vector3 smoothPosition = Vector3.SmoothDamp(transform.position, targetPosition, ref velocity, SmoothTime);
+
+            if (cameraShake.IsShaking)
+            {
+                smoothPosition += Random.insideUnitSphere * cameraShake.intensity;
+            }
+
+            transform.position = smoothPosition;
         }
     }
 }

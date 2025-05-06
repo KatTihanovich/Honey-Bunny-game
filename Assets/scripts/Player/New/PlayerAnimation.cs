@@ -18,9 +18,11 @@ public class PlayerAnimation : MonoBehaviour
         _player = GetComponent<PlayerController>();
         _health = GetComponent<HealthNew>();
 
+        Debug.Log(_health);
 
         if (_health != null)
         {
+            Debug.Log("Подписались на события здоровья");
             _health.OnDamaged += HandleDamaged;
             _health.OnDeath += HandleDeath;
         }

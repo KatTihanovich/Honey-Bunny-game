@@ -23,9 +23,11 @@ public class PlayerController : MonoBehaviour
     public void SetSuperAttackReady(bool ready) => _isSuperAttackReady = ready;
 
     [Header("Movement Settings")]
-    [SerializeField] private float _moveSpeed = 5f;
+    [SerializeField] private float _moveSpeed = 9f;
     [SerializeField] private float _moveSmoothing = 5f;
     [SerializeField] private float _airControlMultiplier = 0.5f;
+    private float _baseMoveSpeed;
+    private bool _isSlowed = false;
 
     [Header("Jump Settings")]
     [SerializeField] private float _jumpForce = 10f;
@@ -108,6 +110,7 @@ public class PlayerController : MonoBehaviour
         _rb.freezeRotation = true;
         _rb.collisionDetectionMode = CollisionDetectionMode2D.Continuous;
         _originalScale = transform.localScale;
+        _baseMoveSpeed = _moveSpeed;
 
         _health = GetComponent<HealthNew>();
         if (_health != null)
@@ -366,5 +369,21 @@ public class PlayerController : MonoBehaviour
     {
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(_groundCheck.position, _groundCheckRadius);
+    }
+    public void SlowModeEnable()
+    {
+        if (!_isSlowed)
+        {
+            _moveSpeed = _baseMoveSpeed / 2f;
+            _isSlowed = true;
+        }
+    }
+    public void SlowModeDesable()
+    {
+        if (_isSlowed)
+        {
+            _moveSpeed = _baseMoveSpeed;
+            _isSlowed = false;
+        }
     }
 }

@@ -120,28 +120,21 @@ public class OtherFlowerInteraction : MonoBehaviour
 
     private IEnumerator PlayVisualSequence()
 {
-    int index = 0;
     while (isPlayerInside)
     {
         for (int i = 0; i < visualObjects.Length; i++)
         {
             if (visualObjects[i] != null)
-                visualObjects[i].SetActive(i == index);
-        }
+                visualObjects[i].SetActive(true);
 
-        index++;
-
-        if (index >= visualObjects.Length)
-        {
-            index = 0;
-
-            // Все 4 ноты показаны — делаем паузу
-            yield return new WaitForSeconds(2f);
-        }
-        else
-        {
             yield return new WaitForSeconds(0.5f);
+
+            if (visualObjects[i] != null)
+                visualObjects[i].SetActive(false);
         }
+
+        // После показа всех 4 нот — пауза 2 секунды
+        yield return new WaitForSeconds(1.77f);
     }
 }
 }

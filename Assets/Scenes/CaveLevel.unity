@@ -1207,6 +1207,7 @@ MonoBehaviour:
   _health: {fileID: 0}
   _cameraShake: {fileID: 0}
   _vignetteController: {fileID: 0}
+  _playerController: {fileID: 0}
 --- !u!114 &61947301
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11497,6 +11498,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1606302436}
     - target: {fileID: 2473795422766521655, guid: f23b74fdac9ef46a787ab3c6e42482ca, type: 3}
+      propertyPath: _playerController
+      value: 
+      objectReference: {fileID: 2127659690}
+    - target: {fileID: 2473795422766521655, guid: f23b74fdac9ef46a787ab3c6e42482ca, type: 3}
       propertyPath: _vignetteController
       value: 
       objectReference: {fileID: 1990695723}
@@ -11530,11 +11535,11 @@ PrefabInstance:
       objectReference: {fileID: 1252261695}
     - target: {fileID: 7979762176269748813, guid: f23b74fdac9ef46a787ab3c6e42482ca, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7979762176269748813, guid: f23b74fdac9ef46a787ab3c6e42482ca, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 6455708100663985795, guid: f23b74fdac9ef46a787ab3c6e42482ca, type: 3}
@@ -37061,6 +37066,7 @@ MonoBehaviour:
   _health: {fileID: 0}
   _cameraShake: {fileID: 0}
   _vignetteController: {fileID: 0}
+  _playerController: {fileID: 0}
 --- !u!114 &1582120187
 MonoBehaviour:
   m_ObjectHideFlags: 0

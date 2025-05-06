@@ -8,6 +8,7 @@ public class HealthBar : MonoBehaviour
 
     [SerializeField] private CameraShake _cameraShake;
     [SerializeField] private VignetteController _vignetteController;
+    [SerializeField] private PlayerController _playerController;
 
     private void Start()
     {
@@ -38,11 +39,13 @@ public class HealthBar : MonoBehaviour
         {
             _cameraShake.StartShaking();
             _vignetteController.EnableVignette();
+            _playerController.SlowModeEnable();
         }
         else
         {
             _cameraShake.StopShaking();
             _vignetteController.DisableVignette();
+            _playerController.SlowModeDesable();
         }
     }
 

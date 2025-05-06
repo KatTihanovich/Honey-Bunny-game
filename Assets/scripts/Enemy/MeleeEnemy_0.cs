@@ -136,7 +136,11 @@ public class MeleeEnemy_0 : MonoBehaviour
             boxCollider.bounds.center + transform.up * (transform.localScale.y * colliderDistanceY) + transform.right * (transform.localScale.x * colliderDistanceX),
             new Vector3(boxCollider.bounds.size.x * rangeX, boxCollider.bounds.size.y * rangeY, boxCollider.bounds.size.z),
             0, Vector2.zero, 0, playerLayer);
-
+        if (hit.collider != null) 
+        {
+            Debug.Log(hit.collider.gameObject.name);
+        }
+   
         if (hit.collider != null && hit.collider.CompareTag("Player"))
         {
             playerHealth = hit.transform.GetComponent<HealthNew>();
@@ -160,6 +164,7 @@ public class MeleeEnemy_0 : MonoBehaviour
 
     public void NIPPER_ATTACK()
     {
+        Debug.Log("Nipper Attack");
         if (playerHealth != null && PlayerInSight())
         {
             Play(attackSound);

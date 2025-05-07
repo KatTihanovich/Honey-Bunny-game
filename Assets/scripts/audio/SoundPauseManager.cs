@@ -4,8 +4,6 @@ using UnityEngine.InputSystem;
 
 public class SoundPauseManager : MonoBehaviour
 {
-    [Header("Player Input")]
-    public PlayerInput playerInput;
     public GameObject pauseMenuUI;
     public GameObject toSelect;
     public ButtonImageToggler soundButtonImageToggler; 
@@ -15,14 +13,12 @@ public class SoundPauseManager : MonoBehaviour
 
     public void Update()
     {
-        // Toggle Pause Menu
         if (Keyboard.current.pKey.wasPressedThisFrame || Keyboard.current.escapeKey.wasPressedThisFrame)
         {
             ToggleButtonImage(pauseButtonImageToggler);
             TogglePauseMenu();
         }
 
-        // Toggle Sound
         if (Keyboard.current.mKey.wasPressedThisFrame)
         {
             ToggleButtonImage(soundButtonImageToggler);
@@ -36,16 +32,7 @@ public class SoundPauseManager : MonoBehaviour
 
         pauseMenuUI.SetActive(isPaused);
         Time.timeScale = isPaused ? 0f : 1f;
-
-        if (isPaused)
-        {
-            EventSystem.current.SetSelectedGameObject(toSelect);
-            playerInput.SwitchCurrentActionMap("UI");
-        }
-        else
-        {
-            playerInput.SwitchCurrentActionMap("Player");
-        }
+        EventSystem.current.SetSelectedGameObject(toSelect);
     }
 
     public void SoundControl()

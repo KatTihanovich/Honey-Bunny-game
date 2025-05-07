@@ -15,13 +15,10 @@ public class PauseMenu : MonoBehaviour
     public Sprite defaultSprite;
     public GameObject toSelectOnPause; 
     public GameObject toSelectOnSeetings; 
-    [Header("Player Input")]
-    public PlayerInput playerInput; 
 
     public void Resume()
     {
         pauseMenuUI.SetActive(false);
-        playerInput.SwitchCurrentActionMap("Player");
         Time.timeScale = 1f;
     }
 
@@ -38,7 +35,6 @@ public class PauseMenu : MonoBehaviour
     {
         pauseMenuUI.SetActive(true);
         EventSystem.current.SetSelectedGameObject(toSelectOnPause);
-        playerInput.SwitchCurrentActionMap("UI");
         Time.timeScale = 0f;
     }
 

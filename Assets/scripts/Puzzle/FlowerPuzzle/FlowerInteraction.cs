@@ -40,8 +40,6 @@ public class FlowerInteraction : MonoBehaviour
         // Показать объект ноты
         StartCoroutine(ShowNoteObject());
 
-        if (interactionSequence.Count >= 4)
-        {
             if (sequenceChecker != null)
             {
                 StartCoroutine(WaitForClickAndCheckSequence());
@@ -50,7 +48,6 @@ public class FlowerInteraction : MonoBehaviour
             {
                 Debug.LogError("SequenceChecker is not assigned in InteractionZone!");
             }
-        }
     }
 }
 

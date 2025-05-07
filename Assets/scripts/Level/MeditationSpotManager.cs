@@ -4,14 +4,16 @@ using System.Collections;
 
 public class MeditationManager : MonoBehaviour
 {
+    [SerializeField] private GameObject playerObject; // ← Один раз привязывается игрок в инспекторе
+
     private bool isPlayerInZone = false;
     private bool hasMeditatedOnce = false;
+
     private Animator animator;
-    private HealthNew _health;
-    private PlayerController _player;
+    private Animator playerAnimator;
+    private HealthNew playerHealth;
 
     [SerializeField] private float _delayAfterAnimation = 1f;
-    [SerializeField] private Animator secondaryAnimator;
 
     private PlayerInputActions inputActions;
 
@@ -34,11 +36,22 @@ public class MeditationManager : MonoBehaviour
     private void Start()
     {
         animator = GetComponent<Animator>();
-        if (animator == null)
-            Debug.LogWarning("Animator not found on this object.");
 
-        if (secondaryAnimator == null)
-            Debug.LogWarning("Secondary Animator is not assigned.");
+        if (playerObject != null)
+        {
+            playerHealth = playerObject.GetComponent<HealthNew>();
+            playerAnimator = playerObject.GetComponent<Animator>();
+
+            if (playerHealth == null)
+                Debug.LogWarning("HealthNew component not found on playerObject.");
+
+            if (playerAnimator == null)
+                Debug.LogWarning("Animator component not found on playerObject.");
+        }
+        else
+        {
+            Debug.LogError("Player object not assigned in inspector!");
+        }
     }
 
     private void TryMeditate()
@@ -53,18 +66,23 @@ public class MeditationManager : MonoBehaviour
 
     public void Interact()
     {
-        StartCoroutine(DeactivateAfterDelay());
         if (animator != null)
             animator.SetTrigger("Meditation");
 
-        if (secondaryAnimator != null)
-            secondaryAnimator.SetTrigger("Meditation");
+        if (playerAnimator != null)
+            playerAnimator.SetTrigger("Meditation");
 
-        if (_health != null)
+        if (playerHealth != null)
         {
             Debug.Log("Restoring full health.");
-            _health.RestoreFull();
+            playerHealth.RestoreFull();
         }
+        else
+        {
+            Debug.LogWarning("Cannot restore health — HealthNew is null.");
+        }
+
+        StartCoroutine(DeactivateAfterDelay());
     }
 
     private IEnumerator DeactivateAfterDelay()
@@ -79,8 +97,6 @@ public class MeditationManager : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             isPlayerInZone = true;
-            _player = other.GetComponent<PlayerController>();
-            _health = other.GetComponent<HealthNew>();
         }
     }
 
@@ -89,8 +105,6 @@ public class MeditationManager : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             isPlayerInZone = false;
-            _player = null;
-            _health = null;
         }
     }
 }

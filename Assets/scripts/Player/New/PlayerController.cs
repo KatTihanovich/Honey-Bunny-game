@@ -3,6 +3,7 @@ using Spine.Unity;
 using UnityEngine.InputSystem;
 using Game.Combat;
 using Game.Audio;
+using UnityEngine.UI;
 
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(CapsuleCollider2D))]
@@ -30,11 +31,16 @@ public class PlayerController : MonoBehaviour
     private bool _isSlowed = false;
 
     [Header("Jump Settings")]
+    [SerializeField] private bool _enableDoubleJump = false;
     [SerializeField] private float _jumpForce = 10f;
     [SerializeField] private float _fallMultiplier = 2.5f;
     [SerializeField] private float _lowJumpMultiplier = 2f;
     [SerializeField] private float _coyoteTime = 0.2f;
     [SerializeField] private float _jumpBufferTime = 0.2f;
+    private bool _canDoubleJump = false;
+    private bool _hasDoubleJumped = false;
+    private bool _hasJumped = false;
+  
 
     [Header("Ground Check")]
     [SerializeField] private LayerMask _groundLayer;
@@ -97,6 +103,11 @@ public class PlayerController : MonoBehaviour
         set { _isMeditation = value; }
     }
     public Rigidbody2D Rb => _rb;
+
+    public void DoubleJump(Toggle status) 
+    {
+        _enableDoubleJump = status.isOn;
+    }
 
     
     private void Awake()
@@ -261,27 +272,45 @@ public class PlayerController : MonoBehaviour
             {
                 _isJumping = false;
                 _jumpTriggered = false;
-                
+                _hasJumped = false;
+                _hasDoubleJumped = false;
             }
         }
         else
         {
             _coyoteTimeCounter -= Time.deltaTime;
         }
+
     }
 
     private void HandleJumpInput()
     {
-        if (_isAttacking || _isTakingDamage || !_playerAnimation.IsAnimationDamageExit) return;
+        if (_isAttacking || _isTakingDamage || !_playerAnimation.IsAnimationDamageExit)
+            return;
 
-        if (_jumpBufferCounter > 0f && (_isGrounded || _coyoteTimeCounter > 0f) && _jumpTriggered)
-        {
-            Jump();
-            _jumpBufferCounter = 0f;
-            _coyoteTimeCounter = 0f;
-        }
         _jumpBufferCounter -= Time.deltaTime;
+
+        if (_jumpTriggered)
+        {
+            if (_isGrounded && _jumpBufferCounter > 0f)
+            {
+                Jump();
+                _hasJumped = true;
+                _hasDoubleJumped = false;
+                _jumpTriggered = false;
+            }
+            else if (_enableDoubleJump && _hasJumped && !_hasDoubleJumped)
+            {
+                Jump();
+                _hasDoubleJumped = true;
+                _jumpTriggered = false;
+            }
+        }
     }
+
+
+
+
 
     private void Jump()
     {
@@ -290,17 +319,24 @@ public class PlayerController : MonoBehaviour
         _soundManager.PlaySound("Jump");
     }
 
+
     private void ApplyJumpPhysics()
     {
         if (_rb.linearVelocity.y < 0f)
         {
             _rb.linearVelocity += Vector2.up * Physics2D.gravity.y * (_fallMultiplier - 1f) * Time.fixedDeltaTime;
         }
-        else if (_rb.linearVelocity.y > 0f && !Keyboard.current.spaceKey.isPressed && !Keyboard.current.wKey.isPressed && !Keyboard.current.upArrowKey.isPressed)
+        else if (_rb.linearVelocity.y > 0f && !_enableDoubleJump) // <- условие только если НЕ двойной прыжок
         {
-            _rb.linearVelocity += Vector2.up * Physics2D.gravity.y * (_lowJumpMultiplier - 1f) * Time.fixedDeltaTime;
+            if (!Keyboard.current.spaceKey.isPressed &&
+                !Keyboard.current.wKey.isPressed &&
+                !Keyboard.current.upArrowKey.isPressed)
+            {
+                _rb.linearVelocity += Vector2.up * Physics2D.gravity.y * (_lowJumpMultiplier - 1f) * Time.fixedDeltaTime;
+            }
         }
     }
+
 
     private void HandleRunSound()
     {

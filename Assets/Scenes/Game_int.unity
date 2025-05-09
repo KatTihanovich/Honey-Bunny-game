@@ -3444,7 +3444,6 @@ MonoBehaviour:
   defaultSprite: {fileID: 6068752714494607558, guid: 688476adc5ae049478ccb7e6e45e9de3, type: 3}
   toSelectOnPause: {fileID: 0}
   toSelectOnSeetings: {fileID: 0}
-  playerInput: {fileID: 0}
 --- !u!114 &196942484
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4502,9 +4501,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1c919216ea63d4674b283b7cc68ec8b7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  deathScreenUI: {fileID: 1535314078}
-  firstSelected: {fileID: 238652310}
-  playerHealth: {fileID: 1778743754}
 --- !u!114 &261875823
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4531,7 +4527,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 531273a71a3714f1f9ee29e687130f22, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  intensity: 0.05
 --- !u!1 &267623071
 GameObject:
   m_ObjectHideFlags: 0
@@ -6008,8 +6003,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 87922770fa881a14e89ece91aacebeb9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerObject: {fileID: 0}
   _delayAfterAnimation: 1
-  secondaryAnimator: {fileID: 1778743760}
 --- !u!61 &357960068
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -29519,7 +29514,8 @@ MonoBehaviour:
   _moveSpeed: 9
   _moveSmoothing: 5
   _airControlMultiplier: 0.5
-  _jumpForce: 10
+  _enableDoubleJump: 1
+  _jumpForce: 5
   _fallMultiplier: 5
   _lowJumpMultiplier: 5
   _coyoteTime: 0.2

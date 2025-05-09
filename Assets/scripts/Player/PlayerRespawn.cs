@@ -3,12 +3,12 @@ using UnityEngine;
 public class PlayerRespawn : MonoBehaviour
 { 
     private Transform currentCheckpoint;
-    private Health playerHealth;
+    private HealthNew playerHealth;
     private UIManager uiManager;
 
     private void Awake()
     {
-        playerHealth = GetComponent<Health>();
+        playerHealth = GetComponent<HealthNew>();
     }
 
     public void CheckRespawn()
@@ -19,7 +19,7 @@ public class PlayerRespawn : MonoBehaviour
             return;
         }
         transform.position = currentCheckpoint.position;
-        playerHealth.Respawn();
+        playerHealth.RestoreFull();
 
     }
 

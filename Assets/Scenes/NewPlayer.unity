@@ -643,8 +643,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveMode: 1
+  startDirection: 0
   moveSpeed: 2
   moveDistance: 5
+  waitTime: 0
 --- !u!1 &2020244840
 GameObject:
   m_ObjectHideFlags: 0
@@ -766,7 +768,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 87922770fa881a14e89ece91aacebeb9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  secondaryAnimator: {fileID: 2314160719538686553}
+  playerObject: {fileID: 0}
+  _delayAfterAnimation: 1
 --- !u!61 &2089399564
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1199,7 +1202,7 @@ Transform:
   m_GameObject: {fileID: 7750669929845524742}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -3.0125732, y: 0, z: 0}
+  m_LocalPosition: {x: 2.81, y: -2.37, z: 0}
   m_LocalScale: {x: 0.22, y: 0.22, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1372,6 +1375,7 @@ MonoBehaviour:
     m_Bits: 256
   rotateTowardsPlayer: 1
   patrolScript: {fileID: 1461071933336024197}
+  contactDamageDelay: 1.5
   audioMixerGroup: {fileID: -1040233043583867831, guid: b7aad94fe0c3c4ba4a14d95707c80208, type: 2}
   attackSound: {fileID: 8300000, guid: adea45e66850042909274afe7d7927c0, type: 3}
   volume: 1
@@ -1552,6 +1556,67 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!1001 &7349589295072812109
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 799185394581525594, guid: 7afa24b7d299abc43aae8349dcc269f2, type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 1416679552680615616, guid: 7afa24b7d299abc43aae8349dcc269f2, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -5.54
+      objectReference: {fileID: 0}
+    - target: {fileID: 1416679552680615616, guid: 7afa24b7d299abc43aae8349dcc269f2, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.37
+      objectReference: {fileID: 0}
+    - target: {fileID: 1416679552680615616, guid: 7afa24b7d299abc43aae8349dcc269f2, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1416679552680615616, guid: 7afa24b7d299abc43aae8349dcc269f2, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1416679552680615616, guid: 7afa24b7d299abc43aae8349dcc269f2, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1416679552680615616, guid: 7afa24b7d299abc43aae8349dcc269f2, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1416679552680615616, guid: 7afa24b7d299abc43aae8349dcc269f2, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1416679552680615616, guid: 7afa24b7d299abc43aae8349dcc269f2, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1416679552680615616, guid: 7afa24b7d299abc43aae8349dcc269f2, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1416679552680615616, guid: 7afa24b7d299abc43aae8349dcc269f2, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6755833295057045746, guid: 7afa24b7d299abc43aae8349dcc269f2, type: 3}
+      propertyPath: m_Name
+      value: Lantern_0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 7afa24b7d299abc43aae8349dcc269f2, type: 3}
 --- !u!1 &7750669929845524742
 GameObject:
   m_ObjectHideFlags: 0
@@ -1629,6 +1694,7 @@ MonoBehaviour:
   _moveSpeed: 8
   _moveSmoothing: 5
   _airControlMultiplier: 0.5
+  _enableDoubleJump: 0
   _jumpForce: 10
   _fallMultiplier: 3
   _lowJumpMultiplier: 3
@@ -1804,3 +1870,4 @@ SceneRoots:
   - {fileID: 2419414023801265346}
   - {fileID: 1461071933336024196}
   - {fileID: 2089399569}
+  - {fileID: 7349589295072812109}

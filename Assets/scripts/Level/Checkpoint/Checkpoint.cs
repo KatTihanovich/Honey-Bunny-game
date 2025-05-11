@@ -30,7 +30,7 @@ public class Checkpoint : MonoBehaviour
     {
         if (skeletonAnim != null)
         {
-            skeletonAnim.AnimationState.SetAnimation(0, "light on", true);
+            skeletonAnim.AnimationState.SetAnimation(0, "light on", false);
         }
 
   

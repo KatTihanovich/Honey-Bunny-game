@@ -96,6 +96,11 @@ public class PlayerController : MonoBehaviour
         bool groundedNow = Physics2D.OverlapCircle(_groundCheck.position, _groundCheckRadius, _groundLayer);
         return !groundedNow && _rb.linearVelocity.y > 0.5f;
     }
+
+    public void SetDeadState(bool isDead)
+    {
+        _isDead = isDead;
+    }
     public float GetRandomA() => Random.Range(0f, 1f);
     public bool IsMeditation 
     {
@@ -399,6 +404,9 @@ public class PlayerController : MonoBehaviour
         _isDead = true;
         GetComponent<PlayerController>().enabled = false;
         GetComponent<HealthNew>().enabled = false;
+        GetComponent<PlayerRespawn>().CheckRespawn();
+  
+      
     }
 
     private void OnDrawGizmosSelected()

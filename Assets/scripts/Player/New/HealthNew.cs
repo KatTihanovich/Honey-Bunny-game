@@ -25,7 +25,7 @@ public class HealthNew : MonoBehaviour
         CurrentHealth = Mathf.Max(CurrentHealth, 0f);
         OnDamaged?.Invoke(amount);
         OnDamageTaken?.Invoke();
-        Debug.Log(gameObject.name +" ������� ����"+"| ��������: " + CurrentHealth);
+       
 
         if (IsDead)
             OnDeath?.Invoke();
@@ -55,12 +55,11 @@ public class HealthNew : MonoBehaviour
 
     public void RestoreFull()
     {
-        if (!IsDead)
-        {
+        
             float actualHealed = _maxHealth - CurrentHealth;
             CurrentHealth = _maxHealth;
             OnHealed?.Invoke(actualHealed);
-        }
+        
         
     }
 

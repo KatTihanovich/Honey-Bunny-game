@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 using System.Collections;
+using Game.Audio;
 
 public class MeditationManager : MonoBehaviour
 {
@@ -12,6 +13,7 @@ public class MeditationManager : MonoBehaviour
     private Animator animator;
     private Animator playerAnimator;
     private HealthNew playerHealth;
+    private ISoundManager _soundManager;
 
     [SerializeField] private float _delayAfterAnimation = 1f;
 
@@ -21,6 +23,7 @@ public class MeditationManager : MonoBehaviour
     {
         inputActions = new PlayerInputActions();
         inputActions.Player.Interact.performed += ctx => TryMeditate();
+        _soundManager = SoundManagerNew.Instance;
     }
 
     private void OnEnable()
@@ -70,7 +73,11 @@ public class MeditationManager : MonoBehaviour
             animator.SetTrigger("Meditation");
 
         if (playerAnimator != null)
+        {
             playerAnimator.SetTrigger("Meditation");
+            _soundManager.PlaySound("Meditation");
+        }
+
 
         if (playerHealth != null)
         {

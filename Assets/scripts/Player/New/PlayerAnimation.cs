@@ -11,7 +11,6 @@ public class PlayerAnimation : MonoBehaviour
     private bool _superAttackAnimPlayed = false;
     private bool _isAnimationDamageExit = true;
 
-
     private void Start()
     {
         _animator = GetComponent<Animator>();
@@ -28,26 +27,34 @@ public class PlayerAnimation : MonoBehaviour
         }
     }
 
-    public bool IsAnimationDamageExit 
+    public bool IsAnimationDamageExit
     {
         get { return _isAnimationDamageExit; }
     }
-   
+
     public bool ToggleDamageAnimationStatus()
     {
         _isAnimationDamageExit = !_isAnimationDamageExit;
         return _isAnimationDamageExit;
     }
+
+    public void SetDoubleJump(bool isDoubleJump)
+    {
+        _animator.SetBool("DoubleJump", isDoubleJump);
+        Debug.Log($"Set DoubleJump to {isDoubleJump}, IsFlying={_player.IsFlying()}");
+    }
+
     private void Update()
     {
         _animator.SetBool("Grounded", _player.IsGrounded());
         _animator.SetBool("Run", _player.IsRunning());
         _animator.SetBool("IsFlying", _player.IsFlying());
         _animator.SetBool("IsFalling", _player.IsFalling());
-        _animator.SetBool("Save",_player.IsMeditation);
+        _animator.SetBool("Save", _player.IsMeditation);
         _animator.SetBool("Push", _player.IsPushed());
 
-        if (_player.JumpTriggered() && _player.IsGrounded() && !_player.IsJumping())
+        // Проверка для любого прыжка (на земле или в воздухе)
+        if (_player.JumpTriggered())
         {
             Debug.Log("Анимация прыжка: JumpPressed");
             _animator.SetTrigger("JumpPressed");

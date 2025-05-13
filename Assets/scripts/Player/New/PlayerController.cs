@@ -40,7 +40,6 @@ public class PlayerController : MonoBehaviour
     private bool _canDoubleJump = false;
     private bool _hasDoubleJumped = false;
     private bool _hasJumped = false;
-  
 
     [Header("Ground Check")]
     [SerializeField] private LayerMask _groundLayer;
@@ -102,19 +101,18 @@ public class PlayerController : MonoBehaviour
         _isDead = isDead;
     }
     public float GetRandomA() => Random.Range(0f, 1f);
-    public bool IsMeditation 
+    public bool IsMeditation
     {
         get { return _isMeditation; }
         set { _isMeditation = value; }
     }
     public Rigidbody2D Rb => _rb;
 
-    public void DoubleJump(Toggle status) 
+    public void DoubleJump(Toggle status)
     {
         _enableDoubleJump = status.isOn;
     }
 
-    
     private void Awake()
     {
         _rb = GetComponent<Rigidbody2D>();
@@ -151,10 +149,8 @@ public class PlayerController : MonoBehaviour
     {
         if (_isDead) return;
 
-
         if (_isTakingDamage && !_playerAnimation.IsAnimationDamageExit)
         {
-   
             _rb.linearVelocity = Vector2.zero;
             return;
         }
@@ -171,21 +167,17 @@ public class PlayerController : MonoBehaviour
 
     private void HandleInput()
     {
-       
-            _horizontalInput = 0f;
-            if (Keyboard.current.aKey.isPressed || Keyboard.current.leftArrowKey.isPressed)
-                _horizontalInput = -1f;
-            if (Keyboard.current.dKey.isPressed || Keyboard.current.rightArrowKey.isPressed)
-                _horizontalInput = 1f;
+        _horizontalInput = 0f;
+        if (Keyboard.current.aKey.isPressed || Keyboard.current.leftArrowKey.isPressed)
+            _horizontalInput = -1f;
+        if (Keyboard.current.dKey.isPressed || Keyboard.current.rightArrowKey.isPressed)
+            _horizontalInput = 1f;
 
-            if (Keyboard.current.spaceKey.wasPressedThisFrame || Keyboard.current.wKey.wasPressedThisFrame || Keyboard.current.upArrowKey.wasPressedThisFrame & _isGrounded)
-            {
-                _jumpTriggered = true;
-                _jumpBufferCounter = _jumpBufferTime;
-            }
-        
-
-       
+        if (Keyboard.current.spaceKey.wasPressedThisFrame || Keyboard.current.wKey.wasPressedThisFrame || Keyboard.current.upArrowKey.wasPressedThisFrame)
+        {
+            _jumpTriggered = true;
+            _jumpBufferCounter = _jumpBufferTime;
+        }
 
         if (_isAttacking || _isSuperAttacking) return;
         if (Keyboard.current.fKey.wasPressedThisFrame && _isGrounded && !_isAttacking)
@@ -199,12 +191,10 @@ public class PlayerController : MonoBehaviour
         if (Keyboard.current.qKey.wasPressedThisFrame && _isGrounded && _isSuperAttackReady && !_isSuperAttacking)
         {
             Debug.Log("СУПЕР АТАКА!");
-
             _isSuperAttacking = true;
             SuperAttack();
-            _isSuperAttackReady = false; 
+            _isSuperAttackReady = false;
             Invoke(nameof(ResetSuperAttack), _meleeAttack.AttackDuration);
-
         }
     }
 
@@ -215,7 +205,6 @@ public class PlayerController : MonoBehaviour
 
         if (collision.gameObject.TryGetComponent<PushableObject>(out var pushable))
         {
-          
             bool sideContact = false;
             foreach (var c in collision.contacts)
                 if (Mathf.Abs(c.normal.y) <= 0.5f) { sideContact = true; break; }
@@ -240,7 +229,6 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-
     private void HandleMovement()
     {
         if (_isAttacking || _isTakingDamage || !_playerAnimation.IsAnimationDamageExit) return;
@@ -264,7 +252,6 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-
     private void CheckGrounded()
     {
         bool wasGrounded = _isGrounded;
@@ -279,17 +266,33 @@ public class PlayerController : MonoBehaviour
                 _jumpTriggered = false;
                 _hasJumped = false;
                 _hasDoubleJumped = false;
+                _playerAnimation.SetDoubleJump(false); // Сбрасываем DoubleJump при приземлении
+                Debug.Log("Приземление: DoubleJump сброшен");
             }
         }
         else
         {
             _coyoteTimeCounter -= Time.deltaTime;
         }
+    }
 
+    private void SetForceJump() 
+    {
+        if (_enableDoubleJump)
+        {
+            _jumpForce = 8;
+
+        }
+        else 
+        {
+            _jumpForce = 10;
+        }
     }
 
     private void HandleJumpInput()
     {
+        SetForceJump();
+
         if (_isAttacking || _isTakingDamage || !_playerAnimation.IsAnimationDamageExit)
             return;
 
@@ -302,28 +305,39 @@ public class PlayerController : MonoBehaviour
                 Jump();
                 _hasJumped = true;
                 _hasDoubleJumped = false;
-                _jumpTriggered = false;
+                _playerAnimation.SetDoubleJump(false); // Сбрасываем для первого прыжка
+                _jumpTriggered = false; // Сбрасываем после прыжка
+                Debug.Log("Первый прыжок выполнен");
             }
             else if (_enableDoubleJump && _hasJumped && !_hasDoubleJumped)
             {
                 Jump();
                 _hasDoubleJumped = true;
-                _jumpTriggered = false;
+                _playerAnimation.SetDoubleJump(true); // Устанавливаем для двойного прыжка
+                _jumpTriggered = false; // Сбрасываем после двойного прыжка
+                Debug.Log("Двойной прыжок выполнен");
             }
         }
     }
-
-
-
-
 
     private void Jump()
     {
         _rb.linearVelocity = new Vector2(_rb.linearVelocity.x, _jumpForce);
         _isJumping = true;
         _soundManager.PlaySound("Jump");
-    }
+        _jumpTriggered = true; // Устанавливаем триггер для анимации
+        Debug.Log($"Прыжок: IsDoubleJump={_hasDoubleJumped}, IsGrounded={_isGrounded}");
 
+        // Устанавливаем параметры для анимации
+        if (_hasDoubleJumped && !_isGrounded)
+        {
+            _playerAnimation.SetDoubleJump(true); // Передаем информацию о двойном прыжке
+        }
+        else
+        {
+            _playerAnimation.SetDoubleJump(false); // Сбрасываем для первого прыжка
+        }
+    }
 
     private void ApplyJumpPhysics()
     {
@@ -331,7 +345,7 @@ public class PlayerController : MonoBehaviour
         {
             _rb.linearVelocity += Vector2.up * Physics2D.gravity.y * (_fallMultiplier - 1f) * Time.fixedDeltaTime;
         }
-        else if (_rb.linearVelocity.y > 0f && !_enableDoubleJump) // <- условие только если НЕ двойной прыжок
+        else if (_rb.linearVelocity.y > 0f && !_enableDoubleJump)
         {
             if (!Keyboard.current.spaceKey.isPressed &&
                 !Keyboard.current.wKey.isPressed &&
@@ -341,7 +355,6 @@ public class PlayerController : MonoBehaviour
             }
         }
     }
-
 
     private void HandleRunSound()
     {
@@ -377,7 +390,6 @@ public class PlayerController : MonoBehaviour
         _isTakingDamage = true;
         _rb.linearVelocity = Vector2.zero;
         _soundManager.PlaySound("Damage");
-
         Invoke(nameof(ResetDamageState), 0.5f);
     }
 
@@ -385,8 +397,6 @@ public class PlayerController : MonoBehaviour
     {
         _isTakingDamage = false;
     }
-
-
 
     private void ResetAttack()
     {
@@ -399,14 +409,13 @@ public class PlayerController : MonoBehaviour
         _meleeAttack.Reset();
         _isSuperAttacking = false;
     }
+
     public void Die()
     {
         _isDead = true;
         GetComponent<PlayerController>().enabled = false;
         GetComponent<HealthNew>().enabled = false;
         GetComponent<PlayerRespawn>().CheckRespawn();
-  
-      
     }
 
     private void OnDrawGizmosSelected()
@@ -414,6 +423,7 @@ public class PlayerController : MonoBehaviour
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(_groundCheck.position, _groundCheckRadius);
     }
+
     public void SlowModeEnable()
     {
         if (!_isSlowed)
@@ -422,6 +432,7 @@ public class PlayerController : MonoBehaviour
             _isSlowed = true;
         }
     }
+
     public void SlowModeDesable()
     {
         if (_isSlowed)

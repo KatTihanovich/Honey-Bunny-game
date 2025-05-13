@@ -7,7 +7,22 @@ public class CameraFollow : MonoBehaviour
     private Vector3 velocity = Vector3.zero;
 
     [SerializeField] private Transform target;
-    [SerializeField] private CameraShake cameraShake; 
+    private CameraShake cameraShake; 
+
+    private void Awake()
+    {
+        cameraShake = GetComponent<CameraShake>();
+
+        if (cameraShake == null)
+        {
+            cameraShake = FindObjectOfType<CameraShake>();
+        }
+
+        if (cameraShake == null)
+        {
+            Debug.LogWarning("CameraShake component not found in the scene.");
+        }
+    }
 
     private void LateUpdate()
     {

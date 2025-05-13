@@ -1,5 +1,6 @@
 using UnityEngine;
 using Spine.Unity;
+using Game.Audio;
 
 public class DestructiblePlatformController : MonoBehaviour
 {
@@ -17,7 +18,7 @@ public class DestructiblePlatformController : MonoBehaviour
 
     private Animator animator;
     private Collider2D platformCollider;
-
+    private ISoundManager _soundManager;
 
 
     private void Awake()
@@ -28,6 +29,7 @@ public class DestructiblePlatformController : MonoBehaviour
         initialPosition = transform.position;
         initialRotation = transform.rotation;
         initialScale = transform.localScale;
+        _soundManager = SoundManagerNew.Instance;
     }
 
     private void Update()
@@ -37,31 +39,31 @@ public class DestructiblePlatformController : MonoBehaviour
     }
 
     private void CheckForPlayer()
-{
-    Vector2 boxSize = new Vector2(4.8f, 1f);
-    Vector2 boxCenter = _raycastOrigin.position + new Vector3(0f, 0.5f, 0f); // Центр области проверки
-
-    Collider2D playerCollider = Physics2D.OverlapBox(boxCenter, boxSize, 0f, _playerLayer);
-
-    if (playerCollider != null)
     {
-        // Игрок находится в области, запускаем разрушение
-        if (!isDestroyed && !isDestroySequenceRunning)
+        Vector2 boxSize = new Vector2(4.8f, 1f);
+        Vector2 boxCenter = _raycastOrigin.position + new Vector3(0f, 0.5f, 0f); // Центр области проверки
+
+        Collider2D playerCollider = Physics2D.OverlapBox(boxCenter, boxSize, 0f, _playerLayer);
+
+        if (playerCollider != null)
         {
-            StartDestroying();
+            // Игрок находится в области, запускаем разрушение
+            if (!isDestroyed && !isDestroySequenceRunning)
+            {
+                StartDestroying();
+            }
         }
     }
-}
 
-private void OnDrawGizmosSelected()
-{
-    // Визуализируем область OverlapBox в редакторе для удобства
-    if (_raycastOrigin != null)
+    private void OnDrawGizmosSelected()
     {
-        Gizmos.color = Color.green;
-        Gizmos.DrawWireCube(_raycastOrigin.position + new Vector3(0f, 0.5f, 0f), new Vector3(5f, 1f, 0f)); // Отображаем область
+        // Визуализируем область OverlapBox в редакторе для удобства
+        if (_raycastOrigin != null)
+        {
+            Gizmos.color = Color.green;
+            Gizmos.DrawWireCube(_raycastOrigin.position + new Vector3(0f, 0.5f, 0f), new Vector3(5f, 1f, 0f)); // Отображаем область
+        }
     }
-}
 
 
     public void StartDestroying()
@@ -77,6 +79,7 @@ private void OnDrawGizmosSelected()
     private void DestroyPlatform()
     {
         animator.SetTrigger("Break");
+        _soundManager.PlaySound("BreakPlatform");
         // Отключаем платформу
         platformCollider.enabled = false;
         // Планируем восстановление через respawnTime

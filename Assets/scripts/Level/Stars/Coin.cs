@@ -1,14 +1,12 @@
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using Game.Audio;
 
 public class Coin : MonoBehaviour
 {
     private static readonly int PickUp = Animator.StringToHash("PickUp");
     [SerializeField] private int coinValue = 1;
-    [SerializeField] private AudioClip coinCollectSound;
-    [SerializeField] private float volume = 1.0f;
-    [SerializeField] private float pitchVariation = 0.1f;
     [SerializeField] private Transform collectionBarTransform; 
     [SerializeField] private Image collectionBarImage; 
     public Sprite defaultSprite; 
@@ -21,10 +19,11 @@ public class Coin : MonoBehaviour
     private bool isCollected = false;
 
     private string _coinID;
-
+    private ISoundManager _soundManager;
     private void Awake()
     {
         anim = GetComponent<Animator>();
+        _soundManager = SoundManagerNew.Instance;
     }
 
     private void Start()
@@ -46,24 +45,8 @@ public class Coin : MonoBehaviour
             anim.SetTrigger(PickUp);
             CoinManager.Instance.AddCoins(coinValue);
             CoinManager.Instance.MarkCoinCollected(_coinID);
-            PlaySound();
+            _soundManager.PlaySound("Star");
             StartCoroutine(AnimateCollectionEffect());
-        }
-    }
-
-    private void PlaySound()
-    {
-        if (coinCollectSound != null)
-        {
-            GameObject tempSoundObject = new GameObject("CoinSound");
-            AudioSource audioSource = tempSoundObject.AddComponent<AudioSource>();
-            
-            audioSource.clip = coinCollectSound;
-            audioSource.volume = volume;
-            audioSource.pitch = 1.0f + Random.Range(-pitchVariation, pitchVariation);
-            
-            audioSource.Play();
-            Destroy(tempSoundObject, coinCollectSound.length / audioSource.pitch);
         }
     }
 

@@ -1,4 +1,4 @@
-// Ôàéë: SoundManagerNew.cs
+// ï¿½ï¿½ï¿½ï¿½: SoundManagerNew.cs
 using UnityEngine;
 using System.Collections.Generic;
 
@@ -96,5 +96,43 @@ namespace Game.Audio
             source.clip = null;
             _audioSourcePool.Enqueue(source);
         }
+        public AudioSource PlaySound(string soundName, bool loop)
+        {
+            if (_soundData == null || !_soundData.TryGetSound(soundName, out AudioClip clip, out float volume, out float pitch))
+            {
+                Debug.LogWarning($"No sound found for {soundName}");
+                return null;
+            }
+
+            AudioSource source = GetAudioSource();
+            source.clip = clip;
+            source.volume = volume;
+            source.pitch = pitch;
+            source.loop = loop;
+
+            source.Play();
+
+            if (!loop)
+            {
+                StartCoroutine(ReturnToPoolAfterPlay(source, clip.length));
+            }
+
+            return source;
+        }
+
+        public void StopSound(AudioSource source)
+        {
+            if (source == null) return;
+
+            source.Stop();
+            source.clip = null;
+            source.loop = false;
+
+            if (!_audioSourcePool.Contains(source))
+            {
+                _audioSourcePool.Enqueue(source);
+            }
+        }
+
     }
 }

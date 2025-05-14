@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using Game.Audio;
 
 public class InteractableToggle : MonoBehaviour
 {
@@ -9,6 +10,11 @@ public class InteractableToggle : MonoBehaviour
     private Collider2D doorCollider; 
     private bool isOpen = false;
     private bool playerInside = false;
+    private ISoundManager _soundManager;
+    private void Awake()
+    {
+        _soundManager = SoundManagerNew.Instance;
+    }
 
     private void Start()
     {
@@ -30,13 +36,13 @@ public class InteractableToggle : MonoBehaviour
     }
 
     private void Update()
-{
-    if (playerInside && Keyboard.current.fKey.wasPressedThisFrame)
     {
-        Debug.Log("Игрок нажал F внутри зоны объекта.");
-        Toggle();
+        if (playerInside && Keyboard.current.fKey.wasPressedThisFrame)
+        {
+            Debug.Log("Игрок нажал F внутри зоны объекта.");
+            Toggle();
+        }
     }
-}
 
 
     private void Toggle()
@@ -71,6 +77,7 @@ public class InteractableToggle : MonoBehaviour
 
             isOpen = true;
         }
+        _soundManager.PlaySound("Lever");
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

@@ -1,4 +1,4 @@
-// Файл: SoundData.cs
+// пїЅпїЅпїЅпїЅ: SoundData.cs
 using UnityEngine;
 
 namespace Game.Audio
@@ -9,10 +9,11 @@ namespace Game.Audio
         [System.Serializable]
         public class SoundEntry
         {
-            public string Name; // Строковый идентификатор звука
+            public string Name; // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
             public AudioClip Clip;
             [Range(0f, 1f)] public float Volume = 1f;
             [Range(0.1f, 3f)] public float Pitch = 1f;
+            public bool UseRandomPitch = false;
         }
 
         [SerializeField] private SoundEntry[] _sounds;
@@ -25,7 +26,16 @@ namespace Game.Audio
                 {
                     clip = sound.Clip;
                     volume = sound.Volume;
-                    pitch = sound.Pitch;
+                    if (sound.UseRandomPitch)
+                    {
+                        float min = Mathf.Max(0.1f, sound.Pitch - 0.1f);
+                        float max = Mathf.Min(3f, sound.Pitch + 0.1f);
+                        pitch = Random.Range(min, max);
+                    }
+                    else
+                    {
+                        pitch = sound.Pitch;
+                    }
                     return clip != null;
                 }
             }

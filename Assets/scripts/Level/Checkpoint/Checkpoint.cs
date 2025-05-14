@@ -1,9 +1,15 @@
 using UnityEngine;
 using Spine.Unity; 
+using Game.Audio;
 
 public class Checkpoint : MonoBehaviour
 {
     private SkeletonAnimation skeletonAnim;
+    private ISoundManager _soundManager;
+    private void Awake()
+    {
+        _soundManager = SoundManagerNew.Instance;
+    }
 
     private void Start()
     {
@@ -32,7 +38,7 @@ public class Checkpoint : MonoBehaviour
         {
             skeletonAnim.AnimationState.SetAnimation(0, "light on", false);
         }
-
+        _soundManager.PlaySound("Checkpoint");
   
     }
 }

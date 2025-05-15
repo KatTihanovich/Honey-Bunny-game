@@ -47,7 +47,7 @@ public class MonsterAI : MonoBehaviour
         animator.SetBool("IsStressed", health <= 70f);
 
         // Атака, если игрок рядом и здоровья у него мало
-        if (isPlayerInRange && health <= 50f && attackCoroutine == null)
+        if (isPlayerInRange && health <= 70f && attackCoroutine == null)
         {
             attackCoroutine = StartCoroutine(PerformAttack());
         }

@@ -1,4 +1,5 @@
 using UnityEngine;
+using Game.Audio;
 
 public class SpikeTrap : MonoBehaviour
 {
@@ -9,6 +10,11 @@ public class SpikeTrap : MonoBehaviour
     private float timer = 0f;
     private bool playerInside = false;
     private GameObject playerInTrigger;
+    private ISoundManager _soundManager;
+    private void Awake()
+    {
+        _soundManager = SoundManagerNew.Instance;
+    }
 
     private void Update()
     {
@@ -40,6 +46,7 @@ public class SpikeTrap : MonoBehaviour
                 Debug.Log("Игрок получил урон от ловушки");
             }
         }
+        _soundManager.PlaySound("Thorns");
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

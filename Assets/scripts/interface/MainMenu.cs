@@ -16,7 +16,7 @@ public class MainMenu : MonoBehaviour
     [SerializeField] private Sprite bossDefeatedBackground;
 
     [Header("Boss Defeat Status")]
-    [SerializeField] private bool bossDefeated = false;  // Visible in Inspector
+    [SerializeField] private bool bossDefeated = false; 
 
     private void Start()
     {
@@ -51,6 +51,10 @@ public class MainMenu : MonoBehaviour
     {
         Time.timeScale = 1f;
         SceneManager.LoadSceneAsync(2);
+    }
+
+    public void Quit(){
+        Application.Quit();
     }
 }
 

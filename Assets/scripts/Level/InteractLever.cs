@@ -37,9 +37,9 @@ public class InteractableToggle : MonoBehaviour
 
     private void Update()
     {
-        if (playerInside && Keyboard.current.fKey.wasPressedThisFrame)
+        if (playerInside && Keyboard.current.eKey.wasPressedThisFrame)
         {
-            Debug.Log("Игрок нажал F внутри зоны объекта.");
+            Debug.Log("Игрок нажал E внутри зоны объекта.");
             Toggle();
         }
     }

@@ -698,7 +698,6 @@ MonoBehaviour:
   defaultSprite: {fileID: 6068752714494607558, guid: 688476adc5ae049478ccb7e6e45e9de3, type: 3}
   toSelectOnPause: {fileID: 0}
   toSelectOnSeetings: {fileID: 0}
-  playerInput: {fileID: 0}
 --- !u!114 &196942484
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1038,6 +1037,7 @@ GameObject:
   - component: {fileID: 261875818}
   - component: {fileID: 261875819}
   - component: {fileID: 261875820}
+  - component: {fileID: 261875821}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -1202,9 +1202,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c9b3d43f09a4400f92d54a46b19b485, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  buttonSound: {fileID: 8300000, guid: aa58915660e35418a94128a8d717c0d3, type: 3}
-  volume: 1
-  audioMixerGroup: {fileID: -5780337129175822278, guid: b7aad94fe0c3c4ba4a14d95707c80208, type: 2}
+--- !u!114 &261875821
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 261875813}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df43e47703d3f63409b272950bf48224, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &267931834
 GameObject:
   m_ObjectHideFlags: 0

@@ -81,11 +81,16 @@ public class DestructiblePlatformController : MonoBehaviour
         animator.SetTrigger("Break");
         _soundManager.PlaySound("BreakPlatform");
         // Отключаем платформу
-        platformCollider.enabled = false;
+        Invoke(nameof(DisableCollider), 1f);
         // Планируем восстановление через respawnTime
         Invoke(nameof(RespawnPlatform), respawnTime);
 
         Vector3 spawnPosition = transform.position + new Vector3(-2.5f, -0.63f, 0f);
+    }
+
+    private void DisableCollider()
+    {
+        platformCollider.enabled = false;
     }
 
     private void RespawnPlatform()

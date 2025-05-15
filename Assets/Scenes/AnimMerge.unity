@@ -505,7 +505,6 @@ MonoBehaviour:
   defaultSprite: {fileID: 0}
   toSelectOnPause: {fileID: 0}
   toSelectOnSeetings: {fileID: 0}
-  playerInput: {fileID: 0}
 --- !u!1001 &20416531
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2925,7 +2924,6 @@ MonoBehaviour:
   defaultSprite: {fileID: 0}
   toSelectOnPause: {fileID: 0}
   toSelectOnSeetings: {fileID: 0}
-  playerInput: {fileID: 0}
 --- !u!114 &196942483
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3019,9 +3017,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c9b3d43f09a4400f92d54a46b19b485, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  buttonSound: {fileID: 8300000, guid: aa58915660e35418a94128a8d717c0d3, type: 3}
-  volume: 1
-  audioMixerGroup: {fileID: 0}
 --- !u!1 &196952612
 GameObject:
   m_ObjectHideFlags: 0
@@ -3565,6 +3560,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4171455bd44dbbc498ee1fd3d0ef1f98, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _startHealth: 100
   _maxHealth: 100
 --- !u!114 &250931118
 MonoBehaviour:
@@ -3603,6 +3599,7 @@ MonoBehaviour:
   _moveSpeed: 8
   _moveSmoothing: 5
   _airControlMultiplier: 0.5
+  _enableDoubleJump: 0
   _jumpForce: 10
   _fallMultiplier: 3
   _lowJumpMultiplier: 3
@@ -3809,6 +3806,7 @@ GameObject:
   - component: {fileID: 261875819}
   - component: {fileID: 261875821}
   - component: {fileID: 261875820}
+  - component: {fileID: 261875822}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -3947,7 +3945,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 1277575626}
-  cameraShake: {fileID: 261875821}
 --- !u!114 &261875819
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3989,6 +3986,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   intensity: 0.05
+--- !u!114 &261875822
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 261875813}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df43e47703d3f63409b272950bf48224, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &262311833
 GameObject:
   m_ObjectHideFlags: 0
@@ -16750,6 +16759,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4171455bd44dbbc498ee1fd3d0ef1f98, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _startHealth: 100
   _maxHealth: 100
 --- !u!114 &1277575629
 MonoBehaviour:
@@ -16788,6 +16798,7 @@ MonoBehaviour:
   _moveSpeed: 9
   _moveSmoothing: 5
   _airControlMultiplier: 0.5
+  _enableDoubleJump: 0
   _jumpForce: 10
   _fallMultiplier: 5
   _lowJumpMultiplier: 5
@@ -18270,6 +18281,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4171455bd44dbbc498ee1fd3d0ef1f98, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _startHealth: 100
   _maxHealth: 100
 --- !u!70 &1334724148
 CapsuleCollider2D:
@@ -21390,7 +21402,6 @@ MonoBehaviour:
   defaultSprite: {fileID: 0}
   toSelectOnPause: {fileID: 0}
   toSelectOnSeetings: {fileID: 0}
-  playerInput: {fileID: 0}
 --- !u!114 &1535314082
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -22152,6 +22163,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4171455bd44dbbc498ee1fd3d0ef1f98, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _startHealth: 100
   _maxHealth: 100
 --- !u!70 &1589534541
 CapsuleCollider2D:
@@ -27578,8 +27590,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 87922770fa881a14e89ece91aacebeb9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerObject: {fileID: 0}
   _delayAfterAnimation: 1
-  secondaryAnimator: {fileID: 1277575627}
 --- !u!61 &2051962468
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -28068,6 +28080,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4171455bd44dbbc498ee1fd3d0ef1f98, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _startHealth: 100
   _maxHealth: 100
 --- !u!70 &2063804939
 CapsuleCollider2D:

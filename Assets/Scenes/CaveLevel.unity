@@ -9704,6 +9704,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4171455bd44dbbc498ee1fd3d0ef1f98, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _startHealth: 100
   _maxHealth: 100
 --- !u!70 &482712874
 CapsuleCollider2D:
@@ -21681,6 +21682,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4171455bd44dbbc498ee1fd3d0ef1f98, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _startHealth: 100
   _maxHealth: 100
 --- !u!1 &914818461
 GameObject:
@@ -32201,6 +32203,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4171455bd44dbbc498ee1fd3d0ef1f98, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _startHealth: 100
   _maxHealth: 100
 --- !u!70 &1370616028
 CapsuleCollider2D:
@@ -46055,6 +46058,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4171455bd44dbbc498ee1fd3d0ef1f98, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _startHealth: 100
   _maxHealth: 100
 --- !u!1 &1986184875
 GameObject:
@@ -46161,6 +46165,7 @@ GameObject:
   - component: {fileID: 1990695721}
   - component: {fileID: 1990695723}
   - component: {fileID: 1990695722}
+  - component: {fileID: 1990695724}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -46180,9 +46185,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c9b3d43f09a4400f92d54a46b19b485, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  buttonSound: {fileID: 8300000, guid: aa58915660e35418a94128a8d717c0d3, type: 3}
-  volume: 1
-  audioMixerGroup: {fileID: -5780337129175822278, guid: b7aad94fe0c3c4ba4a14d95707c80208, type: 2}
 --- !u!114 &1990695715
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -46210,7 +46212,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 2127659687}
-  cameraShake: {fileID: 1990695722}
 --- !u!114 &1990695717
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -46371,6 +46372,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   postProcessingVolume: {fileID: 1226445334}
   lowHealthIntensity: 0.7
+--- !u!114 &1990695724
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1990695713}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df43e47703d3f63409b272950bf48224, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1995469737
 GameObject:
   m_ObjectHideFlags: 0
@@ -50531,6 +50544,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4171455bd44dbbc498ee1fd3d0ef1f98, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _startHealth: 100
   _maxHealth: 100
 --- !u!70 &2120237192
 CapsuleCollider2D:
@@ -50874,6 +50888,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4171455bd44dbbc498ee1fd3d0ef1f98, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _startHealth: 100
   _maxHealth: 100
 --- !u!114 &2127659689
 MonoBehaviour:
@@ -50912,6 +50927,7 @@ MonoBehaviour:
   _moveSpeed: 9
   _moveSmoothing: 5
   _airControlMultiplier: 0.5
+  _enableDoubleJump: 0
   _jumpForce: 10
   _fallMultiplier: 5
   _lowJumpMultiplier: 5

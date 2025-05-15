@@ -7,11 +7,17 @@ public class CameraFollow : MonoBehaviour
     private Vector3 velocity = Vector3.zero;
 
     [SerializeField] private Transform target;
-    private CameraShake cameraShake; 
+    private CameraShake cameraShake;
+    private CameraInputHandler inputHandler; // 🔹 Добавлено
 
     private void Awake()
     {
         cameraShake = GetComponent<CameraShake>();
+
+        if (inputHandler == null) // 🔹 Добавлено
+        {
+            inputHandler = FindObjectOfType<CameraInputHandler>();
+        }
 
         if (cameraShake == null)
         {
@@ -28,10 +34,15 @@ public class CameraFollow : MonoBehaviour
     {
         if (target != null)
         {
-            var targetPosition = target.position + offset;
+            // 🔹 Получаем вертикальное смещение от инпут-хендлера
+            float verticalOffset = inputHandler != null ? inputHandler.VerticalOffset : 0f;
+
+            // 🔹 Добавляем вертикальное смещение к базовому offset
+            var targetPosition = target.position + offset + new Vector3(0f, verticalOffset, 0f);
+
             Vector3 smoothPosition = Vector3.SmoothDamp(transform.position, targetPosition, ref velocity, SmoothTime);
 
-            if (cameraShake.IsShaking)
+            if (cameraShake != null && cameraShake.IsShaking)
             {
                 smoothPosition += Random.insideUnitSphere * cameraShake.intensity;
             }

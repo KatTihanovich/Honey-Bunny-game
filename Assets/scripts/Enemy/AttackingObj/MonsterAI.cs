@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using Game.Audio;
 
 public class MonsterAI : MonoBehaviour
 {
@@ -11,6 +12,12 @@ public class MonsterAI : MonoBehaviour
     private HealthNew playerHealth;
     private bool isPlayerInRange = false;
     private Coroutine attackCoroutine;
+    private ISoundManager _soundManager;
+
+    private void Awake()
+    {
+        _soundManager = SoundManagerNew.Instance;
+    }
 
     void Start()
     {
@@ -59,7 +66,7 @@ public class MonsterAI : MonoBehaviour
     animator.SetTrigger("Attack");
 
     yield return new WaitForSeconds(attackDelay);
-
+    _soundManager.PlaySound("WhipAttack");
     bool tookDamage = false;
 
     if (playerHealth != null && isPlayerInRange && !playerHealth.IsDead)

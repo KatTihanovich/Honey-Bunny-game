@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.Audio;
+using Game.Audio;
 
 public abstract class PatrolBase : MonoBehaviour
 {
@@ -44,6 +45,12 @@ public class MeleeEnemy_0 : MonoBehaviour
     [SerializeField] public AudioMixerGroup audioMixerGroup; 
     public AudioClip attackSound;
     [SerializeField] private float volume = 1.0f;
+    private ISoundManager _soundManager;
+
+    private void Awake()
+    {
+        _soundManager = SoundManagerNew.Instance;
+    }
 
     private void Start()
     {
@@ -82,6 +89,7 @@ public class MeleeEnemy_0 : MonoBehaviour
 
         isDead = true;
         anim.SetTrigger(Dead);
+        _soundManager.PlaySound("MobDeath");
 
         if (TryGetComponent<Collider2D>(out var col)) col.enabled = false;
         if (TryGetComponent<Rigidbody2D>(out var rb)) rb.linearVelocity = Vector2.zero;
@@ -94,6 +102,7 @@ public class MeleeEnemy_0 : MonoBehaviour
     {
         if (isDead) return;
         anim.SetTrigger(GotHit);
+        _soundManager.PlaySound("Damage");
     }
 
     private void Update()

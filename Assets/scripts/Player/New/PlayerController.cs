@@ -48,6 +48,7 @@ public class PlayerController : MonoBehaviour
 
     [Header("Sound Settings")]
     [SerializeField] private float _runSoundInterval = 0.3f;
+    private float _baseRunSoundInterval;
 
     [Header("Push Settings")]
     [SerializeField] private float _pushPower = 2f;
@@ -124,6 +125,7 @@ public class PlayerController : MonoBehaviour
         _rb.collisionDetectionMode = CollisionDetectionMode2D.Continuous;
         _originalScale = transform.localScale;
         _baseMoveSpeed = _moveSpeed;
+        _baseRunSoundInterval = _runSoundInterval;
 
         _health = GetComponent<HealthNew>();
         if (_health != null)
@@ -413,6 +415,7 @@ public class PlayerController : MonoBehaviour
     public void Die()
     {
         _isDead = true;
+        _soundManager.PlaySound("Death");
         GetComponent<PlayerController>().enabled = false;
         GetComponent<HealthNew>().enabled = false;
         GetComponent<PlayerRespawn>().CheckRespawn();
@@ -428,7 +431,8 @@ public class PlayerController : MonoBehaviour
     {
         if (!_isSlowed)
         {
-            _moveSpeed = _baseMoveSpeed / 2f;
+            _moveSpeed = _baseMoveSpeed - 3f;
+            _runSoundInterval = _baseRunSoundInterval - 0.1f;
             _isSlowed = true;
         }
     }
@@ -438,6 +442,7 @@ public class PlayerController : MonoBehaviour
         if (_isSlowed)
         {
             _moveSpeed = _baseMoveSpeed;
+            _runSoundInterval = _baseRunSoundInterval;
             _isSlowed = false;
         }
     }

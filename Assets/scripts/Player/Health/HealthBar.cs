@@ -53,6 +53,8 @@ public class HealthBar : MonoBehaviour
         }
         else
         {
+            _cameraShake.StopShaking();
+            _playerController.SlowModeDesable();
             _vignetteController.DisableVignette();
         }
 

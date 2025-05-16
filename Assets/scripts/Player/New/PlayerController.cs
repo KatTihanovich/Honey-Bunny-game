@@ -432,7 +432,7 @@ public class PlayerController : MonoBehaviour
         if (!_isSlowed)
         {
             _moveSpeed = _baseMoveSpeed - 3f;
-            _runSoundInterval = _baseRunSoundInterval - 0.1f;
+            _runSoundInterval = _baseRunSoundInterval + 0.1f;
             _isSlowed = true;
         }
     }

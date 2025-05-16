@@ -3,8 +3,11 @@ using Game.Audio;
 
 public class DestructiblePlatformTimeController : MonoBehaviour
 {
-    [SerializeField] private float destroyTime = 3f; // Время до разрушения
-    [SerializeField] private float respawnTime = 3f; // Время до восстановления
+    [Header("Timing Settings")]
+    [SerializeField] private float delayBeforeDestroy = 1f; // Задержка перед разрушением
+    [SerializeField] private float destroyTime = 3f;         // Время до разрушения после старта
+    [SerializeField] private float breakAnimationDelay = 1f; // Задержка перед отключением коллайдера
+    [SerializeField] private float respawnTime = 3f;         // Время до восстановления
 
     private Vector3 initialPosition;
     private Quaternion initialRotation;
@@ -27,7 +30,6 @@ public class DestructiblePlatformTimeController : MonoBehaviour
 
     private void Start()
     {
-        // Запускаем бесконечный цикл разрушения и восстановления
         StartDestroyingCycle();
     }
 
@@ -36,15 +38,20 @@ public class DestructiblePlatformTimeController : MonoBehaviour
         if (!isDestroySequenceRunning)
         {
             isDestroySequenceRunning = true;
-            Invoke(nameof(DestroyPlatform), destroyTime);
+            Invoke(nameof(BeginDestructionSequence), delayBeforeDestroy);
         }
+    }
+
+    private void BeginDestructionSequence()
+    {
+        Invoke(nameof(DestroyPlatform), destroyTime);
     }
 
     private void DestroyPlatform()
     {
         animator.SetTrigger("Break");
         _soundManager.PlaySound("BreakPlatform");
-        Invoke(nameof(DisableCollider), 1f);
+        Invoke(nameof(DisableCollider), breakAnimationDelay);
         Invoke(nameof(RespawnPlatform), respawnTime);
     }
 
@@ -62,7 +69,6 @@ public class DestructiblePlatformTimeController : MonoBehaviour
         animator.SetTrigger("Collect");
         isDestroySequenceRunning = false;
 
-        // Запускаем следующий цикл разрушения
         StartDestroyingCycle();
     }
 }

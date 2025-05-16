@@ -35,18 +35,27 @@ public class HealthBar : MonoBehaviour
         Debug.Log("CurrentHealth: " + _health.CurrentHealth);
         _fillImage.fillAmount = Mathf.Clamp01(normalized);
 
-        if (normalized <= 0.5f)
+        if (normalized <= 0.7f)
         {
-            _cameraShake.StartShaking();
             _vignetteController.EnableVignette();
-            _playerController.SlowModeEnable();
+            if (normalized <= 0.5f)
+            {
+                _cameraShake.StartShaking();
+                _vignetteController.VignetteTurnHarder();
+                _playerController.SlowModeEnable();
+            }
+            else
+            {
+                _cameraShake.StopShaking();
+                _vignetteController.VignetteTurnLighter();
+                _playerController.SlowModeDesable();
+            }
         }
         else
         {
-            _cameraShake.StopShaking();
             _vignetteController.DisableVignette();
-            _playerController.SlowModeDesable();
         }
+
     }
 
 

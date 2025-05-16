@@ -6,7 +6,11 @@ public class AttackBehavior : StateMachineBehaviour
 
     public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        var patrol = animator.GetComponent<NeckkerPatrol>();
+        PlayerController player = GameObject.FindWithTag("Player")?.GetComponent<PlayerController>();
+        if (player != null)
+        {
+            player.IsMeditation = true;
+        }
 
         rb = animator.GetComponent<Rigidbody2D>();
         if (rb != null)
@@ -18,7 +22,11 @@ public class AttackBehavior : StateMachineBehaviour
 
     public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        var patrol = animator.GetComponent<NeckkerPatrol>();
+        PlayerController player = GameObject.FindWithTag("Player")?.GetComponent<PlayerController>();
+        if (player != null)
+        {
+            player.IsMeditation = false;
+        }
 
         if (rb != null)
         {

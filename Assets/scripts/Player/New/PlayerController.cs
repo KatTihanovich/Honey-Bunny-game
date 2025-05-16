@@ -78,7 +78,6 @@ public class PlayerController : MonoBehaviour
     private Vector2 _moveVelocity;
     private Vector3 _originalScale;
     private float _runSoundTimer;
-
     public bool IsPushed() => _isPush;
     public bool IsGrounded() => _isGrounded;
     public bool IsAttacking() => _isAttacking;
@@ -359,7 +358,7 @@ public class PlayerController : MonoBehaviour
 
     private void HandleRunSound()
     {
-        if (_isRunning && _isGrounded)
+        if (_isRunning && _isGrounded && !IsMeditation)
         {
             _runSoundTimer -= Time.deltaTime;
             if (_runSoundTimer <= 0f)

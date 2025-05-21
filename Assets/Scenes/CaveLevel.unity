@@ -12044,7 +12044,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: -8.7}
+  m_Offset: {x: 0.03427124, y: -8.336725}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -12054,7 +12054,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 4.69, y: 17.55}
+  m_Size: {x: 2.6474457, y: 16.823452}
   m_EdgeRadius: 0
 --- !u!61 &572266838
 BoxCollider2D:
@@ -15944,7 +15944,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: -8.7}
+  m_Offset: {x: -0.013708115, y: -8.364141}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -15954,7 +15954,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 4.69, y: 17.55}
+  m_Size: {x: 2.6063194, y: 16.878284}
   m_EdgeRadius: 0
 --- !u!61 &741028461
 BoxCollider2D:
@@ -20215,7 +20215,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: -8.7}
+  m_Offset: {x: 0.006855011, y: -8.30931}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -20225,7 +20225,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 4.69, y: 17.55}
+  m_Size: {x: 2.6748657, y: 16.768618}
   m_EdgeRadius: 0
 --- !u!61 &852183130
 BoxCollider2D:
@@ -34023,6 +34023,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: VerticalMovingColumn
       objectReference: {fileID: 0}
+    - target: {fileID: 9013080718015271331, guid: 798a9964b5c514347b3a8fa3c677be80, type: 3}
+      propertyPath: m_Color.b
+      value: 0.16509432
+      objectReference: {fileID: 0}
+    - target: {fileID: 9013080718015271331, guid: 798a9964b5c514347b3a8fa3c677be80, type: 3}
+      propertyPath: m_Color.g
+      value: 0.16509432
+      objectReference: {fileID: 0}
+    - target: {fileID: 9013080718015271331, guid: 798a9964b5c514347b3a8fa3c677be80, type: 3}
+      propertyPath: m_Color.r
+      value: 0.16509432
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -46371,7 +46383,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   postProcessingVolume: {fileID: 1226445334}
-  lowHealthIntensity: 0.7
+  lowHealthIntensityOn50: 0.7
+  lowHealthIntensityOn70: 0.6
+  transitionDuration: 1
 --- !u!114 &1990695724
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -49609,6 +49623,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: HorizontalMovingColumn
       objectReference: {fileID: 0}
+    - target: {fileID: 9013080718015271331, guid: 08ef7b6459ae5df459fd8354290325c9, type: 3}
+      propertyPath: m_Color.b
+      value: 0.58032215
+      objectReference: {fileID: 0}
+    - target: {fileID: 9013080718015271331, guid: 08ef7b6459ae5df459fd8354290325c9, type: 3}
+      propertyPath: m_Color.g
+      value: 0.58032215
+      objectReference: {fileID: 0}
+    - target: {fileID: 9013080718015271331, guid: 08ef7b6459ae5df459fd8354290325c9, type: 3}
+      propertyPath: m_Color.r
+      value: 0.5943396
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -50868,7 +50894,7 @@ Transform:
   m_GameObject: {fileID: 2127659686}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 98.36, y: 14.27, z: 0}
+  m_LocalPosition: {x: -50, y: 0, z: 0}
   m_LocalScale: {x: 0.22, y: 0.22, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -50927,7 +50953,7 @@ MonoBehaviour:
   _moveSpeed: 9
   _moveSmoothing: 5
   _airControlMultiplier: 0.5
-  _enableDoubleJump: 0
+  _enableDoubleJump: 1
   _jumpForce: 10
   _fallMultiplier: 5
   _lowJumpMultiplier: 5

@@ -22,7 +22,8 @@ public class StartScreen : MonoBehaviour
         {
             hasPressedButton = true;
             _soundManager.PlaySound("UI");
-            levelLoader.NextLevel(6);
+            levelLoader.nextLevelIndex = 6;
+            levelLoader.NextLevel();
         }
     }
 }

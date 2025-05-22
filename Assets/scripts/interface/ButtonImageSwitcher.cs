@@ -2,12 +2,13 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-public class ButtonImageSwitcher : MonoBehaviour, ISelectHandler, IDeselectHandler, IPointerEnterHandler, IPointerExitHandler
+public class ButtonImageSwitcher : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
 {
     public Button button;
     private Image targetImage;
     public Sprite defaultSprite;
     public Sprite selectedSprite;
+    public Sprite clickedSprite;
     public float scaleFactor = 1.7f;
     private Vector3 originalScale;
 
@@ -22,20 +23,20 @@ public class ButtonImageSwitcher : MonoBehaviour, ISelectHandler, IDeselectHandl
         }
     }
 
-    public void OnSelect(BaseEventData eventData)
-    {
-        if (targetImage != null)
-        {
-            targetImage.sprite = selectedSprite;
-            targetImage.rectTransform.localScale = originalScale * scaleFactor;
-        }
-    }
+    // public void OnSelect(BaseEventData eventData)
+    // {
+    //     if (targetImage != null)
+    //     {
+    //         targetImage.sprite = selectedSprite;
+    //         targetImage.rectTransform.localScale = originalScale * scaleFactor;
+    //     }
+    // }
 
-    public void OnDeselect(BaseEventData eventData)
-    {
-        ResetScale();
-        targetImage.sprite = defaultSprite;
-    }
+    // public void OnDeselect(BaseEventData eventData)
+    // {
+    //     ResetScale();
+    //     targetImage.sprite = defaultSprite;
+    // }
 
     public void OnPointerEnter(PointerEventData eventData)
     {
@@ -43,6 +44,7 @@ public class ButtonImageSwitcher : MonoBehaviour, ISelectHandler, IDeselectHandl
         if (targetImage != null)
         {
             targetImage.sprite = selectedSprite;
+            targetImage.rectTransform.localScale = originalScale * scaleFactor;
         }
     }
 
@@ -51,7 +53,16 @@ public class ButtonImageSwitcher : MonoBehaviour, ISelectHandler, IDeselectHandl
         Debug.Log("Pointer exited button!");
         if (targetImage != null)
         {
+            ResetScale();
             targetImage.sprite = defaultSprite;
+        }
+    }
+
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        if (targetImage != null && clickedSprite != null)
+        {
+            targetImage.sprite = clickedSprite;
         }
     }
 

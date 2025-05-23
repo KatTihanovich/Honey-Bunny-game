@@ -23,27 +23,4 @@ public class SelectLevelScript : MonoBehaviour
             ui_panel.SetActive(false);
         }
     }
-    public void PlayForest()
-    {
-        Time.timeScale = 1f;
-        SceneManager.LoadSceneAsync(1);
-    }
-
-    public void PlayCave()
-    {
-        Time.timeScale = 1f;
-        SceneManager.LoadSceneAsync(3);
-    }
-
-    public void PlayTest()
-    {
-        Time.timeScale = 1f;
-        SceneManager.LoadSceneAsync(5);
-    }
-    
-    public void PlayBossLevel()
-    {
-        Time.timeScale = 1f;
-        SceneManager.LoadSceneAsync(4);
-    }
 }

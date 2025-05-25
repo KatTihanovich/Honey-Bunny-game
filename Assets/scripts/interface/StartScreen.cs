@@ -9,7 +9,7 @@ public class StartScreen : MonoBehaviour
     private bool hasPressedButton = false;
     private ISoundManager _soundManager;
     private LevelLoader levelLoader;
-
+    public int sceneToLoadId = 6;
     private void Awake()
     {
         _soundManager = SoundManagerNew.Instance;
@@ -22,8 +22,7 @@ public class StartScreen : MonoBehaviour
         {
             hasPressedButton = true;
             _soundManager.PlaySound("UI");
-            levelLoader.nextLevelIndex = 6;
-            levelLoader.NextLevel();
+            levelLoader.NextLevel(sceneToLoadId);
         }
     }
 }

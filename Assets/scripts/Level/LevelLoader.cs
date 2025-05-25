@@ -7,19 +7,18 @@ namespace Level
 {
     public class LevelLoader : MonoBehaviour
     {
-        public int nextLevelIndex;
         public GameObject LoadingScreen;
         public Image LoadingBarFill;
 
-        public void NextLevel()
+        public void NextLevel(int scene_id)
         {
             Time.timeScale = 1f;
-            StartCoroutine(LoadSceneAsync());
+            StartCoroutine(LoadSceneAsync(scene_id));
         }
 
-        IEnumerator LoadSceneAsync()
+        IEnumerator LoadSceneAsync(int scene_id)
         {
-            AsyncOperation operation = SceneManager.LoadSceneAsync(nextLevelIndex);
+            AsyncOperation operation = SceneManager.LoadSceneAsync(scene_id);
             LoadingScreen.SetActive(true);
 
             while (!operation.isDone)

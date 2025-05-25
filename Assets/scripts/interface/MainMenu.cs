@@ -41,18 +41,8 @@ public class MainMenu : MonoBehaviour
             backgroundImage.sprite = bossDefeated ? bossDefeatedBackground : normalBackground;
         }
     }
-    public void PlayForest()
-    {
-        Time.timeScale = 1f;
-        SceneManager.LoadSceneAsync(1);
-    }
 
-    public void PlayTutorial()
-    {
-        Time.timeScale = 1f;
-        SceneManager.LoadSceneAsync(2);
-    }
-
+    
     public void Quit(){
         Application.Quit();
     }

@@ -12,6 +12,8 @@ public class VineScript : MonoBehaviour
 
     private void Start()
     {
+        currentState = GetVineStateFromHealth();
+        ApplyColliderState(currentState);
         UpdateVineState();
     }
 
@@ -26,17 +28,13 @@ public class VineScript : MonoBehaviour
             return;
 
         float healthPercent = (playerHealth.CurrentHealth / playerHealth.MaxHealth) * 100f;
+        VineState newState = GetVineStateFromHealth();
 
-        VineState newState;
-        if (healthPercent <= 50f)
-            newState = VineState.High;
-        else if (healthPercent <= 70f)
-            newState = VineState.Middle;
-        else
-            newState = VineState.Low;
+        Debug.Log($"Health: {healthPercent}% → New State: {newState}, Current State: {currentState}");
 
         if (newState != currentState)
         {
+            Debug.Log($"Transitioning from {currentState} to {newState}");
             PlayTransitionAnimation(currentState, newState);
             currentState = newState;
             ApplyColliderState(currentState);
@@ -53,7 +51,7 @@ public class VineScript : MonoBehaviour
             vineAnimator.SetTrigger("HighToMid");
         else if (from == VineState.Middle && to == VineState.Low)
             vineAnimator.SetTrigger("MidToLow");
-        else if (from == VineState.High && to == VineState.Low) 
+        else if (from == VineState.High && to == VineState.Low)
             vineAnimator.SetTrigger("HighToLow");
     }
 
@@ -76,5 +74,17 @@ public class VineScript : MonoBehaviour
                 highCollider.enabled = true;
                 break;
         }
+    }
+    
+    private VineState GetVineStateFromHealth()
+    {
+        float healthPercent = (playerHealth.CurrentHealth / playerHealth.MaxHealth) * 100f;
+
+        if (healthPercent <= 50f)
+            return VineState.High;
+        else if (healthPercent <= 70f)
+            return VineState.Middle;
+        else
+            return VineState.Low;
     }
 }

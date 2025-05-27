@@ -135,6 +135,7 @@ public class NeckkerPatrol : PatrolBase
     }
 
 
+//поменять и убрать отрицательный scale
     private void MoveInDirection(int direction)
     {
         Vector3 localScale = baseScale;

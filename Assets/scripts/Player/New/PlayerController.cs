@@ -231,6 +231,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+//домножить скорость движения на deltaTime
     private void HandleMovement()
     {
         if (_isAttacking || _isTakingDamage || !_playerAnimation.IsAnimationDamageExit) return;

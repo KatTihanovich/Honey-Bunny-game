@@ -81,17 +81,31 @@ public class DestructiblePlatformController : MonoBehaviour
         animator.SetTrigger("Break");
         _soundManager.PlaySound("BreakPlatform");
         // Отключаем платформу
-        Invoke(nameof(DisableCollider), 1f);
+        Invoke(nameof(DisableColliders), 1f);
         // Планируем восстановление через respawnTime
         Invoke(nameof(RespawnPlatform), respawnTime);
 
         Vector3 spawnPosition = transform.position + new Vector3(-2.5f, -0.63f, 0f);
     }
 
-    private void DisableCollider()
+    private void DisableColliders()
     {
-        platformCollider.enabled = false;
+        Collider2D[] colliders = GetComponentsInChildren<Collider2D>();
+        foreach (var col in colliders)
+        {
+            col.enabled = false;
+        }
     }
+
+    private void EnableColliders()
+    {
+        Collider2D[] colliders = GetComponentsInChildren<Collider2D>();
+        foreach (var col in colliders)
+        {
+            col.enabled = true;
+        }
+    }
+
 
     private void RespawnPlatform()
     {
@@ -99,10 +113,10 @@ public class DestructiblePlatformController : MonoBehaviour
         transform.position = initialPosition;
         transform.rotation = initialRotation;
         transform.localScale = initialScale;
-        platformCollider.enabled = true;
+        EnableColliders();
         isDestroyed = false;
         isDestroySequenceRunning = false;
-        animator.SetTrigger("Collect"); 
+        animator.SetTrigger("Collect");
 
     }
 

@@ -60,8 +60,8 @@ public class MeleeEnemy_0 : MonoBehaviour
 
         if (_healthNew != null)
         {
-            _healthNew.OnDeath += HandleDeath;
             _healthNew.OnDamaged += HandleDamaged;
+            _healthNew.OnDeath += HandleDeath;
         }
     }
 
@@ -88,7 +88,7 @@ public class MeleeEnemy_0 : MonoBehaviour
         if (isDead) return;
 
         isDead = true;
-        anim.SetTrigger(Dead);
+        anim.SetBool("Dead", true);
         _soundManager.PlaySound("MobDeath");
 
         if (TryGetComponent<Collider2D>(out var col)) col.enabled = false;
@@ -124,6 +124,7 @@ public class MeleeEnemy_0 : MonoBehaviour
         }
     }
 
+//оставить только в одном скрипте( MeleeEnemy_0 или NeckkerPatrol)
     private void RotateTowardsPlayer()
     {
         if (rotateTowardsPlayer)
@@ -204,6 +205,7 @@ public class MeleeEnemy_0 : MonoBehaviour
     }
     public void NECKKER_ATTACK()
     {
+                    Debug.Log("11111.");
         Vector2 origin = boxCollider.bounds.center + transform.up * transform.localScale.y * colliderDistanceY + transform.right * transform.localScale.x * colliderDistanceX;
         Vector2 size = new Vector2(boxCollider.bounds.size.x * rangeX, boxCollider.bounds.size.y * rangeY);
 

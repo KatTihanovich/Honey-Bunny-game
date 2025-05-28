@@ -21,7 +21,7 @@ public class PlayerAnimation : MonoBehaviour
 
         if (_health != null)
         {
-            Debug.Log("Подписались на события здоровья");
+            Debug.Log("пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ");
             _health.OnDamaged += HandleDamaged;
             _health.OnDeath += HandleDeath;
         }
@@ -53,10 +53,10 @@ public class PlayerAnimation : MonoBehaviour
         _animator.SetBool("Save", _player.IsMeditation);
         _animator.SetBool("Push", _player.IsPushed());
 
-        // Проверка для любого прыжка (на земле или в воздухе)
+        // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ (пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ)
         if (_player.JumpTriggered())
         {
-            Debug.Log("Анимация прыжка: JumpPressed");
+            Debug.Log("пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ: JumpPressed");
             _animator.SetTrigger("JumpPressed");
         }
 
@@ -72,7 +72,7 @@ public class PlayerAnimation : MonoBehaviour
 
         if (_player.IsSuperAttacking() && !_superAttackAnimPlayed)
         {
-            Debug.Log("Вызов анимации");
+            Debug.Log("пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ");
             _animator.SetTrigger("UltimatePressed");
             _superAttackAnimPlayed = true;
         }

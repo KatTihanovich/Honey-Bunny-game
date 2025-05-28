@@ -33,8 +33,8 @@ public class PushableObject : MonoBehaviour
     {
         if (_beingPushed)
         {
-            Vector2 targetPos = _rb.position + Vector2.right * _pushDir * _pushSpeed * Time.fixedDeltaTime;
-            _rb.MovePosition(targetPos);
+            // Vector2 targetPos = _rb.position + Vector2.right * _pushDir * _pushSpeed * Time.fixedDeltaTime;
+            // _rb.MovePosition(targetPos);
         }
         HandleFallingSound();
     }

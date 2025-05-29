@@ -6,7 +6,6 @@ using Level;
 
 public class StartScreen : MonoBehaviour
 {
-    private bool hasPressedButton = false;
     private ISoundManager _soundManager;
     private LevelLoader levelLoader;
     public int sceneToLoadId = 6;
@@ -20,9 +19,13 @@ public class StartScreen : MonoBehaviour
     {
         if (Keyboard.current.anyKey.wasPressedThisFrame)
         {
-            hasPressedButton = true;
-            _soundManager.PlaySound("UI");
-            levelLoader.NextLevel(sceneToLoadId);
+            LoadScene();
         }
+    }
+
+    public void LoadScene()
+    {
+        _soundManager.PlaySound("UI");
+        levelLoader.NextLevel(sceneToLoadId);
     }
 }

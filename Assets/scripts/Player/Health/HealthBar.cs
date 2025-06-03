@@ -4,7 +4,7 @@ using UnityEngine.UI;
 public class HealthBar : MonoBehaviour
 {
     [SerializeField] private Image _fillImage;
-    [SerializeField] private HealthNew _health;
+    [SerializeField] private Stress _stress;
 
     [SerializeField] private CameraShake _cameraShake;
     [SerializeField] private VignetteController _vignetteController;
@@ -12,33 +12,34 @@ public class HealthBar : MonoBehaviour
 
     private void Start()
     {
-        if (_health == null)
-            Debug.LogError("HealthBar: _health �� ��������!");
+        if (_stress == null)
+            Debug.LogError("StressBar: _stress не назначен!");
 
-        _health.OnDamaged += UpdateBar;
-        _health.OnHealed += UpdateBar;
-        _health.OnDeath += HandleDeath;
+        _stress.OnStressed += UpdateBar;
+        _stress.OnStressReduced += UpdateBar;
+        _stress.OnMaxStressReached += HandleMaxStress;
 
-        UpdateBar(1); 
+        UpdateBar(0);
     }
 
     private void OnDestroy()
     {
-        _health.OnDamaged -= UpdateBar;
-        _health.OnHealed -= UpdateBar;
-        _health.OnDeath -= HandleDeath;
+        _stress.OnStressed -= UpdateBar;
+        _stress.OnStressReduced -= UpdateBar;
+        _stress.OnMaxStressReached -= HandleMaxStress;
     }
 
     private void UpdateBar(float _)
     {
-        float normalized = _health.CurrentHealth / _health.MaxHealth;
-        Debug.Log("CurrentHealth: " + _health.CurrentHealth);
+        float normalized = _stress.CurrentStress / _stress.MaxStress;
+        Debug.Log("CurrentStress: " + _stress.CurrentStress);
         _fillImage.fillAmount = Mathf.Clamp01(normalized);
 
-        if (normalized <= 0.7f)
+        if (normalized >= 0.3f)
         {
             _vignetteController.EnableVignette();
-            if (normalized <= 0.5f)
+
+            if (normalized >= 0.5f)
             {
                 _cameraShake.StartShaking();
                 _vignetteController.VignetteTurnHarder();
@@ -57,13 +58,11 @@ public class HealthBar : MonoBehaviour
             _playerController.SlowModeDesable();
             _vignetteController.DisableVignette();
         }
-
     }
 
-
-    private void HandleDeath()
+    private void HandleMaxStress()
     {
         UpdateBar(0);
-        Debug.Log("Player died. Updating health bar.");
+        Debug.Log("Игрок перегружен стрессом!");
     }
 }

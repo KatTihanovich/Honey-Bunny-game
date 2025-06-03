@@ -5,6 +5,7 @@ public class PlayerAnimation : MonoBehaviour
     private Animator _animator;
     private PlayerController _player;
     private HealthNew _health;
+    private Stress _stress;
 
     private bool _attackTriggered;
     private bool _damageTriggered;
@@ -16,14 +17,22 @@ public class PlayerAnimation : MonoBehaviour
         _animator = GetComponent<Animator>();
         _player = GetComponent<PlayerController>();
         _health = GetComponent<HealthNew>();
+        _stress = GetComponent<Stress>();
 
-        Debug.Log(_health);
+
 
         if (_health != null)
         {
-            Debug.Log("����������� �� ������� ��������");
             _health.OnDamaged += HandleDamaged;
             _health.OnDeath += HandleDeath;
+        }
+
+        if (_stress != null)
+        {
+            _stress.OnStressed += HandleStressChanged;
+            _stress.OnStressReduced += HandleStressChanged;
+
+            HandleStressChanged(0f);
         }
     }
 
@@ -53,10 +62,10 @@ public class PlayerAnimation : MonoBehaviour
         _animator.SetBool("Save", _player.IsMeditation);
         _animator.SetBool("Push", _player.IsPushed());
 
-        // �������� ��� ������ ������ (�� ����� ��� � �������)
+ 
         if (_player.JumpTriggered())
         {
-            Debug.Log("�������� ������: JumpPressed");
+     
             _animator.SetTrigger("JumpPressed");
         }
 
@@ -72,7 +81,7 @@ public class PlayerAnimation : MonoBehaviour
 
         if (_player.IsSuperAttacking() && !_superAttackAnimPlayed)
         {
-            Debug.Log("����� ��������");
+         
             _animator.SetTrigger("UltimatePressed");
             _superAttackAnimPlayed = true;
         }
@@ -99,5 +108,17 @@ public class PlayerAnimation : MonoBehaviour
     private void HandleDeath()
     {
         _animator.SetBool("Dead", true);
+    }
+
+    private void HandleStressChanged(float _)
+    {
+        float stressPercent = _stress.CurrentStress / _stress.MaxStress;
+
+        if (stressPercent < 0.3f)
+            _animator.SetFloat("StressLevel", 0f);
+        else if (stressPercent < 0.5f)
+            _animator.SetFloat("StressLevel", 0.3f);
+        else
+            _animator.SetFloat("StressLevel", 0.5f);
     }
 }

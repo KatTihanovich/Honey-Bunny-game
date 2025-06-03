@@ -36,7 +36,7 @@ public class Checkpoint : MonoBehaviour
     {
         if (skeletonAnim != null)
         {
-            skeletonAnim.AnimationState.SetAnimation(0, "light on", false);
+            skeletonAnim.AnimationState.SetAnimation(0, "light on", true);
         }
         _soundManager.PlaySound("Checkpoint");
   

@@ -28,10 +28,12 @@ namespace Enemy
         public float damage = 1f;
 
         private GameObject player;
-        private Health playerHealth;
+        private HealthNew playerHealth;
         
         public GameObject blackHolder;
         private MeshRenderer meshRenderer;
+
+        private HealthNew _health;
         
         public void Start()
         {
@@ -46,14 +48,9 @@ namespace Enemy
             }
 
             player = GameObject.Find("Bunny");
-            if (player != null)
-            {
-                playerHealth = player.GetComponent<Health>();
-            }
-            else
-            {
-                Debug.LogError("Player is null!");
-            }
+            Debug.LogError("Find " + player);
+            playerHealth = FindFirstObjectByType<HealthNew>();
+           
 
             health = GetComponent<Health>();
 
@@ -61,7 +58,29 @@ namespace Enemy
             
             // Le показать нах
             StartCoroutine(MoveY(tailBoss, startY, targetY, duration));
+
+
+            _health = transform.GetChild(0).GetComponent<HealthNew>();
+            if (_health != null)
+            {
+                _health.OnDeath += HandleDeath;
+                _health.OnDamageTaken += GetDamage;
+            }
         }
+
+        //Смерть 
+        private void HandleDeath() 
+        {
+            animator.SetTrigger("Dead");
+            Destroy(gameObject);
+        }
+
+        //Получение урона
+        private void GetDamage() 
+        {
+            animator.SetTrigger("GotHit");
+        }
+
 
         private void Update()
         {
@@ -139,6 +158,7 @@ namespace Enemy
                 else
                 {
                     Debug.LogError("Player heath is null!");
+
                 }
             }
         }

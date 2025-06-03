@@ -25,8 +25,10 @@ public class HealthNew : MonoBehaviour
     {
         if (IsDead || amount <= 0f) return;
 
+ 
         CurrentHealth -= amount;
         CurrentHealth = Mathf.Max(CurrentHealth, 0f);
+        Debug.Log(gameObject.name + " Получил урон: " + amount);
         OnDamaged?.Invoke(amount);
         OnDamageTaken?.Invoke();
        
@@ -51,7 +53,8 @@ public class HealthNew : MonoBehaviour
     {
         if (!IsDead)
         {
-       
+
+            Debug.Log(gameObject.name + " убит");
             CurrentHealth = 0;
             OnDeath?.Invoke();
         }

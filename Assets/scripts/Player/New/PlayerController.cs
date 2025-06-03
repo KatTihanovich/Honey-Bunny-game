@@ -65,6 +65,7 @@ public class PlayerController : MonoBehaviour
     private bool _isIsFlying;
     private bool _isMeditation;
     private bool _isPush;
+    private bool _isJumpPress;
 
     private Rigidbody2D _rb;
     private CapsuleCollider2D _coll;
@@ -80,6 +81,8 @@ public class PlayerController : MonoBehaviour
     private Vector3 _originalScale;
     private float _runSoundTimer;
     public bool IsPushed() => _isPush;
+    public bool IsJumpPress() => _isJumpPress;
+
     public bool IsGrounded() => _isGrounded;
     public bool IsAttacking() => _isAttacking;
     public bool IsSuperAttacking() => _isSuperAttacking;
@@ -174,11 +177,15 @@ public class PlayerController : MonoBehaviour
         if (Keyboard.current.dKey.isPressed || Keyboard.current.rightArrowKey.isPressed)
             _horizontalInput = 1f;
 
-        // if (Keyboard.current.spaceKey.wasPressedThisFrame || Keyboard.current.wKey.wasPressedThisFrame || Keyboard.current.upArrowKey.wasPressedThisFrame)
         if (Keyboard.current.spaceKey.wasPressedThisFrame || Keyboard.current.upArrowKey.wasPressedThisFrame)
         {
             _jumpTriggered = true;
             _jumpBufferCounter = _jumpBufferTime;
+            _isJumpPress = true; 
+        }
+        else
+        {
+            _isJumpPress = false; 
         }
 
         if (_isAttacking || _isSuperAttacking) return;
@@ -269,7 +276,7 @@ public class PlayerController : MonoBehaviour
                 _jumpTriggered = false;
                 _hasJumped = false;
                 _hasDoubleJumped = false;
-                _playerAnimation.SetDoubleJump(false); // Сбрасываем DoubleJump при приземлении
+                _playerAnimation.SetDoubleJump(false); 
                 Debug.Log("Приземление: DoubleJump сброшен");
             }
         }
@@ -308,8 +315,8 @@ public class PlayerController : MonoBehaviour
                 Jump();
                 _hasJumped = true;
                 _hasDoubleJumped = false;
-                _playerAnimation.SetDoubleJump(false); // Сбрасываем для первого прыжка
-                _jumpTriggered = false; // Сбрасываем после прыжка
+                _playerAnimation.SetDoubleJump(false);
+                _jumpTriggered = false; 
                 Debug.Log("Первый прыжок выполнен");
             }
             else if (_enableDoubleJump && _hasJumped && !_hasDoubleJumped)

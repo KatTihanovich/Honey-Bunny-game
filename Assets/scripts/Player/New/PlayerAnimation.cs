@@ -1,3 +1,4 @@
+using Spine.Unity;
 using UnityEngine;
 
 public class PlayerAnimation : MonoBehaviour
@@ -6,6 +7,7 @@ public class PlayerAnimation : MonoBehaviour
     private PlayerController _player;
     private HealthNew _health;
     private Stress _stress;
+    private SkeletonAnimation _jumpEffect;
 
     private bool _attackTriggered;
     private bool _damageTriggered;
@@ -18,8 +20,9 @@ public class PlayerAnimation : MonoBehaviour
         _player = GetComponent<PlayerController>();
         _health = GetComponent<HealthNew>();
         _stress = GetComponent<Stress>();
+        _jumpEffect = GetComponentInChildren<SkeletonAnimation>();
 
-
+        Debug.LogWarning(_jumpEffect);
 
         if (_health != null)
         {
@@ -67,7 +70,18 @@ public class PlayerAnimation : MonoBehaviour
         {
      
             _animator.SetTrigger("JumpPressed");
+          
+        
+
+
         }
+
+        if (_player.IsJumpPress()) 
+        {
+            Debug.LogWarning("Прыжок нажат");
+            _jumpEffect.AnimationState.SetAnimation(0, "JUMP EFFECT", false);
+        }
+
 
         if (_player.IsAttacking() && !_attackTriggered)
         {

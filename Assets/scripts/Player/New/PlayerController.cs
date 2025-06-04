@@ -181,7 +181,7 @@ public class PlayerController : MonoBehaviour
         {
             _jumpTriggered = true;
             _jumpBufferCounter = _jumpBufferTime;
-            _isJumpPress = true; 
+     
         }
         else
         {
@@ -332,6 +332,7 @@ public class PlayerController : MonoBehaviour
 
     private void Jump()
     {
+        _isJumpPress = true;
         _rb.linearVelocity = new Vector2(_rb.linearVelocity.x, _jumpForce);
         _isJumping = true;
         _soundManager.PlaySound("Jump");

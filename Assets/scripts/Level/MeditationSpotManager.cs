@@ -5,7 +5,7 @@ using Game.Audio;
 
 public class MeditationManager : MonoBehaviour
 {
-    [SerializeField] private GameObject playerObject; // ← Один раз привязывается игрок в инспекторе
+    [SerializeField] private GameObject playerObject;
 
     private bool isPlayerInZone = false;
     private bool hasMeditatedOnce = false;
@@ -15,7 +15,7 @@ public class MeditationManager : MonoBehaviour
     private HealthNew playerHealth;
     private ISoundManager _soundManager;
 
-    [SerializeField] private float _delayAfterAnimation = 1f;
+    [SerializeField] private float _delayAfterAnimation = 3f;
 
     private PlayerInputActions inputActions;
 
@@ -65,6 +65,10 @@ public class MeditationManager : MonoBehaviour
             hasMeditatedOnce = true;
             Interact();
         }
+        else if (hasMeditatedOnce)
+        {
+            Debug.Log("Meditation already used. No further interaction allowed.");
+        }
     }
 
     public void Interact()
@@ -78,7 +82,6 @@ public class MeditationManager : MonoBehaviour
             _soundManager.PlaySound("Meditation");
         }
 
-
         if (playerHealth != null)
         {
             Debug.Log("Restoring full health.");
@@ -89,14 +92,14 @@ public class MeditationManager : MonoBehaviour
             Debug.LogWarning("Cannot restore health — HealthNew is null.");
         }
 
-        StartCoroutine(DeactivateAfterDelay());
+        StartCoroutine(FinishMeditationRoutine());
     }
 
-    private IEnumerator DeactivateAfterDelay()
+    private IEnumerator FinishMeditationRoutine()
     {
         yield return new WaitForSeconds(_delayAfterAnimation);
-        Debug.Log("Deactivating meditation object.");
-        gameObject.SetActive(false);
+        Debug.Log("Meditation completed. Object remains active but cannot be reused.");
+        // Здесь можно добавить анимацию покоя или эффект "пустого" алтаря
     }
 
     private void OnTriggerEnter2D(Collider2D other)

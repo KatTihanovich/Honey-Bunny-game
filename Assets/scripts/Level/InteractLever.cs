@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 using Game.Audio;
+using System.Collections;
 
 public class InteractableToggle : MonoBehaviour
 {
@@ -10,7 +11,9 @@ public class InteractableToggle : MonoBehaviour
     private Collider2D doorCollider; 
     private bool isOpen = false;
     private bool playerInside = false;
+    private bool isBusy = false; // <-- защита от спама
     private ISoundManager _soundManager;
+
     private void Awake()
     {
         _soundManager = SoundManagerNew.Instance;
@@ -24,26 +27,40 @@ public class InteractableToggle : MonoBehaviour
             Debug.Log("Animator автоматически присвоен: " + (animator != null));
         }
 
-        if (doorBlocker != null){
+        if (doorBlocker != null)
+        {
             doorAnimator = doorBlocker.GetComponent<Animator>();
             doorCollider = doorBlocker.GetComponent<Collider2D>();
             doorBlocker.SetActive(true);
             doorCollider.isTrigger = false;
-
         }
-                else
+        else
+        {
             Debug.LogWarning("doorBlocker не назначен!");
+        }
     }
 
     private void Update()
     {
-        if (playerInside && Keyboard.current.eKey.wasPressedThisFrame)
+        if (playerInside && Keyboard.current.eKey.wasPressedThisFrame && !isBusy)
         {
             Debug.Log("Игрок нажал E внутри зоны объекта.");
-            Toggle();
+            StartCoroutine(ToggleRoutine());
         }
     }
 
+    private IEnumerator ToggleRoutine()
+    {
+        isBusy = true;
+
+        Toggle();
+
+        // Ждём окончания анимации — можно использовать длительность анимации
+        float waitTime = animator.GetCurrentAnimatorStateInfo(0).length; // <-- замените на точную длительность вашей анимации
+        yield return new WaitForSeconds(waitTime);
+
+        isBusy = false;
+    }
 
     private void Toggle()
     {
@@ -59,9 +76,10 @@ public class InteractableToggle : MonoBehaviour
             animator.SetTrigger("Close");
 
             if (doorBlocker != null)
-            doorAnimator.SetTrigger("Close");
-            doorCollider.isTrigger = false; // Закрыто по умолчанию
-            Debug.Log("Закрыли дверь.");
+            {
+                doorAnimator.SetTrigger("Close");
+                doorCollider.isTrigger = false;
+            }
 
             isOpen = false;
         }
@@ -71,33 +89,30 @@ public class InteractableToggle : MonoBehaviour
             animator.SetTrigger("Open");
 
             if (doorBlocker != null)
-            doorAnimator.SetTrigger("Open");
-            doorCollider.isTrigger = true; // Закрыто по умолчанию
-            Debug.Log("Открыли дверь.");
+            {
+                doorAnimator.SetTrigger("Open");
+                doorCollider.isTrigger = true;
+            }
 
             isOpen = true;
         }
+
         _soundManager.PlaySound("Lever");
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
-{
-    Debug.Log("Что-то вошло в триггер: " + collision.gameObject.name);
-
-    if (collision.CompareTag("Player"))
     {
-        playerInside = true;
-        Debug.Log("Игрок вошёл в зону взаимодействия.");
+        if (collision.CompareTag("Player"))
+        {
+            playerInside = true;
+        }
     }
-}
-
 
     private void OnTriggerExit2D(Collider2D collision)
     {
         if (collision.CompareTag("Player"))
         {
             playerInside = false;
-            Debug.Log("Игрок вышел из зоны взаимодействия.");
         }
     }
 }

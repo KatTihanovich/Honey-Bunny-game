@@ -1,3 +1,4 @@
+using Game.Audio;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -26,22 +27,22 @@ namespace Enemy
         private Coroutine attackCoroutine;
         private int attackCount;
 
-        private Health health;
+        private HealthNew health;
 
         private GameObject player;
-        private Health playerHealth;
-        
+        private HealthNew playerHealth;
+
 
         [Header("Boss portal")] public GameObject portal;
         private Animator portalAnimator;
 
         private bool isAlive = true;
 
-        [SerializeField] private AudioMixerGroup audioMixerGroup; 
+        [SerializeField] private AudioMixerGroup audioMixerGroup;
         public AudioClip portalSound;
         [SerializeField] private float volume = 1.0f;
-        
-        [Header("Tails objects")] 
+
+        [Header("Tails objects")]
         public List<GameObject> tails;
 
 
@@ -58,28 +59,46 @@ namespace Enemy
             }
 
             player = GameObject.Find("Bunny");
+            playerHealth = FindFirstObjectByType<HealthNew>();
             if (player != null)
             {
-                playerHealth = player.GetComponent<Health>();
+
             }
             else
             {
                 Debug.LogError("Player is null!");
             }
 
-            health = GetComponent<Health>();
+            health = GetComponent<HealthNew>();
 
             boxCollider = GetComponent<BoxCollider2D>();
 
             if (health != null)
             {
-                health.OnHealthChanged += HandleHealthChanged; // Подпишемся на событие изменения здоровья
+              
+                health.OnDeath += Die;
+                health.OnDamageTaken += GetDamage;
             }
 
             initialScale = transform.localScale;
             attackCoroutine = StartCoroutine(AttackChainCoroutine());
         }
 
+        public void GetDamage()
+        {
+            Debug.Log("Босс получил урон");
+        }
+
+      
+        private void Die()
+        {
+            isAlive = false;
+            StopCoroutine(attackCoroutine);
+            StartCoroutine(PortalDissapear());
+            PlayerPrefs.SetInt("BossDefeated", 1);
+            PlayerPrefs.Save();
+            animator.SetBool("Dead",true);
+        }
         private void Update()
         {
             attackCooldownTimer += Time.deltaTime;
@@ -91,21 +110,9 @@ namespace Enemy
             }
         }
 
-        private void HandleHealthChanged(float currentHealth)
-        {
-            Debug.Log("BOSS HP: " + currentHealth);
+    
 
-            if (currentHealth <= 0)
-            {
-                isAlive = false;
-                StopCoroutine(attackCoroutine);
-                StartCoroutine(PortalDissapear());
-                PlayerPrefs.SetInt("BossDefeated", 1);
-                PlayerPrefs.Save();
-            }
-        }
 
-        
         private IEnumerator PortalDissapear()
         {
             portalAnimator.SetTrigger(DissapearTrigger);
@@ -159,6 +166,7 @@ namespace Enemy
                 foreach (var tail in tails)
                 {
                     tail.GetComponent<TailBossEnemyScript>().RespawnOrAppear();
+                    tail.transform.GetComponentInChildren<HealthNew>().RestoreFull();
                 }
                 yield return new WaitForSeconds(10);
             }
@@ -189,8 +197,10 @@ namespace Enemy
                 Debug.LogError("Player heath is null!");
             }
         }
-        private void Play(AudioClip clip) {
-            if (clip != null && audioMixerGroup != null) {
+        private void Play(AudioClip clip)
+        {
+            if (clip != null && audioMixerGroup != null)
+            {
                 GameObject tempAudio = new GameObject("TempAudioClip");
                 AudioSource audioSource = tempAudio.AddComponent<AudioSource>();
 

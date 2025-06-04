@@ -5,34 +5,52 @@ namespace Enemy
 {
     public class BossHpBar : MonoBehaviour
     {
-        public GameObject hpBarFilled;
-        public Health health;
-        
-        public float maxHP = 5f;
-        
+        [SerializeField] private GameObject hpBarFilled;
+        [SerializeField] private HealthNew health;
+
         private Image hpBarFill;
-        
-        void Start()
+
+        private void Start()
         {
-            if (health != null)
+            if (health == null)
             {
-                health.OnHealthChanged += HandleHealthChanged;
+                Debug.LogError("Health reference is not set on " + gameObject.name);
+                return;
             }
 
             hpBarFill = hpBarFilled.GetComponent<Image>();
+
+            // Подписки на события здоровья
+            health.OnDamaged += UpdateHpBar;
+            health.OnHealed += UpdateHpBar;
+            health.OnDeath += HandleDeath;
+
+           
+            UpdateHpBar(0); 
         }
-        
-        private void HandleHealthChanged(float currentHealth)
+
+        private void UpdateHpBar(float _)
         {
-            if (currentHealth > 0)
+            if (hpBarFill != null && health != null)
             {
-                hpBarFill.fillAmount = currentHealth / maxHP;
-            }
-            else
-            {
-               gameObject.SetActive(false);
+                hpBarFill.fillAmount = health.CurrentHealth / health.MaxHealth;
             }
         }
-        
+
+        private void HandleDeath()
+        {
+            gameObject.SetActive(false); 
+        }
+
+        private void OnDestroy()
+        {
+           
+            if (health != null)
+            {
+                health.OnDamaged -= UpdateHpBar;
+                health.OnHealed -= UpdateHpBar;
+                health.OnDeath -= HandleDeath;
+            }
+        }
     }
 }

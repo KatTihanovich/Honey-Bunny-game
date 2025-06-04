@@ -47,7 +47,7 @@ namespace Enemy
                 health.OnHealthChanged += HandleHealthChanged;
             }
 
-            player = GameObject.Find("Bunny");
+            player = FindFirstObjectByType<PlayerController>().gameObject;
             Debug.LogError("Find " + player);
             playerHealth = FindFirstObjectByType<HealthNew>();
            
@@ -72,7 +72,7 @@ namespace Enemy
         private void HandleDeath() 
         {
             animator.SetTrigger("Dead");
-            Destroy(gameObject);
+            HideOrKill();
         }
 
         //Получение урона

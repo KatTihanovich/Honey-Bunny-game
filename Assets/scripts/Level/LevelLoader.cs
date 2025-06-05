@@ -13,7 +13,15 @@ namespace Level
         public void NextLevel(int scene_id)
         {
             Time.timeScale = 1f;
-            StartCoroutine(LoadSceneAsync(scene_id));
+            if (LoadingScreen != null && LoadingBarFill != null)
+            {
+                StartCoroutine(LoadSceneAsync(scene_id));
+            }
+            else
+            {
+                AsyncOperation operation = SceneManager.LoadSceneAsync(scene_id);
+            }
+            
         }
 
         IEnumerator LoadSceneAsync(int scene_id)

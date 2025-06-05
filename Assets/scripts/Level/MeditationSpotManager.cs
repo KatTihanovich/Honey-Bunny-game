@@ -37,25 +37,42 @@ public class MeditationManager : MonoBehaviour
     }
 
     private void Start()
+{
+    animator = GetComponent<Animator>();
+
+    // Авто-поиск игрока по тегу, если не задан вручную
+    if (playerObject == null)
     {
-        animator = GetComponent<Animator>();
-
-        if (playerObject != null)
+        GameObject foundPlayer = GameObject.FindGameObjectWithTag("Player");
+        if (foundPlayer != null)
         {
-            playerHealth = playerObject.GetComponent<HealthNew>();
-            playerAnimator = playerObject.GetComponent<Animator>();
-
-            if (playerHealth == null)
-                Debug.LogWarning("HealthNew component not found on playerObject.");
-
-            if (playerAnimator == null)
-                Debug.LogWarning("Animator component not found on playerObject.");
+            playerObject = foundPlayer;
         }
         else
         {
-            Debug.LogError("Player object not assigned in inspector!");
+            Debug.LogError("Игрок с тегом 'Player' не найден.");
         }
     }
+
+    // Получаем компоненты с найденного/заданного объекта
+    if (playerObject != null)
+    {
+        playerHealth = playerObject.GetComponent<HealthNew>();
+        playerAnimator = playerObject.GetComponent<Animator>();
+
+        if (playerHealth == null)
+            Debug.LogWarning("HealthNew компонент не найден на игроке.");
+
+        if (playerAnimator == null)
+            Debug.LogWarning("Animator компонент не найден на игроке.");
+    }
+    else
+    {
+        Debug.LogError("playerObject всё ещё null. MeditationManager работать не сможет.");
+    }
+}
+
+
 
     private void TryMeditate()
     {

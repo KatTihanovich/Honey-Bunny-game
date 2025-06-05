@@ -87,6 +87,7 @@ namespace Enemy
         public void GetDamage()
         {
             Debug.Log("Босс получил урон");
+            animator.SetBool("GotHit", true);
         }
 
       

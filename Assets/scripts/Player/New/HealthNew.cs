@@ -22,25 +22,20 @@ public class HealthNew : MonoBehaviour
     }
 
     public void TakeDamage(float amount)
-{
-    if (IsDead || amount <= 0f) return;
-
-    float prevHealth = CurrentHealth;
-    CurrentHealth -= amount;
-    CurrentHealth = Mathf.Max(CurrentHealth, 0f);
-
-    if (CurrentHealth < prevHealth)
     {
+        if (IsDead || amount <= 0f) return;
+
+ 
+        CurrentHealth -= amount;
+        CurrentHealth = Mathf.Max(CurrentHealth, 0f);
+        Debug.Log(gameObject.name + " Получил урон: " + amount);
         OnDamaged?.Invoke(amount);
         OnDamageTaken?.Invoke();
-    }
+       
 
-    if (CurrentHealth <= 0f && prevHealth > 0f)
-    {
-        OnDeath?.Invoke();
+        if (IsDead)
+            OnDeath?.Invoke();
     }
-}
-
 
     public void Heal(float amount)
     {
@@ -59,7 +54,7 @@ public class HealthNew : MonoBehaviour
         if (!IsDead)
         {
 
-            Debug.Log(gameObject.name + " пїЅпїЅпїЅпїЅ");
+            Debug.Log(gameObject.name + " убит");
             CurrentHealth = 0;
             OnDeath?.Invoke();
         }

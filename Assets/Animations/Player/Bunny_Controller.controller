@@ -39,7 +39,7 @@ AnimatorStateMachine:
     m_Position: {x: -30, y: 100, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 1095916618551822220}
-    m_Position: {x: -220, y: -50, z: 0}
+    m_Position: {x: -240, y: -60, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 8957498760694014607}
     m_Position: {x: -150, y: -210, z: 0}
@@ -85,10 +85,7 @@ AnimatorStateMachine:
   - {fileID: 2163166571158407950}
   - {fileID: -5220438345938592560}
   m_EntryTransitions: []
-  m_StateMachineTransitions:
-  - first: {fileID: -237588532518965982}
-    second:
-    - {fileID: -4445703687366226624}
+  m_StateMachineTransitions: {}
   m_StateMachineBehaviours:
   - {fileID: -5935240068660368661}
   m_AnyStatePosition: {x: 200, y: -170, z: 0}
@@ -1444,23 +1441,6 @@ AnimationClip:
     floatParameter: 0
     intParameter: 0
     messageOptions: 1
---- !u!1109 &-4445703687366226624
-AnimatorTransition:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: 
-  m_Conditions:
-  - m_ConditionMode: 1
-    m_ConditionEvent: Run
-    m_EventTreshold: 0
-  m_DstStateMachine: {fileID: 0}
-  m_DstState: {fileID: 1095916618551822220}
-  m_Solo: 0
-  m_Mute: 0
-  m_IsExit: 0
-  serializedVersion: 1
 --- !u!74 &-4420807118476023422
 AnimationClip:
   m_ObjectHideFlags: 0

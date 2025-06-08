@@ -5,7 +5,7 @@ using Game.Audio;
 
 public class MeditationManager : MonoBehaviour
 {
-    [SerializeField] private GameObject playerObject;
+    [SerializeField] private GameObject playerObject; // ← Один раз привязывается игрок в инспекторе
 
     private bool isPlayerInZone = false;
     private bool hasMeditatedOnce = false;
@@ -15,7 +15,7 @@ public class MeditationManager : MonoBehaviour
     private HealthNew playerHealth;
     private ISoundManager _soundManager;
 
-    [SerializeField] private float _delayAfterAnimation = 3f;
+    [SerializeField] private float _delayAfterAnimation = 1f;
 
     private PlayerInputActions inputActions;
 
@@ -37,42 +37,25 @@ public class MeditationManager : MonoBehaviour
     }
 
     private void Start()
-{
-    animator = GetComponent<Animator>();
-
-    // Авто-поиск игрока по тегу, если не задан вручную
-    if (playerObject == null)
     {
-        GameObject foundPlayer = GameObject.FindGameObjectWithTag("Player");
-        if (foundPlayer != null)
+        animator = GetComponent<Animator>();
+
+        if (playerObject != null)
         {
-            playerObject = foundPlayer;
+            playerHealth = playerObject.GetComponent<HealthNew>();
+            playerAnimator = playerObject.GetComponent<Animator>();
+
+            if (playerHealth == null)
+                Debug.LogWarning("HealthNew component not found on playerObject.");
+
+            if (playerAnimator == null)
+                Debug.LogWarning("Animator component not found on playerObject.");
         }
         else
         {
-            Debug.LogError("Игрок с тегом 'Player' не найден.");
+            Debug.LogError("Player object not assigned in inspector!");
         }
     }
-
-    // Получаем компоненты с найденного/заданного объекта
-    if (playerObject != null)
-    {
-        playerHealth = playerObject.GetComponent<HealthNew>();
-        playerAnimator = playerObject.GetComponent<Animator>();
-
-        if (playerHealth == null)
-            Debug.LogWarning("HealthNew компонент не найден на игроке.");
-
-        if (playerAnimator == null)
-            Debug.LogWarning("Animator компонент не найден на игроке.");
-    }
-    else
-    {
-        Debug.LogError("playerObject всё ещё null. MeditationManager работать не сможет.");
-    }
-}
-
-
 
     private void TryMeditate()
     {
@@ -81,10 +64,6 @@ public class MeditationManager : MonoBehaviour
             Debug.Log("Meditate action triggered.");
             hasMeditatedOnce = true;
             Interact();
-        }
-        else if (hasMeditatedOnce)
-        {
-            Debug.Log("Meditation already used. No further interaction allowed.");
         }
     }
 
@@ -99,6 +78,7 @@ public class MeditationManager : MonoBehaviour
             _soundManager.PlaySound("Meditation");
         }
 
+
         if (playerHealth != null)
         {
             Debug.Log("Restoring full health.");
@@ -109,14 +89,14 @@ public class MeditationManager : MonoBehaviour
             Debug.LogWarning("Cannot restore health — HealthNew is null.");
         }
 
-        StartCoroutine(FinishMeditationRoutine());
+        StartCoroutine(DeactivateAfterDelay());
     }
 
-    private IEnumerator FinishMeditationRoutine()
+    private IEnumerator DeactivateAfterDelay()
     {
         yield return new WaitForSeconds(_delayAfterAnimation);
-        Debug.Log("Meditation completed. Object remains active but cannot be reused.");
-        // Здесь можно добавить анимацию покоя или эффект "пустого" алтаря
+        Debug.Log("Deactivating meditation object.");
+        gameObject.SetActive(false);
     }
 
     private void OnTriggerEnter2D(Collider2D other)

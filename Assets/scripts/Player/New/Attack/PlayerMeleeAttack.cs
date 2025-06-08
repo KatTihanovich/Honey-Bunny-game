@@ -34,48 +34,23 @@ namespace Game.Combat
 
             foreach (Collider2D enemy in hitEnemies)
             {
-                bool wasKilled = false;
-
-                var ai = enemy.GetComponent<MonsterAI>();
-                if (ai != null)
+                HealthNew health = enemy.gameObject.GetComponent<HealthNew>();
+                if (health != null && health.enabled)
                 {
-                    float prevHealth = ai.GetComponent<HealthNew>()?.CurrentHealth ?? 0f;
-                    ai.TakeDamage(damage);
-                    float afterHealth = ai.GetComponent<HealthNew>()?.CurrentHealth ?? 0f;
+                    bool wasAlive = health.CurrentHealth > 0;
+                    health.TakeDamage(damage);
+                    Debug.Log($"Враг {enemy.name} получил {damage} урона");
 
-                    Debug.Log($"Враг {enemy.name} атакован через MonsterAI");
-
-                    if (prevHealth > 0 && afterHealth <= 0)
+                    if (wasAlive && health.CurrentHealth <= 0)
                     {
-                        wasKilled = true;
-                    }
-                }
-                else
-                {
-                    // fallback если враг без AI
-                    var health = enemy.GetComponent<HealthNew>();
-                    if (health != null && health.enabled)
-                    {
-                        float prevHealth = health.CurrentHealth;
-                        health.TakeDamage(damage);
-                        Debug.Log($"Враг {enemy.name} получил {damage} урона");
+                        killCount++;
+                        Debug.Log($"Убито врагов: {killCount}");
 
-                        if (prevHealth > 0 && health.CurrentHealth <= 0)
+                        if (killCount >= 2 && !canUseSuperAttack)
                         {
-                            wasKilled = true;
+                            canUseSuperAttack = true;
+                     
                         }
-                    }
-                }
-
-                if (wasKilled)
-                {
-                    killCount++;
-                    Debug.Log($"Убито врагов: {killCount}");
-
-                    if (killCount >= 2 && !canUseSuperAttack)
-                    {
-                        canUseSuperAttack = true;
-                        Debug.Log("Суператака снова доступна!");
                     }
                 }
             }
@@ -96,20 +71,11 @@ namespace Game.Combat
 
             foreach (Collider2D enemy in hitEnemies)
             {
-                var ai = enemy.GetComponent<MonsterAI>();
-                if (ai != null)
+                HealthNew health = enemy.gameObject.GetComponent<HealthNew>();
+                if (health != null && health.enabled)
                 {
-                    ai.TakeDamage(damage * 2);
-                    Debug.Log($"Враг {enemy.name} получил СУПЕР УРОН через AI");
-                }
-                else
-                {
-                    var health = enemy.GetComponent<HealthNew>();
-                    if (health != null && health.enabled)
-                    {
-                        health.TakeDamage(damage * 2);
-                        Debug.Log($"Враг {enemy.name} получил СУПЕР УРОН: {damage * 2}");
-                    }
+                    health.TakeDamage(damage * 2); // удвоенный урон
+                    Debug.Log($"Враг {enemy.name} получил СУПЕР УРОН: {damage * 2}");
                 }
             }
 

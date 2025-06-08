@@ -5,6 +5,7 @@ using System.Collections;
 
 public class FlowerInteraction : MonoBehaviour
 {
+    
     private bool playerInZone = false;
     private static List<string> interactionSequence = new List<string>();
 
@@ -12,12 +13,12 @@ public class FlowerInteraction : MonoBehaviour
     [SerializeField] private List<int> correctSequence;
 
     private Animator anim;
-    private bool isBusy = false;
 
     [SerializeField] private AudioClip interactionSound;
     [SerializeField] private AudioMixerGroup audioMixerGroup; 
     [SerializeField] private float volume = 1.0f;
     [SerializeField] private GameObject noteObject; 
+
 
     private void Start()
     {
@@ -25,85 +26,59 @@ public class FlowerInteraction : MonoBehaviour
     }
 
     public void Interact()
+{
+    if (playerInZone)
     {
-        if (playerInZone && !isBusy)
-        {
-            isBusy = true;
+        anim.SetTrigger("Klick");
+        Debug.Log($"{gameObject.name} interacted with the player!");
 
-            anim.SetTrigger("Klick");
-            Debug.Log($"{gameObject.name} interacted with the player!");
+        interactionSequence.Add(gameObject.name);
+        Debug.Log("Interaction Sequence: " + string.Join(", ", interactionSequence));
 
-            interactionSequence.Add(gameObject.name);
-            Debug.Log("Interaction Sequence: " + string.Join(", ", interactionSequence));
+        PlayInteractionSound();
 
-            PlayInteractionSound();
-            StartCoroutine(ShowNoteObject());
+        // Показать объект ноты
+        StartCoroutine(ShowNoteObject());
 
             if (sequenceChecker != null)
             {
-                StartCoroutine(InteractionCooldownAndCheck());
+                StartCoroutine(WaitForClickAndCheckSequence());
             }
             else
             {
                 Debug.LogError("SequenceChecker is not assigned in InteractionZone!");
-                isBusy = false;
             }
-        }
     }
+}
 
-    private IEnumerator InteractionCooldownAndCheck()
+private IEnumerator ShowNoteObject()
+{
+    if (noteObject != null)
     {
-        float animationLength = GetAnimationClipLength("Klick");
-        yield return new WaitForSeconds(animationLength);
-
-        sequenceChecker.CheckSequence(this);
-        isBusy = false;
+        noteObject.SetActive(true);
+        yield return new WaitForSeconds(1f);
+        noteObject.SetActive(false);
     }
-
-    private float GetAnimationClipLength(string clipName)
+    else
     {
-        if (anim.runtimeAnimatorController != null)
-        {
-            foreach (AnimationClip clip in anim.runtimeAnimatorController.animationClips)
-            {
-                if (clip.name == clipName)
-                {
-                    return clip.length;
-                }
-            }
-        }
-        Debug.LogWarning($"Анимация '{clipName}' не найдена. Используется длительность по умолчанию.");
-        return 1f; // резервная длительность
+        Debug.LogWarning("Note object is not assigned.");
     }
+}
 
-    private IEnumerator ShowNoteObject()
-    {
-        if (noteObject != null)
-        {
-            noteObject.SetActive(true);
-            yield return new WaitForSeconds(1f);
-            noteObject.SetActive(false);
-        }
-        else
-        {
-            Debug.LogWarning("Note object is not assigned.");
-        }
-    }
 
     private void PlayInteractionSound()
     {
-        if (interactionSound != null && audioMixerGroup != null)
-        {
-            GameObject tempAudio = new GameObject("TempAudioClip");
-            AudioSource audioSource = tempAudio.AddComponent<AudioSource>();
+        if (interactionSound != null && audioMixerGroup != null) {
+                GameObject tempAudio = new GameObject("TempAudioClip");
+                AudioSource audioSource = tempAudio.AddComponent<AudioSource>();
 
-            audioSource.outputAudioMixerGroup = audioMixerGroup;
-            audioSource.clip = interactionSound;
-            audioSource.volume = volume;
-            audioSource.Play();
+                audioSource.outputAudioMixerGroup = audioMixerGroup;
+                audioSource.clip = interactionSound;
+                audioSource.volume = volume;
+                audioSource.Play();
 
-            Destroy(tempAudio, interactionSound.length);
-        }
+                Destroy(tempAudio, interactionSound.length);
+            }
         else
         {
             Debug.LogWarning($"No sound assigned for {gameObject.name}");
@@ -128,15 +103,24 @@ public class FlowerInteraction : MonoBehaviour
         }
     }
 
+    private IEnumerator WaitForClickAndCheckSequence()
+    {
+        // Ожидаем 0.5 секунды (время проигрывания анимации клика)
+        yield return new WaitForSeconds(0.75f);
+
+        // Передаем ссылку на текущий объект в SequenceChecker
+        sequenceChecker.CheckSequence(this);
+    }
     public bool IsPlayerInZone()
     {
         return playerInZone;
     }
 
     public static List<string> GetInteractionSequence()
-    {
-        return interactionSequence;
-    }
+{
+    return interactionSequence; // ← возвращаем сам список, а не его копию
+}
+
 
     public static void ResetInteractionSequence()
     {
@@ -145,16 +129,16 @@ public class FlowerInteraction : MonoBehaviour
     }
 
     public void TriggerWinAnimation()
-    {
-        anim.ResetTrigger("Lose");
-        anim.ResetTrigger("Klick");
-        anim.SetTrigger("Win");
-    }
+{
+    anim.ResetTrigger("Lose");
+    anim.ResetTrigger("Klick"); // Сбрасываем анимацию клика
+    anim.SetTrigger("Win");
+}
 
-    public void TriggerLoseAnimation()
-    {
-        anim.ResetTrigger("Win");
-        anim.ResetTrigger("Klick");
-        anim.SetTrigger("Lose");
-    }
+public void TriggerLoseAnimation()
+{
+    anim.ResetTrigger("Win");
+    anim.ResetTrigger("Klick"); // Сбрасываем анимацию клика
+    anim.SetTrigger("Lose");
+}
 }

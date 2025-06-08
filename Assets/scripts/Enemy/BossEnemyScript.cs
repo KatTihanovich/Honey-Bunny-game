@@ -15,7 +15,7 @@ namespace Enemy
         private static readonly int DissapearTrigger = Animator.StringToHash("Dissapear");
         private static readonly int AttackTrigger = Animator.StringToHash("Attack");
 
-        [Header("Attack Parameters")] public Animator animator; // Ссылка на аниматор
+        [Header("Attack Parameters")] public Animator animator;
         public float delay = 5f; // Задержка в секундах перед запуском анимации
         private Vector3 initialScale;
         public float attackCooldownInterval = 2f;
@@ -32,15 +32,14 @@ namespace Enemy
         private GameObject player;
         private HealthNew playerHealth;
 
+        private int _currentDamage=0;
 
         [Header("Boss portal")] public GameObject portal;
         private Animator portalAnimator;
 
         private bool isAlive = true;
 
-        [SerializeField] private AudioMixerGroup audioMixerGroup;
-        public AudioClip portalSound;
-        [SerializeField] private float volume = 1.0f;
+        private ISoundManager _soundManager;
 
         [Header("Tails objects")]
         public List<GameObject> tails;
@@ -48,6 +47,8 @@ namespace Enemy
 
         private void Start()
         {
+            _soundManager = SoundManagerNew.Instance;
+
             if (animator == null)
             {
                 animator = GetComponent<Animator>();
@@ -88,6 +89,7 @@ namespace Enemy
         {
             Debug.Log("Босс получил урон");
             animator.SetBool("GotHit", true);
+            _currentDamage++;
         }
 
       
@@ -99,6 +101,7 @@ namespace Enemy
             PlayerPrefs.SetInt("BossDefeated", 1);
             PlayerPrefs.Save();
             animator.SetBool("Dead",true);
+            _soundManager.PlaySound("BossDie");
         }
         private void Update()
         {
@@ -106,12 +109,19 @@ namespace Enemy
 
             if (player != null && isAlive)
             {
-                float direction = Mathf.Sign(player.transform.position.x - transform.position.x);
-                transform.localScale = new Vector3(initialScale.x * -direction, initialScale.y, initialScale.z);
+                float deltaX = player.transform.position.x - transform.position.x;
+
+            
+                if (Mathf.Abs(deltaX) > 0.1f)
+                {
+                    float direction = Mathf.Sign(deltaX);
+                    transform.localScale = new Vector3(initialScale.x * -direction, initialScale.y, initialScale.z);
+                }
             }
         }
 
-    
+
+
 
 
         private IEnumerator PortalDissapear()
@@ -119,7 +129,7 @@ namespace Enemy
             portalAnimator.SetTrigger(DissapearTrigger);
             foreach (var tail in tails)
             {
-                Play(portalSound);
+                _soundManager.PlaySound("Portal");
                 tail.GetComponent<TailBossEnemyScript>().HideOrKill();
             }
             yield return new WaitForSeconds(1f);
@@ -131,7 +141,7 @@ namespace Enemy
             {
                 for (var i = 0; i < 3; i++)
                 {
-                    Play(portalSound);
+                    _soundManager.PlaySound("Portal");
                     portalAnimator.SetTrigger(AppearTrigger);
                     animator.SetTrigger(AppearTrigger);
                     yield return new WaitForSeconds(0.5f);
@@ -150,7 +160,7 @@ namespace Enemy
                             boxCollider.enabled = false;
                         }
 
-                        Play(portalSound);
+                        _soundManager.PlaySound("Portal");
                         animator.SetTrigger(HideTrigger);
                         yield return new WaitForSeconds(1f);
                         portalAnimator.SetTrigger(DissapearTrigger);
@@ -198,21 +208,7 @@ namespace Enemy
                 Debug.LogError("Player heath is null!");
             }
         }
-        private void Play(AudioClip clip)
-        {
-            if (clip != null && audioMixerGroup != null)
-            {
-                GameObject tempAudio = new GameObject("TempAudioClip");
-                AudioSource audioSource = tempAudio.AddComponent<AudioSource>();
-
-                audioSource.outputAudioMixerGroup = audioMixerGroup;
-                audioSource.clip = clip;
-                audioSource.volume = volume;
-                audioSource.Play();
-
-                Destroy(tempAudio, clip.length);
-            }
-        }
+       
     }
 
 }

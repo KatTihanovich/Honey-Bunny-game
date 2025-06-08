@@ -1,3 +1,4 @@
+using Game.Audio;
 using System.Collections;
 using UnityEngine;
 
@@ -34,9 +35,12 @@ namespace Enemy
         private MeshRenderer meshRenderer;
 
         private HealthNew _health;
-        
+
+        private ISoundManager _soundManager;
+
         public void Start()
         {
+            _soundManager = SoundManagerNew.Instance; 
             animator = tailBoss.GetComponent<Animator>();
             portalAnimator = tailPortal.GetComponent<Animator>();
 
@@ -79,6 +83,7 @@ namespace Enemy
         private void GetDamage() 
         {
             animator.SetTrigger("GotHit");
+            _soundManager.PlaySound("Damage");
         }
 
 

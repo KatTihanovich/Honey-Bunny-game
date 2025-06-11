@@ -6,8 +6,6 @@ public class SoundPauseManager : MonoBehaviour
 {
     public GameObject pauseMenuUI;
     public GameObject toSelect;
-    public ButtonImageToggler soundButtonImageToggler; 
-    public ButtonImageToggler pauseButtonImageToggler; 
 
     private bool isPaused = false;
 
@@ -15,13 +13,11 @@ public class SoundPauseManager : MonoBehaviour
     {
         if (Keyboard.current.pKey.wasPressedThisFrame || Keyboard.current.escapeKey.wasPressedThisFrame)
         {
-            ToggleButtonImage(pauseButtonImageToggler);
             TogglePauseMenu();
         }
 
         if (Keyboard.current.mKey.wasPressedThisFrame)
         {
-            ToggleButtonImage(soundButtonImageToggler);
             SoundControl();
         }
     }
@@ -40,11 +36,4 @@ public class SoundPauseManager : MonoBehaviour
         AudioListener.pause = !AudioListener.pause;
     }
 
-    private void ToggleButtonImage(ButtonImageToggler buttonImageToggler)
-    {
-        if (buttonImageToggler != null)
-        {
-            buttonImageToggler.OnSubmit(null);
-        }
-    }
 }

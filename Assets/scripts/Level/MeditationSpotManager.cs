@@ -59,7 +59,7 @@ public class MeditationManager : MonoBehaviour
 
     private void TryMeditate()
     {
-        if (isPlayerInZone && !hasMeditatedOnce)
+        if (isPlayerInZone && !hasMeditatedOnce && playerHealth.CurrentHealth != 100f)
         {
             Debug.Log("Meditate action triggered.");
             hasMeditatedOnce = true;

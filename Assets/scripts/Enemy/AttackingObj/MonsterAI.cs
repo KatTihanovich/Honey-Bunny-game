@@ -2,58 +2,67 @@ using UnityEngine;
 using System.Collections;
 using Game.Audio;
 
+[RequireComponent(typeof(HealthNew))]
 public class MonsterAI : MonoBehaviour
 {
+    [Header("Settings")]
     public Animator animator;
     public float attackDamage = 10f;
     public float attackCooldown = 3f;
-    public float attackDelay = 0.5f; // задержка до нанесения урона после начала анимации
+    public float attackDelay = 0.5f;
+
+    [Header("Attack Zone Collider")]
+    [SerializeField] private Collider2D attackZoneCollider;
 
     private HealthNew playerHealth;
-    private bool isPlayerInRange = false;
+    private HealthNew selfHealth;
+    private ISoundManager soundManager;
+
     private Coroutine attackCoroutine;
-    private ISoundManager _soundManager;
+    private bool isPlayerInRange = false;
+    private bool isDead = false;
 
     private void Awake()
     {
-        _soundManager = SoundManagerNew.Instance;
+        soundManager = SoundManagerNew.Instance;
+        selfHealth = GetComponent<HealthNew>();
+
+        if (selfHealth != null)
+        {
+            selfHealth.OnDeath += HandleDeath;
+            selfHealth.OnDamaged += HandleDamaged;
+        }
     }
 
-    void Start()
+    private void Start()
     {
         GameObject player = GameObject.FindGameObjectWithTag("Player");
-
         if (player != null)
         {
             playerHealth = player.GetComponent<HealthNew>();
-            if (playerHealth == null)
-            {
-                Debug.LogError("Компонент HealthNew не найден на объекте игрока.");
-            }
-        }
-        else
-        {
-            Debug.LogError("Игрок с тегом 'Player' не найден.");
         }
 
         if (animator == null)
         {
-            Debug.LogError("Animator не привязан к MonsterAI.");
+            Debug.LogError("Animator не установлен в MonsterAI.");
+        }
+
+        if (attackZoneCollider == null)
+        {
+            Debug.LogError("AttackZoneCollider не установлен!");
         }
     }
 
-    void Update()
+    private void Update()
     {
-        if (playerHealth == null || playerHealth.IsDead)
+        if (isDead || playerHealth == null || playerHealth.IsDead)
             return;
 
         float health = playerHealth.CurrentHealth;
 
-        // Эмоциональные состояния монстра
         animator.SetBool("IsMad", health <= 50f);
         animator.SetBool("IsStressed", health <= 70f);
 
-        // Атака, если игрок рядом и здоровья у него мало
         if (isPlayerInRange && health <= 70f && attackCoroutine == null)
         {
             attackCoroutine = StartCoroutine(PerformAttack());
@@ -61,68 +70,63 @@ public class MonsterAI : MonoBehaviour
     }
 
     private IEnumerator PerformAttack()
-{
-    Debug.Log("Атака запущена");
-    animator.SetTrigger("Attack");
-
-    yield return new WaitForSeconds(attackDelay);
-    _soundManager.PlaySound("WhipAttack");
-    bool tookDamage = false;
-
-    if (playerHealth != null && isPlayerInRange && !playerHealth.IsDead)
     {
-        Debug.Log("Монстр собирается нанести урон: " + attackDamage);
+        Debug.Log("Монстр начинает атаку.");
+        animator.SetTrigger("Attack");
+        yield return new WaitForSeconds(attackDelay);
 
-        try
+        soundManager.PlaySound("WhipAttack");
+
+        if (playerHealth != null && isPlayerInRange && !playerHealth.IsDead)
         {
-            if (playerHealth.gameObject != null)
-            {
-                playerHealth.TakeDamage(attackDamage);
-                tookDamage = true;
-            }
+            playerHealth.TakeDamage(attackDamage);
+            Debug.Log("Монстр нанёс урон игроку: " + attackDamage);
         }
-        catch (System.Exception ex)
+
+        yield return new WaitForSeconds(attackCooldown);
+        attackCoroutine = null;
+    }
+
+    public void TakeDamage(float damage)
+    {
+        if (isDead || selfHealth == null || damage <= 0f)
+            return;
+
+        if (playerHealth != null && playerHealth.CurrentHealth <= 70f)
         {
-            Debug.LogError("Ошибка при атаке: " + ex.Message);
+            selfHealth.TakeDamage(damage);
         }
-    }
-
-    // Подождать 1 кадр и проверить, жив ли игрок
-    yield return null;
-
-    if (tookDamage && playerHealth != null && playerHealth.gameObject != null)
-    {
-        Debug.Log("Монстр завершил атаку");
-    }
-    else
-    {
-        Debug.Log("Объект игрока был уничтожен или null после атаки");
-    }
-
-    yield return new WaitForSeconds(attackCooldown);
-
-    attackCoroutine = null;
-    Debug.Log("Атака завершена, можно атаковать снова");
-}
-
-
-
-
-    private void OnTriggerEnter2D(Collider2D other)
-    {
-        if (other.CompareTag("Player"))
+        else
         {
-            isPlayerInRange = true;
-            Debug.Log("Игрок вошёл в зону атаки");
+            Debug.Log("Монстр не получил урон — здоровье игрока выше 70.");
         }
     }
 
-    private void OnTriggerExit2D(Collider2D other)
+    private void HandleDamaged(float damage)
     {
-        if (other.CompareTag("Player"))
-        {
-            isPlayerInRange = false;
-            Debug.Log("Игрок покинул зону атаки");
-        }
+        if (isDead) return;
+
+        animator.SetTrigger("GotHit");
+        soundManager.PlaySound("Damage");
+        Debug.Log($"{gameObject.name} получил урон: {damage}");
+    }
+
+    private void HandleDeath()
+    {
+        if (isDead) return;
+
+        isDead = true;
+        animator.SetBool("Dead", true);
+        soundManager.PlaySound("MobDeath");
+
+        if (TryGetComponent<Collider2D>(out var bodyCol)) bodyCol.enabled = false;
+        if (TryGetComponent<Rigidbody2D>(out var rb)) rb.linearVelocity = Vector2.zero;
+
+        Destroy(gameObject, 2f);
+    }
+
+    public void SetPlayerInRange(bool value)
+    {
+        isPlayerInRange = value;
     }
 }

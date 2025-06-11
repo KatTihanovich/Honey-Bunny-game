@@ -16,7 +16,7 @@ public class AttackBehavior : StateMachineBehaviour
         if (rb != null)
         {
             rb.linearVelocity = Vector2.zero;
-            rb.constraints = RigidbodyConstraints2D.FreezePositionX | RigidbodyConstraints2D.FreezeRotation;
+            rb.constraints = RigidbodyConstraints2D.FreezePositionX | RigidbodyConstraints2D.FreezeRotation | RigidbodyConstraints2D.FreezePositionY;
         }
     }
 

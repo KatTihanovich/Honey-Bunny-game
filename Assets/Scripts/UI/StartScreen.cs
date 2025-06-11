@@ -26,6 +26,6 @@ public class StartScreen : MonoBehaviour
     public void LoadScene()
     {
         _soundManager.PlaySound("UI");
-        levelLoader.NextLevelWithoutUI(sceneToLoadId);
+        levelLoader.NextLevel(sceneToLoadId);
     }
 }

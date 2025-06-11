@@ -12,8 +12,16 @@ namespace Level
 
         public void NextLevel(int scene_id)
         {
-            Time.timeScale = 1f;
-            StartCoroutine(LoadSceneAsync(scene_id));
+            if (LoadingScreen != null && LoadingBarFill != null)
+            {
+                Time.timeScale = 1f;
+                StartCoroutine(LoadSceneAsync(scene_id));
+            }
+            else
+            {
+                AsyncOperation operation = SceneManager.LoadSceneAsync(scene_id);
+            }
+            
         }
 
         IEnumerator LoadSceneAsync(int scene_id)
@@ -21,12 +29,20 @@ namespace Level
             AsyncOperation operation = SceneManager.LoadSceneAsync(scene_id);
             LoadingScreen.SetActive(true);
 
+            float displayedProgress = 0f;
+
             while (!operation.isDone)
             {
-                float progressValue = Mathf.Clamp01(operation.progress / 0.9f);
-                LoadingBarFill.fillAmount = progressValue;
+                float targetProgress = Mathf.Clamp01(operation.progress / 0.9f);
+
+                displayedProgress = Mathf.Lerp(displayedProgress, targetProgress, Time.deltaTime * 5f); // Adjust 5f to control speed
+                LoadingBarFill.fillAmount = displayedProgress;
+
                 yield return null;
             }
+
+            LoadingBarFill.fillAmount = 1f;
         }
+
     }
 }

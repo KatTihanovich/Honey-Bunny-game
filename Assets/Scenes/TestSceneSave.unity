@@ -105510,6 +105510,50 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: eacc451426d927a489819e640a61a66e, type: 3}
+--- !u!1 &676895565
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 676895567}
+  - component: {fileID: 676895566}
+  m_Layer: 0
+  m_Name: Total Coin Manager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &676895566
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 676895565}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ba0b1346b646474d890179e835fa80c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &676895567
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 676895565}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &677222596 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6775023028694193347, guid: eacc451426d927a489819e640a61a66e, type: 3}
@@ -178513,12 +178557,44 @@ PrefabInstance:
     m_TransformParent: {fileID: 1101783969}
     m_Modifications:
     - target: {fileID: 902365996808214055, guid: 7c1506489f35f49d8b77dbec773a402d, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 902365996808214055, guid: 7c1506489f35f49d8b77dbec773a402d, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_Mode
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 902365996808214055, guid: 7c1506489f35f49d8b77dbec773a402d, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1640886297}
     - target: {fileID: 902365996808214055, guid: 7c1506489f35f49d8b77dbec773a402d, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_Target
+      value: 
+      objectReference: {fileID: 676895566}
+    - target: {fileID: 902365996808214055, guid: 7c1506489f35f49d8b77dbec773a402d, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 902365996808214055, guid: 7c1506489f35f49d8b77dbec773a402d, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: PlayClickSound
+      objectReference: {fileID: 0}
+    - target: {fileID: 902365996808214055, guid: 7c1506489f35f49d8b77dbec773a402d, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_MethodName
+      value: ResetProgressForLevel
+      objectReference: {fileID: 0}
+    - target: {fileID: 902365996808214055, guid: 7c1506489f35f49d8b77dbec773a402d, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_TargetAssemblyTypeName
+      value: TotalCoinTracker, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 902365996808214055, guid: 7c1506489f35f49d8b77dbec773a402d, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_Arguments.m_StringArgument
+      value: TestSceneSave
+      objectReference: {fileID: 0}
+    - target: {fileID: 902365996808214055, guid: 7c1506489f35f49d8b77dbec773a402d, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 1262395352823311618, guid: 7c1506489f35f49d8b77dbec773a402d, type: 3}
       propertyPath: m_Pivot.x
@@ -222631,6 +222707,7 @@ SceneRoots:
   - {fileID: 1635189244}
   - {fileID: 2042700465}
   - {fileID: 1178416367}
+  - {fileID: 676895567}
   - {fileID: 962841418}
   - {fileID: 1394378723}
   - {fileID: 1550872268}

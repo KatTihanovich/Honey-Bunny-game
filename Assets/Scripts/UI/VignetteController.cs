@@ -7,6 +7,8 @@ public class VignetteController : MonoBehaviour
 {
     [Header("References")]
     [SerializeField] private Volume postProcessingVolume;
+    [SerializeField] private GameObject VFXstage1;
+    [SerializeField] private GameObject VFXstage2;
 
     [Header("Intensity Settings")]
     [SerializeField] private float lowHealthIntensityOn50 = 0.7f;
@@ -32,21 +34,27 @@ public class VignetteController : MonoBehaviour
     public void EnableVignette()
     {
         StartVignetteTransition(lowHealthIntensityOn70);
+        VFXstage1.SetActive(true);
     }
 
     public void DisableVignette()
     {
         StartVignetteTransition(0f);
+        VFXstage1.SetActive(false);
     }
 
     public void VignetteTurnHarder()
     {
         StartVignetteTransition(lowHealthIntensityOn50);
+        VFXstage1.SetActive(false);
+        VFXstage2.SetActive(true);
     }
 
     public void VignetteTurnLighter()
     {
         StartVignetteTransition(lowHealthIntensityOn70);
+        VFXstage2.SetActive(false);
+        VFXstage1.SetActive(true);
     }
 
     private void StartVignetteTransition(float targetIntensity)

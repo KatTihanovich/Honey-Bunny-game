@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &806763185253670733
+--- !u!1 &5942793918537269234
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,50 +8,50 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 8655068089301909756}
-  - component: {fileID: 258655250468362396}
-  - component: {fileID: 7792199369596593746}
-  - component: {fileID: 512645034386448310}
-  - component: {fileID: 2669634949178585426}
-  - component: {fileID: 7245743506803653404}
-  - component: {fileID: 3946179196040944121}
+  - component: {fileID: 581154381090803351}
+  - component: {fileID: 480718800534083707}
+  - component: {fileID: 3698851081360172413}
+  - component: {fileID: 6134137696304423715}
+  - component: {fileID: 280731577348974573}
+  - component: {fileID: 738665412412516823}
+  - component: {fileID: 4838076785120508725}
   m_Layer: 0
-  m_Name: Meditation point
+  m_Name: Meditation spot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &8655068089301909756
+--- !u!4 &581154381090803351
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 806763185253670733}
+  m_GameObject: {fileID: 5942793918537269234}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
-  m_LocalPosition: {x: -0.014, y: -1, z: 0}
+  m_LocalRotation: {x: -0, y: 1, z: -0, w: 0}
+  m_LocalPosition: {x: -12.18, y: 9.6, z: 0}
   m_LocalScale: {x: 0.49895, y: 0.5, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
---- !u!33 &258655250468362396
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!33 &480718800534083707
 MeshFilter:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 806763185253670733}
+  m_GameObject: {fileID: 5942793918537269234}
   m_Mesh: {fileID: 0}
---- !u!23 &7792199369596593746
+--- !u!23 &3698851081360172413
 MeshRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 806763185253670733}
+  m_GameObject: {fileID: 5942793918537269234}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -68,9 +68,9 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: b6da6bb8f8922644786680be2068563d, type: 2}
-  - {fileID: 2100000, guid: 3dfcddc616341f64aa0a0e79864802b8, type: 2}
-  - {fileID: 2100000, guid: b6da6bb8f8922644786680be2068563d, type: 2}
+  - {fileID: 2100000, guid: f79730696ea2bf7479b1e931fd8254bc, type: 2}
+  - {fileID: 2100000, guid: b11a231c70445a64fb859966878b8e24, type: 2}
+  - {fileID: 2100000, guid: f79730696ea2bf7479b1e931fd8254bc, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -92,17 +92,17 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!95 &512645034386448310
+--- !u!95 &6134137696304423715
 Animator:
   serializedVersion: 7
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 806763185253670733}
+  m_GameObject: {fileID: 5942793918537269234}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 66c715dbbfd690e4ab713d8589d3e2cc, type: 2}
+  m_Controller: {fileID: 9100000, guid: b96e25e2d90017740a3d0a7d242411c5, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -114,19 +114,19 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &2669634949178585426
+--- !u!114 &280731577348974573
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 806763185253670733}
+  m_GameObject: {fileID: 5942793918537269234}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f9db98c60740638449864eb028fbe7ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  skeletonDataAsset: {fileID: 11400000, guid: af7514b0257ec0d4ebd95d0517b3091f, type: 2}
+  skeletonDataAsset: {fileID: 11400000, guid: 43b630d8ef110944c974f94797bbc0f8, type: 2}
   initialSkinName: 
   initialFlipX: 0
   initialFlipY: 0
@@ -153,13 +153,13 @@ MonoBehaviour:
     useCustomMixMode: 1
     layerMixModes: 01000000
     layerBlendModes: 01000000
---- !u!61 &7245743506803653404
+--- !u!61 &738665412412516823
 BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 806763185253670733}
+  m_GameObject: {fileID: 5942793918537269234}
   m_Enabled: 1
   serializedVersion: 3
   m_Density: 1
@@ -187,7 +187,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0.22241282, y: 7.7281065}
+  m_Offset: {x: -0.01336956, y: 7.7593813}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -197,19 +197,19 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 11.558931, y: 15.695845}
+  m_Size: {x: 10.010216, y: 15.758394}
   m_EdgeRadius: 0
---- !u!114 &3946179196040944121
+--- !u!114 &4838076785120508725
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 806763185253670733}
+  m_GameObject: {fileID: 5942793918537269234}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 87922770fa881a14e89ece91aacebeb9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerObject: {fileID: 0}
   _delayAfterAnimation: 7
-  secondaryAnimator: {fileID: 0}

@@ -8,7 +8,7 @@ public class StartScreen : MonoBehaviour
 {
     private ISoundManager _soundManager;
     private LevelLoader levelLoader;
-    public int sceneToLoadId = 6;
+    public int sceneToLoadId = 2;
     private void Awake()
     {
         _soundManager = SoundManagerNew.Instance;
@@ -26,6 +26,6 @@ public class StartScreen : MonoBehaviour
     public void LoadScene()
     {
         _soundManager.PlaySound("UI");
-        levelLoader.NextLevel(sceneToLoadId);
+        levelLoader.NextLevelWithoutUI(sceneToLoadId);
     }
 }

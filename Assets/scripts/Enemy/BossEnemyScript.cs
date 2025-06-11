@@ -5,7 +5,6 @@ using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.SceneManagement;
 
-
 namespace Enemy
 {
     public class BossEnemyScript : MonoBehaviour
@@ -15,74 +14,72 @@ namespace Enemy
         private static readonly int DissapearTrigger = Animator.StringToHash("Dissapear");
         private static readonly int AttackTrigger = Animator.StringToHash("Attack");
 
-        [Header("Attack Parameters")] public Animator animator;
-        public float delay = 5f; // Задержка в секундах перед запуском анимации
-        private Vector3 initialScale;
+        [Header("Attack Parameters")]
+        public Animator animator;
+        public float delay = 5f;
         public float attackCooldownInterval = 2f;
-        private float attackCooldownTimer;
-        private BoxCollider2D boxCollider;
         public GameObject attackArea;
         public float damage = 1f;
 
+        private Vector3 initialScale;
+        private float attackCooldownTimer;
         private Coroutine attackCoroutine;
+        private BoxCollider2D boxCollider;
+        private int _currentDamage = 0;
         private int attackCount;
 
         private HealthNew health;
-
         private GameObject player;
         private HealthNew playerHealth;
-
-        private int _currentDamage=0;
-
-        [Header("Boss portal")] public GameObject portal;
-        private Animator portalAnimator;
+        private ISoundManager _soundManager;
 
         private bool isAlive = true;
 
-        private ISoundManager _soundManager;
+        [Header("Boss portal")]
+        public GameObject portal;
+        private Animator portalAnimator;
 
         [Header("Tails objects")]
         public List<GameObject> tails;
-
 
         private void Start()
         {
             _soundManager = SoundManagerNew.Instance;
 
             if (animator == null)
-            {
                 animator = GetComponent<Animator>();
-            }
 
             if (portal != null)
-            {
                 portalAnimator = portal.GetComponent<Animator>();
-            }
 
             player = GameObject.Find("Bunny");
             playerHealth = FindFirstObjectByType<HealthNew>();
-            if (player != null)
-            {
-
-            }
-            else
-            {
-                Debug.LogError("Player is null!");
-            }
-
             health = GetComponent<HealthNew>();
-
             boxCollider = GetComponent<BoxCollider2D>();
+            initialScale = transform.localScale;
 
             if (health != null)
             {
-              
                 health.OnDeath += Die;
                 health.OnDamageTaken += GetDamage;
             }
 
-            initialScale = transform.localScale;
             attackCoroutine = StartCoroutine(AttackChainCoroutine());
+        }
+
+        private void Update()
+        {
+            attackCooldownTimer += Time.deltaTime;
+
+            if (player != null && isAlive)
+            {
+                float deltaX = player.transform.position.x - transform.position.x;
+                if (Mathf.Abs(deltaX) > 0.1f)
+                {
+                    float direction = Mathf.Sign(deltaX);
+                    transform.localScale = new Vector3(initialScale.x * -direction, initialScale.y, initialScale.z);
+                }
+            }
         }
 
         public void GetDamage()
@@ -92,7 +89,6 @@ namespace Enemy
             _currentDamage++;
         }
 
-      
         private void Die()
         {
             isAlive = false;
@@ -100,38 +96,20 @@ namespace Enemy
             StartCoroutine(PortalDissapear());
             PlayerPrefs.SetInt("BossDefeated", 1);
             PlayerPrefs.Save();
-            animator.SetBool("Dead",true);
+            animator.SetBool("Dead", true);
             _soundManager.PlaySound("BossDie");
         }
-        private void Update()
-        {
-            attackCooldownTimer += Time.deltaTime;
-
-            if (player != null && isAlive)
-            {
-                float deltaX = player.transform.position.x - transform.position.x;
-
-            
-                if (Mathf.Abs(deltaX) > 0.1f)
-                {
-                    float direction = Mathf.Sign(deltaX);
-                    transform.localScale = new Vector3(initialScale.x * -direction, initialScale.y, initialScale.z);
-                }
-            }
-        }
-
-
-
-
 
         private IEnumerator PortalDissapear()
         {
             portalAnimator.SetTrigger(DissapearTrigger);
+
             foreach (var tail in tails)
             {
                 _soundManager.PlaySound("Portal");
                 tail.GetComponent<TailBossEnemyScript>().HideOrKill();
             }
+
             yield return new WaitForSeconds(1f);
         }
 
@@ -139,51 +117,64 @@ namespace Enemy
         {
             while (isAlive)
             {
-                for (var i = 0; i < 3; i++)
+                for (int i = 0; i < 3; i++)
                 {
-                    _soundManager.PlaySound("Portal");
-                    portalAnimator.SetTrigger(AppearTrigger);
-                    animator.SetTrigger(AppearTrigger);
-                    yield return new WaitForSeconds(0.5f);
-                    if (attackArea)
-                    {
-                        attackArea.SetActive(true);
-                        boxCollider.enabled = true;
-                    }
+                    yield return StartCoroutine(PerformAppearance());
+                    yield return StartCoroutine(PerformAttack());
+                    yield return StartCoroutine(PerformDisappearance());
 
-                    yield return new WaitForSeconds(delay);
-                    if (isAlive)
+                    if (player != null)
                     {
-                        if (attackArea)
-                        {
-                            attackArea.SetActive(false);
-                            boxCollider.enabled = false;
-                        }
-
-                        _soundManager.PlaySound("Portal");
-                        animator.SetTrigger(HideTrigger);
-                        yield return new WaitForSeconds(1f);
-                        portalAnimator.SetTrigger(DissapearTrigger);
-                        yield return new WaitForSeconds(1f);
-                        if (player != null)
-                        {
-                            transform.position = new Vector3(player.transform.position.x, transform.position.y,
-                                transform.position.z);
-                        }
+                        transform.position = new Vector3(player.transform.position.x, transform.position.y, transform.position.z);
                     }
                 }
 
                 Debug.Log("10 секунд на атаку по площади");
+
                 foreach (var tail in tails)
                 {
                     tail.GetComponent<TailBossEnemyScript>().RespawnOrAppear();
                     tail.transform.GetComponentInChildren<HealthNew>().RestoreFull();
                 }
+
                 yield return new WaitForSeconds(10);
             }
         }
 
-        // NOTE: Used by attack BoxCollider2D trigger!
+        private IEnumerator PerformAppearance()
+        {
+            _soundManager.PlaySound("Portal");
+            portalAnimator.SetTrigger(AppearTrigger);
+            animator.SetTrigger(AppearTrigger);
+            yield return new WaitForSeconds(0.5f);
+
+            if (attackArea)
+            {
+                attackArea.SetActive(true);
+                boxCollider.enabled = true;
+            }
+        }
+
+        private IEnumerator PerformAttack()
+        {
+            yield return new WaitForSeconds(delay);
+        }
+
+        private IEnumerator PerformDisappearance()
+        {
+            if (attackArea)
+            {
+                attackArea.SetActive(false);
+                boxCollider.enabled = false;
+            }
+
+            _soundManager.PlaySound("Portal");
+            animator.SetTrigger(HideTrigger);
+            yield return new WaitForSeconds(1f);
+            portalAnimator.SetTrigger(DissapearTrigger);
+            yield return new WaitForSeconds(1f);
+        }
+
         public void OnPlayerEntered()
         {
             if (isAlive && attackCooldownTimer >= attackCooldownInterval)
@@ -193,13 +184,11 @@ namespace Enemy
             }
         }
 
-        // NOTE: Used by Animator to provide attack!
         public void HIT_BITE()
         {
-            print("КУСЬ!");
+            Debug.Log("КУСЬ!");
             if (playerHealth)
             {
-                // Play(attackSound);
                 playerHealth.TakeDamage(damage);
                 Debug.Log("Player damaged by enemy!");
             }
@@ -208,7 +197,5 @@ namespace Enemy
                 Debug.LogError("Player heath is null!");
             }
         }
-       
     }
-
 }

@@ -440,9 +440,9 @@ public class PlayerController : MonoBehaviour
     {
         if (!_isSlowed)
         {
-            _moveSpeed = Mathf.Max(_baseMoveSpeed * 0.6f, 1f);
+            _moveSpeed = Mathf.Max(_baseMoveSpeed * 0.75f, 1f);
             Debug.Log("Текущая скорость: " + _moveSpeed);
-            _runSoundInterval = _baseRunSoundInterval + 0.1f;
+            _runSoundInterval = _baseRunSoundInterval + 0.4f;
             _isSlowed = true;
         }
     }

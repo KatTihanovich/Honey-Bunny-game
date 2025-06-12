@@ -22,7 +22,7 @@ public class Stress : MonoBehaviour
 
         if (_health == null)
         {
-            Debug.LogError("Stress: компонент HealthNew не найден!");
+            Debug.LogError("Stress: пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ HealthNew пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ!");
             return;
         }
 
@@ -77,18 +77,17 @@ public class Stress : MonoBehaviour
         if (normalized >= 0.3f)
         {
             _vignetteController?.EnableVignette();
+            _playerController?.SlowModeEnable();
 
             if (normalized >= 0.5f)
             {
                 _cameraShake?.StartShaking();
                 _vignetteController?.VignetteTurnHarder();
-                _playerController?.SlowModeEnable();
             }
             else
             {
                 _cameraShake?.StopShaking();
                 _vignetteController?.VignetteTurnLighter();
-                _playerController?.SlowModeDesable();
             }
         }
         else

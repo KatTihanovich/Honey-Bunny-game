@@ -10,11 +10,10 @@ public class PauseMenu : MonoBehaviour
     [Header("UI Elements")]
     public GameObject pauseMenuUI;
     public GameObject settingsUI;
-    public List<GameObject> menusToDisable = new List<GameObject>(); 
-    public Image image;
-    public Sprite defaultSprite;
-    public GameObject toSelectOnPause; 
-    public GameObject toSelectOnSeetings; 
+    public List<GameObject> menusToDisable = new List<GameObject>();
+
+    //public GameObject toSelectOnPause; 
+    public GameObject toSelectOnSeetings;
 
     public void Resume()
     {
@@ -22,19 +21,10 @@ public class PauseMenu : MonoBehaviour
         Time.timeScale = 1f;
     }
 
-    public void ResumeWithButton()
-    {
-        Resume();
-        if (image != null)
-        {
-            image.sprite = defaultSprite;
-        }
-    }
-
     public void Pause()
     {
         pauseMenuUI.SetActive(true);
-        EventSystem.current.SetSelectedGameObject(toSelectOnPause);
+        //EventSystem.current.SetSelectedGameObject(toSelectOnPause);
         Time.timeScale = 0f;
     }
 
@@ -48,12 +38,6 @@ public class PauseMenu : MonoBehaviour
                 menu.SetActive(false);
             }
         }
-    }
-
-    public void LoadMenu()
-    {
-        Time.timeScale = 1f;
-        SceneManager.LoadSceneAsync(2);
     }
 
     public void Restart()
@@ -70,7 +54,11 @@ public class PauseMenu : MonoBehaviour
     }
     public void HideSettings()
     {
-        EventSystem.current.SetSelectedGameObject(toSelectOnPause);
+        //EventSystem.current.SetSelectedGameObject(toSelectOnPause);
         settingsUI.SetActive(false);
+        Resume();
+    }
+    public void Quit(){
+        Application.Quit();
     }
 }

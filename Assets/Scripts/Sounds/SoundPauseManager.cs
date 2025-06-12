@@ -5,7 +5,7 @@ using UnityEngine.InputSystem;
 public class SoundPauseManager : MonoBehaviour
 {
     public GameObject pauseMenuUI;
-    public GameObject toSelect;
+    //public GameObject toSelect;
 
     private bool isPaused = false;
 
@@ -28,7 +28,7 @@ public class SoundPauseManager : MonoBehaviour
 
         pauseMenuUI.SetActive(isPaused);
         Time.timeScale = isPaused ? 0f : 1f;
-        EventSystem.current.SetSelectedGameObject(toSelect);
+        //EventSystem.current.SetSelectedGameObject(toSelect);
     }
 
     public void SoundControl()

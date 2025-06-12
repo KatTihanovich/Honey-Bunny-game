@@ -335,7 +335,8 @@ public class PlayerController : MonoBehaviour
         _isJumpPress = true;
         _rb.linearVelocity = new Vector2(_rb.linearVelocity.x, _jumpForce);
         _isJumping = true;
-        _soundManager.PlaySound("Jump");
+        if (!_isMeditation)
+            _soundManager.PlaySound("Jump");
         _jumpTriggered = true; // Устанавливаем триггер для анимации
         Debug.Log($"Прыжок: IsDoubleJump={_hasDoubleJumped}, IsGrounded={_isGrounded}");
 

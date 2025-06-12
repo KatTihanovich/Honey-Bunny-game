@@ -13,6 +13,13 @@ public class PlayerAnimation : MonoBehaviour
     private bool _damageTriggered;
     private bool _superAttackAnimPlayed = false;
     private bool _isAnimationDamageExit = true;
+    private bool _isMeditation;
+
+    public bool IsMeditation
+    {
+        get { return _isMeditation; }
+        set { _isMeditation = value; }
+    }
 
     private void Start()
     {
@@ -76,9 +83,9 @@ public class PlayerAnimation : MonoBehaviour
 
         }
 
-        if (_player.IsJumpPress()) 
+        if (_player.IsJumpPress() && !_isMeditation) 
         {
-            Debug.LogWarning("Прыжок нажат");
+            Debug.LogWarning("пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ");
             _jumpEffect.AnimationState.SetAnimation(0, "JUMP EFFECT", false);
         }
 

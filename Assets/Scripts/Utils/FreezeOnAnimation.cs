@@ -11,6 +11,11 @@ public class AttackBehavior : StateMachineBehaviour
         {
             player.IsMeditation = true;
         }
+        PlayerAnimation player2 = GameObject.FindWithTag("Player")?.GetComponent<PlayerAnimation>();
+        if (player != null)
+        {
+            player2.IsMeditation = true;
+        }
 
         rb = animator.GetComponent<Rigidbody2D>();
         if (rb != null)
@@ -27,10 +32,15 @@ public class AttackBehavior : StateMachineBehaviour
         {
             player.IsMeditation = false;
         }
+        PlayerAnimation player2 = GameObject.FindWithTag("Player")?.GetComponent<PlayerAnimation>();
+        if (player2 != null)
+        {
+            player2.IsMeditation = false;
+        }
 
         if (rb != null)
         {
-            rb.constraints = RigidbodyConstraints2D.FreezeRotation; 
+            rb.constraints = RigidbodyConstraints2D.FreezeRotation;
         }
     }
 }

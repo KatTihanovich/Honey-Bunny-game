@@ -1275,6 +1275,7 @@ GameObject:
   - component: {fileID: 8057272204749630618}
   - component: {fileID: 8654955254335630935}
   - component: {fileID: 4463182477377888159}
+  - component: {fileID: 577754689825202271}
   m_Layer: 5
   m_Name: SelectLevelCanvas
   m_TagString: Untagged
@@ -1410,6 +1411,25 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   LoadingScreen: {fileID: 0}
   LoadingBarFill: {fileID: 0}
+--- !u!114 &577754689825202271
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7874176771078719396}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f3832e09c01e43808c852f4b5f42a93, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  levelButtons:
+  - levelButton: {fileID: 7608087023441662579}
+    lockOverlay: {fileID: 0}
+  - levelButton: {fileID: 7166467820860049802}
+    lockOverlay: {fileID: 3719830177886049325}
+  - levelButton: {fileID: 4619776926623135601}
+    lockOverlay: {fileID: 5236600011109169922}
 --- !u!1 &8259804941706785101
 GameObject:
   m_ObjectHideFlags: 0

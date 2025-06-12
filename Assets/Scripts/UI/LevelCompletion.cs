@@ -15,9 +15,10 @@ public class LevelCompletion : MonoBehaviour
             endScreen.SetActive(true);
             Time.timeScale = 0f;
             MarkLevelComplete(passedLevelNumber);
+            Debug.Log("LevelUnlocked = " + PlayerPrefs.GetInt("LevelUnlocked"));
         }
     }
-    
+
     public void MarkLevelComplete(int levelNumber)
     {
         int current = PlayerPrefs.GetInt("LevelUnlocked", 1);
@@ -27,4 +28,5 @@ public class LevelCompletion : MonoBehaviour
             PlayerPrefs.Save();
         }
     }
+
 }

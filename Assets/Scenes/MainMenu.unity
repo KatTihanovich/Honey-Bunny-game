@@ -1263,8 +1263,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: 153.19429, y: -26.167475}
-  m_SizeDelta: {x: 54.7255, y: 10.2611}
+  m_AnchoredPosition: {x: 151.68324, y: -38.229168}
+  m_SizeDelta: {x: 77.1244, y: 14.4418}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &650906734
 MonoBehaviour:
@@ -1279,11 +1279,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   button: {fileID: 650906735}
-  defaultSprite: {fileID: -8503093942092619827, guid: 553619a71376b4e4da8c6a47b9783539, type: 3}
-  selectedSprite: {fileID: 0}
-  clickedSprite: {fileID: 0}
-  scaleFactor: 1.7
-  clickedScaleFactor: 1.7
+  defaultSprite: {fileID: -3921066271434266603, guid: 5d5a3335b507d4f05b76b45b37922bc7, type: 3}
+  selectedSprite: {fileID: 2193107120541940370, guid: ec4c83470497a45469bbcc8626fcac42, type: 3}
+  clickedSprite: {fileID: 5800173526278075691, guid: a42bc2004ac804884bd39090700c9e86, type: 3}
+  scaleFactor: 1.05
+  clickedScaleFactor: 1.05
 --- !u!114 &650906735
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1372,7 +1372,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: -8503093942092619827, guid: 553619a71376b4e4da8c6a47b9783539, type: 3}
+  m_Sprite: {fileID: -3921066271434266603, guid: 5d5a3335b507d4f05b76b45b37922bc7, type: 3}
   m_Type: 0
   m_PreserveAspect: 1
   m_FillCenter: 1
@@ -2879,8 +2879,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: 162.5849, y: -59.100792}
-  m_SizeDelta: {x: 67.6744, y: 13.5199}
+  m_AnchoredPosition: {x: 161.68289, y: -72.2541}
+  m_SizeDelta: {x: 95.3902, y: 15.6074}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1414420526
 MonoBehaviour:
@@ -2895,11 +2895,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   button: {fileID: 1414420527}
-  defaultSprite: {fileID: 1869897672889653418, guid: 9d8681977422549278bb5faf8d9d225d, type: 3}
-  selectedSprite: {fileID: 0}
-  clickedSprite: {fileID: 0}
-  scaleFactor: 1.7
-  clickedScaleFactor: 1.7
+  defaultSprite: {fileID: -7326086843746585445, guid: 36384a6e872d54616a6c0ccbb5ec4a24, type: 3}
+  selectedSprite: {fileID: 6750575325570633264, guid: df9556ee8ed614f3b99b79ae9308deb9, type: 3}
+  clickedSprite: {fileID: -1927164719084423774, guid: 4e48777ba9add44ac82cca2540787255, type: 3}
+  scaleFactor: 1.05
+  clickedScaleFactor: 1.05
 --- !u!114 &1414420527
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2956,13 +2956,13 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: 
+      - m_Target: {fileID: 1491026721}
+        m_TargetAssemblyTypeName: TogglePanel, Assembly-CSharp
+        m_MethodName: ToggleFalse
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -2988,15 +2988,15 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 1869897672889653418, guid: 9d8681977422549278bb5faf8d9d225d, type: 3}
+  m_Sprite: {fileID: -7326086843746585445, guid: 36384a6e872d54616a6c0ccbb5ec4a24, type: 3}
   m_Type: 0
-  m_PreserveAspect: 0
+  m_PreserveAspect: 1
   m_FillCenter: 1
   m_FillMethod: 4
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
-  m_UseSpriteMesh: 0
+  m_UseSpriteMesh: 1
   m_PixelsPerUnitMultiplier: 1
 --- !u!222 &1414420529
 CanvasRenderer:
@@ -3358,8 +3358,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: 145, y: 7}
-  m_SizeDelta: {x: 86.4637, y: 11.3519}
+  m_AnchoredPosition: {x: 153.8751, y: -4.2182}
+  m_SizeDelta: {x: 92.8992, y: 11.8187}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1499859014
 MonoBehaviour:
@@ -3374,11 +3374,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   button: {fileID: 1499859015}
-  defaultSprite: {fileID: 0}
-  selectedSprite: {fileID: 0}
-  clickedSprite: {fileID: 6782813536761691038, guid: 9e38a02fe3bab4ca7b20bcfd026084fc, type: 3}
-  scaleFactor: 1.7
-  clickedScaleFactor: 1.7
+  defaultSprite: {fileID: 7395483839936071346, guid: 42c9dcbf437004e489289afe73df625d, type: 3}
+  selectedSprite: {fileID: 766056217220660308, guid: 07cca3e5356ee45b08ab9fcb81dd5df8, type: 3}
+  clickedSprite: {fileID: 4214089436141902853, guid: 65ef91acee69d466db3eaf130ff814a8, type: 3}
+  scaleFactor: 1.1
+  clickedScaleFactor: 1.1
 --- !u!114 &1499859015
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3479,7 +3479,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 6782813536761691038, guid: 9e38a02fe3bab4ca7b20bcfd026084fc, type: 3}
+  m_Sprite: {fileID: 7395483839936071346, guid: 42c9dcbf437004e489289afe73df625d, type: 3}
   m_Type: 0
   m_PreserveAspect: 1
   m_FillCenter: 1
@@ -4363,8 +4363,8 @@ MonoBehaviour:
   defaultSprite: {fileID: -3528669197811651095, guid: 6ea6e26d6ee49437f993db4cfb15d214, type: 3}
   selectedSprite: {fileID: -6751404811776774957, guid: 6aed265a2f29b4b098c62273568d8a4b, type: 3}
   clickedSprite: {fileID: -3272567107546031497, guid: 9a12d6393e484488581df966a5c4c361, type: 3}
-  scaleFactor: 1.9
-  clickedScaleFactor: 1.6
+  scaleFactor: 1.8
+  clickedScaleFactor: 1.5
 --- !u!1 &1786803393
 GameObject:
   m_ObjectHideFlags: 0

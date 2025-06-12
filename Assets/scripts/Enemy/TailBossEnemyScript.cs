@@ -16,7 +16,6 @@ namespace Enemy
         [Header("Boss portal")] public GameObject tailPortal;
         private Animator portalAnimator;
 
-        private Health health;
 
         public float startY = -12.61f;
         public float targetY = -5.84f;
@@ -45,10 +44,7 @@ namespace Enemy
 
         
             tailBossCollider2D = tailBoss.GetComponent<BoxCollider2D>();
-            if (health != null)
-            {
-                health.OnHealthChanged += HandleHealthChanged;
-            }
+       
 
             player = FindFirstObjectByType<PlayerController>()?.gameObject;
             Debug.LogWarning("Find " + player);
@@ -64,6 +60,7 @@ namespace Enemy
             {
                 _health.OnDeath += HandleDeath;
                 _health.OnDamageTaken += GetDamage;
+                
             }
         }
 

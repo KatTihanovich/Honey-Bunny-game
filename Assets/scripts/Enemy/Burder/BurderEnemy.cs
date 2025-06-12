@@ -1,7 +1,6 @@
 using UnityEngine;
 using UnityEngine.Audio;
 using Game.Audio;
-using System.Collections.Generic;
 using System.Collections;
 
 public class BurderEnemy : MonoBehaviour
@@ -13,7 +12,7 @@ public class BurderEnemy : MonoBehaviour
     private static readonly int AttackTrigger = Animator.StringToHash("Attack");
     private static readonly int DamageTrigger = Animator.StringToHash("Damage");
     private static readonly int DeathTrigger = Animator.StringToHash("Death");
-    private static readonly int SpawnThornTrigger = Animator.StringToHash("Spawn_thorn");
+    private static readonly int SpawnThornTrigger = Animator.StringToHash("SpawnThorn");
 
     [Header("Patrol Settings")]
     [SerializeField] private Transform pointA;
@@ -21,7 +20,6 @@ public class BurderEnemy : MonoBehaviour
     [SerializeField] private float moveSpeed = 2f;
     [SerializeField] private float agroDistance = 5f;
     [SerializeField] private float lostDistance = 7f;
-
 
     [Header("Attack Settings")]
     [SerializeField] private float attackCooldown = 2f;
@@ -42,12 +40,10 @@ public class BurderEnemy : MonoBehaviour
     [SerializeField] private float fleeSpeed = 10f;
     [SerializeField] private float fleeDelay = 0.5f;
 
-
-    [Header("Abilities")]
+    [Header("Thorn Spawn")]
     [SerializeField] private bool canSpawnThorns = true;
-    [SerializeField] private float thornCooldown = 5f;
-
-
+    [SerializeField] private float thornCooldown = 3f;
+    [SerializeField] private GameObject _thornObject;
 
     private Animator anim;
     private Vector3 baseScale;
@@ -56,8 +52,9 @@ public class BurderEnemy : MonoBehaviour
     private ISoundManager soundManager;
 
     private float attackTimer = Mathf.Infinity;
-    private float thornTimer = Mathf.Infinity;
+    private float thornTimer = 0f;
     private bool isDead = false;
+    private bool isSpawningThorn = false;
 
     private enum State { Idle, Walk, Run, Flee }
     private State currentState = State.Idle;
@@ -81,26 +78,22 @@ public class BurderEnemy : MonoBehaviour
         baseScale = transform.localScale;
         selfHealth = GetComponent<HealthNew>();
 
-        selfHealth = GetComponent<HealthNew>();
-
         if (selfHealth != null)
         {
             selfHealth.OnDamaged += HandleDamaged;
             selfHealth.OnDeath += HandleDeath;
         }
 
-        if (selfHealth != null)
-        {
-            selfHealth.OnDamaged += HandleDamaged;
-            selfHealth.OnDeath += HandleDeath;
-        }
-
-        SetAnimation(State.Idle);
+        SetAnimation(State.Walk); // Начинаем с патрулирования
     }
 
     private void Update()
     {
-        if (isDead) return;
+        if (isDead)
+        {
+            Debug.Log("Enemy is dead, skipping update");
+            return;
+        }
 
         if (isFleeing)
         {
@@ -110,7 +103,8 @@ public class BurderEnemy : MonoBehaviour
             if (fleeTimer >= fleeDistance / fleeSpeed)
             {
                 isFleeing = false;
-                SetAnimation(State.Idle);
+                SetAnimation(State.Walk); // Возвращаемся к патрулированию
+                Debug.Log("Fleeing ended, returning to patrol");
             }
 
             return;
@@ -118,6 +112,8 @@ public class BurderEnemy : MonoBehaviour
 
         attackTimer += Time.deltaTime;
         thornTimer += Time.deltaTime;
+
+        Debug.Log($"State: isChasing={isChasing}, isFleeing={isFleeing}, isSpawningThorn={isSpawningThorn}, thornTimer={thornTimer}, canSpawnThorns={canSpawnThorns}");
 
         float distanceToPlayer = playerHealth != null ? Vector2.Distance(transform.position, playerHealth.transform.position) : Mathf.Infinity;
 
@@ -132,7 +128,7 @@ public class BurderEnemy : MonoBehaviour
                 if (currentState != State.Run)
                 {
                     SetAnimation(State.Run);
-                    anim.SetTrigger(SwitchToRunTrigger); // анимация перехода к бегу
+                    anim.SetTrigger(SwitchToRunTrigger);
                 }
             }
             else if (distanceToPlayer <= walkDistance)
@@ -155,29 +151,33 @@ public class BurderEnemy : MonoBehaviour
                 anim.SetTrigger(AttackTrigger);
                 attackTimer = 0;
             }
-
-            if (canSpawnThorns && thornTimer >= thornCooldown)
-            {
-                anim.SetTrigger(SpawnThornTrigger);
-                thornTimer = 0;
-            }
         }
         else if (isChasing && distanceToPlayer > lostDistance)
         {
             isChasing = false;
-            SetAnimation(State.Idle);
+            SetAnimation(State.Walk); // Сразу возвращаемся к патру DIFFERENTIATION
+            Debug.Log("Lost player, returning to patrol");
         }
         else if (!isChasing)
         {
-            Patrol();
+            if (canSpawnThorns && thornTimer >= thornCooldown && !isSpawningThorn)
+            {
+                isSpawningThorn = true;
+                Debug.Log("Triggering thorn spawn during patrol");
+                anim.SetTrigger(SpawnThornTrigger);
+                thornTimer = 0;
+            }
+            else if (!isSpawningThorn)
+            {
+                Patrol();
+            }
         }
     }
 
-
-
-
     private void Patrol()
     {
+        if (isSpawningThorn) return;
+
         SetAnimation(State.Walk);
         MoveTowards(currentPatrolPoint.position);
 
@@ -193,17 +193,14 @@ public class BurderEnemy : MonoBehaviour
         transform.localScale = localScale;
     }
 
-
     private void MoveTowards(Vector3 target)
     {
         Vector3 direction = target - transform.position;
-        direction.y = 0f; // Убираем движение по Y
+        direction.y = 0f;
 
         direction = direction.normalized;
         transform.position += new Vector3(direction.x, 0f, 0f) * moveSpeed * Time.deltaTime;
     }
-
-
 
     private bool PlayerInSight()
     {
@@ -261,7 +258,7 @@ public class BurderEnemy : MonoBehaviour
         anim.ResetTrigger(AttackTrigger);
         anim.ResetTrigger(DamageTrigger);
         anim.ResetTrigger(DeathTrigger);
-        anim.ResetTrigger(SpawnThornTrigger);
+        // Не сбрасываем SpawnThornTrigger, чтобы избежать конфликта
     }
 
     public void BurderAttack()
@@ -271,12 +268,6 @@ public class BurderEnemy : MonoBehaviour
             soundManager.PlaySound("WhipAttack");
             playerHealth.TakeDamage(damage);
         }
-    }
-
-    public void BurderSpawnThorn()
-    {
-        //soundManager.PlaySound(thornSound); //звук для спавна колючек
-        Debug.Log("Burder spawned thorns!");
     }
 
     private void HandleDamaged(float damage)
@@ -290,15 +281,14 @@ public class BurderEnemy : MonoBehaviour
         StartCoroutine(StartFleeing());
     }
 
-
     private IEnumerator StartFleeing()
     {
         isFleeing = true;
 
         ResetAllTriggers();
-        anim.SetTrigger(SwitchToRunTrigger); // Анимация подготовки к бегу
+        anim.SetTrigger(SwitchToRunTrigger);
 
-        yield return new WaitForSeconds(fleeDelay); // Ждём анимацию подготовки
+        yield return new WaitForSeconds(fleeDelay);
 
         if (playerHealth != null)
         {
@@ -306,21 +296,8 @@ public class BurderEnemy : MonoBehaviour
             RotateTowardsDirection(fleeDirection);
         }
 
-        anim.SetTrigger(RunTrigger); // Бег
+        anim.SetTrigger(RunTrigger);
         fleeTimer = 0f;
-    }
-
-
-    private void FleeBehavior()
-    {
-        transform.position += fleeDirection * fleeSpeed * Time.deltaTime;
-        fleeTimer += Time.deltaTime;
-
-        if (fleeTimer >= fleeDistance / fleeSpeed)
-        {
-            isFleeing = false;
-            SetAnimation(State.Idle);
-        }
     }
 
     private void RotateTowardsDirection(Vector3 direction)
@@ -344,8 +321,6 @@ public class BurderEnemy : MonoBehaviour
         Destroy(gameObject, 2f);
     }
 
-  
-
     private void OnDrawGizmosSelected()
     {
         if (boxCollider == null) return;
@@ -356,5 +331,16 @@ public class BurderEnemy : MonoBehaviour
 
         Vector2 size = new Vector2(boxCollider.bounds.size.x * rangeX, boxCollider.bounds.size.y * rangeY);
         Gizmos.DrawWireCube(origin, size);
+    }
+
+    public void SpawnThorn()
+    {
+        Debug.Log("SpawnThorn called");
+        if (_thornObject != null)
+        {
+            Instantiate(_thornObject, transform.position, Quaternion.identity);
+        }
+        isSpawningThorn = false;
+        SetAnimation(State.Walk); // Возвращаемся к патрулированию
     }
 }

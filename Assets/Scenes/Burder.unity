@@ -72843,6 +72843,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   postProcessingVolume: {fileID: 1412588484}
+  VFXstage1: {fileID: 4032183408084542855, guid: 341795c131576f441b4fc6a9fe7923a4, type: 3}
+  VFXstage2: {fileID: 5220999689697985022, guid: 7bcafbb4fd846944c83a1ca9b7b86c11, type: 3}
   lowHealthIntensityOn50: 0.7
   lowHealthIntensityOn70: 0.6
   transitionDuration: 1
@@ -75716,11 +75718,11 @@ PrefabInstance:
       objectReference: {fileID: 1640886292}
     - target: {fileID: 7979762176269748813, guid: f23b74fdac9ef46a787ab3c6e42482ca, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7979762176269748813, guid: f23b74fdac9ef46a787ab3c6e42482ca, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 6455708100663985795, guid: f23b74fdac9ef46a787ab3c6e42482ca, type: 3}
@@ -92032,7 +92034,7 @@ SpriteRenderer:
   m_Size: {x: 40.96, y: 10.8}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!4 &527207801
@@ -124589,7 +124591,7 @@ SpriteRenderer:
   m_Size: {x: 40.96, y: 10.8}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!4 &1116974261
@@ -228299,6 +228301,18 @@ PrefabInstance:
     - target: {fileID: 4830043675879517078, guid: 9d327eb3453915a4d9f87c3ce027a186, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6542938649075852329, guid: 9d327eb3453915a4d9f87c3ce027a186, type: 3}
+      propertyPath: _thornObject
+      value: 
+      objectReference: {fileID: 8334688206187583166, guid: b193da208d77f064d9a26b5f265919a3, type: 3}
+    - target: {fileID: 6542938649075852329, guid: 9d327eb3453915a4d9f87c3ce027a186, type: 3}
+      propertyPath: thornCooldown
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 6542938649075852329, guid: 9d327eb3453915a4d9f87c3ce027a186, type: 3}
+      propertyPath: canSpawnThorns
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

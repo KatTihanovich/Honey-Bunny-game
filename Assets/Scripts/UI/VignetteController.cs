@@ -41,6 +41,7 @@ public class VignetteController : MonoBehaviour
     {
         StartVignetteTransition(0f);
         VFXstage1.SetActive(false);
+        VFXstage2.SetActive(false);
     }
 
     public void VignetteTurnHarder()

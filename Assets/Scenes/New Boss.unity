@@ -820,7 +820,7 @@ MonoBehaviour:
     m_Bits: 1
   m_VolumeTrigger: {fileID: 0}
   m_VolumeFrameworkUpdateModeOption: 2
-  m_RenderPostProcessing: 0
+  m_RenderPostProcessing: 1
   m_Antialiasing: 0
   m_AntialiasingQuality: 2
   m_StopNaN: 0
@@ -2869,6 +2869,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1778760316}
     m_Modifications:
+    - target: {fileID: 6530490718048739504, guid: 746f9d94e2c814f9aafe60b828fae687, type: 3}
+      propertyPath: priority
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 7997796780830522035, guid: 746f9d94e2c814f9aafe60b828fae687, type: 3}
       propertyPath: m_Name
       value: PostProcessingVolume
@@ -3293,6 +3297,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4141614137947020989, guid: 7bcafbb4fd846944c83a1ca9b7b86c11, type: 3}
+      propertyPath: priority
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 5220999689697985022, guid: 7bcafbb4fd846944c83a1ca9b7b86c11, type: 3}
       propertyPath: m_Name
       value: VFX_3stage
@@ -3697,6 +3705,10 @@ PrefabInstance:
     - target: {fileID: 1387116107049827360, guid: 341795c131576f441b4fc6a9fe7923a4, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1733220851581770741, guid: 341795c131576f441b4fc6a9fe7923a4, type: 3}
+      propertyPath: priority
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 4032183408084542855, guid: 341795c131576f441b4fc6a9fe7923a4, type: 3}
       propertyPath: m_Name
@@ -6272,7 +6284,7 @@ MeshRenderer:
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: 7ceb8ded929bc8b4d88716f5ca87e3e1, type: 2}
-  - {fileID: 2100000, guid: 23c37667074b8e0478d50d4c974ac379, type: 2}
+  - {fileID: 2100000, guid: 26ea2ea7dcd797b4ba613ff7259b9e04, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -6324,6 +6336,7 @@ MonoBehaviour:
   - {fileID: 1495770242}
   - {fileID: 804002648}
   - {fileID: 1463885309}
+  hideDuration: 5
 --- !u!61 &1915925011
 BoxCollider2D:
   m_ObjectHideFlags: 0

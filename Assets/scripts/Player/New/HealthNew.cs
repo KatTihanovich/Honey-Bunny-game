@@ -22,24 +22,24 @@ public class HealthNew : MonoBehaviour
     }
 
     public void TakeDamage(float amount)
-{
-    if (IsDead || amount <= 0f) return;
-
-    float prevHealth = CurrentHealth;
-    CurrentHealth -= amount;
-    CurrentHealth = Mathf.Max(CurrentHealth, 0f);
-
-    if (CurrentHealth < prevHealth)
     {
-        OnDamaged?.Invoke(amount);
-        OnDamageTaken?.Invoke();
-    }
+        if (IsDead || amount <= 0f) return;
 
-    if (CurrentHealth <= 0f && prevHealth > 0f)
-    {
-        OnDeath?.Invoke();
+        float prevHealth = CurrentHealth;
+        CurrentHealth -= amount;
+        CurrentHealth = Mathf.Max(CurrentHealth, 0f);
+
+        if (CurrentHealth < prevHealth)
+        {
+            OnDamaged?.Invoke(amount);
+            OnDamageTaken?.Invoke();
+        }
+
+        if (CurrentHealth <= 0f && prevHealth > 0f)
+        {
+            OnDeath?.Invoke();
+        }
     }
-}
 
 
     public void Heal(float amount)
@@ -67,12 +67,9 @@ public class HealthNew : MonoBehaviour
 
     public void RestoreFull()
     {
-        
-            float actualHealed = _maxHealth - CurrentHealth;
-            CurrentHealth = _maxHealth;
-            OnHealed?.Invoke(actualHealed);
-        
-        
+        float actualHealed = _maxHealth - CurrentHealth;
+        CurrentHealth = _maxHealth;
+        OnHealed?.Invoke(actualHealed);
     }
 
     public void SetMaxHealth(float newMax)

@@ -59,7 +59,7 @@ public class HealthNew : MonoBehaviour
         if (!IsDead)
         {
 
-            Debug.Log(gameObject.name + " ����");
+       
             CurrentHealth = 0;
             OnDeath?.Invoke();
         }

@@ -21,26 +21,28 @@ namespace Enemy
         public GameObject attackArea;
         public float damage = 1f;
 
-        private Vector3 initialScale;
-        private float attackCooldownTimer;
-        private Coroutine attackCoroutine;
-        private BoxCollider2D boxCollider;
-        private int _currentDamage = 0;
-        private int attackCount;
-
-        private HealthNew health;
-        private GameObject player;
-        private HealthNew playerHealth;
-        private ISoundManager _soundManager;
-
-        private bool isAlive = true;
-
         [Header("Boss portal")]
         public GameObject portal;
         private Animator portalAnimator;
 
         [Header("Tails objects")]
         public List<GameObject> tails;
+
+        [Header("Hide and Recover Settings")]
+        public float hideDuration = 5f;
+
+        private Vector3 initialScale;
+        private float attackCooldownTimer;
+        private Coroutine attackCoroutine;
+        private BoxCollider2D boxCollider;
+        private int _currentDamage = 0;
+        private bool isAlive = true;
+        private bool isHiding = false;
+
+        private HealthNew health;
+        private GameObject player;
+        private HealthNew playerHealth;
+        private ISoundManager _soundManager;
 
         private void Start()
         {
@@ -52,8 +54,8 @@ namespace Enemy
             if (portal != null)
                 portalAnimator = portal.GetComponent<Animator>();
 
-            player = GameObject.Find("Bunny");
-            playerHealth = FindFirstObjectByType<HealthNew>();
+            player = FindFirstObjectByType<PlayerController>().gameObject;
+            playerHealth = player.GetComponent<HealthNew>();
             health = GetComponent<HealthNew>();
             boxCollider = GetComponent<BoxCollider2D>();
             initialScale = transform.localScale;
@@ -74,28 +76,56 @@ namespace Enemy
             if (player != null && isAlive)
             {
                 float deltaX = player.transform.position.x - transform.position.x;
+
                 if (Mathf.Abs(deltaX) > 0.1f)
                 {
-                    float direction = Mathf.Sign(deltaX);
-                    transform.localScale = new Vector3(initialScale.x * -direction, initialScale.y, initialScale.z);
+                    Vector3 newScale = transform.localScale;
+
+                    newScale.x = deltaX > 0 ? Mathf.Abs(initialScale.x) : -Mathf.Abs(initialScale.x);
+                    transform.localScale = newScale;
                 }
             }
         }
 
         public void GetDamage()
         {
+            if (!isAlive || isHiding) return;
+
             Debug.Log("Босс получил урон");
             animator.SetBool("GotHit", true);
+            StartCoroutine(ResetHitAnimation());
+
             _currentDamage++;
+
+            if (_currentDamage >= 2)
+            {
+                _currentDamage = 0;
+
+                if (attackCoroutine != null)
+                    StopCoroutine(attackCoroutine);
+
+                StartCoroutine(HideAndRecover());
+            }
+        }
+
+        private IEnumerator ResetHitAnimation()
+        {
+            yield return new WaitForSeconds(0.3f);
+            animator.SetBool("GotHit", false);
         }
 
         private void Die()
         {
             isAlive = false;
-            StopCoroutine(attackCoroutine);
+
+            if (attackCoroutine != null)
+                StopCoroutine(attackCoroutine);
+
             StartCoroutine(PortalDissapear());
+
             PlayerPrefs.SetInt("BossDefeated", 1);
             PlayerPrefs.Save();
+
             animator.SetBool("Dead", true);
             _soundManager.PlaySound("BossDie");
         }
@@ -111,6 +141,23 @@ namespace Enemy
             }
 
             yield return new WaitForSeconds(1f);
+        }
+
+        private IEnumerator HideAndRecover()
+        {
+            isHiding = true;
+
+            yield return StartCoroutine(PerformDisappearance());
+
+            Debug.Log("Босс прячется после получения урона");
+            yield return new WaitForSeconds(hideDuration);
+
+            yield return StartCoroutine(PerformAppearance());
+
+            isHiding = false;
+
+            if (isAlive)
+                attackCoroutine = StartCoroutine(AttackChainCoroutine());
         }
 
         private IEnumerator AttackChainCoroutine()
@@ -137,14 +184,14 @@ namespace Enemy
                     tail.transform.GetComponentInChildren<HealthNew>().RestoreFull();
                 }
 
-                yield return new WaitForSeconds(10);
+                yield return new WaitForSeconds(10f);
             }
         }
 
         private IEnumerator PerformAppearance()
         {
             _soundManager.PlaySound("Portal");
-            portalAnimator.SetTrigger(AppearTrigger);
+
             animator.SetTrigger(AppearTrigger);
             yield return new WaitForSeconds(0.5f);
 
@@ -171,8 +218,6 @@ namespace Enemy
             _soundManager.PlaySound("Portal");
             animator.SetTrigger(HideTrigger);
             yield return new WaitForSeconds(1f);
-            portalAnimator.SetTrigger(DissapearTrigger);
-            yield return new WaitForSeconds(1f);
         }
 
         public void OnPlayerEntered()
@@ -194,7 +239,7 @@ namespace Enemy
             }
             else
             {
-                Debug.LogError("Player heath is null!");
+                Debug.LogError("Player health is null!");
             }
         }
     }

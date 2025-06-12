@@ -12,10 +12,9 @@ namespace Enemy
         [Header("Boss")] public GameObject tailBoss;
         private Animator animator;
         private BoxCollider2D tailBossCollider2D;
-        
+
         [Header("Boss portal")] public GameObject tailPortal;
         private Animator portalAnimator;
-  
 
         private Health health;
 
@@ -26,12 +25,12 @@ namespace Enemy
         public float attackCooldownInterval = 2f;
         private float attackCooldownTimer;
         private bool playerInside;
+
         public float damage = 1f;
 
         private GameObject player;
         private HealthNew playerHealth;
-        
-        public GameObject blackHolder;
+
         private MeshRenderer meshRenderer;
 
         private HealthNew _health;
@@ -40,31 +39,27 @@ namespace Enemy
 
         public void Start()
         {
-            _soundManager = SoundManagerNew.Instance; 
+            _soundManager = SoundManagerNew.Instance;
             animator = tailBoss.GetComponent<Animator>();
             portalAnimator = tailPortal.GetComponent<Animator>();
 
-            health = tailBoss.GetComponent<Health>();
+        
             tailBossCollider2D = tailBoss.GetComponent<BoxCollider2D>();
             if (health != null)
             {
                 health.OnHealthChanged += HandleHealthChanged;
             }
 
-            player = FindFirstObjectByType<PlayerController>().gameObject;
-            Debug.LogError("Find " + player);
-            playerHealth = FindFirstObjectByType<HealthNew>();
-           
-
-            health = GetComponent<Health>();
+            player = FindFirstObjectByType<PlayerController>()?.gameObject;
+            Debug.LogWarning("Find " + player);
+            playerHealth = player.GetComponent<HealthNew>();
 
             meshRenderer = tailBoss.GetComponent<MeshRenderer>();
-            
-            // Le показать нах
+
+            // Запускаем появление босса
             StartCoroutine(MoveY(tailBoss, startY, targetY, duration));
 
-
-            _health = transform.GetChild(0).GetComponent<HealthNew>();
+            _health = GetComponent<HealthNew>();
             if (_health != null)
             {
                 _health.OnDeath += HandleDeath;
@@ -72,24 +67,32 @@ namespace Enemy
             }
         }
 
-        //Смерть 
-        private void HandleDeath() 
+        // Смерть
+        private void HandleDeath()
         {
             animator.SetTrigger("Dead");
             HideOrKill();
         }
 
-        //Получение урона
-        private void GetDamage() 
+        // Получение урона
+        private void GetDamage()
         {
-            animator.SetTrigger("GotHit");
+            animator.SetTrigger("Damage");
+
             _soundManager.PlaySound("Damage");
         }
-
 
         private void Update()
         {
             attackCooldownTimer += Time.deltaTime;
+
+            // Если игрок в зоне и можем атаковать
+            if (playerInside && attackCooldownTimer >= attackCooldownInterval)
+            {
+                attackCooldownTimer = 0f;
+                //FacePlayer();
+                animator.SetTrigger("Attack");
+            }
         }
 
         private void HandleHealthChanged(float currentHealth)
@@ -104,7 +107,7 @@ namespace Enemy
 
         public void RespawnOrAppear()
         {
-            blackHolder.SetActive(true);
+     
             meshRenderer.enabled = true;
             StartCoroutine(MoveY(tailBoss, startY, targetY, duration));
             portalAnimator.SetTrigger(AppearTrigger);
@@ -121,7 +124,7 @@ namespace Enemy
         private static IEnumerator MoveY(GameObject target, float fromY, float toY, float time)
         {
             if (target == null) yield break;
-            
+
             float elapsedTime = 0f;
             Vector3 startPosition =
                 new Vector3(target.transform.localPosition.x, fromY, target.transform.localPosition.z);
@@ -144,27 +147,57 @@ namespace Enemy
             tailBossCollider2D.enabled = false;
             yield return new WaitForSeconds(1f);
             meshRenderer.enabled = false;
-            blackHolder.SetActive(false);
+
         }
 
-        // NOTE: Used by attack BoxCollider2D trigger!
-        public void OnPlayerEntered()
+        private void FacePlayer()
         {
-            if (attackCooldownTimer >= attackCooldownInterval)
-            {
-                attackCooldownTimer = 0f;
-                print("ХРЯСЬ!");
-                if (playerHealth)
-                {
-                    // Play(attackSound);
-                    playerHealth.TakeDamage(damage);
-                    Debug.Log("Player damaged by tail!");
-                }
-                else
-                {
-                    Debug.LogError("Player heath is null!");
+            if (player == null) return;
 
-                }
+            Vector3 bossScale = tailBoss.transform.localScale;
+
+            if (player.transform.position.x < tailBoss.transform.position.x)
+            {
+                bossScale.x = -Mathf.Abs(bossScale.x); // лицом влево
+            }
+            else
+            {
+                bossScale.x = Mathf.Abs(bossScale.x); // лицом вправо
+            }
+
+            tailBoss.transform.localScale = bossScale;
+        }
+
+        // Методы триггера, отслеживающие игрока
+
+        private void OnTriggerEnter2D(Collider2D other)
+        {
+            if (other.CompareTag("Player"))
+            {
+                playerInside = true;
+            }
+        }
+
+        private void OnTriggerExit2D(Collider2D other)
+        {
+            if (other.CompareTag("Player"))
+            {
+                playerInside = false;
+            }
+        }
+
+    
+        public void Attack()
+        {
+            Debug.Log("ХРЯСЬ!");
+            if (playerHealth != null)
+            {
+                playerHealth.TakeDamage(damage);
+                Debug.Log("Player damaged by tail!");
+            }
+            else
+            {
+                Debug.LogError("Player health is null!");
             }
         }
     }

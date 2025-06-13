@@ -2,245 +2,201 @@ using Game.Audio;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Audio;
-using UnityEngine.SceneManagement;
 
 namespace Enemy
 {
     public class BossEnemyScript : MonoBehaviour
     {
+        private static readonly int GotHitTrigger = Animator.StringToHash("GotHit");
         private static readonly int HideTrigger = Animator.StringToHash("Hide");
         private static readonly int AppearTrigger = Animator.StringToHash("Appear");
-        private static readonly int DissapearTrigger = Animator.StringToHash("Dissapear");
         private static readonly int AttackTrigger = Animator.StringToHash("Attack");
+        private static readonly int DeadTrigger = Animator.StringToHash("Dead");
 
-        [Header("Attack Parameters")]
-        public Animator animator;
-        public float delay = 5f;
-        public float attackCooldownInterval = 2f;
-        public GameObject attackArea;
-        public float damage = 1f;
+        [Header("References")]
+        [SerializeField] private Animator animator;
+        [SerializeField] private BoxCollider2D boxCollider;
+        [SerializeField] private GameObject attackArea;
+        [SerializeField] private List<GameObject> tails;
 
-        [Header("Boss portal")]
-        public GameObject portal;
-        private Animator portalAnimator;
+        [Header("Settings")]
+        [SerializeField] private float appearDuration = 0.9f;
+        [SerializeField] private float disappearDuration = 0.9f;
+        [SerializeField] private float activePhaseDuration = 5f;
+        [SerializeField] private float hiddenDuration = 10f;
+        [SerializeField] private float attackCooldown = 2f;
+        [SerializeField] private float attackDamage = 1f;
 
-        [Header("Tails objects")]
-        public List<GameObject> tails;
-
-        [Header("Hide and Recover Settings")]
-        public float hideDuration = 5f;
-
+        private Renderer bossRenderer;
         private Vector3 initialScale;
-        private float attackCooldownTimer;
-        private Coroutine attackCoroutine;
-        private BoxCollider2D boxCollider;
-        private int _currentDamage = 0;
+        private float activeTimer;
+        private float attackTimer;
+
+        private int damageTakenThisPhase = 0;
+        private int hitsDoneThisPhase = 0;
+
         private bool isAlive = true;
-        private bool isHiding = false;
+        private bool isVisible = false;
+        private bool canTakeDamage = true;
 
         private HealthNew health;
-        private GameObject player;
         private HealthNew playerHealth;
-        private ISoundManager _soundManager;
+        private GameObject player;
+        private ISoundManager soundManager;
+
+        private Coroutine phaseRoutine;
+
+        private void Awake()
+        {
+            animator = animator ? animator : GetComponent<Animator>();
+            boxCollider = boxCollider ? boxCollider : GetComponent<BoxCollider2D>();
+            health = GetComponent<HealthNew>();
+            bossRenderer = GetComponentInChildren<Renderer>();
+            initialScale = transform.localScale;
+        }
 
         private void Start()
         {
-            _soundManager = SoundManagerNew.Instance;
+            soundManager = SoundManagerNew.Instance;
+            player = FindFirstObjectByType<PlayerController>()?.gameObject;
+            playerHealth = player?.GetComponent<HealthNew>();
 
-            if (animator == null)
-                animator = GetComponent<Animator>();
+            health.OnDamageTaken += TakeDamage;
+            health.OnDeath += Die;
 
-            if (portal != null)
-                portalAnimator = portal.GetComponent<Animator>();
-
-            player = FindFirstObjectByType<PlayerController>().gameObject;
-            playerHealth = player.GetComponent<HealthNew>();
-            health = GetComponent<HealthNew>();
-            boxCollider = GetComponent<BoxCollider2D>();
-            initialScale = transform.localScale;
-
-            if (health != null)
-            {
-                health.OnDeath += Die;
-                health.OnDamageTaken += GetDamage;
-            }
-
-            attackCoroutine = StartCoroutine(AttackChainCoroutine());
+            phaseRoutine = StartCoroutine(PhaseCycle());
         }
 
         private void Update()
         {
-            attackCooldownTimer += Time.deltaTime;
+            if (!isAlive || !isVisible || player == null) return;
 
-            if (player != null && isAlive)
+            // Поворот к игроку
+            float deltaX = player.transform.position.x - transform.position.x;
+            if (Mathf.Abs(deltaX) > 0.1f)
             {
-                float deltaX = player.transform.position.x - transform.position.x;
+                Vector3 newScale = initialScale;
+                newScale.x = deltaX > 0 ? Mathf.Abs(initialScale.x) : -Mathf.Abs(initialScale.x);
+                transform.localScale = newScale;
+            }
 
-                if (Mathf.Abs(deltaX) > 0.1f)
+            // Активная фаза
+            activeTimer += Time.deltaTime;
+            attackTimer += Time.deltaTime;
+
+            if (attackTimer >= attackCooldown)
+            {
+                animator.SetTrigger(AttackTrigger);
+                attackTimer = 0f;
+            }
+
+            if (damageTakenThisPhase >= 2 || hitsDoneThisPhase >= 2 || activeTimer >= activePhaseDuration)
+            {
+                if (phaseRoutine != null)
                 {
-                    Vector3 newScale = transform.localScale;
-
-                    newScale.x = deltaX > 0 ? Mathf.Abs(initialScale.x) : -Mathf.Abs(initialScale.x);
-                    transform.localScale = newScale;
+                    StopCoroutine(phaseRoutine);
                 }
+                phaseRoutine = StartCoroutine(DisappearPhase());
             }
         }
 
-        public void GetDamage()
+        private void TakeDamage()
         {
-            if (!isAlive || isHiding) return;
+            if (!isAlive || !canTakeDamage || !isVisible) return;
 
-            Debug.Log("Босс получил урон");
-            animator.SetBool("GotHit", true);
-            StartCoroutine(ResetHitAnimation());
+            damageTakenThisPhase++;
+            animator.SetTrigger(GotHitTrigger);
+        }
 
-            _currentDamage++;
+        public void HIT_BITE()
+        {
+            if (!isAlive || !isVisible) return;
 
-            if (_currentDamage >= 2)
+            if (playerHealth != null)
             {
-                _currentDamage = 0;
-
-                if (attackCoroutine != null)
-                    StopCoroutine(attackCoroutine);
-
-                StartCoroutine(HideAndRecover());
+                playerHealth.TakeDamage(attackDamage);
+                hitsDoneThisPhase++;
+                Debug.Log("Игрок получил урон!");
+            }
+            else
+            {
+                Debug.LogError("PlayerHealth не найден!");
             }
         }
 
-        private IEnumerator ResetHitAnimation()
+        private IEnumerator PhaseCycle()
         {
-            yield return new WaitForSeconds(0.3f);
-            animator.SetBool("GotHit", false);
+            while (isAlive)
+            {
+                yield return StartCoroutine(AppearPhase());
+                yield return new WaitUntil(() =>
+                    damageTakenThisPhase >= 2 || hitsDoneThisPhase >= 2 || activeTimer >= activePhaseDuration
+                );
+                yield return StartCoroutine(DisappearPhase());
+            }
+        }
+
+        private IEnumerator AppearPhase()
+        {
+            damageTakenThisPhase = 0;
+            hitsDoneThisPhase = 0;
+            activeTimer = 0f;
+            attackTimer = 0f;
+
+            if (player != null)
+            {
+                transform.position = new Vector3(player.transform.position.x, transform.position.y, transform.position.z);
+            }
+
+            bossRenderer.enabled = true;
+            boxCollider.enabled = true;
+            attackArea.SetActive(true);
+
+            animator.SetTrigger(AppearTrigger);
+            soundManager?.PlaySound("Portal");
+            yield return new WaitForSeconds(appearDuration);
+
+            isVisible = true;
+            canTakeDamage = true;
+            Debug.Log("Босс появился");
+        }
+
+        private IEnumerator DisappearPhase()
+        {
+            isVisible = false;
+            canTakeDamage = false;
+
+            animator.SetTrigger(HideTrigger);
+            soundManager?.PlaySound("Portal");
+            Debug.Log("Босс исчезает");
+
+            yield return new WaitForSeconds(disappearDuration);
+
+            bossRenderer.enabled = false;
+            boxCollider.enabled = false;
+            attackArea.SetActive(false);
+
+            yield return new WaitForSeconds(hiddenDuration);
+
+            phaseRoutine = StartCoroutine(PhaseCycle());
         }
 
         private void Die()
         {
             isAlive = false;
+            canTakeDamage = false;
+            isVisible = false;
 
-            if (attackCoroutine != null)
-                StopCoroutine(attackCoroutine);
+            if (phaseRoutine != null)
+            {
+                StopCoroutine(phaseRoutine);
+                phaseRoutine = null;
+            }
 
-            StartCoroutine(PortalDissapear());
-
+            animator.SetTrigger(DeadTrigger);
+            soundManager?.PlaySound("BossDie");
             PlayerPrefs.SetInt("BossDefeated", 1);
             PlayerPrefs.Save();
-
-            animator.SetBool("Dead", true);
-            _soundManager.PlaySound("BossDie");
-        }
-
-        private IEnumerator PortalDissapear()
-        {
-            portalAnimator.SetTrigger(DissapearTrigger);
-
-            foreach (var tail in tails)
-            {
-                _soundManager.PlaySound("Portal");
-                tail.GetComponent<TailBossEnemyScript>().HideOrKill();
-            }
-
-            yield return new WaitForSeconds(1f);
-        }
-
-        private IEnumerator HideAndRecover()
-        {
-            isHiding = true;
-
-            yield return StartCoroutine(PerformDisappearance());
-
-            Debug.Log("Босс прячется после получения урона");
-            yield return new WaitForSeconds(hideDuration);
-
-            yield return StartCoroutine(PerformAppearance());
-
-            isHiding = false;
-
-            if (isAlive)
-                attackCoroutine = StartCoroutine(AttackChainCoroutine());
-        }
-
-        private IEnumerator AttackChainCoroutine()
-        {
-            while (isAlive)
-            {
-                for (int i = 0; i < 3; i++)
-                {
-                    yield return StartCoroutine(PerformAppearance());
-                    yield return StartCoroutine(PerformAttack());
-                    yield return StartCoroutine(PerformDisappearance());
-
-                    if (player != null)
-                    {
-                        transform.position = new Vector3(player.transform.position.x, transform.position.y, transform.position.z);
-                    }
-                }
-
-                Debug.Log("10 секунд на атаку по площади");
-
-                foreach (var tail in tails)
-                {
-                    tail.GetComponent<TailBossEnemyScript>().RespawnOrAppear();
-                    tail.transform.GetComponentInChildren<HealthNew>().RestoreFull();
-                }
-
-                yield return new WaitForSeconds(10f);
-            }
-        }
-
-        private IEnumerator PerformAppearance()
-        {
-            _soundManager.PlaySound("Portal");
-
-            animator.SetTrigger(AppearTrigger);
-            yield return new WaitForSeconds(0.5f);
-
-            if (attackArea)
-            {
-                attackArea.SetActive(true);
-                boxCollider.enabled = true;
-            }
-        }
-
-        private IEnumerator PerformAttack()
-        {
-            yield return new WaitForSeconds(delay);
-        }
-
-        private IEnumerator PerformDisappearance()
-        {
-            if (attackArea)
-            {
-                attackArea.SetActive(false);
-                boxCollider.enabled = false;
-            }
-
-            _soundManager.PlaySound("Portal");
-            animator.SetTrigger(HideTrigger);
-            yield return new WaitForSeconds(1f);
-        }
-
-        public void OnPlayerEntered()
-        {
-            if (isAlive && attackCooldownTimer >= attackCooldownInterval)
-            {
-                animator.SetTrigger(AttackTrigger);
-                attackCooldownTimer = 0f;
-            }
-        }
-
-        public void HIT_BITE()
-        {
-            Debug.Log("КУСЬ!");
-            if (playerHealth)
-            {
-                playerHealth.TakeDamage(damage);
-                Debug.Log("Player damaged by enemy!");
-            }
-            else
-            {
-                Debug.LogError("Player health is null!");
-            }
         }
     }
 }

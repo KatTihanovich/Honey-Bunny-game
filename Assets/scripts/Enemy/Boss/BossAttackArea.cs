@@ -8,6 +8,11 @@ namespace Enemy
 
         private bool playerInside;
 
+        public bool PlayerInside 
+        {
+            get {return playerInside;}
+        }
+
         private void OnTriggerEnter2D(Collider2D other)
         {
             if (other.CompareTag("Player"))
@@ -27,12 +32,5 @@ namespace Enemy
         }
 
 
-        private void FixedUpdate()
-        {
-            if (playerInside)
-            {
-                receiver?.SendMessage("OnPlayerEntered", SendMessageOptions.DontRequireReceiver);
-            }
-        }
     }
 }

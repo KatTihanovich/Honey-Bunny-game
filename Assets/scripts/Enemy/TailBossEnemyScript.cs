@@ -71,6 +71,11 @@ namespace Enemy
             HideOrKill();
         }
 
+        public void SetDie() 
+        {
+            animator.SetTrigger("Diappearing");
+        }
+
         // Получение урона
         private void GetDamage()
         {
@@ -83,11 +88,11 @@ namespace Enemy
         {
             attackCooldownTimer += Time.deltaTime;
 
-            // Если игрок в зоне и можем атаковать
+    
             if (playerInside && attackCooldownTimer >= attackCooldownInterval)
             {
                 attackCooldownTimer = 0f;
-                //FacePlayer();
+                FacePlayer();
                 animator.SetTrigger("Attack");
             }
         }
@@ -155,11 +160,11 @@ namespace Enemy
 
             if (player.transform.position.x < tailBoss.transform.position.x)
             {
-                bossScale.x = -Mathf.Abs(bossScale.x); // лицом влево
+                bossScale.x = -Mathf.Abs(bossScale.x); 
             }
             else
             {
-                bossScale.x = Mathf.Abs(bossScale.x); // лицом вправо
+                bossScale.x = Mathf.Abs(bossScale.x);
             }
 
             tailBoss.transform.localScale = bossScale;

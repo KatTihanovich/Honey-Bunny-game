@@ -17,7 +17,7 @@ namespace Enemy
         [SerializeField] private Animator animator;
         [SerializeField] private BoxCollider2D boxCollider;
         [SerializeField] private GameObject attackArea;
-        [SerializeField] private List<GameObject> tails;
+        [SerializeField] private TailBossEnemyScript[] tails;
 
         [Header("Settings")]
         [SerializeField] private float appearDuration = 0.9f;
@@ -45,6 +45,7 @@ namespace Enemy
         private ISoundManager soundManager;
 
         private Coroutine phaseRoutine;
+        private BossAttackArea _bossAttackArea;
 
         private void Awake()
         {
@@ -53,8 +54,15 @@ namespace Enemy
             health = GetComponent<HealthNew>();
             bossRenderer = GetComponentInChildren<Renderer>();
             initialScale = transform.localScale;
+            _bossAttackArea = GetComponentInChildren<BossAttackArea>();
+
+            
+                tails = FindObjectsOfType<TailBossEnemyScript>();
+                Debug.Log($"Auto-assigned {tails.Length} tails");
+           
         }
 
+     
         private void Start()
         {
             soundManager = SoundManagerNew.Instance;
@@ -84,7 +92,7 @@ namespace Enemy
             activeTimer += Time.deltaTime;
             attackTimer += Time.deltaTime;
 
-            if (attackTimer >= attackCooldown)
+            if (attackTimer >= attackCooldown & _bossAttackArea.PlayerInside)
             {
                 animator.SetTrigger(AttackTrigger);
                 attackTimer = 0f;
@@ -97,6 +105,19 @@ namespace Enemy
                     StopCoroutine(phaseRoutine);
                 }
                 phaseRoutine = StartCoroutine(DisappearPhase());
+            }
+        }
+
+        private void KillAllTail() 
+        {
+     
+            foreach (TailBossEnemyScript tail in tails) 
+            {
+                if (tail != null)
+                {
+                    tail.SetDie();
+                }
+      
             }
         }
 
@@ -184,6 +205,7 @@ namespace Enemy
         private void Die()
         {
             isAlive = false;
+            KillAllTail();
             canTakeDamage = false;
             isVisible = false;
 
@@ -197,6 +219,12 @@ namespace Enemy
             soundManager?.PlaySound("BossDie");
             PlayerPrefs.SetInt("BossDefeated", 1);
             PlayerPrefs.Save();
+   
+        }
+
+        public void OnPlayerEntered() 
+        {
+        
         }
     }
 }

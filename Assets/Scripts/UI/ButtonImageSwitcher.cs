@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-public class ButtonImageSwitcher : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerDownHandler
+public class ButtonImageSwitcher : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerDownHandler, IPointerUpHandler
 {
     public Button button;
     private Image targetImage;
@@ -67,11 +67,23 @@ public class ButtonImageSwitcher : MonoBehaviour, IPointerEnterHandler, IPointer
             targetImage.sprite = clickedSprite;
         }
     }
+    public void OnPointerUp(PointerEventData eventData)
+    {
+        ResetToDefault();
+    }
 
     private void ResetScale()
     {
         if (targetImage != null)
         {
+            targetImage.rectTransform.localScale = originalScale;
+        }
+    }
+    public void ResetToDefault()
+    {
+        if (targetImage != null)
+        {
+            targetImage.sprite = defaultSprite;
             targetImage.rectTransform.localScale = originalScale;
         }
     }

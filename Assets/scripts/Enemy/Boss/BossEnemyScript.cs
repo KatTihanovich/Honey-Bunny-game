@@ -27,6 +27,9 @@ namespace Enemy
         [SerializeField] private float attackCooldown = 2f;
         [SerializeField] private float attackDamage = 1f;
 
+        [Header("Spawn Settings")]
+        [SerializeField] private Transform spawnPoint;
+
         private Renderer bossRenderer;
         private Vector3 initialScale;
         private float activeTimer;
@@ -47,6 +50,8 @@ namespace Enemy
         private Coroutine phaseRoutine;
         private BossAttackArea _bossAttackArea;
 
+        private bool isFirstAppear = true;
+
         private void Awake()
         {
             animator = animator ? animator : GetComponent<Animator>();
@@ -56,13 +61,10 @@ namespace Enemy
             initialScale = transform.localScale;
             _bossAttackArea = GetComponentInChildren<BossAttackArea>();
 
-            
-                tails = FindObjectsOfType<TailBossEnemyScript>();
-                Debug.Log($"Auto-assigned {tails.Length} tails");
-           
+            tails = FindObjectsOfType<TailBossEnemyScript>();
+   
         }
 
-     
         private void Start()
         {
             soundManager = SoundManagerNew.Instance;
@@ -92,7 +94,7 @@ namespace Enemy
             activeTimer += Time.deltaTime;
             attackTimer += Time.deltaTime;
 
-            if (attackTimer >= attackCooldown & _bossAttackArea.PlayerInside)
+            if (attackTimer >= attackCooldown && _bossAttackArea.PlayerInside)
             {
                 animator.SetTrigger(AttackTrigger);
                 attackTimer = 0f;
@@ -108,16 +110,14 @@ namespace Enemy
             }
         }
 
-        private void KillAllTail() 
+        private void KillAllTail()
         {
-     
-            foreach (TailBossEnemyScript tail in tails) 
+            foreach (TailBossEnemyScript tail in tails)
             {
                 if (tail != null)
                 {
                     tail.SetDie();
                 }
-      
             }
         }
 
@@ -164,9 +164,20 @@ namespace Enemy
             activeTimer = 0f;
             attackTimer = 0f;
 
-            if (player != null)
+            if (isFirstAppear)
             {
-                transform.position = new Vector3(player.transform.position.x, transform.position.y, transform.position.z);
+                if (spawnPoint != null)
+                {
+                    transform.position = spawnPoint.position;
+                }
+                isFirstAppear = false;
+            }
+            else
+            {
+                if (player != null)
+                {
+                    transform.position = new Vector3(player.transform.position.x, transform.position.y, transform.position.z);
+                }
             }
 
             bossRenderer.enabled = true;
@@ -219,12 +230,6 @@ namespace Enemy
             soundManager?.PlaySound("BossDie");
             PlayerPrefs.SetInt("BossDefeated", 1);
             PlayerPrefs.Save();
-   
-        }
-
-        public void OnPlayerEntered() 
-        {
-        
         }
     }
 }

@@ -9,13 +9,17 @@ namespace Enemy
         private static readonly int AppearTrigger = Animator.StringToHash("Appear");
         private static readonly int DissapearTrigger = Animator.StringToHash("Dissapear");
 
-        [Header("Boss")] public GameObject tailBoss;
+        [Header("Boss")]
+        public GameObject tailBoss;
         private Animator animator;
         private BoxCollider2D tailBossCollider2D;
 
-        [Header("Boss portal")] public GameObject tailPortal;
+        [Header("Boss portal")]
+        public GameObject tailPortal;
         private Animator portalAnimator;
 
+        [Header("Boss Facing")]
+        public Transform bossToFlip; // Новый объект для поворота босса
 
         public float startY = -12.61f;
         public float targetY = -5.84f;
@@ -42,9 +46,7 @@ namespace Enemy
             animator = tailBoss.GetComponent<Animator>();
             portalAnimator = tailPortal.GetComponent<Animator>();
 
-        
             tailBossCollider2D = tailBoss.GetComponent<BoxCollider2D>();
-       
 
             player = FindFirstObjectByType<PlayerController>()?.gameObject;
             Debug.LogWarning("Find " + player);
@@ -60,27 +62,24 @@ namespace Enemy
             {
                 _health.OnDeath += HandleDeath;
                 _health.OnDamageTaken += GetDamage;
-                
             }
         }
 
-        // Смерть
         private void HandleDeath()
         {
             animator.SetTrigger("Dead");
             HideOrKill();
         }
 
-        public void SetDie() 
+        public void SetDie()
         {
             animator.SetTrigger("Diappearing");
+            tailBossCollider2D.enabled = false;
         }
 
-        // Получение урона
         private void GetDamage()
         {
             animator.SetTrigger("Damage");
-
             _soundManager.PlaySound("Damage");
         }
 
@@ -88,7 +87,6 @@ namespace Enemy
         {
             attackCooldownTimer += Time.deltaTime;
 
-    
             if (playerInside && attackCooldownTimer >= attackCooldownInterval)
             {
                 attackCooldownTimer = 0f;
@@ -109,7 +107,6 @@ namespace Enemy
 
         public void RespawnOrAppear()
         {
-     
             meshRenderer.enabled = true;
             StartCoroutine(MoveY(tailBoss, startY, targetY, duration));
             portalAnimator.SetTrigger(AppearTrigger);
@@ -149,34 +146,32 @@ namespace Enemy
             tailBossCollider2D.enabled = false;
             yield return new WaitForSeconds(1f);
             meshRenderer.enabled = false;
-
         }
 
         private void FacePlayer()
         {
-            if (player == null) return;
+            if (player == null || bossToFlip == null) return;
 
-            Vector3 bossScale = tailBoss.transform.localScale;
+            Vector3 rotation = bossToFlip.eulerAngles;
 
-            if (player.transform.position.x < tailBoss.transform.position.x)
+            if (player.transform.position.x < transform.position.x)
             {
-                bossScale.x = -Mathf.Abs(bossScale.x); 
+                rotation.y = 0f;
             }
             else
             {
-                bossScale.x = Mathf.Abs(bossScale.x);
+                rotation.y = 180f;
             }
 
-            tailBoss.transform.localScale = bossScale;
+            bossToFlip.eulerAngles = rotation;
         }
-
-        // Методы триггера, отслеживающие игрока
 
         private void OnTriggerEnter2D(Collider2D other)
         {
             if (other.CompareTag("Player"))
             {
                 playerInside = true;
+                FacePlayer(); // Поворачиваем объект bossToFlip
             }
         }
 
@@ -188,7 +183,6 @@ namespace Enemy
             }
         }
 
-    
         public void Attack()
         {
             Debug.Log("ХРЯСЬ!");

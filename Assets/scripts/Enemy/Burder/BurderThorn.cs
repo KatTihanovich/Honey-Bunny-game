@@ -26,7 +26,7 @@ public class BurderThorn : MonoBehaviour
             _health.OnDeath += Death;
         }
 
-        // Автоматическая смерть через заданное время
+       
         Invoke(nameof(SelfDestruct), _lifeTime);
     }
 
@@ -34,6 +34,11 @@ public class BurderThorn : MonoBehaviour
     {
         if (_isDead) return;
         _animator.SetTrigger("Damage");
+    }
+
+    public void Destroy() 
+    {
+        Destroy(gameObject);
     }
 
     private void Death()
@@ -58,7 +63,7 @@ public class BurderThorn : MonoBehaviour
         if (!_isDead)
         {
             _animator.SetTrigger("IdleDeath");
-            Death(); // Принудительно вызвать смерть
+            StopAllCoroutines();
         }
     }
 

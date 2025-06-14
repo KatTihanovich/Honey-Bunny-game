@@ -113,7 +113,7 @@ public class BurderEnemy : MonoBehaviour
         attackTimer += Time.deltaTime;
         thornTimer += Time.deltaTime;
 
-        Debug.Log($"State: isChasing={isChasing}, isFleeing={isFleeing}, isSpawningThorn={isSpawningThorn}, thornTimer={thornTimer}, canSpawnThorns={canSpawnThorns}");
+       
 
         float distanceToPlayer = playerHealth != null ? Vector2.Distance(transform.position, playerHealth.transform.position) : Mathf.Infinity;
 
@@ -155,7 +155,7 @@ public class BurderEnemy : MonoBehaviour
         else if (isChasing && distanceToPlayer > lostDistance)
         {
             isChasing = false;
-            SetAnimation(State.Walk); // Сразу возвращаемся к патру DIFFERENTIATION
+            SetAnimation(State.Walk); 
             Debug.Log("Lost player, returning to patrol");
         }
         else if (!isChasing)
@@ -278,12 +278,15 @@ public class BurderEnemy : MonoBehaviour
         anim.SetTrigger(DamageTrigger);
         soundManager.PlaySound("Damage");
 
+     
+        StopCoroutine(StartFleeing()); 
         StartCoroutine(StartFleeing());
     }
 
     private IEnumerator StartFleeing()
     {
         isFleeing = true;
+        fleeTimer = 0f; 
 
         ResetAllTriggers();
         anim.SetTrigger(SwitchToRunTrigger);
@@ -297,7 +300,6 @@ public class BurderEnemy : MonoBehaviour
         }
 
         anim.SetTrigger(RunTrigger);
-        fleeTimer = 0f;
     }
 
     private void RotateTowardsDirection(Vector3 direction)
@@ -318,7 +320,7 @@ public class BurderEnemy : MonoBehaviour
         if (TryGetComponent<Collider2D>(out var col)) col.enabled = false;
         if (TryGetComponent<Rigidbody2D>(out var rb)) rb.linearVelocity = Vector2.zero;
 
-        Destroy(gameObject, 2f);
+        Destroy(gameObject.transform.parent.gameObject, 3f);
     }
 
     private void OnDrawGizmosSelected()

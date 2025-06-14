@@ -13,7 +13,7 @@ public class BossFightGlobal : MonoBehaviour
     private GameObject cage;
     private Animator animator;
  
-    public Health bossHealth;
+    public HealthNew bossHealth;
 
     [Header("Cutscene")]
     public VideoPlayer cutsceneVideo;
@@ -30,21 +30,20 @@ public class BossFightGlobal : MonoBehaviour
         receiver = GameObject.Find("Bunny");
         if (receiver == null) Debug.LogError("[Cage] Bunny not found!!!");
 
-        cage = GameObject.FindWithTag("Honey");
-        if (cage == null) Debug.LogError("[Cage] Honey not found!!!");
+        //cage = GameObject.FindWithTag("Honey");
+        //if (cage == null) Debug.LogError("[Cage] Honey not found!!!");
 
-        animator = cage.GetComponent<Animator>();
+        //animator = cage.GetComponent<Animator>();
 
         if (bossHealth != null)
         {
-            bossHealth.OnHealthChanged += HandleHealthChanged;
+            bossHealth.OnDeath += HandleHealthChanged;
         }
     }
 
-    private void HandleHealthChanged(float currentHealth)
+    private void HandleHealthChanged()
     {
-        if (currentHealth <= 0)
-        {
+        
             Debug.Log("СВОБОДА");
             animator.SetTrigger(RescuedTrigger);
 
@@ -60,7 +59,7 @@ public class BossFightGlobal : MonoBehaviour
             {
                 Debug.LogError("VideoPlayer или fadePanel не назначены!");
             }
-        }
+        
     }
 
     private IEnumerator PlayCutscene()

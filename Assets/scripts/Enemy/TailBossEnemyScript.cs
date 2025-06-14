@@ -6,20 +6,17 @@ namespace Enemy
 {
     public class TailBossEnemyScript : MonoBehaviour
     {
-        private static readonly int AppearTrigger = Animator.StringToHash("Appear");
-        private static readonly int DissapearTrigger = Animator.StringToHash("Dissapear");
+        private static readonly int AppearTrigger = Animator.StringToHash("Appearing");
+        private static readonly int DissapearTrigger = Animator.StringToHash("Diappearing");
 
         [Header("Boss")]
         public GameObject tailBoss;
         private Animator animator;
         private BoxCollider2D tailBossCollider2D;
 
-        [Header("Boss portal")]
-        public GameObject tailPortal;
-        private Animator portalAnimator;
 
         [Header("Boss Facing")]
-        public Transform bossToFlip; // Новый объект для поворота босса
+        public Transform bossToFlip;
 
         public float startY = -12.61f;
         public float targetY = -5.84f;
@@ -44,17 +41,16 @@ namespace Enemy
         {
             _soundManager = SoundManagerNew.Instance;
             animator = tailBoss.GetComponent<Animator>();
-            portalAnimator = tailPortal.GetComponent<Animator>();
 
             tailBossCollider2D = tailBoss.GetComponent<BoxCollider2D>();
 
             player = FindFirstObjectByType<PlayerController>()?.gameObject;
-            Debug.LogWarning("Find " + player);
+
             playerHealth = player.GetComponent<HealthNew>();
 
             meshRenderer = tailBoss.GetComponent<MeshRenderer>();
 
-            // Запускаем появление босса
+       
             StartCoroutine(MoveY(tailBoss, startY, targetY, duration));
 
             _health = GetComponent<HealthNew>();
@@ -108,8 +104,9 @@ namespace Enemy
         public void RespawnOrAppear()
         {
             meshRenderer.enabled = true;
+            transform.GetChild(0).GetComponent<BoxCollider2D>().enabled = true;
             StartCoroutine(MoveY(tailBoss, startY, targetY, duration));
-            portalAnimator.SetTrigger(AppearTrigger);
+            animator.SetTrigger(AppearTrigger);
             tailBossCollider2D.enabled = true;
         }
 
@@ -117,7 +114,7 @@ namespace Enemy
         {
             StopAllCoroutines();
             StartCoroutine(PortalDissapear());
-            StartCoroutine(MoveY(tailBoss, targetY, startY, duration));
+            //StartCoroutine(MoveY(tailBoss, targetY, startY, duration));
         }
 
         private static IEnumerator MoveY(GameObject target, float fromY, float toY, float time)
@@ -142,8 +139,9 @@ namespace Enemy
 
         private IEnumerator PortalDissapear()
         {
-            portalAnimator.SetTrigger(DissapearTrigger);
+            animator.SetTrigger(DissapearTrigger);
             tailBossCollider2D.enabled = false;
+            transform.GetChild(0).GetComponent<BoxCollider2D>().enabled = false;
             yield return new WaitForSeconds(1f);
             meshRenderer.enabled = false;
         }
@@ -171,7 +169,7 @@ namespace Enemy
             if (other.CompareTag("Player"))
             {
                 playerInside = true;
-                FacePlayer(); // Поворачиваем объект bossToFlip
+                FacePlayer(); 
             }
         }
 

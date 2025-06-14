@@ -103,7 +103,7 @@ Transform:
   m_GameObject: {fileID: 1482949026951024937}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -3.56, y: -11, z: 0}
+  m_LocalPosition: {x: 0.44000006, y: -11, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -128,6 +128,7 @@ GameObject:
   - component: {fileID: 8209381541858177527}
   - component: {fileID: 2499066638225559400}
   - component: {fileID: 1582128906337059934}
+  - component: {fileID: 4494940165549729283}
   m_Layer: 9
   m_Name: Neckker
   m_TagString: Enemy
@@ -144,8 +145,8 @@ Transform:
   m_GameObject: {fileID: 4107158132694333027}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 6.9578323, y: -12.369336, z: 0}
-  m_LocalScale: {x: 0.25, y: 0.25, z: 1}
+  m_LocalPosition: {x: 6.06, y: -12.3672, z: 0}
+  m_LocalScale: {x: 0.35066935, y: 0.35066935, z: 1.4026774}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6279209409239514602}
@@ -279,7 +280,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   attackCooldown: 0
-  rangeX: 4.07
+  rangeX: 3.5
   rangeY: 11.85
   colliderDistanceX: 9.91
   colliderDistanceY: 4.88
@@ -291,8 +292,8 @@ MonoBehaviour:
   rotateTowardsPlayer: 1
   patrolScript: {fileID: 7631008794890611041}
   contactDamageDelay: 1.5
-  audioMixerGroup: {fileID: 0}
-  attackSound: {fileID: 0}
+  audioMixerGroup: {fileID: -1040233043583867831, guid: b7aad94fe0c3c4ba4a14d95707c80208, type: 2}
+  attackSound: {fileID: 8300000, guid: 645b0bfbcc32e4135b526567caa787ff, type: 3}
   volume: 1
   attackRadius: 2
   attackOffset: {x: 0, y: 0}
@@ -372,6 +373,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4171455bd44dbbc498ee1fd3d0ef1f98, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _startHealth: 100
   _maxHealth: 100
 --- !u!70 &1582128906337059934
 CapsuleCollider2D:
@@ -409,6 +411,43 @@ CapsuleCollider2D:
   m_CompositeOrder: 0
   m_Offset: {x: -0.020528793, y: 4.977151}
   m_Size: {x: 3.1547356, y: 7.850115}
+  m_Direction: 0
+--- !u!70 &4494940165549729283
+CapsuleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4107158132694333027}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0.014587402, y: 3.6135712}
+  m_Size: {x: 3.6296387, y: 6.5859528}
   m_Direction: 0
 --- !u!1 &5171377716426752606
 GameObject:
@@ -489,6 +528,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7282345874448233280}
   - component: {fileID: 7631008794890611041}
+  - component: {fileID: 1559421330118395917}
   m_Layer: 9
   m_Name: Neckker_Patrol
   m_TagString: Enemy
@@ -504,7 +544,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5498033857378129418}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 7.0421677, y: 11.369336, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -521,7 +561,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5498033857378129418}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 949ccc31268e3b04eac278af389d1e7d, type: 3}
   m_Name: 
@@ -532,6 +572,34 @@ MonoBehaviour:
   anim: {fileID: 5525922188693636354}
   speed: 2
   waitTimeAtPoint: 4
+  rb: {fileID: 4799777526508239623}
+--- !u!114 &1559421330118395917
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5498033857378129418}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3ea70787b2eaff428a75df42a6ecaed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerLayer:
+    serializedVersion: 2
+    m_Bits: 256
+  obstacleLayer:
+    serializedVersion: 2
+    m_Bits: 64
+  visionRange: 15
+  visionHeightOffset: 0.5
+  leftEdge: {fileID: 3207876953832526535}
+  rightEdge: {fileID: 5449608649046460968}
+  enemy: {fileID: 639446780820219855}
+  anim: {fileID: 5525922188693636354}
+  speed: 2
+  waitTimeAtPoint: 3
+  player: {fileID: 0}
   rb: {fileID: 4799777526508239623}
 --- !u!1 &6595758299507138939
 GameObject:
@@ -558,7 +626,7 @@ Transform:
   m_GameObject: {fileID: 6595758299507138939}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 4.09, y: -11, z: 0}
+  m_LocalPosition: {x: 9.09, y: -11, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

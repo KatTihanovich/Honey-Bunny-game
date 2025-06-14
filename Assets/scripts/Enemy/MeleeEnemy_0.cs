@@ -75,7 +75,7 @@ public class MeleeEnemy_0 : MonoBehaviour
             if (playerHealth != null && playerHealth.enabled)
             {
                 Play(attackSound);
-                playerHealth.TakeDamage(damage);
+                //playerHealth.TakeDamage(damage);
                 Debug.Log("Player took delayed contact damage!");
 
                 contactDamageCooldown = 0f; 

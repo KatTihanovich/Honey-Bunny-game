@@ -105,14 +105,15 @@ public class NipperPatrol : PatrolBase
     {
         float diff = player.position.x - enemy.position.x;
 
-        if (Mathf.Abs(diff) > 0.1f) // dead zone to avoid flipping when very close
+        if (Mathf.Abs(diff) > 3f) // Enemy still far enough → keep chasing
         {
             int direction = diff > 0 ? 1 : -1;
             MoveInDirection(direction);
             anim.SetBool(Run, true);
         }
-        else
+        else // Enemy is close enough → stop chasing
         {
+            anim.SetBool(Run, false);
             rb.linearVelocity = new Vector2(0f, rb.linearVelocity.y);
         }
     }

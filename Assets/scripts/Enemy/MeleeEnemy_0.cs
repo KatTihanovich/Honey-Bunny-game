@@ -118,27 +118,27 @@ public class MeleeEnemy_0 : MonoBehaviour
             if (cooldownTimer >= attackCooldown)
             {
                 anim.SetTrigger(Attack);
-                RotateTowardsPlayer();
+                //RotateTowardsPlayer();
             }
 
         }
     }
 
 //оставить только в одном скрипте( MeleeEnemy_0 или NeckkerPatrol)
-    private void RotateTowardsPlayer()
-    {
-        if (rotateTowardsPlayer)
-        {
-            Vector3 direction = playerHealth.transform.position - transform.position;
-            Vector3 localScale = baseScale;
-            if (direction.x > 0)
-                localScale.x = Mathf.Abs(baseScale.x);
-            else
-                localScale.x = -Mathf.Abs(baseScale.x);
+    // private void RotateTowardsPlayer()
+    // {
+    //     if (rotateTowardsPlayer)
+    //     {
+    //         Vector3 direction = playerHealth.transform.position - transform.position;
+    //         Vector3 localScale = baseScale;
+    //         if (direction.x > 0)
+    //             localScale.x = Mathf.Abs(baseScale.x);
+    //         else
+    //             localScale.x = -Mathf.Abs(baseScale.x);
 
-            transform.localScale = localScale;
-        }
-    }
+    //         transform.localScale = localScale;
+    //     }
+    // }
 
     private bool PlayerInSight()
     {

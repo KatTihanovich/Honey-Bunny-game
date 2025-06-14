@@ -1204,10 +1204,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _fillImage: {fileID: 0}
-  _health: {fileID: 0}
-  _cameraShake: {fileID: 0}
-  _vignetteController: {fileID: 0}
-  _playerController: {fileID: 0}
+  _stress: {fileID: 0}
 --- !u!114 &61947301
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6925,7 +6922,9 @@ MonoBehaviour:
   button: {fileID: 337580042}
   defaultSprite: {fileID: 4281637774074219296, guid: 88cc004258451464dba237aac18f87bc, type: 3}
   selectedSprite: {fileID: 0}
+  clickedSprite: {fileID: 0}
   scaleFactor: 1.4
+  clickedScaleFactor: 1.7
 --- !u!114 &337580042
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7370,7 +7369,9 @@ MonoBehaviour:
   button: {fileID: 362091394}
   defaultSprite: {fileID: -3204974255207185353, guid: 3fb88901beeba49df907fead0efaa519, type: 3}
   selectedSprite: {fileID: 0}
+  clickedSprite: {fileID: 0}
   scaleFactor: 1.4
+  clickedScaleFactor: 1.7
 --- !u!114 &362091394
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8857,7 +8858,9 @@ MonoBehaviour:
   button: {fileID: 436886620}
   defaultSprite: {fileID: 6330398402523927119, guid: 56b23f01b083847c5a805b54bd8daa2f, type: 3}
   selectedSprite: {fileID: 0}
+  clickedSprite: {fileID: 0}
   scaleFactor: 1.4
+  clickedScaleFactor: 1.7
 --- !u!114 &436886620
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18770,7 +18773,7 @@ SpriteRenderer:
   m_Size: {x: 3.53, y: 3.47}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!4 &828636105
@@ -23078,7 +23081,7 @@ SpriteRenderer:
   m_Size: {x: 38.399998, y: 12.37}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!4 &975449349
@@ -24126,7 +24129,7 @@ SpriteRenderer:
   m_Size: {x: 38.399998, y: 12.37}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!4 &1007699420
@@ -28828,9 +28831,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pauseMenuUI: {fileID: 0}
-  toSelect: {fileID: 0}
-  soundButtonImageToggler: {fileID: 0}
-  pauseButtonImageToggler: {fileID: 0}
 --- !u!114 &1181348864
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -32299,7 +32299,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   attackCooldown: 1
-  rangeX: 1.7
+  rangeX: 2
   rangeY: 6.04
   colliderDistanceX: 11.35
   colliderDistanceY: 5.31
@@ -32508,7 +32508,7 @@ SpriteRenderer:
   m_Size: {x: 3.53, y: 3.47}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!4 &1379225673
@@ -35734,9 +35734,6 @@ MonoBehaviour:
   pauseMenuUI: {fileID: 939832565}
   settingsUI: {fileID: 0}
   menusToDisable: []
-  image: {fileID: 939832566}
-  defaultSprite: {fileID: 6068752714494607558, guid: 688476adc5ae049478ccb7e6e45e9de3, type: 3}
-  toSelectOnPause: {fileID: 0}
   toSelectOnSeetings: {fileID: 0}
 --- !u!114 &1529194346
 MonoBehaviour:
@@ -37159,10 +37156,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _fillImage: {fileID: 0}
-  _health: {fileID: 0}
-  _cameraShake: {fileID: 0}
-  _vignetteController: {fileID: 0}
-  _playerController: {fileID: 0}
+  _stress: {fileID: 0}
 --- !u!114 &1582120187
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -39919,7 +39913,7 @@ SpriteRenderer:
   m_Size: {x: 38.399998, y: 12.37}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!4 &1669851216
@@ -46383,6 +46377,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   postProcessingVolume: {fileID: 1226445334}
+  VFXstage1: {fileID: 0}
+  VFXstage2: {fileID: 0}
   lowHealthIntensityOn50: 0.7
   lowHealthIntensityOn70: 0.6
   transitionDuration: 1
@@ -47394,7 +47390,7 @@ SpriteRenderer:
   m_Size: {x: 3.53, y: 3.47}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!4 &2028804338
@@ -48252,7 +48248,7 @@ SpriteRenderer:
   m_Size: {x: 38.399998, y: 21.599998}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!4 &2059536146
@@ -48805,7 +48801,7 @@ SpriteRenderer:
   m_Size: {x: 3.53, y: 3.47}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!4 &2072258143
@@ -50894,7 +50890,7 @@ Transform:
   m_GameObject: {fileID: 2127659686}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -50, y: 0, z: 0}
+  m_LocalPosition: {x: 44.6, y: 0.2, z: 0}
   m_LocalScale: {x: 0.22, y: 0.22, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:

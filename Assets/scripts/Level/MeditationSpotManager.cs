@@ -90,26 +90,29 @@ public class MeditationManager : MonoBehaviour
 
     public void Interact()
     {
-        if (animator != null)
-            animator.SetTrigger("Meditation");
-
-        if (playerAnimator != null)
+        if (playerHealth.CurrentHealth != 100f)
         {
-            playerAnimator.SetTrigger("Meditation");
-            _soundManager.PlaySound("Meditation");
-        }
+            if (animator != null)
+                animator.SetTrigger("Meditation");
 
-        if (playerHealth != null)
-        {
-            Debug.Log("Restoring full health.");
-            playerHealth.RestoreFull();
-        }
-        else
-        {
-            Debug.LogWarning("Cannot restore health — HealthNew is null.");
-        }
+            if (playerAnimator != null)
+            {
+                playerAnimator.SetTrigger("Meditation");
+                _soundManager.PlaySound("Meditation");
+            }
 
-        StartCoroutine(FinishMeditationRoutine());
+            if (playerHealth != null)
+            {
+                Debug.Log("Restoring full health.");
+                playerHealth.RestoreFull();
+            }
+            else
+            {
+                Debug.LogWarning("Cannot restore health — HealthNew is null.");
+            }
+
+            StartCoroutine(FinishMeditationRoutine());
+        }
     }
 
     private IEnumerator FinishMeditationRoutine()

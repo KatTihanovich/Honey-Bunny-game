@@ -81,7 +81,7 @@ namespace Enemy
         {
             if (!isAlive || !isVisible || player == null) return;
 
-            // Поворот к игроку
+         
             float deltaX = player.transform.position.x - transform.position.x;
             if (Mathf.Abs(deltaX) > 0.1f)
             {
@@ -90,7 +90,7 @@ namespace Enemy
                 transform.localScale = newScale;
             }
 
-            // Активная фаза
+          
             activeTimer += Time.deltaTime;
             attackTimer += Time.deltaTime;
 

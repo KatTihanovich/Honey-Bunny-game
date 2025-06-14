@@ -122,7 +122,32 @@ public class MonsterAI : MonoBehaviour
         if (TryGetComponent<Collider2D>(out var bodyCol)) bodyCol.enabled = false;
         if (TryGetComponent<Rigidbody2D>(out var rb)) rb.linearVelocity = Vector2.zero;
 
-        Destroy(gameObject, 2f);
+        StartCoroutine(FadeAndDestroy(4f));
+    }
+    private IEnumerator FadeAndDestroy(float duration)
+    {
+        SpriteRenderer[] sprites = GetComponentsInChildren<SpriteRenderer>();
+        float elapsed = 0f;
+
+        while (elapsed < duration)
+        {
+            elapsed += Time.deltaTime;
+            float alpha = Mathf.Lerp(1f, 0f, elapsed / duration);
+
+            foreach (var sprite in sprites)
+            {
+                if (sprite != null)
+                {
+                    Color c = sprite.color;
+                    c.a = alpha;
+                    sprite.color = c;
+                }
+            }
+
+            yield return null;
+        }
+
+        Destroy(gameObject);
     }
 
     public void SetPlayerInRange(bool value)

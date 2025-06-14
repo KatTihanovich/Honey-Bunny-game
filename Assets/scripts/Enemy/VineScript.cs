@@ -13,7 +13,6 @@ public class VineScript : MonoBehaviour
     private void Start()
     {
         currentState = VineState.Middle;
-        ApplyColliderState(currentState);
         UpdateVineState();
     }
 

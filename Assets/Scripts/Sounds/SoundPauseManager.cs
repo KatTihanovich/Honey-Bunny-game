@@ -5,12 +5,17 @@ using UnityEngine.InputSystem;
 public class SoundPauseManager : MonoBehaviour
 {
     public GameObject pauseMenuUI;
+    public GameObject settingsUI;
     //public GameObject toSelect;
 
     private bool isPaused = false;
 
     public void Update()
     {
+        if (settingsUI != null && settingsUI.activeSelf)
+        {
+            return;
+        }
         if (Keyboard.current.pKey.wasPressedThisFrame || Keyboard.current.escapeKey.wasPressedThisFrame)
         {
             TogglePauseMenu();

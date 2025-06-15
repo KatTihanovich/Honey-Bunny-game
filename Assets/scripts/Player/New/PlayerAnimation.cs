@@ -65,6 +65,12 @@ public class PlayerAnimation : MonoBehaviour
 
     private void Update()
     {
+        if (_player._isFrozen)
+        {
+            PlayIdle();
+            return;
+        }
+        
         _animator.SetBool("Grounded", _player.IsGrounded());
         _animator.SetBool("Run", _player.IsRunning());
         _animator.SetBool("IsFlying", _player.IsFlying());
@@ -72,18 +78,18 @@ public class PlayerAnimation : MonoBehaviour
         _animator.SetBool("Save", _player.IsMeditation);
         _animator.SetBool("Push", _player.IsPushed());
 
- 
+
         if (_player.JumpTriggered())
         {
-     
+
             _animator.SetTrigger("JumpPressed");
-          
-        
+
+
 
 
         }
 
-        if (_player.IsJumpPress() && !_isMeditation) 
+        if (_player.IsJumpPress() && !_isMeditation)
         {
             Debug.LogWarning("������ �����");
             _jumpEffect.AnimationState.SetAnimation(0, "JUMP EFFECT", false);
@@ -102,7 +108,7 @@ public class PlayerAnimation : MonoBehaviour
 
         if (_player.IsSuperAttacking() && !_superAttackAnimPlayed)
         {
-         
+
             _animator.SetTrigger("UltimatePressed");
             _superAttackAnimPlayed = true;
         }
@@ -141,5 +147,14 @@ public class PlayerAnimation : MonoBehaviour
             _animator.SetFloat("StressLevel", 0.3f);
         else
             _animator.SetFloat("StressLevel", 0.5f);
+    }
+    public void PlayIdle()
+    {
+        if (_animator == null) return;
+
+        _animator.SetBool("Run", false);
+        _animator.SetBool("IsFlying", false);
+        _animator.SetBool("IsFalling", false);
+        _animator.SetBool("Push", false);
     }
 }

@@ -1,14 +1,19 @@
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 public class TutorialHintTrigger : MonoBehaviour
 {
     public GameObject hintUI;        
     public KeyCode keyToPress = KeyCode.E; 
+    public KeyCode anotherKeyToPress; 
+
+    public bool allowSecondKey = false; 
 
     private bool isPlayerInRange = false;
     private bool hintShown = false;
     private bool hintActive = false;
+
+    private PlayerController playerController;
+    private PlayerAnimation playerAnimation;
 
     private void Start()
     {
@@ -19,11 +24,14 @@ public class TutorialHintTrigger : MonoBehaviour
     {
         if (isPlayerInRange && hintActive && !hintShown)
         {
-            if (Input.GetKeyDown(keyToPress))
+            bool pressedKey1 = Input.GetKeyDown(keyToPress);
+            bool pressedKey2 = allowSecondKey && Input.GetKeyDown(anotherKeyToPress);
+
+            if (pressedKey1 || pressedKey2)
             {
                 hintUI.SetActive(false);
                 hintShown = true;
-                ResumeGame();
+                ResumePlayer();
             }
         }
     }
@@ -33,7 +41,14 @@ public class TutorialHintTrigger : MonoBehaviour
         if (!hintShown && other.CompareTag("Player"))
         {
             isPlayerInRange = true;
-            ShowHintAndFreeze();
+
+            playerController = other.GetComponent<PlayerController>();
+            playerAnimation = other.GetComponent<PlayerAnimation>(); 
+
+            if (playerController != null)
+            {
+                ShowHintAndFreezePlayer();
+            }
         }
     }
 
@@ -47,16 +62,24 @@ public class TutorialHintTrigger : MonoBehaviour
         }
     }
 
-    private void ShowHintAndFreeze()
+    private void ShowHintAndFreezePlayer()
     {
-        Time.timeScale = 0f;
         hintUI.SetActive(true);
         hintActive = true;
+        if (playerAnimation != null)
+            playerAnimation.PlayIdle(); 
+        playerController._isFrozen = true;
     }
 
-    private void ResumeGame()
+    private void ResumePlayer()
     {
-        Time.timeScale = 1f;
         hintActive = false;
+        if (playerController != null)
+            playerController._isFrozen = false;
+
+        if (Input.GetKeyDown(KeyCode.P) || Input.GetKeyDown(KeyCode.Escape))
+        {
+            FindObjectOfType<PauseMenu>()?.Pause();
+        }
     }
 }

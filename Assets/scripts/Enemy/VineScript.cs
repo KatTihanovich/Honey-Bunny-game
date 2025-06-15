@@ -4,7 +4,7 @@ public class VineScript : MonoBehaviour
 {
     public CapsuleCollider2D middleCollider;
     public BoxCollider2D highCollider;
-    public HealthNew playerHealth;
+    private HealthNew playerHealth;
     public Animator vineAnimator;
 
     private enum VineState { Low, Middle, High }
@@ -12,6 +12,19 @@ public class VineScript : MonoBehaviour
 
     private void Start()
     {
+        if (playerHealth == null)
+        {
+            GameObject player = GameObject.FindWithTag("Player");
+            if (player != null)
+            {
+                playerHealth = player.GetComponent<HealthNew>();
+            }
+
+            if (playerHealth == null)
+            {
+                Debug.LogWarning("VineScript: Player's HealthNew component not found.");
+            }
+        }
         currentState = VineState.Middle;
         UpdateVineState();
     }

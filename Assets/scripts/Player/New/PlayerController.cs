@@ -69,6 +69,7 @@ public class PlayerController : MonoBehaviour
     private bool _isMeditation;
     private bool _isPush;
     private bool _isJumpPress;
+    public bool _isFrozen;
 
     private Rigidbody2D _rb;
     private CapsuleCollider2D _coll;
@@ -144,6 +145,13 @@ public class PlayerController : MonoBehaviour
     private void Update()
     {
         if (_isDead) return;
+        if (_isFrozen && _rb != null)
+        {
+            _rb.linearVelocity = Vector2.zero;
+            _rb.angularVelocity = 0f;
+            _rb.Sleep();  
+            return;
+        }
 
         HandleInput();
         CheckGrounded();
@@ -155,6 +163,13 @@ public class PlayerController : MonoBehaviour
     private void FixedUpdate()
     {
         if (_isDead) return;
+        if (_isFrozen && _rb != null)
+        {
+            _rb.linearVelocity = Vector2.zero;
+            _rb.angularVelocity = 0f;
+            _rb.Sleep(); 
+            return;
+        }
 
         if (_isTakingDamage && !_playerAnimation.IsAnimationDamageExit)
         {

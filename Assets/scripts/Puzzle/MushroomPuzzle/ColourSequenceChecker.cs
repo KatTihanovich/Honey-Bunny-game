@@ -18,7 +18,10 @@ public class SequenceChecker : MonoBehaviour
     private int currentStep = 0;
     private float animationDuration = 2f;
 
-    private void OnEnable() => ResetPuzzle();
+    private void OnEnable()
+    {
+        ResetPuzzle(); // ✅ сброс при загрузке сцены
+    }
 
     public bool ValidateStep(string name)
     {
@@ -39,6 +42,11 @@ public class SequenceChecker : MonoBehaviour
     {
         Debug.Log("Puzzle completed!");
         PlaySound(winSound);
+
+        foreach (var zone in interactableZones)
+        {
+            zone.TriggerWinAnimation();
+        }
 
         if (objectAnimator != null)
         {

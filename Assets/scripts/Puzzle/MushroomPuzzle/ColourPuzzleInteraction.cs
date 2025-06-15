@@ -7,6 +7,7 @@ public class InteractionZone : MonoBehaviour
 {
     private bool playerInZone = false;
     private static List<string> interactionSequence = new List<string>();
+    private static bool puzzleSolved = false; // ✅ защита от сброса после победы
 
     [SerializeField] private SequenceChecker sequenceChecker;
     private Animator anim;
@@ -18,8 +19,8 @@ public class InteractionZone : MonoBehaviour
     private bool isAnimating = false;
 
     [Header("External Animations")]
-    [SerializeField] public Animator columnAnimator;   // ✅ будет виден в инспекторе
-    [SerializeField] public Animator symbolAnimator;   // ✅ будет виден в инспекторе
+    [SerializeField] public Animator columnAnimator;
+    [SerializeField] public Animator symbolAnimator;
 
     private void Start()
     {
@@ -28,7 +29,7 @@ public class InteractionZone : MonoBehaviour
 
     public void Interact()
     {
-        if (!playerInZone || isAnimating) return;
+        if (!playerInZone || isAnimating || puzzleSolved) return;
         StartCoroutine(HandleInteraction());
     }
 
@@ -39,7 +40,7 @@ public class InteractionZone : MonoBehaviour
         anim.SetTrigger("Klick");
         PlayInteractionSound();
 
-        yield return new WaitForSeconds(0.75f); // Ждём анимацию
+        yield return new WaitForSeconds(0.75f);
 
         bool isCorrect = sequenceChecker.ValidateStep(gameObject.name);
 
@@ -51,6 +52,7 @@ public class InteractionZone : MonoBehaviour
 
             if (sequenceChecker.IsSequenceComplete())
             {
+                puzzleSolved = true;
                 sequenceChecker.OnPuzzleCompleted();
             }
         }
@@ -100,16 +102,25 @@ public class InteractionZone : MonoBehaviour
         if (other.CompareTag("Player")) playerInZone = false;
     }
 
-    public bool IsPlayerInZone()
-    {
-        return playerInZone;
-    }
+    public bool IsPlayerInZone() => playerInZone;
 
     public static void ResetInteractionSequence()
     {
         interactionSequence.Clear();
+        puzzleSolved = false; // ✅ разрешаем повтор после перезапуска
         Debug.Log("Interaction sequence reset.");
     }
 
     public static List<string> GetInteractionSequence() => new List<string>(interactionSequence);
+
+    public void TriggerWinAnimation()
+    {
+        anim.ResetTrigger("Klick");
+        anim.SetTrigger("Win");
+
+        if (symbolAnimator != null)
+            symbolAnimator.SetBool("IsLighted", true);
+        if (columnAnimator != null)
+            columnAnimator.SetBool("IsOpened", true);
+    }
 }

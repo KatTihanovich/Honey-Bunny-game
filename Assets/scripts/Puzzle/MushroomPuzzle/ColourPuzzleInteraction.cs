@@ -9,14 +9,17 @@ public class InteractionZone : MonoBehaviour
     private static List<string> interactionSequence = new List<string>();
 
     [SerializeField] private SequenceChecker sequenceChecker;
-    [SerializeField] private List<int> correctSequence;
-
     private Animator anim;
 
-    // 🎵 Sound variables
     [SerializeField] private AudioClip interactionSound;
-    [SerializeField] private AudioMixerGroup audioMixerGroup; 
+    [SerializeField] private AudioMixerGroup audioMixerGroup;
     [SerializeField] private float volume = 1.0f;
+
+    private bool isAnimating = false;
+
+    [Header("External Animations")]
+    [SerializeField] public Animator columnAnimator;   // ✅ будет виден в инспекторе
+    [SerializeField] public Animator symbolAnimator;   // ✅ будет виден в инспекторе
 
     private void Start()
     {
@@ -25,89 +28,81 @@ public class InteractionZone : MonoBehaviour
 
     public void Interact()
     {
-        if (playerInZone)
+        if (!playerInZone || isAnimating) return;
+        StartCoroutine(HandleInteraction());
+    }
+
+    private IEnumerator HandleInteraction()
+    {
+        isAnimating = true;
+
+        anim.SetTrigger("Klick");
+        PlayInteractionSound();
+
+        yield return new WaitForSeconds(0.75f); // Ждём анимацию
+
+        bool isCorrect = sequenceChecker.ValidateStep(gameObject.name);
+
+        if (isCorrect)
         {
-            Debug.Log($"{gameObject.name} interacted with the player!");
-
-            // Add to sequence
             interactionSequence.Add(gameObject.name);
-            Debug.Log("Interaction Sequence: " + string.Join(", ", interactionSequence));
+            LightUpSymbol();
+            OpenColumn();
 
-            // Play animation
-            anim.SetTrigger("Klick");
-
-            // 🎵 Play sound
-            PlayInteractionSound();
-
-            // Check sequence
-            if (interactionSequence.Count >= 5)
+            if (sequenceChecker.IsSequenceComplete())
             {
-                if (sequenceChecker != null)
-                {
-                StartCoroutine(WaitForClickAndCheckSequence());
-                }
-                else
-                {
-                    Debug.LogError("SequenceChecker is not assigned in InteractionZone!");
-                }
+                sequenceChecker.OnPuzzleCompleted();
             }
         }
+        else
+        {
+            ResetInteractionSequence();
+        }
+
+        isAnimating = false;
+    }
+
+    private void LightUpSymbol()
+    {
+        if (symbolAnimator != null)
+            symbolAnimator.SetBool("IsLighted", true);
+    }
+
+    private void OpenColumn()
+    {
+        if (columnAnimator != null)
+            columnAnimator.SetBool("IsOpened", true);
     }
 
     private void PlayInteractionSound()
     {
-        if (interactionSound != null && audioMixerGroup != null) {
-                GameObject tempAudio = new GameObject("TempAudioClip");
-                AudioSource audioSource = tempAudio.AddComponent<AudioSource>();
-
-                audioSource.outputAudioMixerGroup = audioMixerGroup;
-                audioSource.clip = interactionSound;
-                audioSource.volume = volume;
-                audioSource.Play();
-
-                Destroy(tempAudio, interactionSound.length);
-            }
-        else
+        if (interactionSound != null && audioMixerGroup != null)
         {
-            Debug.LogWarning($"No sound assigned for {gameObject.name}");
+            GameObject tempAudio = new GameObject("TempAudioClip");
+            AudioSource audioSource = tempAudio.AddComponent<AudioSource>();
+
+            audioSource.outputAudioMixerGroup = audioMixerGroup;
+            audioSource.clip = interactionSound;
+            audioSource.volume = volume;
+            audioSource.Play();
+
+            Destroy(tempAudio, interactionSound.length);
         }
     }
 
-private IEnumerator WaitForClickAndCheckSequence()
-    {
-        // Ожидаем 0.5 секунды (время проигрывания анимации клика)
-        yield return new WaitForSeconds(0.75f);
-
-        // Передаем ссылку на текущий объект в SequenceChecker
-        sequenceChecker.CheckSequence(this);
-    }
-    
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.CompareTag("Player"))
-        {
-            playerInZone = true;
-            Debug.Log($"Player entered {gameObject.name}");
-        }
+        if (other.CompareTag("Player")) playerInZone = true;
     }
 
     private void OnTriggerExit2D(Collider2D other)
     {
-        if (other.CompareTag("Player"))
-        {
-            playerInZone = false;
-            Debug.Log($"Player left {gameObject.name}");
-        }
+        if (other.CompareTag("Player")) playerInZone = false;
     }
 
     public bool IsPlayerInZone()
     {
         return playerInZone;
-    }
-
-    public static List<string> GetInteractionSequence()
-    {
-        return new List<string>(interactionSequence);
     }
 
     public static void ResetInteractionSequence()
@@ -116,17 +111,5 @@ private IEnumerator WaitForClickAndCheckSequence()
         Debug.Log("Interaction sequence reset.");
     }
 
-        public void TriggerWinAnimation()
-{
-    anim.ResetTrigger("Lose");
-    anim.ResetTrigger("Klick"); // Сбрасываем анимацию клика
-    anim.SetTrigger("Win");
-}
-
-public void TriggerLoseAnimation()
-{
-    anim.ResetTrigger("Win");
-    anim.ResetTrigger("Klick"); // Сбрасываем анимацию клика
-    anim.SetTrigger("Lose");
-}
+    public static List<string> GetInteractionSequence() => new List<string>(interactionSequence);
 }

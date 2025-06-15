@@ -12,6 +12,7 @@ namespace Enemy
         private static readonly int AppearTrigger = Animator.StringToHash("Appear");
         private static readonly int AttackTrigger = Animator.StringToHash("Attack");
         private static readonly int DeadTrigger = Animator.StringToHash("Dead");
+        private static readonly int RoarTrigger = Animator.StringToHash("Roar");
 
         [Header("References")]
         [SerializeField] private Animator animator;
@@ -27,6 +28,14 @@ namespace Enemy
         [SerializeField] private float attackCooldown = 2f;
         [SerializeField] private float attackDamage = 1f;
 
+        [Header("ROAR Settings")]
+        [SerializeField] private GameObject[] listEnemy;
+        [SerializeField] private Transform[] spawnPoints;
+        [SerializeField] private float roarDuration = 30f;
+        [SerializeField] private bool useRoarPhase = true;
+        private float roarHealthThreshold = 150f;
+        private bool hasRoared = false;
+
         [Header("Spawn Settings")]
         [SerializeField] private Transform spawnPoint;
 
@@ -41,6 +50,7 @@ namespace Enemy
         private bool isAlive = true;
         private bool isVisible = false;
         private bool canTakeDamage = true;
+        private bool isRoaring = false;
 
         private HealthNew health;
         private HealthNew playerHealth;
@@ -60,9 +70,7 @@ namespace Enemy
             bossRenderer = GetComponentInChildren<Renderer>();
             initialScale = transform.localScale;
             _bossAttackArea = GetComponentInChildren<BossAttackArea>();
-
             tails = FindObjectsOfType<TailBossEnemyScript>();
-   
         }
 
         private void Start()
@@ -75,13 +83,18 @@ namespace Enemy
             health.OnDeath += Die;
 
             phaseRoutine = StartCoroutine(PhaseCycle());
+
+            if (useRoarPhase && health.CurrentHealth <= roarHealthThreshold)
+            {
+                hasRoared = true;
+                Debug.Log("ROAR отключён на старте: здоровье уже ниже порога.");
+            }
         }
 
         private void Update()
         {
-            if (!isAlive || !isVisible || player == null) return;
+            if (!isAlive || !isVisible || player == null || isRoaring) return;
 
-         
             float deltaX = player.transform.position.x - transform.position.x;
             if (Mathf.Abs(deltaX) > 0.1f)
             {
@@ -90,7 +103,6 @@ namespace Enemy
                 transform.localScale = newScale;
             }
 
-          
             activeTimer += Time.deltaTime;
             attackTimer += Time.deltaTime;
 
@@ -100,14 +112,6 @@ namespace Enemy
                 attackTimer = 0f;
             }
 
-            if (damageTakenThisPhase >= 2 || hitsDoneThisPhase >= 2 || activeTimer >= activePhaseDuration)
-            {
-                if (phaseRoutine != null)
-                {
-                    StopCoroutine(phaseRoutine);
-                }
-                phaseRoutine = StartCoroutine(DisappearPhase());
-            }
         }
 
         private void KillAllTail()
@@ -123,15 +127,42 @@ namespace Enemy
 
         private void TakeDamage()
         {
-            if (!isAlive || !canTakeDamage || !isVisible) return;
+            if (!isAlive || !canTakeDamage || !isVisible || isRoaring)
+            {
+                Debug.Log($"[TakeDamage] Условие не выполнено. isAlive={isAlive}, canTakeDamage={canTakeDamage}, isVisible={isVisible}, isRoaring={isRoaring}");
+                return;
+            }
 
             damageTakenThisPhase++;
             animator.SetTrigger(GotHitTrigger);
+            Debug.Log($"[TakeDamage] Урон принят. Текущее здоровье: {health.CurrentHealth}, Уронов за фазу: {damageTakenThisPhase}");
+
+            // Запустить ROAR, если здоровье босса ниже порога и он ещё не рычал
+            if (useRoarPhase && !hasRoared && health.CurrentHealth <= roarHealthThreshold)
+            {
+                Debug.Log($"[TakeDamage] Условия Roar выполнены. useRoarPhase={useRoarPhase}, hasRoared={hasRoared}, health={health.CurrentHealth} <= threshold={roarHealthThreshold}");
+
+                hasRoared = true;
+
+                if (phaseRoutine != null)
+                {
+                    StopCoroutine(phaseRoutine);
+                    Debug.Log("[TakeDamage] Остановлен старый phaseRoutine перед Roar");
+                }
+
+                phaseRoutine = StartCoroutine(RoarPhase());
+            }
+            else
+            {
+                Debug.Log($"[TakeDamage] Условия Roar НЕ выполнены. useRoarPhase={useRoarPhase}, hasRoared={hasRoared}, health={health.CurrentHealth}");
+            }
         }
+
+
 
         public void HIT_BITE()
         {
-            if (!isAlive || !isVisible) return;
+            if (!isAlive || !isVisible || isRoaring) return;
 
             if (playerHealth != null)
             {
@@ -153,6 +184,13 @@ namespace Enemy
                 yield return new WaitUntil(() =>
                     damageTakenThisPhase >= 2 || hitsDoneThisPhase >= 2 || activeTimer >= activePhaseDuration
                 );
+
+                if (useRoarPhase && !hasRoared && health.CurrentHealth <= roarHealthThreshold)
+                {
+                    hasRoared = true;
+                    yield return StartCoroutine(RoarPhase());
+                }
+
                 yield return StartCoroutine(DisappearPhase());
             }
         }
@@ -192,6 +230,50 @@ namespace Enemy
             canTakeDamage = true;
             Debug.Log("Босс появился");
         }
+
+        private IEnumerator RoarPhase()
+        {
+            Debug.Log($"[RoarPhase] Старт. isRoaring={isRoaring}, canTakeDamage={canTakeDamage}, isVisible={isVisible}");
+
+            isRoaring = true;
+            health.enabled = false;
+            canTakeDamage = false;
+            isVisible = true;
+            animator.SetTrigger(RoarTrigger);
+            soundManager?.PlaySound("Roar");
+
+            yield return StartCoroutine(SpawnEnemiesDuringRoar());
+
+            isRoaring = false;
+            Debug.Log("[RoarPhase] Конец фазы Roar");
+        }
+
+        private IEnumerator SpawnEnemiesDuringRoar()
+        {
+            if (listEnemy.Length == 0 || spawnPoints.Length == 0)
+            {
+                Debug.LogWarning("Не заданы враги или точки спавна!");
+                yield break;
+            }
+
+            float interval = 5f; // интервал между спавнами 
+            float elapsed = 0f;
+
+            while (elapsed < roarDuration)
+            {
+                GameObject enemyPrefab = listEnemy[Random.Range(0, listEnemy.Length)];
+                Transform spawnPoint = spawnPoints[Random.Range(0, spawnPoints.Length)];
+
+                Instantiate(enemyPrefab, spawnPoint.position, Quaternion.identity);
+                Debug.Log($"Спавн врага {enemyPrefab.name} в точке {spawnPoint.name}");
+
+                yield return new WaitForSeconds(interval);
+                elapsed += interval;
+            }
+
+            health.enabled = true;
+        }
+
 
         private IEnumerator DisappearPhase()
         {

@@ -2,10 +2,10 @@ using UnityEngine;
 
 public class HealthNew : MonoBehaviour
 {
-    [SerializeField, Range(0f, 100f)]
+    [SerializeField, Range(0f, 250f)]
     private float _startHealth = 100f;
 
-    [SerializeField, Range(0f, 100f)]
+    [SerializeField, Range(0f, 250f)]
     private float _maxHealth = 100f;
     public float MaxHealth => _maxHealth;
     public float CurrentHealth { get; private set; }

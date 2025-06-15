@@ -373,6 +373,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &175220033 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1386820949989196213, guid: 2933291b1ab2644b29a1d78d3328680f, type: 3}
+  m_PrefabInstance: {fileID: 4828239110695636657}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &193173015
 GameObject:
   m_ObjectHideFlags: 0
@@ -893,8 +898,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 11a36b40b917d4399ba460897fbdbaaf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  restartWindow: {fileID: 0}
-  restartButton: {fileID: 0}
+  restartWindow: {fileID: 175220033}
+  restartButton: {fileID: 744361451}
 --- !u!114 &261875820
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2014,6 +2019,17 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 5380416168512139801, guid: 2933291b1ab2644b29a1d78d3328680f, type: 3}
   m_PrefabInstance: {fileID: 4828239110695636657}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &744361451 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4536973351256925368, guid: 2933291b1ab2644b29a1d78d3328680f, type: 3}
+  m_PrefabInstance: {fileID: 4828239110695636657}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 744361450}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &760814833
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2105,6 +2121,10 @@ PrefabInstance:
     - target: {fileID: 8814215291868123256, guid: af8139a9389ee4a03855a04589372e53, type: 3}
       propertyPath: m_Name
       value: LoadingCanvas
+      objectReference: {fileID: 0}
+    - target: {fileID: 8814215291868123256, guid: af8139a9389ee4a03855a04589372e53, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2860,7 +2880,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1019509243
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5885,6 +5905,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: DeathCanvas
       objectReference: {fileID: 0}
+    - target: {fileID: 1386820949989196213, guid: 2933291b1ab2644b29a1d78d3328680f, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1464586314530902189, guid: 2933291b1ab2644b29a1d78d3328680f, type: 3}
       propertyPath: m_text
       value: BOSS FIGHT
@@ -6040,7 +6064,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6729282877752937010, guid: 2933291b1ab2644b29a1d78d3328680f, type: 3}
   m_PrefabInstance: {fileID: 4828239110695636657}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 175220033}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0c9b3d43f09a4400f92d54a46b19b485, type: 3}

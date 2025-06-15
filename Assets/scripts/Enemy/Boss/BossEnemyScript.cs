@@ -312,6 +312,7 @@ namespace Enemy
             soundManager?.PlaySound("BossDie");
             PlayerPrefs.SetInt("BossDefeated", 1);
             PlayerPrefs.Save();
+            player.GetComponent<PlayerController>().enabled = false;
         }
     }
 }

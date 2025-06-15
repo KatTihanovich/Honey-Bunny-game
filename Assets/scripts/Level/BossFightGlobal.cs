@@ -30,10 +30,10 @@ public class BossFightGlobal : MonoBehaviour
         receiver = GameObject.Find("Bunny");
         if (receiver == null) Debug.LogError("[Cage] Bunny not found!!!");
 
-        //cage = GameObject.FindWithTag("Honey");
-        //if (cage == null) Debug.LogError("[Cage] Honey not found!!!");
+        cage = GameObject.FindWithTag("Honey");
+        if (cage == null) Debug.LogError("[Cage] Honey not found!!!");
 
-        //animator = cage.GetComponent<Animator>();
+        animator = cage.GetComponent<Animator>();
 
         if (bossHealth != null)
         {

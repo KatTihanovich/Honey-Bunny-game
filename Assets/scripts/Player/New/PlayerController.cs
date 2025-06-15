@@ -4,11 +4,14 @@ using UnityEngine.InputSystem;
 using Game.Combat;
 using Game.Audio;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(CapsuleCollider2D))]
 public class PlayerController : MonoBehaviour
 {
+    [SerializeField] private bool _isBossLevel = false;
+
     [Header("Attack Settings")]
     [SerializeField] private Transform _attackPoint;
     [SerializeField] private float _attackRadius = 0.5f;
@@ -166,6 +169,7 @@ public class PlayerController : MonoBehaviour
 
     private void HandleDeath()
     {
+      
         Die();
     }
 
@@ -424,11 +428,23 @@ public class PlayerController : MonoBehaviour
 
     public void Die()
     {
-        _isDead = true;
-        _soundManager.PlaySound("Death");
-        GetComponent<PlayerController>().enabled = false;
-        GetComponent<HealthNew>().enabled = false;
-        GetComponent<PlayerRespawn>().CheckRespawn();
+        if (!_isBossLevel)
+        {
+            _isDead = true;
+            _soundManager.PlaySound("Death");
+            GetComponent<PlayerController>().enabled = false;
+            GetComponent<HealthNew>().enabled = false;
+            GetComponent<PlayerRespawn>().CheckRespawn();
+        }
+        else 
+        {
+            _isDead = true;
+            _soundManager.PlaySound("Death");
+            GetComponent<PlayerController>().enabled = false;
+            GetComponent<HealthNew>().enabled = false;
+            SceneManager.LoadScene("New Boss");
+        }
+      
     }
 
     private void OnDrawGizmosSelected()

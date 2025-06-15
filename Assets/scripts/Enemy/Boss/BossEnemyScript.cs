@@ -256,10 +256,12 @@ namespace Enemy
                 yield break;
             }
 
-            float interval = 5f; // интервал между спавнами 
+            float interval = 8f; 
             float elapsed = 0f;
+            int spawnedCount = 0;
+            int maxEnemies = 6;
 
-            while (elapsed < roarDuration)
+            while (elapsed < roarDuration && spawnedCount < maxEnemies)
             {
                 GameObject enemyPrefab = listEnemy[Random.Range(0, listEnemy.Length)];
                 Transform spawnPoint = spawnPoints[Random.Range(0, spawnPoints.Length)];
@@ -267,6 +269,7 @@ namespace Enemy
                 Instantiate(enemyPrefab, spawnPoint.position, Quaternion.identity);
                 Debug.Log($"Спавн врага {enemyPrefab.name} в точке {spawnPoint.name}");
 
+                spawnedCount++;
                 yield return new WaitForSeconds(interval);
                 elapsed += interval;
             }
@@ -292,7 +295,7 @@ namespace Enemy
 
             yield return new WaitForSeconds(hiddenDuration);
 
-            phaseRoutine = StartCoroutine(PhaseCycle());
+        
         }
 
         private void Die()

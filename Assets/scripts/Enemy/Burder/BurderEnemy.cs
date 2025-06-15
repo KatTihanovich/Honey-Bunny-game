@@ -103,7 +103,7 @@ public class BurderEnemy : MonoBehaviour
             if (fleeTimer >= fleeDistance / fleeSpeed)
             {
                 isFleeing = false;
-                SetAnimation(State.Walk); // Возвращаемся к патрулированию
+                SetAnimation(State.Walk); 
                 Debug.Log("Fleeing ended, returning to patrol");
             }
 

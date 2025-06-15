@@ -144,6 +144,7 @@ namespace Enemy
             transform.GetChild(0).GetComponent<BoxCollider2D>().enabled = false;
             yield return new WaitForSeconds(1f);
             meshRenderer.enabled = false;
+            GetComponent<HealthNew>().enabled = false;
         }
 
         private void FacePlayer()

@@ -15,6 +15,7 @@ public class BurderEnemy : MonoBehaviour
     private static readonly int SpawnThornTrigger = Animator.StringToHash("SpawnThorn");
 
     [Header("Patrol Settings")]
+    [SerializeField] private bool alwaysChasePlayer = false;
     [SerializeField] private Transform pointA;
     [SerializeField] private Transform pointB;
     [SerializeField] private float moveSpeed = 2f;
@@ -51,6 +52,9 @@ public class BurderEnemy : MonoBehaviour
     private HealthNew playerHealth;
     private ISoundManager soundManager;
 
+    private Transform playerTransform;
+
+
     private float attackTimer = Mathf.Infinity;
     private float thornTimer = 0f;
     private bool isDead = false;
@@ -71,6 +75,7 @@ public class BurderEnemy : MonoBehaviour
         soundManager = SoundManagerNew.Instance;
     }
 
+
     private void Start()
     {
         currentPatrolPoint = pointA;
@@ -83,6 +88,9 @@ public class BurderEnemy : MonoBehaviour
             selfHealth.OnDamaged += HandleDamaged;
             selfHealth.OnDeath += HandleDeath;
         }
+
+
+        PlayerController player = FindFirstObjectByType<PlayerController>();
 
         SetAnimation(State.Walk); // Начинаем с патрулирования
     }
@@ -103,7 +111,7 @@ public class BurderEnemy : MonoBehaviour
             if (fleeTimer >= fleeDistance / fleeSpeed)
             {
                 isFleeing = false;
-                SetAnimation(State.Walk); 
+                SetAnimation(State.Walk);
                 Debug.Log("Fleeing ended, returning to patrol");
             }
 
@@ -113,63 +121,110 @@ public class BurderEnemy : MonoBehaviour
         attackTimer += Time.deltaTime;
         thornTimer += Time.deltaTime;
 
-       
+        float distanceToPlayer = playerTransform != null ? Vector2.Distance(transform.position, playerTransform.position) : Mathf.Infinity;
 
-        float distanceToPlayer = playerHealth != null ? Vector2.Distance(transform.position, playerHealth.transform.position) : Mathf.Infinity;
-
-        if (PlayerInSight() && distanceToPlayer <= agroDistance)
+        if (alwaysChasePlayer)
         {
-            isChasing = true;
-            RotateTowardsPlayer();
-            MoveTowards(playerHealth.transform.position);
+            Debug.Log(playerTransform.name);
+            if (playerTransform != null && playerHealth.enabled)
+            {
+                isChasing = true;
+                RotateTowardsPlayer();
+                MoveTowards(playerHealth.transform.position);
 
-            if (distanceToPlayer <= runDistance)
-            {
-                if (currentState != State.Run)
+                if (distanceToPlayer <= runDistance)
                 {
-                    SetAnimation(State.Run);
-                    anim.SetTrigger(SwitchToRunTrigger);
+                    if (currentState != State.Run)
+                    {
+                        SetAnimation(State.Run);
+                        anim.SetTrigger(SwitchToRunTrigger);
+                    }
                 }
-            }
-            else if (distanceToPlayer <= walkDistance)
-            {
-                if (currentState != State.Walk)
+                else if (distanceToPlayer <= walkDistance)
                 {
-                    SetAnimation(State.Walk);
+                    if (currentState != State.Walk)
+                    {
+                        SetAnimation(State.Walk);
+                    }
+                }
+                else
+                {
+                    if (currentState != State.Idle)
+                    {
+                        SetAnimation(State.Idle);
+                    }
+                }
+
+                if (attackTimer >= attackCooldown)
+                {
+                    anim.SetTrigger(AttackTrigger);
+                    attackTimer = 0;
                 }
             }
             else
             {
-                if (currentState != State.Idle)
+                // Если игрок не найден/мёртв - можно стоять на месте или идти на патруль (по желанию)
+                SetAnimation(State.Idle);
+                isChasing = false;
+            }
+        }
+        else
+        {
+            // Старое поведение с патрулированием
+            if (PlayerInSight() && distanceToPlayer <= agroDistance)
+            {
+                isChasing = true;
+                RotateTowardsPlayer();
+                MoveTowards(playerHealth.transform.position);
+
+                if (distanceToPlayer <= runDistance)
                 {
-                    SetAnimation(State.Idle);
+                    if (currentState != State.Run)
+                    {
+                        SetAnimation(State.Run);
+                        anim.SetTrigger(SwitchToRunTrigger);
+                    }
+                }
+                else if (distanceToPlayer <= walkDistance)
+                {
+                    if (currentState != State.Walk)
+                    {
+                        SetAnimation(State.Walk);
+                    }
+                }
+                else
+                {
+                    if (currentState != State.Idle)
+                    {
+                        SetAnimation(State.Idle);
+                    }
+                }
+
+                if (attackTimer >= attackCooldown)
+                {
+                    anim.SetTrigger(AttackTrigger);
+                    attackTimer = 0;
                 }
             }
-
-            if (attackTimer >= attackCooldown)
+            else if (isChasing && distanceToPlayer > lostDistance)
             {
-                anim.SetTrigger(AttackTrigger);
-                attackTimer = 0;
+                isChasing = false;
+                SetAnimation(State.Walk);
+                Debug.Log("Lost player, returning to patrol");
             }
-        }
-        else if (isChasing && distanceToPlayer > lostDistance)
-        {
-            isChasing = false;
-            SetAnimation(State.Walk); 
-            Debug.Log("Lost player, returning to patrol");
-        }
-        else if (!isChasing)
-        {
-            if (canSpawnThorns && thornTimer >= thornCooldown && !isSpawningThorn)
+            else if (!isChasing)
             {
-                isSpawningThorn = true;
-                Debug.Log("Triggering thorn spawn during patrol");
-                anim.SetTrigger(SpawnThornTrigger);
-                thornTimer = 0;
-            }
-            else if (!isSpawningThorn)
-            {
-                Patrol();
+                if (canSpawnThorns && thornTimer >= thornCooldown && !isSpawningThorn)
+                {
+                    isSpawningThorn = true;
+                    Debug.Log("Triggering thorn spawn during patrol");
+                    anim.SetTrigger(SpawnThornTrigger);
+                    thornTimer = 0;
+                }
+                else if (!isSpawningThorn)
+                {
+                    Patrol();
+                }
             }
         }
     }

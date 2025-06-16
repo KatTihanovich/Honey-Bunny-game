@@ -92,7 +92,7 @@ public class BurderEnemy : MonoBehaviour
 
         PlayerController player = FindFirstObjectByType<PlayerController>();
 
-        SetAnimation(State.Walk); // Начинаем с патрулирования
+        SetAnimation(State.Walk); // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
     }
 
     private void Update()
@@ -163,14 +163,14 @@ public class BurderEnemy : MonoBehaviour
             }
             else
             {
-                // Если игрок не найден/мёртв - можно стоять на месте или идти на патруль (по желанию)
+                // пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ/пїЅпїЅпїЅпїЅ - пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ (пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ)
                 SetAnimation(State.Idle);
                 isChasing = false;
             }
         }
         else
         {
-            // Старое поведение с патрулированием
+            // пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
             if (PlayerInSight() && distanceToPlayer <= agroDistance)
             {
                 isChasing = true;
@@ -313,7 +313,7 @@ public class BurderEnemy : MonoBehaviour
         anim.ResetTrigger(AttackTrigger);
         anim.ResetTrigger(DamageTrigger);
         anim.ResetTrigger(DeathTrigger);
-        // Не сбрасываем SpawnThornTrigger, чтобы избежать конфликта
+        // пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ SpawnThornTrigger, пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
     }
 
     public void BurderAttack()
@@ -376,6 +376,7 @@ public class BurderEnemy : MonoBehaviour
         if (TryGetComponent<Rigidbody2D>(out var rb)) rb.linearVelocity = Vector2.zero;
 
         Destroy(gameObject.transform.parent.gameObject, 3f);
+        EndWindow.IncreaseEnemyCount();
     }
 
     private void OnDrawGizmosSelected()
@@ -398,6 +399,6 @@ public class BurderEnemy : MonoBehaviour
             Instantiate(_thornObject, transform.position, Quaternion.identity);
         }
         isSpawningThorn = false;
-        SetAnimation(State.Walk); // Возвращаемся к патрулированию
+        SetAnimation(State.Walk); // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
     }
 }

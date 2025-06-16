@@ -83,7 +83,7 @@ public class MeleeEnemy_0 : MonoBehaviour
         }
     }
 
-    public void HandleDeath() 
+    public void HandleDeath()
     {
         if (isDead) return;
 
@@ -94,7 +94,8 @@ public class MeleeEnemy_0 : MonoBehaviour
         if (TryGetComponent<Collider2D>(out var col)) col.enabled = false;
         if (TryGetComponent<Rigidbody2D>(out var rb)) rb.linearVelocity = Vector2.zero;
 
-        Destroy(gameObject, 2f); 
+        Destroy(gameObject, 2f);
+        EndWindow.IncreaseEnemyCount();
     }
 
 

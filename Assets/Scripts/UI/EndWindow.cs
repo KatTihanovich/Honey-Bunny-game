@@ -8,7 +8,7 @@ public class EndWindow : MonoBehaviour
 {
     [Header("UI Elements")]
     public GameObject endWindow; 
-    public Button restartButton;
+    //public Button restartButton;
     [SerializeField] private TextMeshProUGUI starsText; 
     [SerializeField] private TextMeshProUGUI mobsText; 
     [SerializeField] private TextMeshProUGUI puzzlesText; 

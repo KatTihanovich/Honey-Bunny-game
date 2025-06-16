@@ -54,8 +54,25 @@ public class CoinManager : MonoBehaviour
             coinSlider.maxValue = maxCoins;
             coinSlider.value = totalCoins;
         }
+
         UpdateCoinText();
+
+     
+        if (totalCoins >= maxCoins)
+        {
+            Debug.Log($"При старте: достигнуто максимум монет ({maxCoins}). Сброс данных...");
+
+            ResetAllCollectedCoins();
+            TotalCoinTracker.ResetAllProgress();
+
+            totalCoins = 0;
+            _levelCoinCounts.Clear();
+
+            UpdateSlider();
+            UpdateCoinText();
+        }
     }
+
 
     // Увеличивает количество монет и обновляет прогресс UI
     public void AddCoins(int amount)
@@ -176,6 +193,16 @@ public class CoinManager : MonoBehaviour
                 _levelCoinCounts[entry.levelName] = entry.coinCount;
             }
         }
+    }
+
+    public void ResetAllCollectedCoins()
+    {
+        PlayerPrefs.DeleteKey(_collectedCoinsKey);
+        PlayerPrefs.Save();
+
+        _collectedCoinsPerLevel.Clear();
+
+        Debug.Log("Все собранные монеты были сброшены.");
     }
 
     // Классы-обёртки для сериализации данных о собранных монетах

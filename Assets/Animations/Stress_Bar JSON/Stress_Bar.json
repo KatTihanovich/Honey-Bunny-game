@@ -1,0 +1,66 @@
+{
+"skeleton": {
+	"hash": "vv93f7/K+0u5XGUNdynLOdL+ig8",
+	"spine": "3.8",
+	"x": -1,
+	"y": -2,
+	"width": 790,
+	"height": 57,
+	"images": "",
+	"audio": "C:/Users/temus/Documents/Sai&Ph/Анимация/Spine/Stress_Bar"
+},
+"bones": [
+	{ "name": "root" },
+	{ "name": "hpblack", "parent": "root", "x": 786.79, "y": 24.72 }
+],
+"slots": [
+	{ "name": "hpblue", "bone": "root", "attachment": "hpblue" },
+	{ "name": "Mask", "bone": "root", "attachment": "Mask" },
+	{ "name": "hpblack", "bone": "hpblack", "attachment": "hpblack" }
+],
+"skins": [
+	{
+		"name": "default",
+		"attachments": {
+			"Mask": {
+				"Mask": {
+					"type": "clipping",
+					"end": "Mask",
+					"vertexCount": 22,
+					"vertices": [ 20.72, 0.06, 15.01, 1.99, 10.01, 4.84, 4.3, 12.22, 1.68, 19.6, 0.49, 28.4, 2.44, 36.65, 5.99, 43.64, 12.75, 50.11, 19.53, 53, 768.65, 53.33, 775.01, 51.17, 780.5, 46.85, 783.9, 42.83, 787.06, 36.37, 787.93, 27.72, 787.05, 19.5, 784.37, 12.84, 781.59, 8.42, 777.04, 4.3, 770.12, 0.73, 763.11, 0.3 ],
+					"color": "ffffffff"
+				}
+			},
+			"hpblue": {
+				"hpblue": { "x": 394, "y": 26.5, "width": 790, "height": 57 }
+			},
+			"hpblack": {
+				"hpblack": { "x": -290.79, "y": 1.97, "width": 994, "height": 58 }
+			}
+		}
+	}
+],
+"animations": {
+	"idleblack": {
+		"bones": {
+			"hpblack": {
+				"translate": [
+					{ "x": -105.04, "curve": 0.25, "c3": 0.75 },
+					{ "time": 1.6667, "x": -32.01, "curve": 0.25, "c3": 0.75 },
+					{ "time": 3.3333, "x": -105.04 }
+				]
+			}
+		}
+	},
+	"0to100": {
+		"bones": {
+			"hpblack": {
+				"translate": [
+					{ "x": -965.46, "curve": 0.25, "c3": 0.75 },
+					{ "time": 2.5, "x": -105.04 }
+				]
+			}
+		}
+	}
+}
+}

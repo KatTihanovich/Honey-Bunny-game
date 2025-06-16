@@ -15,6 +15,7 @@ public class TutorialHintTrigger : MonoBehaviour
     private PlayerController playerController;
     private PlayerAnimation playerAnimation;
 
+
     private void Start()
     {
         hintUI.SetActive(false);
@@ -44,7 +45,6 @@ public class TutorialHintTrigger : MonoBehaviour
 
             playerController = other.GetComponent<PlayerController>();
             playerAnimation = other.GetComponent<PlayerAnimation>(); 
-
             if (playerController != null)
             {
                 ShowHintAndFreezePlayer();
@@ -68,6 +68,7 @@ public class TutorialHintTrigger : MonoBehaviour
         hintActive = true;
         if (playerAnimation != null)
             playerAnimation.PlayIdle(); 
+
         playerController._isFrozen = true;
     }
 
@@ -81,5 +82,6 @@ public class TutorialHintTrigger : MonoBehaviour
         {
             FindObjectOfType<PauseMenu>()?.Pause();
         }
+
     }
 }

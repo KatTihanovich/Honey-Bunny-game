@@ -162,35 +162,36 @@ namespace Enemy
 
         public void HIT_BITE()
         {
-            // Безопасная проверка перед действием
             if (!isAlive || !isVisible || isRoaring)
             {
                 Debug.LogWarning("[HIT_BITE] Атака отменена: isAlive=" + isAlive + ", isVisible=" + isVisible + ", isRoaring=" + isRoaring);
                 return;
             }
 
-            // Получаем текущую анимацию
+            if (player == null || playerHealth == null)
+            {
+                Debug.LogError("[HIT_BITE] Игрок или его здоровье не найдены!");
+                return;
+            }
+
+            float distanceToPlayer = Vector3.Distance(transform.position, player.transform.position);
+            if (distanceToPlayer > 2.5f)
+            {
+                Debug.LogWarning($"[HIT_BITE] Игрок вне радиуса атаки ({distanceToPlayer:F2}м > {2.5f}м)");
+                return;
+            }
+
             AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);
-            string animName = stateInfo.IsName("Attack") ? "Attack" : stateInfo.shortNameHash.ToString();
 
-            if (playerHealth != null)
-            {
-                playerHealth.TakeDamage(attackDamage);
-                hitsDoneThisPhase++;
+            playerHealth.TakeDamage(attackDamage);
+            hitsDoneThisPhase++;
 
-                Debug.Log(
-                    $"[HIT_BITE] Атака успешна!\n" +
-                    $"- Анимация: {animName}\n" +
-                    $"- Время анимации: {stateInfo.normalizedTime:F2}\n" +
-                    $"- Состояние: isAlive={isAlive}, isVisible={isVisible}, isRoaring={isRoaring}\n" +
-                    $"- Игрок: {playerHealth.gameObject.name}, HP: {playerHealth.CurrentHealth}\n" +
-                    $"- Удары в этой фазе: {hitsDoneThisPhase}"
-                );
-            }
-            else
-            {
-                Debug.LogError("[HIT_BITE] Ошибка: playerHealth не найден!");
-            }
+            Debug.Log(
+                $"[HIT_BITE] УДАР ПРОИЗОШЁЛ!\n" +
+                $"- Анимация: {stateInfo.shortNameHash} (time: {stateInfo.normalizedTime:F2})\n" +
+                $"- Игрок: {player.name}, HP: {playerHealth.CurrentHealth}, Расстояние: {distanceToPlayer:F2}м\n" +
+                $"- Удары в этой фазе: {hitsDoneThisPhase}"
+            );
         }
 
 
@@ -261,7 +262,6 @@ namespace Enemy
 
             animator.ResetTrigger(AttackTrigger);
             animator.Play("Idle", 0); 
-
             animator.SetTrigger(RoarTrigger);
             soundManager?.PlaySound("Roar");
 
@@ -269,7 +269,18 @@ namespace Enemy
 
             isRoaring = false;
             health.enabled = true;
+
+           
+            animator.SetTrigger(HideTrigger);
+            yield return new WaitForSeconds(1f);
+
+
             Debug.Log("[RoarPhase] Конец фазы Roar");
+
+            if (isAlive)
+            {
+                phaseRoutine = StartCoroutine(PhaseCycle());
+            }
         }
 
 

@@ -126,6 +126,7 @@ public class MonsterAI : MonoBehaviour
         if (TryGetComponent<Rigidbody2D>(out var rb)) rb.linearVelocity = Vector2.zero;
 
         Destroy(gameObject, 4f);
+        EndWindow.IncreaseEnemyCount();
     }
 
     public void SetPlayerInRange(bool value)

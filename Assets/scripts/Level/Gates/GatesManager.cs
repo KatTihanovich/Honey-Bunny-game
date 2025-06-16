@@ -4,7 +4,7 @@ public class GateController : MonoBehaviour
 {
     public Animator gateAnimator;
     public int requiredStars = 3;
-    public Collider2D gateCollider;
+    public Collider2D gateCollider; // Коллайдер ворот
 
     private bool isOpen = false;
 
@@ -12,34 +12,30 @@ public class GateController : MonoBehaviour
     {
         if (gateCollider != null)
         {
-            gateCollider.isTrigger = false; // Ворота изначально закрыты
+            gateCollider.isTrigger = false; // Ворота закрыты, нельзя проходить
         }
-
-        Debug.Log("Всего монет у игрока: " + TotalCoinTracker.GetTotalCoins());
     }
 
-    public void TryOpenGate()
+    public void TryOpenGate(int playerStars)
     {
-        if (isOpen) return;
-
-        int playerStars = TotalCoinTracker.GetTotalCoins(); // Получаем общее количество монет
-
         Debug.Log($"Проверка ворот: у игрока {playerStars}, нужно {requiredStars}");
+
+        if (isOpen) return; // Если уже открыты — ничего не делаем
 
         if (playerStars >= requiredStars)
         {
             Debug.Log("Ворота открываются!");
             gateAnimator.SetTrigger("Open");
             isOpen = true;
-
+            
             if (gateCollider != null)
             {
-                gateCollider.isTrigger = true; // Ворота становятся проходимыми
+                gateCollider.isTrigger = true; // Делаем ворота проходимыми
             }
         }
         else
         {
-            Debug.Log("Недостаточно монет! Ворота остаются закрытыми.");
+            Debug.Log("Недостаточно звезд! Ворота остаются закрытыми.");
         }
     }
 }

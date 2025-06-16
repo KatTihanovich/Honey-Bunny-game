@@ -8,8 +8,9 @@ public class GateTrigger : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            Debug.Log("Игрок вошел в зону ворот.");
-            gate.TryOpenGate(); // Вызываем без аргументов
+            int playerStars = CoinManager.Instance.totalCoins;
+            Debug.Log($"Игрок вошел в зону ворот. У него {playerStars} звезд.");
+            gate.TryOpenGate(playerStars);
         }
     }
 }

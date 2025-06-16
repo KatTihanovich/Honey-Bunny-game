@@ -1,9 +1,10 @@
-using UnityEngine;
+п»їusing UnityEngine;
 using System.Collections.Generic;
 
 public class TotalCoinTracker : MonoBehaviour
 {
     private const string _levelCoinsKey = "LevelCoins";
+    private const string _versionKey = "GameVersion"; // РєР»СЋС‡ РґР»СЏ С…СЂР°РЅРµРЅРёСЏ РІРµСЂСЃРёРё
 
     [System.Serializable]
     private class LevelCoinDataWrapper
@@ -20,13 +21,27 @@ public class TotalCoinTracker : MonoBehaviour
 
     private void Start()
     {
-        // Метод для вывода общего количества всех собранных монет
-        Debug.Log("Кол-во всех собранных монет: " + GetTotalCoins());
+        CheckVersionAndResetIfNeeded();
+        Debug.Log("РљРѕР»-РІРѕ РІСЃРµС… СЃРѕР±СЂР°РЅРЅС‹С… РјРѕРЅРµС‚: " + GetTotalCoins());
     }
 
     /// <summary>
-    /// Получает общее количество монет, собранных на всех уровнях.
+    /// РџСЂРѕРІРµСЂСЏРµС‚ РІРµСЂСЃРёСЋ РёРіСЂС‹ Рё СЃР±СЂР°СЃС‹РІР°РµС‚ РїСЂРѕРіСЂРµСЃСЃ, РµСЃР»Рё РІРµСЂСЃРёСЏ РёР·РјРµРЅРёР»Р°СЃСЊ.
     /// </summary>
+    private void CheckVersionAndResetIfNeeded()
+    {
+        string currentVersion = Application.version;
+        string savedVersion = PlayerPrefs.GetString(_versionKey, "");
+
+        if (savedVersion != currentVersion)
+        {
+            Debug.Log($"Р’РµСЂСЃРёСЏ РёР·РјРµРЅРёР»Р°СЃСЊ: {savedVersion} в†’ {currentVersion}. РЎР±СЂРѕСЃ РїСЂРѕРіСЂРµСЃСЃР°.");
+            ResetAllProgress();
+            PlayerPrefs.SetString(_versionKey, currentVersion);
+            PlayerPrefs.Save();
+        }
+    }
+
     public static int GetTotalCoins()
     {
         int total = 0;
@@ -45,9 +60,6 @@ public class TotalCoinTracker : MonoBehaviour
         return total;
     }
 
-    /// <summary>
-    /// Получает количество монет, собранных на конкретном уровне.
-    /// </summary>
     public static int GetCoinsForLevel(string levelName)
     {
         if (PlayerPrefs.HasKey(_levelCoinsKey))
@@ -65,9 +77,6 @@ public class TotalCoinTracker : MonoBehaviour
         return 0;
     }
 
-    /// <summary>
-    /// Удаляет прогресс только для указанного уровня.
-    /// </summary>
     public static void ResetProgressForLevel(string levelName)
     {
         if (!PlayerPrefs.HasKey(_levelCoinsKey)) return;
@@ -80,17 +89,14 @@ public class TotalCoinTracker : MonoBehaviour
         PlayerPrefs.SetString(_levelCoinsKey, JsonUtility.ToJson(data));
         PlayerPrefs.Save();
 
-        Debug.Log($"Прогресс уровня '{levelName}' был удалён.");
+        Debug.Log($"РџСЂРѕРіСЂРµСЃСЃ СѓСЂРѕРІРЅСЏ '{levelName}' Р±С‹Р» СѓРґР°Р»С‘РЅ.");
     }
 
-    /// <summary>
-    /// Удаляет весь прогресс по монетам (все уровни).
-    /// </summary>
     public static void ResetAllProgress()
     {
         PlayerPrefs.DeleteKey(_levelCoinsKey);
         PlayerPrefs.Save();
 
-        Debug.Log("Весь прогресс по монетам был сброшен.");
+        Debug.Log("Р’РµСЃСЊ РїСЂРѕРіСЂРµСЃСЃ РїРѕ РјРѕРЅРµС‚Р°Рј Р±С‹Р» СЃР±СЂРѕС€РµРЅ.");
     }
 }

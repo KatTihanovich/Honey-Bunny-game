@@ -106,13 +106,13 @@ namespace Enemy
             activeTimer += Time.deltaTime;
             attackTimer += Time.deltaTime;
 
-            if (attackTimer >= attackCooldown && _bossAttackArea.PlayerInside)
+            if (!isRoaring && attackTimer >= attackCooldown && _bossAttackArea.PlayerInside)
             {
                 animator.SetTrigger(AttackTrigger);
                 attackTimer = 0f;
             }
-
         }
+
 
         private void KillAllTail()
         {
@@ -162,19 +162,38 @@ namespace Enemy
 
         public void HIT_BITE()
         {
-            if (!isAlive || !isVisible || isRoaring) return;
+            // Безопасная проверка перед действием
+            if (!isAlive || !isVisible || isRoaring)
+            {
+                Debug.LogWarning("[HIT_BITE] Атака отменена: isAlive=" + isAlive + ", isVisible=" + isVisible + ", isRoaring=" + isRoaring);
+                return;
+            }
+
+            // Получаем текущую анимацию
+            AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);
+            string animName = stateInfo.IsName("Attack") ? "Attack" : stateInfo.shortNameHash.ToString();
 
             if (playerHealth != null)
             {
                 playerHealth.TakeDamage(attackDamage);
                 hitsDoneThisPhase++;
-                Debug.Log("Игрок получил урон!");
+
+                Debug.Log(
+                    $"[HIT_BITE] Атака успешна!\n" +
+                    $"- Анимация: {animName}\n" +
+                    $"- Время анимации: {stateInfo.normalizedTime:F2}\n" +
+                    $"- Состояние: isAlive={isAlive}, isVisible={isVisible}, isRoaring={isRoaring}\n" +
+                    $"- Игрок: {playerHealth.gameObject.name}, HP: {playerHealth.CurrentHealth}\n" +
+                    $"- Удары в этой фазе: {hitsDoneThisPhase}"
+                );
             }
             else
             {
-                Debug.LogError("PlayerHealth не найден!");
+                Debug.LogError("[HIT_BITE] Ошибка: playerHealth не найден!");
             }
         }
+
+
 
         private IEnumerator PhaseCycle()
         {
@@ -239,14 +258,20 @@ namespace Enemy
             health.enabled = false;
             canTakeDamage = false;
             isVisible = true;
+
+            animator.ResetTrigger(AttackTrigger);
+            animator.Play("Idle", 0); 
+
             animator.SetTrigger(RoarTrigger);
             soundManager?.PlaySound("Roar");
 
             yield return StartCoroutine(SpawnEnemiesDuringRoar());
 
             isRoaring = false;
+            health.enabled = true;
             Debug.Log("[RoarPhase] Конец фазы Roar");
         }
+
 
         private IEnumerator SpawnEnemiesDuringRoar()
         {
@@ -274,7 +299,7 @@ namespace Enemy
                 elapsed += interval;
             }
 
-            health.enabled = true;
+       
         }
 
 

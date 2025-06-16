@@ -8255,11 +8255,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1522362991}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1086196002 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7668189261029553291, guid: 5d12568aa4d02442aa1fbdb8aa89ebbc, type: 3}
-  m_PrefabInstance: {fileID: 1766364510}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1101783968
 GameObject:
   m_ObjectHideFlags: 0
@@ -11214,6 +11209,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1101783969}
     m_Modifications:
+    - target: {fileID: 405309491751718658, guid: 5d12568aa4d02442aa1fbdb8aa89ebbc, type: 3}
+      propertyPath: LoadingScreen
+      value: 
+      objectReference: {fileID: 760814836}
+    - target: {fileID: 405309491751718658, guid: 5d12568aa4d02442aa1fbdb8aa89ebbc, type: 3}
+      propertyPath: LoadingBarFill
+      value: 
+      objectReference: {fileID: 760814835}
     - target: {fileID: 1424079418063961186, guid: 5d12568aa4d02442aa1fbdb8aa89ebbc, type: 3}
       propertyPath: buttonSound
       value: 
@@ -11414,10 +11417,7 @@ PrefabInstance:
     - {fileID: 8218094025338549687, guid: 5d12568aa4d02442aa1fbdb8aa89ebbc, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 7668189261029553291, guid: 5d12568aa4d02442aa1fbdb8aa89ebbc, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1766364517}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5d12568aa4d02442aa1fbdb8aa89ebbc, type: 3}
 --- !u!224 &1766364511 stripped
 RectTransform:
@@ -11429,32 +11429,29 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1424079418063961186, guid: 5d12568aa4d02442aa1fbdb8aa89ebbc, type: 3}
   m_PrefabInstance: {fileID: 1766364510}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1086196002}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0c9b3d43f09a4400f92d54a46b19b485, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &1766364517
+--- !u!114 &1766364517 stripped
 MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 405309491751718658, guid: 5d12568aa4d02442aa1fbdb8aa89ebbc, type: 3}
+  m_PrefabInstance: {fileID: 1766364510}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1086196002}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: de03cd3a5d9f41d7986f84d71b083d32, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  LoadingScreen: {fileID: 760814836}
-  LoadingBarFill: {fileID: 760814835}
 --- !u!114 &1766364518 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6286214116364880994, guid: 5d12568aa4d02442aa1fbdb8aa89ebbc, type: 3}
   m_PrefabInstance: {fileID: 1766364510}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1086196002}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a1162de70b0e7474db2629ddf94f1e5f, type: 3}

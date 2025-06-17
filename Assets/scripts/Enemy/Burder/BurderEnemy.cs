@@ -78,6 +78,8 @@ public class BurderEnemy : MonoBehaviour
 
     private void Start()
     {
+
+    
         currentPatrolPoint = pointA;
         anim = GetComponent<Animator>();
         baseScale = transform.localScale;
@@ -90,7 +92,11 @@ public class BurderEnemy : MonoBehaviour
         }
 
 
+
         PlayerController player = FindFirstObjectByType<PlayerController>();
+
+        if (player != null)
+            playerTransform = player.transform; 
 
         SetAnimation(State.Walk); // �������� � ��������������
     }
@@ -313,7 +319,7 @@ public class BurderEnemy : MonoBehaviour
         anim.ResetTrigger(AttackTrigger);
         anim.ResetTrigger(DamageTrigger);
         anim.ResetTrigger(DeathTrigger);
-        // �� ���������� SpawnThornTrigger, ����� �������� ���������
+
     }
 
     public void BurderAttack()

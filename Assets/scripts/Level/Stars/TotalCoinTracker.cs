@@ -98,6 +98,8 @@ public class TotalCoinTracker : MonoBehaviour
     {
         PlayerPrefs.DeleteKey(_levelCoinsKey);
         PlayerPrefs.Save();
+        CoinManager coinManager = new CoinManager();
+        coinManager.ResetAllCollectedCoins();
 
         Debug.Log("Весь прогресс по монетам был сброшен.");
     }

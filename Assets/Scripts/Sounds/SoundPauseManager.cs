@@ -12,13 +12,16 @@ public class SoundPauseManager : MonoBehaviour
 
     public void Update()
     {
-        if (settingsUI != null && settingsUI.activeSelf)
-        {
-            return;
-        }
         if (Keyboard.current.pKey.wasPressedThisFrame || Keyboard.current.escapeKey.wasPressedThisFrame)
         {
-            TogglePauseMenu();
+            if (settingsUI != null && settingsUI.activeSelf)
+            {
+                settingsUI.SetActive(false);
+            }
+            else
+            {
+                TogglePauseMenu();
+            }
         }
 
         if (Keyboard.current.mKey.wasPressedThisFrame)

@@ -5,6 +5,7 @@ public class TutorialHintTrigger : MonoBehaviour
     public GameObject hintUI;        
     public KeyCode keyToPress = KeyCode.E; 
     public KeyCode anotherKeyToPress; 
+    public string hintID = "Hint_Tutorial_Move";
 
     public bool allowSecondKey = false; 
 
@@ -18,6 +19,7 @@ public class TutorialHintTrigger : MonoBehaviour
 
     private void Start()
     {
+        hintShown = PlayerPrefs.GetInt(hintID, 0) == 1;
         hintUI.SetActive(false);
     }
 
@@ -77,6 +79,10 @@ public class TutorialHintTrigger : MonoBehaviour
         hintActive = false;
         if (playerController != null)
             playerController._isFrozen = false;
+
+
+        PlayerPrefs.SetInt(hintID, 1);
+        PlayerPrefs.Save();
 
         if (Input.GetKeyDown(KeyCode.P) || Input.GetKeyDown(KeyCode.Escape))
         {

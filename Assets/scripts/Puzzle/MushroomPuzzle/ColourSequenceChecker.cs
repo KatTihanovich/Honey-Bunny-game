@@ -42,6 +42,7 @@ public class SequenceChecker : MonoBehaviour
     {
         Debug.Log("Puzzle completed!");
         PlaySound(winSound);
+        EndWindow.puzzlesSolved++;
 
         foreach (var zone in interactableZones)
         {

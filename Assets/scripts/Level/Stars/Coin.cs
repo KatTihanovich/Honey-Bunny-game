@@ -47,7 +47,7 @@ public class Coin : MonoBehaviour
             CoinManager.Instance.MarkCoinCollected(_coinID);
             _soundManager.PlaySound("Star");
             StartCoroutine(AnimateCollectionEffect());
-            Destroy(gameObject);
+            Destroy(gameObject, 3f);
         }
     }
 

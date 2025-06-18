@@ -47,6 +47,16 @@ public class ResumeManager : MonoBehaviour
             Vector3 checkpointPosition = CheckpointManager.GetCheckpoint(targetScene);
             player.transform.position = checkpointPosition;
             Debug.Log("Player resumed at: " + checkpointPosition);
+            HealthNew playerHealth = player.GetComponent<HealthNew>();
+            if (playerHealth != null)
+            {
+                playerHealth.RestoreFull();
+                Debug.Log("Player health restored.");
+            }
+            else
+            {
+                Debug.LogWarning("HealthNew component not found on player.");
+            }
         }
         SceneManager.sceneLoaded -= OnSceneLoaded;
     }

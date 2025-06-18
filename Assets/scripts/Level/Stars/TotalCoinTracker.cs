@@ -89,7 +89,9 @@ public class TotalCoinTracker : MonoBehaviour
         PlayerPrefs.SetString(_levelCoinsKey, JsonUtility.ToJson(data));
         PlayerPrefs.Save();
 
-        FindAnyObjectByType<CoinManager>().ResetAllCollectedCoins();
+        CoinManager coinManager = FindAnyObjectByType<CoinManager>();
+        if (coinManager != null)
+            coinManager.ResetAllCollectedCoins();
 
         Debug.Log($"Прогресс уровня '{levelName}' был удалён.");
     }

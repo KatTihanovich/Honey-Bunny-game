@@ -2,12 +2,12 @@ using UnityEngine;
 
 public class TutorialHintTrigger : MonoBehaviour
 {
-    public GameObject hintUI;        
-    public KeyCode keyToPress = KeyCode.E; 
-    public KeyCode anotherKeyToPress; 
+    public GameObject hintUI;
+    public KeyCode keyToPress = KeyCode.E;
+    public KeyCode anotherKeyToPress;
     public string hintID = "Hint_Tutorial_Move";
 
-    public bool allowSecondKey = false; 
+    public bool allowSecondKey = false;
 
     private bool isPlayerInRange = false;
     private bool hintShown = false;
@@ -46,7 +46,7 @@ public class TutorialHintTrigger : MonoBehaviour
             isPlayerInRange = true;
 
             playerController = other.GetComponent<PlayerController>();
-            playerAnimation = other.GetComponent<PlayerAnimation>(); 
+            playerAnimation = other.GetComponent<PlayerAnimation>();
             if (playerController != null)
             {
                 ShowHintAndFreezePlayer();
@@ -69,7 +69,7 @@ public class TutorialHintTrigger : MonoBehaviour
         hintUI.SetActive(true);
         hintActive = true;
         if (playerAnimation != null)
-            playerAnimation.PlayIdle(); 
+            playerAnimation.PlayIdle();
 
         playerController._isFrozen = true;
     }
@@ -90,4 +90,19 @@ public class TutorialHintTrigger : MonoBehaviour
         }
 
     }
+    public static void ClearAllHints()
+    {
+        PlayerPrefs.DeleteKey("move");
+        PlayerPrefs.DeleteKey("jump");
+        PlayerPrefs.DeleteKey("jump2");
+        PlayerPrefs.DeleteKey("interact");
+        PlayerPrefs.DeleteKey("fight");
+        PlayerPrefs.DeleteKey("interact2");
+        PlayerPrefs.DeleteKey("star");
+        PlayerPrefs.DeleteKey("pause");
+        PlayerPrefs.DeleteKey("look");
+        PlayerPrefs.DeleteKey("ultimate");
+        PlayerPrefs.Save();
+    }
+
 }

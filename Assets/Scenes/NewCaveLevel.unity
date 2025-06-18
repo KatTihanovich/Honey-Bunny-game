@@ -6457,8 +6457,28 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 3559859109596356952, guid: 1e7a9905875b62a45a71ff74153d9c52, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 223768488}
   m_SourcePrefab: {fileID: 100100000, guid: 1e7a9905875b62a45a71ff74153d9c52, type: 3}
+--- !u!1 &223768487 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3559859109596356952, guid: 1e7a9905875b62a45a71ff74153d9c52, type: 3}
+  m_PrefabInstance: {fileID: 223768486}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &223768488
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 223768487}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a4e824127edba1246b0e6a3c1b8b2c6e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &227087057
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -12743,6 +12763,7 @@ MonoBehaviour:
   hintUI: {fileID: 1210513338}
   keyToPress: 115
   anotherKeyToPress: 0
+  hintID: Hint_Tutorial_Move
   allowSecondKey: 0
 --- !u!61 &450069864
 BoxCollider2D:

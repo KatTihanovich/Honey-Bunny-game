@@ -24,10 +24,10 @@ public class PlayerRespawn : MonoBehaviour
             }
             else
             {
-                Debug.LogWarning("UIManager не найден в сцене!");
+                Debug.LogWarning("UIManager пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅ!");
             }
 
-            Debug.LogWarning("Нет установленной точки респауна!");
+            Debug.LogWarning("пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ!");
             return;
         }
 
@@ -55,15 +55,15 @@ public class PlayerRespawn : MonoBehaviour
             animator.SetTrigger("Respawn");
         }
 
-        // Логирование респавна
-        Debug.Log("Игрок респавнится через " + delay + " сек");
+        // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+        Debug.Log("пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ " + delay + " пїЅпїЅпїЅ");
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("Checkpoint"))
         {
-            Debug.Log("Точка респауна установлена");
+            Debug.Log("пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ");
             currentCheckpoint = collision.transform;
             collision.GetComponent<Collider2D>().enabled = false; 
 

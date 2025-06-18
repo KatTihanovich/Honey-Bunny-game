@@ -1,6 +1,7 @@
 using UnityEngine;
-using Spine.Unity; 
+using Spine.Unity;
 using Game.Audio;
+using UnityEngine.SceneManagement;
 
 public class Checkpoint : MonoBehaviour
 {
@@ -39,6 +40,7 @@ public class Checkpoint : MonoBehaviour
             skeletonAnim.AnimationState.SetAnimation(0, "light on", true);
         }
         _soundManager.PlaySound("Checkpoint");
+        CheckpointManager.SetCheckpoint(SceneManager.GetActiveScene().name, transform.position);
   
     }
 }

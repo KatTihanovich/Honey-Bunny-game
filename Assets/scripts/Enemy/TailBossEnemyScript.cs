@@ -10,6 +10,7 @@ namespace Enemy
         private static readonly int DissapearTrigger = Animator.StringToHash("Diappearing");
 
         [Header("Boss")]
+        [SerializeField] private HealthNew _healtBossHead;
         public GameObject tailBoss;
         private Animator animator;
         private BoxCollider2D tailBossCollider2D;
@@ -77,6 +78,7 @@ namespace Enemy
         {
             animator.SetTrigger("Damage");
             _soundManager.PlaySound("Damage");
+            _healtBossHead.TakeDamage(5);
         }
 
         private void Update()

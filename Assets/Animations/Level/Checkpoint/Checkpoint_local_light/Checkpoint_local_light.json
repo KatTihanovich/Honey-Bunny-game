@@ -1,0 +1,64 @@
+{
+"skeleton": {
+	"hash": "v0+F6gNwNvsMHogzqwV0drKecE4",
+	"spine": "3.8",
+	"x": -159.59,
+	"y": -152.97,
+	"width": 322,
+	"height": 266,
+	"images": "../Checkpoint_local/",
+	"audio": "C:/Users/temus/Documents/Sai&Ph/Анимация/Spine/Checkpoint_local"
+},
+"bones": [
+	{ "name": "root" },
+	{ "name": "Light_On", "parent": "root", "rotation": -90, "x": 1.13, "y": -2.21 },
+	{ "name": "Light_off", "parent": "root", "rotation": -90, "x": 2.45, "y": -2.21 }
+],
+"slots": [
+	{ "name": "Light_off", "bone": "Light_off", "attachment": "Light_off" },
+	{ "name": "Light_On", "bone": "Light_On", "attachment": "Light_On" }
+],
+"skins": [
+	{
+		"name": "default",
+		"attachments": {
+			"Light_off": {
+				"Light_off": { "x": -7.74, "y": -2.04, "rotation": 90, "width": 188, "height": 185 }
+			},
+			"Light_On": {
+				"Light_On": { "x": 17.76, "y": 0.28, "rotation": 90, "width": 322, "height": 266 }
+			}
+		}
+	}
+],
+"animations": {
+	"light off": {
+		"slots": {
+			"Light_On": {
+				"color": [
+					{ "color": "ffffff00" }
+				]
+			}
+		}
+	},
+	"light on": {
+		"slots": {
+			"Light_On": {
+				"color": [
+					{ "color": "ffffff00", "curve": 0.25, "c3": 0.75 },
+					{ "time": 0.1667, "color": "ffffffff", "curve": 0.25, "c3": 0.75 },
+					{ "time": 0.3333, "color": "ffffff00", "curve": 0.25, "c3": 0.75 },
+					{ "time": 0.6667, "color": "ffffffff", "curve": 0.25, "c3": 0.75 },
+					{ "time": 0.8333, "color": "ffffff00", "curve": 0.25, "c3": 0.75 },
+					{ "time": 1.1667, "color": "ffffffff", "curve": 0.245, "c3": 0.637, "c4": 0.56 },
+					{ "time": 1.6667, "color": "ffffff95", "curve": 0.381, "c2": 0.55, "c3": 0.742 },
+					{ "time": 2, "color": "ffffffff", "curve": 0.245, "c3": 0.637, "c4": 0.56 },
+					{ "time": 2.5, "color": "ffffff95", "curve": 0.381, "c2": 0.55, "c3": 0.742 },
+					{ "time": 3, "color": "ffffffff", "curve": 0.25, "c3": 0.237, "c4": 1.12 },
+					{ "time": 3.8333, "color": "ffffff00" }
+				]
+			}
+		}
+	}
+}
+}

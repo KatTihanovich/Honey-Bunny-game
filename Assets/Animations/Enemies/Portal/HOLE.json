@@ -1,0 +1,331 @@
+{
+"skeleton": {
+	"hash": "l+m87s/UwUB9U1x/7qnL6sgzCAM",
+	"spine": "3.8",
+	"x": -251.79,
+	"y": -17.54,
+	"width": 500.66,
+	"height": 139.35,
+	"images": "./Hole Anim/",
+	"audio": ""
+},
+"bones": [
+	{ "name": "root", "rotation": 0.31 },
+	{ "name": "Hole_phase2", "parent": "root", "x": -4.84, "y": 52.14 },
+	{ "name": "Rock", "parent": "root", "x": -2.81, "y": 22.03 },
+	{ "name": "Hole_phase1", "parent": "root", "x": -7.09, "y": 44.81 },
+	{ "name": "Rock2", "parent": "root", "x": 69.11, "y": 19.44 },
+	{ "name": "Rock3", "parent": "root", "x": -82.85, "y": 15.86 }
+],
+"slots": [
+	{ "name": "Hole_phase2", "bone": "Hole_phase2", "attachment": "Hole_phase2" },
+	{ "name": "Mask", "bone": "Hole_phase2", "attachment": "Mask" },
+	{ "name": "Rock", "bone": "Rock", "attachment": "Rock" },
+	{ "name": "Rock2", "bone": "Rock2", "attachment": "Rock" },
+	{ "name": "Rock3", "bone": "Rock3", "attachment": "Rock" },
+	{ "name": "Hole_phase1", "bone": "Hole_phase1", "attachment": "Hole_phase1" }
+],
+"skins": [
+	{
+		"name": "default",
+		"attachments": {
+			"Rock": {
+				"Rock": {
+					"type": "mesh",
+					"uvs": [ 1, 1, 0, 1, 0, 0, 1, 0 ],
+					"triangles": [ 1, 2, 3, 1, 3, 0 ],
+					"vertices": [ 33.81, -37.03, -33.19, -37.03, -33.19, 29.97, 33.81, 29.97 ],
+					"hull": 4,
+					"edges": [ 0, 2, 2, 4, 4, 6, 0, 6 ],
+					"width": 67,
+					"height": 67
+				}
+			},
+			"Mask": {
+				"Mask": {
+					"type": "clipping",
+					"end": "Rock3",
+					"vertexCount": 19,
+					"vertices": [ -277.93, 2.56, -218.15, 7.92, -209.15, -10.33, -158.6, -27.68, -134.38, -31.99, -83.6, -36.66, -31.68, -40.28, 17.48, -41.73, 62.77, -40.22, 110.18, -36.27, 155.84, -31.25, 195.74, -21.14, 214.62, -10.91, 227.22, -0.27, 409.08, -5.38, 390.83, 145.91, 141.46, 248.06, -120.5, 218.58, -284.09, 154.79 ],
+					"color": "ce3a3aff"
+				}
+			},
+			"Rock2": {
+				"Rock": {
+					"type": "mesh",
+					"uvs": [ 1, 1, 0, 1, 0, 0, 1, 0 ],
+					"triangles": [ 1, 2, 3, 1, 3, 0 ],
+					"vertices": [ 34.25, -31.3, -32.75, -31.3, -32.75, 35.7, 34.25, 35.7 ],
+					"hull": 4,
+					"edges": [ 0, 2, 2, 4, 4, 6, 0, 6 ],
+					"width": 67,
+					"height": 67
+				}
+			},
+			"Rock3": {
+				"Rock": {
+					"type": "mesh",
+					"uvs": [ 1, 1, 0, 1, 0, 0, 1, 0 ],
+					"triangles": [ 1, 2, 3, 1, 3, 0 ],
+					"vertices": [ 34.24, -32.77, -32.76, -32.77, -32.76, 34.23, 34.24, 34.23 ],
+					"hull": 4,
+					"edges": [ 0, 2, 2, 4, 4, 6, 0, 6 ],
+					"width": 67,
+					"height": 67
+				}
+			},
+			"Hole_phase1": {
+				"Hole_phase1": {
+					"type": "mesh",
+					"uvs": [ 1, 1, 0, 1, 0, 0, 1, 0 ],
+					"triangles": [ 1, 2, 3, 1, 3, 0 ],
+					"vertices": [ 77.09, -41.81, -76.91, -41.81, -76.91, 37.19, 77.09, 37.19 ],
+					"hull": 4,
+					"edges": [ 0, 2, 2, 4, 4, 6, 0, 6 ],
+					"width": 154,
+					"height": 79
+				}
+			},
+			"Hole_phase2": {
+				"Hole_phase2": {
+					"type": "mesh",
+					"uvs": [ 1, 1, 0, 1, 0, 0, 1, 0 ],
+					"triangles": [ 1, 2, 3, 1, 3, 0 ],
+					"vertices": [ 253.71, -53.68, -246.29, -53.68, -246.29, 68.32, 253.71, 68.32 ],
+					"hull": 4,
+					"edges": [ 0, 2, 2, 4, 4, 6, 0, 6 ],
+					"width": 500,
+					"height": 122
+				}
+			}
+		}
+	}
+],
+"events": {
+	"APPEARING": {},
+	"DISAPPEARING": {}
+},
+"animations": {
+	"APPEARING": {
+		"slots": {
+			"Hole_phase2": {
+				"color": [
+					{ "color": "ffffff00", "curve": "stepped" },
+					{ "time": 0.1333, "color": "ffffff00" },
+					{ "time": 0.1667, "color": "ffffffff" }
+				]
+			},
+			"Rock3": {
+				"color": [
+					{ "color": "ffffff00", "curve": "stepped" },
+					{ "time": 0.2333, "color": "ffffff00" },
+					{ "time": 0.2667, "color": "ffffffff", "curve": "stepped" },
+					{ "time": 0.3333, "color": "ffffffff" },
+					{ "time": 0.4, "color": "ffffff00" }
+				]
+			},
+			"Rock2": {
+				"color": [
+					{ "color": "ffffff00", "curve": "stepped" },
+					{ "time": 0.1, "color": "ffffff00" },
+					{ "time": 0.1333, "color": "ffffffff", "curve": "stepped" },
+					{ "time": 0.2, "color": "ffffffff" },
+					{ "time": 0.2667, "color": "ffffff00" }
+				]
+			},
+			"Hole_phase1": {
+				"color": [
+					{ "time": 0.1333, "color": "ffffffff" },
+					{ "time": 0.1667, "color": "ffffff00" }
+				]
+			},
+			"Rock": {
+				"color": [
+					{ "color": "ffffff00", "curve": "stepped" },
+					{ "time": 0.173, "color": "ffffff00" },
+					{ "time": 0.2, "color": "ffffffff", "curve": "stepped" },
+					{ "time": 0.3, "color": "ffffffff" },
+					{ "time": 0.3333, "color": "ffffff00" }
+				]
+			}
+		},
+		"bones": {
+			"Hole_phase2": {
+				"translate": [
+					{ "time": 0.1333, "x": -0.07, "y": -12.32 },
+					{ "time": 0.2333 }
+				],
+				"scale": [
+					{ "time": 0.1333, "x": 0.385, "y": 0.385 },
+					{ "time": 0.2333, "x": 1.05, "y": 1.05 },
+					{ "time": 0.2667 }
+				]
+			},
+			"Rock3": {
+				"rotate": [
+					{ "angle": -35.49, "curve": "stepped" },
+					{ "time": 0.2667, "angle": -35.49, "curve": 0.25, "c3": 0.75 },
+					{ "time": 0.4, "angle": -6.03 },
+					{ "time": 0.4333, "angle": -35.49 }
+				],
+				"translate": [
+					{ "x": 48.4, "y": -19.87, "curve": "stepped" },
+					{ "time": 0.2667, "x": 48.4, "y": -19.87, "curve": 0.25, "c3": 0.75 },
+					{ "time": 0.3333, "x": 49.26, "y": 139.05, "curve": 0.25, "c3": 0.332 },
+					{ "time": 0.4, "x": -2.02, "y": 197.13 },
+					{ "time": 0.4333, "x": 48.4, "y": -19.87 }
+				],
+				"scale": [
+					{ "x": 0.13, "y": 0.13, "curve": "stepped" },
+					{ "time": 0.2667, "x": 0.13, "y": 0.13, "curve": 0.25, "c3": 0.75 },
+					{ "time": 0.4, "x": 0.79, "y": 0.79 },
+					{ "time": 0.4333, "x": 0.13, "y": 0.13 }
+				]
+			},
+			"Rock2": {
+				"rotate": [
+					{ "angle": 108.82, "curve": "stepped" },
+					{ "time": 0.1333, "angle": 108.82, "curve": 0.25, "c3": 0.75 },
+					{ "time": 0.2667, "angle": -104.76 },
+					{ "time": 0.3, "angle": 108.82 }
+				],
+				"translate": [
+					{ "x": -0.3, "y": -54.78, "curve": "stepped" },
+					{ "time": 0.1333, "x": -0.3, "y": -54.78, "curve": 0.25, "c3": 0.404 },
+					{ "time": 0.2, "x": 96.76, "y": 152.01, "curve": 0.625, "c3": 0.75 },
+					{ "time": 0.2667, "x": 175.64, "y": 119.71 },
+					{ "time": 0.3, "x": -0.3, "y": -54.78 }
+				],
+				"scale": [
+					{ "x": 0.078, "y": 0.078, "curve": "stepped" },
+					{ "time": 0.1333, "x": 0.078, "y": 0.078, "curve": 0.25, "c3": 0.75 },
+					{ "time": 0.2667, "x": 0.921, "y": 0.921 },
+					{ "time": 0.3, "x": 0.078, "y": 0.078 }
+				]
+			},
+			"Rock": {
+				"rotate": [
+					{ "time": 0.2, "curve": 0.25, "c3": 0.75 },
+					{ "time": 0.3333, "angle": 91.79 },
+					{ "time": 0.3667 }
+				],
+				"translate": [
+					{ "x": -94.65, "y": -46.07, "curve": "stepped" },
+					{ "time": 0.2, "x": -94.65, "y": -46.07, "curve": 0.303, "c3": 0.75 },
+					{ "time": 0.2667, "x": -94.09, "y": 58.01, "curve": 0, "c2": 0.23, "c3": 0.519 },
+					{ "time": 0.3333, "x": -194.06, "y": 142.55 },
+					{ "time": 0.3667, "x": -94.65, "y": -46.07 }
+				],
+				"scale": [
+					{ "x": 0.504, "y": 0.504, "curve": "stepped" },
+					{ "time": 0.2, "x": 0.504, "y": 0.504, "curve": 0.25, "c3": 0.75 },
+					{ "time": 0.3333, "x": 1.18, "y": 1.18 },
+					{ "time": 0.3667, "x": 0.504, "y": 0.504 }
+				]
+			},
+			"Hole_phase1": {
+				"scale": [
+					{ "x": 0.233, "y": 0.123 },
+					{ "time": 0.1667, "x": 0.926, "y": 0.561 }
+				]
+			}
+		},
+		"drawOrder": [
+			{
+				"offsets": [
+					{ "slot": "Hole_phase1", "offset": -5 }
+				]
+			}
+		],
+		"events": [
+			{ "name": "APPEARING" }
+		]
+	},
+	"DIAPPEARING": {
+		"slots": {
+			"Hole_phase2": {
+				"color": [
+					{ "time": 0.1333, "color": "ffffffff" },
+					{ "time": 0.1667, "color": "ffffff00" }
+				]
+			},
+			"Rock3": {
+				"color": [
+					{ "color": "ffffff00" }
+				]
+			},
+			"Rock2": {
+				"color": [
+					{ "color": "ffffff00" }
+				]
+			},
+			"Hole_phase1": {
+				"color": [
+					{ "color": "ffffff00", "curve": "stepped" },
+					{ "time": 0.1333, "color": "ffffff00" },
+					{ "time": 0.1667, "color": "ffffffff", "curve": "stepped" },
+					{ "time": 0.3, "color": "ffffffff" },
+					{ "time": 0.3333, "color": "ffffff00" }
+				]
+			},
+			"Rock": {
+				"color": [
+					{ "color": "ffffff00" }
+				]
+			}
+		},
+		"bones": {
+			"Hole_phase2": {
+				"scale": [
+					{},
+					{ "time": 0.0333, "x": 1.05, "y": 1.05, "curve": 0.284, "c4": 0.7 },
+					{ "time": 0.2, "x": 0.531, "y": 0.531 }
+				]
+			},
+			"Hole_phase1": {
+				"translate": [
+					{ "time": 0.1667, "x": 0.02, "y": 3.34 }
+				],
+				"scale": [
+					{ "time": 0.1667, "x": 1.412, "y": 0.656, "curve": 0, "c2": 0.38, "c3": 0.75 },
+					{ "time": 0.3, "x": 0.4, "y": 0.28 }
+				]
+			}
+		},
+		"drawOrder": [
+			{
+				"offsets": [
+					{ "slot": "Hole_phase2", "offset": 5 }
+				]
+			}
+		],
+		"events": [
+			{ "name": "DISAPPEARING" }
+		]
+	},
+	"IDLE": {
+		"slots": {
+			"Rock3": {
+				"color": [
+					{ "color": "ffffff00" }
+				]
+			},
+			"Rock2": {
+				"color": [
+					{ "color": "ffffff00" }
+				]
+			},
+			"Hole_phase1": {
+				"color": [
+					{ "color": "ffffff00" }
+				]
+			},
+			"Rock": {
+				"color": [
+					{ "color": "ffffff00" }
+				]
+			}
+		}
+	}
+}
+}

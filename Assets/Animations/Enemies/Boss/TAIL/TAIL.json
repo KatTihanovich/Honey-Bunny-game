@@ -1,0 +1,58 @@
+{
+"skeleton": {
+	"hash": "zlYc3y4QOIox8XlszZ7xpQNuvkg",
+	"spine": "3.8",
+	"x": -262,
+	"y": -5,
+	"width": 518,
+	"height": 1342,
+	"images": "./Hvost Anim/",
+	"audio": ""
+},
+"bones": [
+	{ "name": "root" }
+],
+"slots": [
+	{ "name": "Tail", "bone": "root", "attachment": "Tail" }
+],
+"skins": [
+	{
+		"name": "default",
+		"attachments": {
+			"Tail": {
+				"Tail": { "x": -3, "y": 666, "width": 518, "height": 1342 }
+			}
+		}
+	}
+],
+"events": {
+	"DAMAGE": {}
+},
+"animations": {
+	"DAMAGE": {
+		"slots": {
+			"Tail": {
+				"color": [
+					{ "time": 0.1667, "color": "ffffffff", "curve": 0.25, "c3": 0.75 },
+					{ "time": 0.4, "color": "ff0000ff", "curve": 0.25, "c3": 0.75 },
+					{ "time": 0.6667, "color": "ffffffff" }
+				]
+			}
+		},
+		"bones": {
+			"root": {
+				"scale": [
+					{ "curve": 0, "c2": 0.45, "c3": 0.308 },
+					{ "time": 0.3333, "y": 0.942, "curve": "stepped" },
+					{ "time": 0.5, "y": 0.942, "curve": 0.25, "c4": 0.73 },
+					{ "time": 0.8333 }
+				]
+			}
+		},
+		"events": [
+			{ "name": "DAMAGE" }
+		]
+	},
+	"IDLE": {}
+}
+}

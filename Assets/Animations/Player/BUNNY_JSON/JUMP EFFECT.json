@@ -1,0 +1,64 @@
+{
+"skeleton": {
+	"hash": "+K4s4n3xdS/0H+YI1ovrmEkcAFo",
+	"spine": "3.8",
+	"x": -497,
+	"y": -256,
+	"width": 994,
+	"height": 512,
+	"images": "../Bunny Anim/Jump Effect/",
+	"audio": ""
+},
+"bones": [
+	{ "name": "root" },
+	{ "name": "bone", "parent": "root", "x": -0.57, "y": 167.31 }
+],
+"slots": [
+	{ "name": "01", "bone": "bone", "attachment": "01", "blend": "additive" }
+],
+"skins": [
+	{
+		"name": "default",
+		"attachments": {
+			"01": {
+				"01": { "x": 0.57, "y": -167.31, "width": 994, "height": 512 },
+				"02": { "x": 0.57, "y": -167.31, "width": 994, "height": 512 },
+				"03": { "x": 0.57, "y": -167.31, "width": 994, "height": 512 },
+				"04": { "x": 0.57, "y": -167.31, "width": 994, "height": 512 }
+			}
+		}
+	}
+],
+"animations": {
+	"JUMP EFFECT": {
+		"slots": {
+			"01": {
+				"color": [
+					{ "color": "ffffff00", "curve": "stepped" },
+					{ "time": 0.0333, "color": "ffffff00" },
+					{ "time": 0.1, "color": "ffffff96", "curve": "stepped" },
+					{ "time": 0.3333, "color": "ffffff96" },
+					{ "time": 0.3667, "color": "ffffff00" }
+				],
+				"attachment": [
+					{ "time": 0.1667, "name": "02" },
+					{ "time": 0.2333, "name": "03" },
+					{ "time": 0.3, "name": "04" }
+				]
+			}
+		},
+		"bones": {
+			"bone": {
+				"translate": [
+					{ "y": -172.69 }
+				],
+				"scale": [
+					{ "time": 0.0333 },
+					{ "time": 0.0667, "y": 0.345 },
+					{ "time": 0.1 }
+				]
+			}
+		}
+	}
+}
+}

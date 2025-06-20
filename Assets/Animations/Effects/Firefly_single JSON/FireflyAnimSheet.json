@@ -1,0 +1,84 @@
+{
+"skeleton": {
+	"hash": "Stsc+ieAZLOl8WAWfDfZzSne/i0",
+	"spine": "3.8",
+	"x": -98,
+	"y": -2,
+	"width": 193,
+	"height": 258,
+	"images": "",
+	"audio": "C:/Users/temus/Documents/Sai&Ph/Анимация/Spine/Firefly_single"
+},
+"bones": [
+	{ "name": "root" },
+	{ "name": "Ball", "parent": "root", "x": -1.16, "y": 92.99 },
+	{ "name": "wing_R", "parent": "Ball", "length": 139.32, "rotation": 64.26, "x": 17.18, "y": 35.86 },
+	{ "name": "Wing_L", "parent": "Ball", "length": 140.67, "rotation": 115.48, "x": -23.16, "y": 34.36 }
+],
+"slots": [
+	{ "name": "Firefly", "bone": "Ball", "attachment": "Firefly" },
+	{ "name": "wing_R", "bone": "wing_R", "attachment": "wing_R" },
+	{ "name": "wing_l", "bone": "Wing_L", "attachment": "wing_l" }
+],
+"skins": [
+	{
+		"name": "default",
+		"attachments": {
+			"Firefly": {
+				"Firefly": { "x": -0.34, "y": 1.51, "width": 193, "height": 193 }
+			},
+			"wing_R": {
+				"wing_R": { "x": 70.09, "y": -2.27, "rotation": -64.26, "width": 69, "height": 130 }
+			},
+			"wing_l": {
+				"wing_l": { "x": 70.87, "y": 0.77, "rotation": -115.48, "width": 69, "height": 130 }
+			}
+		}
+	}
+],
+"animations": {
+	"floating": {
+		"bones": {
+			"Ball": {
+				"translate": [
+					{ "curve": 0.25, "c3": 0.75 },
+					{ "time": 1, "y": 94.72, "curve": 0.25, "c3": 0.75 },
+					{ "time": 2, "curve": 0.25, "c3": 0.75 },
+					{ "time": 2.6667, "y": 62.35, "curve": 0.25, "c3": 0.75 },
+					{ "time": 3.3333 }
+				]
+			},
+			"Wing_L": {
+				"rotate": [
+					{ "curve": 0.25, "c3": 0.75 },
+					{ "time": 0.3333, "angle": 120.08, "curve": 0.25, "c3": 0.75 },
+					{ "time": 0.6667, "curve": 0.25, "c3": 0.75 },
+					{ "time": 1, "angle": 120.08, "curve": 0.25, "c3": 0.75 },
+					{ "time": 1.3333, "curve": 0.25, "c3": 0.75 },
+					{ "time": 1.6667, "angle": 120.08, "curve": 0.25, "c3": 0.75 },
+					{ "time": 2, "curve": 0.25, "c3": 0.75 },
+					{ "time": 2.3333, "angle": 120.08, "curve": 0.25, "c3": 0.75 },
+					{ "time": 2.6667, "curve": 0.25, "c3": 0.75 },
+					{ "time": 3, "angle": 120.08, "curve": 0.25, "c3": 0.75 },
+					{ "time": 3.3333 }
+				]
+			},
+			"wing_R": {
+				"rotate": [
+					{ "curve": 0.25, "c3": 0.75 },
+					{ "time": 0.3333, "angle": -120.67, "curve": 0.25, "c3": 0.75 },
+					{ "time": 0.6667, "curve": 0.25, "c3": 0.75 },
+					{ "time": 1, "angle": -120.67, "curve": 0.25, "c3": 0.75 },
+					{ "time": 1.3333, "curve": 0.25, "c3": 0.75 },
+					{ "time": 1.6667, "angle": -120.67, "curve": 0.25, "c3": 0.75 },
+					{ "time": 2, "curve": 0.25, "c3": 0.75 },
+					{ "time": 2.3333, "angle": -120.67, "curve": 0.25, "c3": 0.75 },
+					{ "time": 2.6667, "curve": 0.25, "c3": 0.75 },
+					{ "time": 3, "angle": -120.67, "curve": 0.25, "c3": 0.75 },
+					{ "time": 3.3333 }
+				]
+			}
+		}
+	}
+}
+}

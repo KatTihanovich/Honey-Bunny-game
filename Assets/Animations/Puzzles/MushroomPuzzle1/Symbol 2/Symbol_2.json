@@ -1,0 +1,82 @@
+{
+"skeleton": {
+	"hash": "OO4o1IrA6f/ciKiuMHRFF+lOyeY",
+	"spine": "3.8",
+	"x": -53,
+	"y": -18,
+	"width": 110,
+	"height": 90,
+	"images": "",
+	"audio": "C:/Users/temus/Documents/Sai&Ph/Анимация/Spine/Column"
+},
+"bones": [
+	{ "name": "root" },
+	{ "name": "Symbol_2", "parent": "root", "x": 1.4, "y": 22.95 }
+],
+"slots": [
+	{ "name": "Symbol_2", "bone": "Symbol_2", "attachment": "Symbol_2" }
+],
+"skins": [
+	{
+		"name": "default",
+		"attachments": {
+			"Symbol_2": {
+				"Symbol_2": { "x": 0.6, "y": 4.05, "width": 110, "height": 90 }
+			}
+		}
+	}
+],
+"animations": {
+	"Idle_Off": {
+		"slots": {
+			"Symbol_2": {
+				"color": [
+					{ "color": "2d2d2dff", "curve": "stepped" },
+					{ "time": 1, "color": "2d2d2dff" }
+				]
+			}
+		}
+	},
+	"Idle_On": {
+		"bones": {
+			"Symbol_2": {
+				"scale": [
+					{ "time": 1 }
+				]
+			}
+		}
+	},
+	"Idle_On_animation": {
+		"slots": {
+			"Symbol_2": {
+				"color": [
+					{ "time": 0.3333, "color": "ffffffff", "curve": 0.25, "c3": 0.75 },
+					{ "time": 0.8333, "color": "d8d8d8ff", "curve": 0.25, "c3": 0.75 },
+					{ "time": 1.3333, "color": "ffffffff", "curve": "stepped" },
+					{ "time": 6.6667, "color": "ffffffff" }
+				]
+			}
+		}
+	},
+	"Symbol_Fade_animation": {
+		"slots": {
+			"Symbol_2": {
+				"color": [
+					{ "color": "ffffffff", "curve": 0.25, "c3": 0.75 },
+					{ "time": 1, "color": "2d2d2dff" }
+				]
+			}
+		}
+	},
+	"Symbol_Light_animation": {
+		"slots": {
+			"Symbol_2": {
+				"color": [
+					{ "color": "2d2d2dff", "curve": 0.25, "c3": 0.75 },
+					{ "time": 1, "color": "ffffffff" }
+				]
+			}
+		}
+	}
+}
+}

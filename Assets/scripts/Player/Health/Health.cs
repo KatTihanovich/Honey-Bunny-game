@@ -1,78 +1,75 @@
 using UnityEngine;
-using System.Collections;
-using System.Collections.Generic;
-
+using UnityEngine.UI;
+using UnityEngine.Audio;
+using UnityEngine.EventSystems;
 public class Health : MonoBehaviour
 {
-    [Header ("Health")]
+    [Header("Health Settings")]
     [SerializeField] private float startingHealth;
-    public float currentHealth { get; private set; }
-    private bool dead;
+    public float CurrentHealth { get; private set; }
+    private bool isDead = false;
 
+    public GameObject deathCanvas;
+    public GameObject toSelect;
 
-    [Header("Health")]
-    [SerializeField] private float iFramesDuration;
-    [SerializeField] private int numberofFlashes;
-    [SerializeField] private SpriteRenderer spriteRend;
+    public event System.Action<float> OnHealthChanged;
 
-
+    [SerializeField] private AudioMixerGroup audioMixerGroup;
+    public AudioClip damageSound;
+    [SerializeField] private float volume = 1.0f;
 
 
     private void Awake()
     {
-        currentHealth = startingHealth;
-        spriteRend = GetComponent<SpriteRenderer>();
+        CurrentHealth = startingHealth;
     }
-    public void TakeDamage(float _damage)
+
+    public void TakeDamage(float damage)
     {
-        currentHealth = Mathf.Clamp(currentHealth - _damage, 0, startingHealth);
-        if (currentHealth > 0)
-        {
-            StartCoroutine(Invunerability());
-        }
-        else
-        {
-            if (!dead)
-            {
-                GetComponent<PlayerMovement>().enabled = false;
-                dead = true;
-            }
+        if (isDead) return; // If already dead, no further damage can be taken
 
+        // Handheld.Vibrate();
+
+        // Reduce health and invoke the health changed event
+        Play(damageSound);
+        CurrentHealth = Mathf.Clamp(CurrentHealth - damage, 0, startingHealth);
+        if (CurrentHealth == 0 && deathCanvas != null)
+        {
+            EventSystem.current.SetSelectedGameObject(toSelect);
+            deathCanvas.SetActive(true);
+            Time.timeScale = 0f;
         }
+        OnHealthChanged?.Invoke(CurrentHealth);
     }
 
-
-    private void Update()
+    public void AddHealth(float value)
     {
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            TakeDamage(1);
-        }
-    }
+        if (isDead) return; // No health can be added if the character is dead
 
+        // Increase health and invoke the health changed event
+        CurrentHealth = Mathf.Clamp(CurrentHealth + value, 0, startingHealth);
+        OnHealthChanged?.Invoke(CurrentHealth);
+    }
     public void Respawn()
     {
-        AddHealth(startingHealth);
-        dead = false;
-        GetComponent<PlayerMovement>().enabled = true;
-        StartCoroutine(Invunerability());
+        CurrentHealth = startingHealth;
+        isDead = false;
+        OnHealthChanged?.Invoke(CurrentHealth);
+    }
 
-    }
-    public void AddHealth(float _value)
+    private void Play(AudioClip clip)
     {
-        currentHealth = Mathf.Clamp(currentHealth + _value, 0, startingHealth);
-    }
-    private IEnumerator Invunerability()
-    {
-        Physics2D.IgnoreLayerCollision(8,9, true);
-        for (int i = 0; i < numberofFlashes; i++)
+        if (clip != null && audioMixerGroup != null)
         {
+            GameObject tempAudio = new GameObject("TempAudioClip");
+            AudioSource audioSource = tempAudio.AddComponent<AudioSource>();
 
-            spriteRend.color = new Color(1, 0, 0, 0.5f);
-            yield return new WaitForSeconds(iFramesDuration / (numberofFlashes * 2));
-            spriteRend.color = Color.white;
-            yield return new WaitForSeconds(iFramesDuration / (numberofFlashes * 2));
+            audioSource.outputAudioMixerGroup = audioMixerGroup;
+            audioSource.clip = clip;
+            audioSource.volume = volume;
+            audioSource.Play();
+
+            Destroy(tempAudio, clip.length);
         }
-        Physics2D.IgnoreLayerCollision(8,9, false);
     }
 }

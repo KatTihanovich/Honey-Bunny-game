@@ -1,0 +1,258 @@
+{
+"skeleton": {
+	"hash": "mI2NY0/7a4Z+Bu5/BDU5Lgc2lGs",
+	"spine": "3.8",
+	"x": -61.77,
+	"y": 711.53,
+	"width": 126.36,
+	"height": 131.54,
+	"images": "",
+	"audio": "C:/Users/temus/Documents/Sai&Ph/Анимация/Spine/Mushroom_A"
+},
+"bones": [
+	{ "name": "root" },
+	{ "name": "Base", "parent": "root", "x": -0.24, "y": -1.06 },
+	{ "name": "Stem_1", "parent": "Base", "length": 150.58, "rotation": 90.49, "x": 1.29, "y": 11.58 },
+	{ "name": "Stem_2", "parent": "Stem_1", "length": 126.13, "rotation": -0.49, "x": 150.58 },
+	{ "name": "Stem_3", "parent": "Stem_2", "length": 120.98, "rotation": -0.61, "x": 126.13 },
+	{ "name": "Stem_4", "parent": "Stem_3", "length": 104.25, "rotation": 1.32, "x": 120.98 },
+	{ "name": "Head", "parent": "Stem_4", "length": 476.19, "rotation": -0.55, "x": 115.82, "y": -1.43 },
+	{ "name": "Tooth1", "parent": "Head", "length": 71.95, "rotation": 132.67, "x": 116.49, "y": 244.22 },
+	{ "name": "Tooth2", "parent": "Head", "length": 80.01, "rotation": 154.1, "x": 26.08, "y": 124.77 },
+	{ "name": "Tooth3", "parent": "Head", "length": 68.9, "rotation": -147.36, "x": 24.13, "y": -119.76 },
+	{ "name": "Tooth4", "parent": "Head", "length": 77.62, "rotation": -130.45, "x": 115.19, "y": -237.12 },
+	{ "name": "Eye_white", "parent": "Head", "x": 256.11, "y": -0.69 },
+	{ "name": "Eye_black", "parent": "Head", "x": 256.12, "y": 0.59 }
+],
+"slots": [
+	{ "name": "Tooth4", "bone": "Tooth4", "attachment": "Tooth4" },
+	{ "name": "Tooth3", "bone": "Tooth3", "attachment": "Tooth3" },
+	{ "name": "Tooth2", "bone": "Tooth2", "attachment": "Tooth2" },
+	{ "name": "Tooth1", "bone": "Tooth1", "attachment": "Tooth1" },
+	{ "name": "Head", "bone": "Head", "attachment": "Head" },
+	{ "name": "Stem", "bone": "root", "attachment": "Stem" },
+	{ "name": "Eye_white", "bone": "Eye_white", "attachment": "Eye_white" },
+	{ "name": "Eye_mask", "bone": "Eye_white", "attachment": "Eye_mask" },
+	{ "name": "Eye_pupil", "bone": "Eye_black", "attachment": "Eye_pupil" }
+],
+"skins": [
+	{
+		"name": "default",
+		"attachments": {
+			"Head": {
+				"Head": { "x": 245.46, "y": -0.12, "rotation": -90.15, "width": 567, "height": 505 }
+			},
+			"Tooth1": {
+				"Tooth1": { "x": 14.78, "y": -0.25, "rotation": 137.17, "width": 93, "height": 88 }
+			},
+			"Tooth2": {
+				"Tooth2": { "x": 14.83, "y": 12.47, "rotation": 115.74, "width": 92, "height": 100 }
+			},
+			"Tooth3": {
+				"Tooth3": { "x": 14.3, "y": -10.09, "rotation": 57.2, "width": 92, "height": 100 }
+			},
+			"Tooth4": {
+				"Tooth4": { "x": 17.29, "y": 3.03, "rotation": 40.29, "width": 98, "height": 90 }
+			},
+			"Eye_mask": {
+				"Eye_mask": {
+					"type": "clipping",
+					"end": "Eye_mask",
+					"vertexCount": 12,
+					"vertices": [ 62.92, 0.43, 56.52, 28.31, 34.55, 53, -1.71, 62.82, -32.84, 54.48, -52.32, 39.62, -68.59, 13.75, -65.45, -23.2, -40.9, -51.77, -4.64, -63.54, 30.38, -53.91, 55.71, -31.3 ],
+					"color": "ffffffff"
+				}
+			},
+			"Eye_pupil": {
+				"Eye_pupil": { "x": -3.15, "y": -1.24, "rotation": -90.15, "width": 86, "height": 90 }
+			},
+			"Stem": {
+				"Stem": {
+					"type": "mesh",
+					"uvs": [ 0, 1, 0.09089, 0.69322, 0.13769, 0.44947, 0.21959, 0.22766, 0.30149, 0, 0.72269, 1.0E-5, 0.80459, 0.22522, 0.86309, 0.4446, 0.93329, 0.69322, 1, 1 ],
+					"triangles": [ 6, 3, 4, 6, 4, 5, 3, 6, 7, 2, 3, 7, 2, 7, 8, 1, 2, 8, 1, 8, 9, 0, 1, 9 ],
+					"vertices": [ 1, 2, -13.05, 55.16, 1, 2, 2, 148.84, 43.77, 0.63433, 3, -2.12, 43.76, 0.36567, 2, 3, 126.58, 38.61, 0.38485, 4, 0.04, 38.61, 0.61515, 2, 4, 117.25, 30.85, 0.61124, 5, -3.03, 30.93, 0.38876, 1, 5, 117.05, 20.44, 1, 1, 5, 116.48, -25.89, 1, 2, 4, 119.22, -33.48, 0.60851, 5, -2.54, -33.43, 0.39149, 2, 3, 129.15, -41.18, 0.33938, 4, 3.46, -41.15, 0.66062, 2, 2, 148.04, -48.89, 0.60013, 3, -2.12, -48.91, 0.39987, 1, 2, -13.99, -54.84, 1 ],
+					"hull": 10,
+					"edges": [ 0, 2, 2, 4, 4, 6, 6, 8, 8, 10, 10, 12, 12, 14, 14, 16, 16, 18, 0, 18 ],
+					"width": 110,
+					"height": 528
+				}
+			},
+			"Eye_white": {
+				"Eye_white": { "x": -3.15, "y": 0.05, "rotation": -90.15, "width": 126, "height": 132 }
+			}
+		}
+	}
+],
+"animations": {
+	"IDLE": {
+		"bones": {
+			"Eye_white": {
+				"scale": [
+					{ "time": 3.2, "curve": 0.618, "c2": 0.03, "c3": 0.869, "c4": 0.61 },
+					{ "time": 3.6, "x": 0, "curve": 0.172, "c2": 0.92, "c3": 0.75 },
+					{ "time": 4 }
+				]
+			},
+			"Stem_2": {
+				"rotate": [
+					{},
+					{ "time": 1, "angle": 0.61 },
+					{ "time": 2 },
+					{ "time": 3, "angle": -0.4 },
+					{ "time": 4 }
+				],
+				"translate": [
+					{ "curve": 0.235, "c2": 0.03, "c3": 0.869, "c4": 0.73 },
+					{
+						"time": 1,
+						"x": -5.58,
+						"y": 0.05,
+						"curve": 0.226,
+						"c2": 0.46,
+						"c3": 0.808,
+						"c4": 0.98
+					},
+					{ "time": 2 },
+					{
+						"time": 3,
+						"x": -10.31,
+						"y": 0.09,
+						"curve": 0.226,
+						"c2": 0.46,
+						"c3": 0.808,
+						"c4": 0.98
+					},
+					{ "time": 4 }
+				]
+			},
+			"Stem_4": {
+				"rotate": [
+					{},
+					{ "time": 1, "angle": 0.61 },
+					{ "time": 2 },
+					{ "time": 3, "angle": -0.4 },
+					{ "time": 4 }
+				],
+				"translate": [
+					{ "curve": 0.235, "c3": 0.854, "c4": 0.67 },
+					{
+						"time": 1,
+						"x": -10.95,
+						"y": -0.25,
+						"curve": 0.208,
+						"c2": 0.42,
+						"c3": 0.799,
+						"c4": 0.98
+					},
+					{ "time": 2 },
+					{
+						"time": 3,
+						"x": -17.42,
+						"y": -0.4,
+						"curve": 0.208,
+						"c2": 0.42,
+						"c3": 0.799,
+						"c4": 0.98
+					},
+					{ "time": 4 }
+				]
+			},
+			"Head": {
+				"translate": [
+					{ "curve": 0.226, "c2": 0.01, "c3": 0.859, "c4": 0.78 },
+					{
+						"time": 0.8333,
+						"x": -8.83,
+						"y": 0.09,
+						"curve": 0.206,
+						"c2": 0.51,
+						"c3": 0.782,
+						"c4": 0.99
+					},
+					{ "time": 1.6667, "curve": "stepped" },
+					{ "time": 2.3333, "curve": 0.226, "c2": 0.01, "c3": 0.859, "c4": 0.78 },
+					{
+						"time": 3.1667,
+						"x": -12.45,
+						"y": 0.12,
+						"curve": 0.206,
+						"c2": 0.51,
+						"c3": 0.782,
+						"c4": 0.99
+					},
+					{ "time": 4 }
+				]
+			},
+			"Stem_3": {
+				"rotate": [
+					{},
+					{ "time": 1, "angle": 0.61 },
+					{ "time": 2 },
+					{ "time": 3, "angle": -0.4 },
+					{ "time": 4 }
+				],
+				"translate": [
+					{ "curve": 0.231, "c2": 0.04, "c3": 0.861, "c4": 0.72 },
+					{
+						"time": 1,
+						"x": -6.12,
+						"y": 0.07,
+						"curve": 0.203,
+						"c2": 0.42,
+						"c3": 0.753,
+						"c4": 0.95
+					},
+					{ "time": 2 },
+					{
+						"time": 3,
+						"x": -10.31,
+						"y": 0.11,
+						"curve": 0.203,
+						"c2": 0.42,
+						"c3": 0.753,
+						"c4": 0.95
+					},
+					{ "time": 4 }
+				]
+			},
+			"Tooth1": {
+				"translate": [
+					{},
+					{ "time": 1, "x": 6.41, "y": -6.95 },
+					{ "time": 2 },
+					{ "time": 3, "x": 6.41, "y": -6.95 },
+					{ "time": 4 }
+				]
+			},
+			"Tooth2": {
+				"translate": [
+					{},
+					{ "time": 1, "x": 9.55, "y": -4.64 },
+					{ "time": 2 },
+					{ "time": 3, "x": 9.55, "y": -4.64 },
+					{ "time": 4 }
+				]
+			},
+			"Tooth3": {
+				"translate": [
+					{},
+					{ "time": 1, "x": 10.23, "y": 6.55 },
+					{ "time": 2 },
+					{ "time": 3, "x": 10.23, "y": 6.55 },
+					{ "time": 4 }
+				]
+			},
+			"Tooth4": {
+				"translate": [
+					{},
+					{ "time": 1, "x": 5.72, "y": 6.71 },
+					{ "time": 2 },
+					{ "time": 3, "x": 5.72, "y": 6.71 },
+					{ "time": 4 }
+				]
+			}
+		}
+	}
+}
+}

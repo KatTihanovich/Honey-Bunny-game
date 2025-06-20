@@ -1,0 +1,167 @@
+{
+"skeleton": {
+	"hash": "habb40KJG6mHV40qgTq7eiWNA1c",
+	"spine": "3.8",
+	"x": -308,
+	"y": -119,
+	"width": 612,
+	"height": 612,
+	"images": "",
+	"audio": "D:/СЕССИЯ/Зима 2025/Honey&Bunny game/Star Anim"
+},
+"bones": [
+	{ "name": "root" },
+	{ "name": "bone", "parent": "root", "x": 1.55, "y": 172.66 },
+	{ "name": "bone2", "parent": "bone", "x": 31.85, "y": 1.82 },
+	{ "name": "bone3", "parent": "root", "x": 0.96, "y": 195.15 }
+],
+"slots": [
+	{ "name": "Glow_circle", "bone": "bone3", "attachment": "Glow_circle", "blend": "additive" },
+	{ "name": "Glow_stick", "bone": "bone2", "attachment": "Glow_stick" },
+	{ "name": "Stick", "bone": "bone", "attachment": "Stick" }
+],
+"skins": [
+	{
+		"name": "default",
+		"attachments": {
+			"Glow_circle": {
+				"Glow_circle": {
+					"type": "mesh",
+					"uvs": [ 1, 1, 0, 1, 0, 0, 1, 0 ],
+					"triangles": [ 1, 2, 3, 1, 3, 0 ],
+					"vertices": [ 303.04, -314.15, -308.96, -314.15, -308.96, 297.85, 303.04, 297.85 ],
+					"hull": 4,
+					"edges": [ 0, 2, 2, 4, 4, 6, 0, 6 ],
+					"width": 612,
+					"height": 612
+				}
+			},
+			"Stick": {
+				"Stick": {
+					"type": "mesh",
+					"uvs": [ 1, 1, 0, 1, 0, 0, 1, 0 ],
+					"triangles": [ 1, 2, 3, 1, 3, 0 ],
+					"vertices": [ 225.45, -13.66, -217.55, -13.66, -217.55, 43.34, 225.45, 43.34 ],
+					"hull": 4,
+					"edges": [ 0, 2, 2, 4, 4, 6, 0, 6 ],
+					"width": 443,
+					"height": 57
+				}
+			},
+			"Glow_stick": {
+				"Glow_stick": {
+					"type": "mesh",
+					"uvs": [ 1, 1, 0, 1, 0, 0, 1, 0 ],
+					"triangles": [ 1, 2, 3, 1, 3, 0 ],
+					"vertices": [ 208.6, -33.48, -265.4, -33.48, -265.4, 58.52, 208.6, 58.52 ],
+					"hull": 4,
+					"edges": [ 0, 2, 2, 4, 4, 6, 0, 6 ],
+					"width": 474,
+					"height": 92
+				}
+			}
+		}
+	}
+],
+"events": {
+	"DISAPPEARING": {}
+},
+"animations": {
+	"DISAPPEARING": {
+		"slots": {
+			"Glow_stick": {
+				"color": [
+					{ "color": "ffffffff", "curve": 0.25, "c3": 0.75 },
+					{ "time": 0.5, "color": "ffffff00" }
+				]
+			},
+			"Glow_circle": {
+				"color": [
+					{ "color": "ffffffa3", "curve": 0.25, "c3": 0.75 },
+					{ "time": 0.5, "color": "ffffffda", "curve": 0.25, "c3": 0.75 },
+					{ "time": 0.7667, "color": "ffffff00" }
+				]
+			},
+			"Stick": {
+				"color": [
+					{ "color": "ffffffff", "curve": 0.25, "c3": 0.75 },
+					{ "time": 0.5, "color": "ffffff00" }
+				]
+			}
+		},
+		"bones": {
+			"bone": {
+				"rotate": [
+					{ "angle": 33.98, "curve": 0.382, "c2": 0.57, "c3": 0.735 },
+					{ "time": 0.3333, "angle": 32.72, "curve": 0.25, "c3": 0.75 },
+					{ "time": 0.6333, "angle": 37.15, "curve": 0.243, "c3": 0.649, "c4": 0.6 },
+					{ "time": 0.7667, "angle": 33.98 }
+				],
+				"translate": [
+					{ "curve": 0.25, "c3": 0.75 },
+					{ "time": 0.5333, "x": 1.26, "y": 17.09, "curve": 0.25, "c3": 0.75 },
+					{ "time": 0.7667 }
+				]
+			},
+			"bone3": {
+				"scale": [
+					{ "x": 0.763, "y": 0.763, "curve": 0, "c2": 0.32, "c3": 0.75 },
+					{ "time": 0.2, "x": 0.694, "y": 0.694, "curve": 0.25, "c4": 0.5 },
+					{ "time": 0.5, "x": 1.178, "y": 1.178, "curve": 0.25, "c3": 0.75 },
+					{ "time": 0.7667, "x": 0.395, "y": 0.395 }
+				]
+			},
+			"root": {
+				"translate": [
+					{ "curve": 0, "c2": 0.3, "c3": 0.75 },
+					{ "time": 0.1667, "y": -23.05, "curve": 0.648, "c3": 0.993, "c4": 0.62 },
+					{ "time": 0.7667, "y": 37.97 }
+				]
+			}
+		},
+		"events": [
+			{ "name": "DISAPPEARING" }
+		]
+	},
+	"IDLE": {
+		"slots": {
+			"Glow_circle": {
+				"color": [
+					{ "color": "ffffffa3", "curve": 0.25, "c3": 0.75 },
+					{ "time": 1, "color": "ffffffc1", "curve": 0.25, "c3": 0.75 },
+					{ "time": 2, "color": "ffffffa3" }
+				]
+			}
+		},
+		"bones": {
+			"bone": {
+				"rotate": [
+					{ "angle": 33.98, "curve": 0.382, "c2": 0.57, "c3": 0.735 },
+					{ "time": 0.3333, "angle": 32.72, "curve": 0.25, "c3": 0.75 },
+					{ "time": 1.3333, "angle": 37.15, "curve": 0.243, "c3": 0.649, "c4": 0.6 },
+					{ "time": 2, "angle": 33.98 }
+				],
+				"translate": [
+					{ "curve": 0.25, "c3": 0.75 },
+					{ "time": 1, "x": 1.26, "y": 17.09, "curve": 0.25, "c3": 0.75 },
+					{ "time": 2 }
+				]
+			},
+			"bone3": {
+				"scale": [
+					{ "x": 0.891, "y": 0.891, "curve": 0.25, "c3": 0.75 },
+					{ "time": 1, "x": 0.975, "y": 0.975, "curve": 0.25, "c3": 0.75 },
+					{ "time": 2, "x": 0.891, "y": 0.891 }
+				]
+			},
+			"root": {
+				"translate": [
+					{ "curve": 0.25, "c3": 0.75 },
+					{ "time": 1, "y": 16.3, "curve": 0.25, "c3": 0.75 },
+					{ "time": 2 }
+				]
+			}
+		}
+	}
+}
+}

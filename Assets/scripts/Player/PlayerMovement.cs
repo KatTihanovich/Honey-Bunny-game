@@ -1,99 +1,252 @@
-using Spine.Unity;
 using UnityEngine;
+using UnityEngine.Audio;
+using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
+using UnityEngine.Serialization;
+using UnityEngine.UI;
+// using ETouch = UnityEngine.InputSystem.EnhancedTouch;
 
 public class PlayerMovement : MonoBehaviour
 {
-    [SerializeField] private float moveSpeed = 12f;
+    private static readonly int AttackPressed = Animator.StringToHash("AttackPressed");
+    private static readonly int UltimatePressed = Animator.StringToHash("UltimatePressed");
+    private static readonly int IsFlying = Animator.StringToHash("IsFlying");
+    private static readonly int JumpPressed = Animator.StringToHash("JumpPressed");
+    private static readonly int IsFalling = Animator.StringToHash("IsFalling");
+
+    [Header("Audio Settings")] [SerializeField]
+    private AudioClip jumpSound;
+
+    [SerializeField] private AudioClip kickSound;
+    [SerializeField] private float volume = 1.0f;
+    [SerializeField] private AudioMixerGroup audioMixerGroup;
+
+    [Header("UI Elements")] public Button jumpButton;
+    public Button kickButton;
+
+    // [Header("Joystick Settings")] 
+    // private ETouch.Finger movementFinger;
+    // private RectTransform joystickRect;
+
+    [Header("Player Movement")] [SerializeField]
+    private float moveSpeed = 12f;
+
+    [Header("Jumping Parameters")] [SerializeField]
+    private float jumpBufferTime;
+
+    private float jumpBufferCounter;
+    [SerializeField] private float coyoteTime;
+    private float coyoteCounter;
     [SerializeField] private float jumpHeight = 17f;
 
-    [SerializeField] private float gravity = 33f;
+    [Header("Gravity Parameters")] [SerializeField]
+    private float gravity = 33f;
 
-    // [SerializeField] private float jumpBufferTime;
-    [SerializeField] private LayerMask groundLayer;
-
-    private Rigidbody2D rb;
-    [SerializeField] private Collider2D collider;
-
-    // movement
-    private Vector2 moveVelocity;
-    private bool isFacingRight = true;
-
-    // collision check
-    private RaycastHit2D groundHit;
     private bool isGrounded;
-
-    //jump
     private bool isJumping;
     private bool isFalling;
-    private float verticalVelocity;
 
+    [Header("What is Ground Parameters")] [SerializeField]
+    private LayerMask groundLayer;
+
+
+
+    private Rigidbody2D rb;
+    private RaycastHit2D groundHit;
     public bool isOnPlatform;
-    public SkeletonAnimation skeletonAnimation;
-    public AnimationReferenceAsset idle, walking, falling, jumping;
-    public string currentState;
-    public string currentAnimation;
+
+    [Header("Starting point to cast ray to the ground")] [SerializeField]
+    private BoxCollider2D boxCollider;
+
+    [Header("Attack Parameters")] [SerializeField]
+    private Collider2D playerCollider;
+
+    [SerializeField] private LayerMask entityLayer;
+    [SerializeField] private float colliderDistanceX = 1f;
+    [SerializeField] private float colliderDistanceY = 0.5f;
+    [SerializeField] private float rangeX = 1.5f;
+    [SerializeField] private float rangeY = 1f;
+    [SerializeField] private int damage = 10;
+    [SerializeField] private float attackCd = 10; // CD
+    public UltimateCooldown ultimateCooldown;
+    private float attackCounter = Mathf.Infinity;
+
+    // hero have a stick
+    public bool canAttack;
+    
+    // will be moved later
+    [Header("UI elements")] [SerializeField]
+    public Image hitCooldownSprite;
+
+    public Button hitButton;
+
+    // Movement
+    private Vector2 moveVelocity;
+    private float verticalVelocity;
+    private static readonly int Run = Animator.StringToHash("Run");
+
+    // Animation
+    private Animator anim;
+
+    private bool isUltimateAttack;
+
+    public bool isHavingStick;
+    
+    private void Start()
+    {
+        SetCharacterState(PlayerState.Idle);
+
+        if (Application.isMobilePlatform)
+        {
+            QualitySettings.vSyncCount = 0;
+            Application.targetFrameRate = 60;
+        }
+        EventTrigger trigger = jumpButton.gameObject.AddComponent<EventTrigger>();
+        EventTrigger.Entry entry = new EventTrigger.Entry
+        {
+            eventID = EventTriggerType.PointerDown
+        };
+        entry.callback.AddListener((data) => { InitiateJump(); });
+
+        trigger.triggers.Add(entry);
+        
+        // jumpButton.onClick.AddListener(InitiateJump);
+
+        // ETouch.EnhancedTouchSupport.Enable();
+        // ETouch.Touch.onFingerDown += HandleFingerDown;
+        // ETouch.Touch.onFingerUp += HandleLoseFinger;
+
+        attackCounter = 0f;
+        hitButton.interactable = false;
+    }
 
     private void Awake()
     {
-        isFacingRight = true;
         rb = GetComponent<Rigidbody2D>();
+        anim = GetComponent<Animator>();
     }
 
-    private void Move(Vector2 moveInput)
+    private void FixedUpdate()
     {
-        Turn(moveInput);
-        if (moveInput.x != 0)
+        Move();
+        IsGrounded();
+        Jump();
+    }
+
+    private void Update()
+    {
+        if (isHavingStick)
         {
-            Vector2 targetVelocity = new Vector2(moveInput.x, 0f) * moveSpeed;
-            moveVelocity = Vector2.Lerp(moveVelocity, targetVelocity, 5f * Time.fixedDeltaTime);
-            rb.linearVelocity = new Vector2(moveVelocity.x, rb.linearVelocity.y);
+            attackCounter += Time.deltaTime;
         }
-        else if (moveInput.x == 0)
+        
+        if (isGrounded && !isJumping && !isFalling)
         {
-            moveVelocity = Vector2.Lerp(moveVelocity, Vector2.zero, 20f * Time.fixedDeltaTime);
-            rb.linearVelocity = new Vector2(moveVelocity.x, rb.linearVelocity.y);
+            coyoteCounter = coyoteTime;
+        }
+        else
+        {
+            coyoteCounter -= Time.deltaTime;
+        }
+
+        if (Keyboard.current.spaceKey.wasPressedThisFrame || Keyboard.current.wKey.wasPressedThisFrame || Keyboard.current.upArrowKey.wasPressedThisFrame)
+        {
+            jumpBufferCounter = jumpBufferTime;
+        }
+        else
+        {
+            jumpBufferCounter -= Time.deltaTime;
+        }
+
+        if (jumpBufferCounter > 0f)
+        {
+            InitiateJump();
+        }
+
+        if (isJumping)
+        {
+            SetCharacterState(PlayerState.Jumping);
+        }
+        else if (isFalling)
+        {
+            SetCharacterState(PlayerState.Falling);
+        }
+        else
+        {
+            SetCharacterState(InputManager.Movement.x != 0 ? PlayerState.Walking : PlayerState.Idle);
+        }
+
+        if (attackCounter >= attackCd)
+        {
+            hitButton.interactable = true;
+        }
+
+        if (Keyboard.current.fKey.wasPressedThisFrame && attackCounter >= attackCd)
+        {
+            TryAttack();
+        }
+
+        var cooldownFactor = attackCounter / attackCd;
+
+        if (cooldownFactor < 1.1)
+        {
+            hitCooldownSprite.fillAmount = cooldownFactor;
+        }
+
+        if (Keyboard.current.qKey.wasPressedThisFrame && ultimateCooldown.isAvailable)
+            {
+                StartUltimate();
+                ultimateCooldown.UsePower();
+            }
+    }
+
+    public void TryJump()
+    {
+        if (isGrounded && !isJumping && !isFalling || coyoteCounter > 0)
+        {
+            InitiateJump();
         }
     }
 
-    private void Turn(Vector2 moveInput)
+    public void TryAttack()
     {
-        if (isFacingRight && moveInput.x < 0f)
+        if (attackCounter >= attackCd)
         {
-            isFacingRight = false;
-            transform.Rotate(0f, -180f, 0f);
-        }
-        else if (!isFacingRight && moveInput.x > 0f)
-        {
-            isFacingRight = true;
-            transform.Rotate(0f, 180f, 0f);
-        }
-    }
-
-    private void Start()
-    {
-        {
-            currentState = "Idle";
-            SetCharacterState(currentState);
+            anim.SetTrigger(AttackPressed);
+            attackCounter = 0;
+            StartAttack();
+            hitButton.interactable = false;
         }
     }
 
     private void IsGrounded()
     {
-        Vector2 boxCastOrigin = new Vector2(collider.bounds.center.x, collider.bounds.min.y);
-        Vector2 boxCastSize = new Vector2(collider.bounds.size.x, 0.1f);
+        //Changed by mentor in Estoty
+        Vector2 boxCastOrigin = new Vector2(playerCollider.bounds.center.x, playerCollider.bounds.min.y);
+        Vector2 boxCastSize = new Vector2(playerCollider.bounds.size.x, 0.1f);
 
         groundHit = Physics2D.BoxCast(boxCastOrigin, boxCastSize, 0f, Vector2.down, 0.1f, groundLayer.value);
         isGrounded = groundHit.collider;
+
+        // if (groundHit.collider != null && groundHit.collider.TryGetComponent(out DestructiblePlatformController platform))
+        // {
+        //     platform.StartDestroying();
+        // }
     }
 
     private void InitiateJump()
     {
-        if (isGrounded && !isJumping && !isFalling)
+        if (isGrounded && !isJumping && !isFalling || coyoteCounter > 0)
         {
             isJumping = true;
-            // var grav = -(2f * jumpHeight) / Mathf.Pow(0.35f, 2f);
-            // verticalVelocity = Mathf.Abs(grav) * 0.35f;
+            anim.SetBool(IsFlying, true);
+            anim.SetTrigger(JumpPressed);
             verticalVelocity = jumpHeight;
+            jumpBufferCounter = 0;
+            coyoteCounter = 0;
+
+            PlaySound(jumpSound);
         }
     }
 
@@ -101,103 +254,175 @@ public class PlayerMovement : MonoBehaviour
     {
         if (!isGrounded)
         {
-            verticalVelocity -= gravity * Time.fixedDeltaTime;
+            verticalVelocity -= gravity * Time.deltaTime;
+
             if (verticalVelocity < 0f && !isFalling)
             {
                 isJumping = false;
                 isFalling = true;
+                anim.SetBool(IsFalling, true);
+                anim.SetBool(IsFlying, false);
             }
         }
         else if (isGrounded && isFalling)
         {
             isJumping = false;
             isFalling = false;
+            anim.SetBool(IsFalling, false);
+            anim.SetBool(IsFlying, false);
             verticalVelocity = 0f;
         }
 
-        // if (isJumping && rb.linearVelocity.y <= 0)
-        // {
-        //     isJumping = false;
-        // }
-        // if (!isGrounded)
-        // {
-        //     rb.linearVelocity += new Vector2(0, -gravity * Time.fixedDeltaTime);
-        // }
         rb.linearVelocity = new Vector2(rb.linearVelocity.x, verticalVelocity);
     }
 
-    private void Update()
+    private enum PlayerState
     {
-        if (InputManager.JumpWasPressed)
-        {
-            InitiateJump();
-        }
+        Idle,
+        Walking,
+        Jumping,
+        Falling,
+        Attacking
+    }
 
-        if (isJumping)
+    private static void SetCharacterState(PlayerState state)
+    {
+        switch (state)
         {
-            SetCharacterState("Jumping");
+            case PlayerState.Idle:
+                break;
+            case PlayerState.Walking:
+                break;
+            case PlayerState.Jumping:
+                break;
+            case PlayerState.Falling:
+                break;
         }
-        else if (isFalling)
+    }
+
+    private void Move()
+    {
+        float horizontalInput = 0;
+
+        if (Keyboard.current.aKey.isPressed || Keyboard.current.leftArrowKey.isPressed)
+            horizontalInput = -1;
+        if (Keyboard.current.dKey.isPressed || Keyboard.current.rightArrowKey.isPressed
+)
+            horizontalInput = 1;
+
+        if (horizontalInput is > 0 or < 0)
         {
-            SetCharacterState("Falling");
+            var targetVelocity = new Vector2(horizontalInput, 0f) * moveSpeed;
+            moveVelocity = Vector2.Lerp(moveVelocity, targetVelocity, 5f * Time.fixedDeltaTime);
+            rb.linearVelocity = new Vector2(moveVelocity.x, rb.linearVelocity.y);
+            
+            anim.SetBool(Run, true);
+            switch (horizontalInput)
+            {
+                case > 0 when transform.localScale.x < 0:
+                case < 0 when transform.localScale.x > 0:
+                    Flip();
+                    break;
+            }
         }
         else
         {
-            SetCharacterState(InputManager.Movement.x != 0 ? "Walking" : "Idle");
+            rb.linearVelocity = new Vector2(0, rb.linearVelocity.y);
+            anim.SetBool(Run, false);
         }
     }
 
-    private void FixedUpdate()
+    private void Flip()
     {
-        Move(InputManager.Movement);
-        IsGrounded();
-        Jump();
-
-
-        // if (isOnPlatform)
-        // {
-        //     rb.linearVelocity = new Vector2(Input.GetAxis("Horizontal") * walkSpeed + platformRb.linearVelocity.x, rb.linearVelocity.y);
-        // }
-        // else
-        // {
-        //    rb.linearVelocity = new Vector2(Input.GetAxis("Horizontal") * walkSpeed, rb.linearVelocity.y);
-        // }
+        var scale = transform.localScale;
+        scale.x *= -1;
+        transform.localScale = scale;
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    private void StartAttack()
     {
-        // if (collision.gameObject.tag == "Ground") ;
-        // grounded = true;
+        attackCounter = 0;
+        PlaySound(kickSound);
+        ApplyAreaDamage();
     }
 
-    private void SetAnimation(AnimationReferenceAsset animation, bool loop, float timescale)
+    public void StartUltimate()
     {
-        if (animation.name.Equals(currentAnimation))
-        {
-            return;
-        }
-
-        skeletonAnimation.state.SetAnimation(0, animation, loop).TimeScale = timescale;
-        currentAnimation = animation.name;
+        isUltimateAttack = true;
+        anim.SetTrigger(UltimatePressed);
+        PlaySound(kickSound);
+        ApplyUltimateDamage();
     }
 
-    private void SetCharacterState(string state)
+    public void ApplyUltimateDamage()
     {
-        if (state.Equals("Idle"))
+        Collider2D[] hits = Physics2D.OverlapBoxAll(
+            boxCollider.bounds.center + transform.up * (transform.localScale.y * colliderDistanceY) +
+            transform.right * (transform.localScale.x * colliderDistanceX),
+            new Vector2(boxCollider.bounds.size.x * rangeX, boxCollider.bounds.size.y * rangeY),
+            0, entityLayer);
+
+        foreach (var hit in hits)
         {
-            SetAnimation(idle, true, 1f);
+            if (hit && hit.CompareTag("Enemy"))
+            {
+                Health entityHealth = hit.GetComponent<Health>();
+                if (entityHealth)
+                {
+                    entityHealth.TakeDamage(damage + damage);
+                }
+            }
         }
-        else if (state.Equals("Walking"))
+
+        isUltimateAttack = false;
+    }
+
+    public void ApplyAreaDamage()
+    {
+        // this function uses AnimatedEvent, so I used bool flag to prevent calling this function on ultimate
+        if (isUltimateAttack) return;
+        Collider2D[] hits = Physics2D.OverlapBoxAll(
+            boxCollider.bounds.center + transform.up * (transform.localScale.y * colliderDistanceY) +
+            transform.right * (transform.localScale.x * colliderDistanceX),
+            new Vector2(boxCollider.bounds.size.x * rangeX, boxCollider.bounds.size.y * rangeY),
+            0, entityLayer);
+
+        foreach (var hit in hits)
         {
-            SetAnimation(walking, true, 1f);
+            if (hit && hit.CompareTag("Enemy"))
+            {
+                Health entityHealth = hit.GetComponent<Health>();
+                if (entityHealth)
+                {
+                    entityHealth.TakeDamage(damage);
+                }
+            }
         }
-        else if (state.Equals("Falling"))
+    }
+
+
+    private void PlaySound(AudioClip clip)
+    {
+        if (clip != null)
         {
-            SetAnimation(falling, true, 0.1f);
+            GameObject tempAudio = new GameObject("TempAudio");
+            AudioSource audioSource = tempAudio.AddComponent<AudioSource>();
+            audioSource.clip = clip;
+            audioSource.volume = volume;
+            audioSource.outputAudioMixerGroup = audioMixerGroup;
+            audioSource.Play();
+            Destroy(tempAudio, clip.length);
         }
-        else if (state.Equals("Jumping"))
-        {
-            SetAnimation(jumping, false, 0.1f);
-        }
+    }
+
+    public void RestartLevel()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+
+    public void OnStickCollected()
+    {
+        print("OnStickCollected!!!!!");
+        isHavingStick = true;
     }
 }

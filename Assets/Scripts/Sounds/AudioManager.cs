@@ -6,8 +6,6 @@ public class AudioManager : MonoBehaviour
 {
     [Header("Audio Sources")]
     [SerializeField] AudioSource MusicSource;
-    [SerializeField] AudioSource FXSource;
-    [SerializeField] AudioSource UISource;
 
     [Header("Audio Clips")]
     [SerializeField] private AudioClip[] backgroundMusic;
@@ -54,16 +52,6 @@ public class AudioManager : MonoBehaviour
             MusicSource.clip = newClip;
             MusicSource.Play();
         }
-    }
-
-    public void PlaySFX(AudioClip clip)
-    {
-        FXSource.PlayOneShot(clip);
-    }
-
-    public void PlayUI(AudioClip clip)
-    {
-        UISource.PlayOneShot(clip);
     }
 
     public void SoundControl()

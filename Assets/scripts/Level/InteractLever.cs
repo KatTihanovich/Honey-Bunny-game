@@ -14,13 +14,10 @@ public class InteractableToggle : MonoBehaviour
     private bool isBusy = false; // <-- защита от спама
     private ISoundManager _soundManager;
 
-    private void Awake()
-    {
-        _soundManager = SoundManagerNew.Instance;
-    }
-
     private void Start()
     {
+        _soundManager = SoundManagerNew.Instance;
+
         if (animator == null)
         {
             animator = GetComponent<Animator>();

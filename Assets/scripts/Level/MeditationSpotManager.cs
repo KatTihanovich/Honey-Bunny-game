@@ -23,7 +23,6 @@ public class MeditationManager : MonoBehaviour
     {
         inputActions = new PlayerInputActions();
         inputActions.Player.Interact.performed += ctx => TryMeditate();
-        _soundManager = SoundManagerNew.Instance;
     }
 
     private void OnEnable()
@@ -37,42 +36,42 @@ public class MeditationManager : MonoBehaviour
     }
 
     private void Start()
-{
-    animator = GetComponent<Animator>();
-
-    // Авто-поиск игрока по тегу, если не задан вручную
-    if (playerObject == null)
     {
-        GameObject foundPlayer = GameObject.FindGameObjectWithTag("Player");
-        if (foundPlayer != null)
+        _soundManager = SoundManagerNew.Instance;
+
+        animator = GetComponent<Animator>();
+
+        // Авто-поиск игрока по тегу, если не задан вручную
+        if (playerObject == null)
         {
-            playerObject = foundPlayer;
+            GameObject foundPlayer = GameObject.FindGameObjectWithTag("Player");
+            if (foundPlayer != null)
+            {
+                playerObject = foundPlayer;
+            }
+            else
+            {
+                Debug.LogError("Игрок с тегом 'Player' не найден.");
+            }
+        }
+
+        // Получаем компоненты с найденного/заданного объекта
+        if (playerObject != null)
+        {
+            playerHealth = playerObject.GetComponent<HealthNew>();
+            playerAnimator = playerObject.GetComponent<Animator>();
+
+            if (playerHealth == null)
+                Debug.LogWarning("HealthNew компонент не найден на игроке.");
+
+            if (playerAnimator == null)
+                Debug.LogWarning("Animator компонент не найден на игроке.");
         }
         else
         {
-            Debug.LogError("Игрок с тегом 'Player' не найден.");
+            Debug.LogError("playerObject всё ещё null. MeditationManager работать не сможет.");
         }
     }
-
-    // Получаем компоненты с найденного/заданного объекта
-    if (playerObject != null)
-    {
-        playerHealth = playerObject.GetComponent<HealthNew>();
-        playerAnimator = playerObject.GetComponent<Animator>();
-
-        if (playerHealth == null)
-            Debug.LogWarning("HealthNew компонент не найден на игроке.");
-
-        if (playerAnimator == null)
-            Debug.LogWarning("Animator компонент не найден на игроке.");
-    }
-    else
-    {
-        Debug.LogError("playerObject всё ещё null. MeditationManager работать не сможет.");
-    }
-}
-
-
 
     private void TryMeditate()
     {

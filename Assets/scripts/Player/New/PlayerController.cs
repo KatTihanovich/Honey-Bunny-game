@@ -126,7 +126,6 @@ public class PlayerController : MonoBehaviour
         _coll = GetComponent<CapsuleCollider2D>();
         _playerAnimation = GetComponent<PlayerAnimation>();
         _meleeAttack = new PlayerMeleeAttack(_attackDuration);
-        _soundManager = SoundManagerNew.Instance;
 
         _rb.freezeRotation = true;
         _rb.collisionDetectionMode = CollisionDetectionMode2D.Continuous;
@@ -140,6 +139,11 @@ public class PlayerController : MonoBehaviour
             _health.OnDeath += HandleDeath;
             _health.OnDamageTaken += GetDamage;
         }
+    }
+
+    private void Start()
+    {
+        _soundManager = SoundManagerNew.Instance;
     }
 
     private void Update()

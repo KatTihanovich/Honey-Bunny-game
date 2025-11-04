@@ -5,7 +5,7 @@ using Game.Audio;
 public class UIButtonSound : MonoBehaviour
 {
     private ISoundManager _soundManager;
-    private void Awake()
+    private void Start()
     {
         _soundManager = SoundManagerNew.Instance;
     }

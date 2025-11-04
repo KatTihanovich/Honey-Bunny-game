@@ -11,7 +11,7 @@ public class SpikeTrap : MonoBehaviour
     private bool playerInside = false;
     private GameObject playerInTrigger;
     private ISoundManager _soundManager;
-    private void Awake()
+    private void Start()
     {
         _soundManager = SoundManagerNew.Instance;
     }

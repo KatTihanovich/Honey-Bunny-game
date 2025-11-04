@@ -24,7 +24,6 @@ public class MonsterAI : MonoBehaviour
 
     private void Awake()
     {
-        soundManager = SoundManagerNew.Instance;
         selfHealth = GetComponent<HealthNew>();
 
         if (selfHealth != null)
@@ -36,6 +35,8 @@ public class MonsterAI : MonoBehaviour
 
     private void Start()
     {
+        soundManager = SoundManagerNew.Instance;
+        
         GameObject player = GameObject.FindGameObjectWithTag("Player");
         if (player != null)
         {

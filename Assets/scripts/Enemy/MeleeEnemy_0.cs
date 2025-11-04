@@ -47,13 +47,9 @@ public class MeleeEnemy_0 : MonoBehaviour
     [SerializeField] private float volume = 1.0f;
     private ISoundManager _soundManager;
 
-    private void Awake()
-    {
-        _soundManager = SoundManagerNew.Instance;
-    }
-
     private void Start()
     {
+        _soundManager = SoundManagerNew.Instance;
         baseScale = transform.localScale;
         anim = GetComponent<Animator>();
         _healthNew = GetComponent<HealthNew>();

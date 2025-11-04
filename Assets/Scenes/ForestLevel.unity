@@ -125093,6 +125093,7 @@ GameObject:
   - component: {fileID: 1184989719}
   - component: {fileID: 1184989718}
   - component: {fileID: 1184989717}
+  - component: {fileID: 1184989723}
   m_Layer: 0
   m_Name: Tree
   m_TagString: Untagged
@@ -125275,6 +125276,23 @@ Transform:
   m_Children: []
   m_Father: {fileID: 962841418}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1184989723
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1184989716}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c362ca9c657e94e16b1d89ea1591ddb5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  soundName: Tree
+  useRandomInterval: 0
+  fixedInterval: 1.5
+  randomMin: 0.5
+  randomMax: 2.5
 --- !u!1 &1186839971
 GameObject:
   m_ObjectHideFlags: 0

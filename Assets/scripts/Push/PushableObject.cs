@@ -24,8 +24,12 @@ public class PushableObject : MonoBehaviour
     {
         _rb = GetComponent<Rigidbody2D>();
         _rb.freezeRotation = true;
-   
+
         _rb.linearDamping = 5f;
+    }
+    
+    private void Start()
+    {
         _soundManager = SoundManagerNew.Instance;
     }
 

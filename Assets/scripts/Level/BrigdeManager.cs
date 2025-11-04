@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using Game.Audio;
 
 [RequireComponent(typeof(Animator))]
 [RequireComponent(typeof(Collider2D))]
@@ -19,6 +20,8 @@ public class BridgeEnemyStateController : MonoBehaviour
     private bool isStressed = false;
     private Coroutine disableColliderCoroutine;
 
+    private ISoundManager soundManager;
+
     private void Awake()
     {
         animator = GetComponent<Animator>();
@@ -31,6 +34,8 @@ public class BridgeEnemyStateController : MonoBehaviour
 
     private void Start()
     {
+        soundManager = SoundManagerNew.Instance;
+        
         if (playerHealth == null)
         {
             GameObject player = GameObject.FindGameObjectWithTag("Player");
@@ -69,6 +74,7 @@ public class BridgeEnemyStateController : MonoBehaviour
         {
             if (!isAwake || isStressed)
             {
+                soundManager.PlaySound("Blink");
                 SetAwake(true);
                 SetStressed(false);
                 CancelDisableCoroutine();

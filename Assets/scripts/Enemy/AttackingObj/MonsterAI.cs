@@ -10,6 +10,7 @@ public class MonsterAI : MonoBehaviour
     public float attackDamage = 10f;
     public float attackCooldown = 3f;
     public float attackDelay = 0.5f;
+    public float deathSoundDelay = 0.7f; 
 
     [Header("Attack Zone Collider")]
     [SerializeField] private Collider2D attackZoneCollider;
@@ -36,7 +37,7 @@ public class MonsterAI : MonoBehaviour
     private void Start()
     {
         soundManager = SoundManagerNew.Instance;
-        
+
         GameObject player = GameObject.FindGameObjectWithTag("Player");
         if (player != null)
         {
@@ -121,13 +122,20 @@ public class MonsterAI : MonoBehaviour
 
         isDead = true;
         animator.SetBool("Dead", true);
-        soundManager.PlaySound("MobDeath");
 
         if (TryGetComponent<Collider2D>(out var bodyCol)) bodyCol.enabled = false;
         if (TryGetComponent<Rigidbody2D>(out var rb)) rb.linearVelocity = Vector2.zero;
 
+        StartCoroutine(DeathRoutine());
+
         Destroy(gameObject, 4f);
         EndWindow.IncreaseEnemyCount();
+    }
+
+    private IEnumerator DeathRoutine()
+    {
+        yield return new WaitForSeconds(deathSoundDelay);
+        soundManager.PlaySound("MobDeath");
     }
 
     public void SetPlayerInRange(bool value)

@@ -1,4 +1,5 @@
 using UnityEngine;
+using Game.Audio;
 
 public class ButtonTrigger : MonoBehaviour
 {
@@ -8,6 +9,8 @@ public class ButtonTrigger : MonoBehaviour
     private int objectsInZone = 0;
     private bool isActive = false; // внутренний флаг состояния
 
+    private ISoundManager _soundManager;
+
     private void Awake()
     {
         buttonAnimator = GetComponent<Animator>();
@@ -16,6 +19,11 @@ public class ButtonTrigger : MonoBehaviour
         {
             Debug.LogWarning("Animator не найден на кнопке!");
         }
+    }
+
+    private void Start()
+    {
+        _soundManager = SoundManagerNew.Instance;
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -48,11 +56,13 @@ public class ButtonTrigger : MonoBehaviour
             {
                 buttonAnimator?.SetTrigger("Active");
                 linkedPlatform?.SetDirection(true);
+                _soundManager.PlaySound("ButtonOn");
             }
             else
             {
                 buttonAnimator?.SetTrigger("Deactive");
                 linkedPlatform?.SetDirection(false);
+                _soundManager.PlaySound("ButtonOff");
             }
         }
     }

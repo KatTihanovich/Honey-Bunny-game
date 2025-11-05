@@ -10,9 +10,6 @@ public class AudioManager : MonoBehaviour
     [Header("Audio Clips")]
     [SerializeField] private AudioClip[] backgroundMusic;
 
-    [Header("Volume Settings")]
-    public SoundManager soundManager;
-
     public static AudioManager instance;
 
     private void Awake()
@@ -31,10 +28,6 @@ public class AudioManager : MonoBehaviour
 
     private void Start()
     {
-        if (PlayerPrefs.HasKey("musicVolume"))
-        {
-            soundManager.LoadValue();
-        }
         PlayBackgroundMusic(SceneManager.GetActiveScene().buildIndex);
     }
 

@@ -12,7 +12,11 @@ public class SettingsButtonScript : MonoBehaviour
 
     void Start()
     {
-        panel.SetActive(false);
+        if (panel != null)
+        {
+            panel.SetActive(false);
+        }
+
         SetNavigationForArrowOnly();
     }
 

@@ -247,9 +247,9 @@ public class PlayerController : MonoBehaviour
                 _isPush = true;
                 return;
             }
+            pushable.StopPushing();
         }
 
-        pushable.StopPushing();
         _isPush = false;
     }
 

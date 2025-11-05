@@ -134,6 +134,7 @@ namespace Enemy
             }
 
             damageTakenThisPhase++;
+            soundManager.PlaySound("Damage");
             animator.SetTrigger(GotHitTrigger);
             Debug.Log($"[TakeDamage] Урон принят. Текущее здоровье: {health.CurrentHealth}, Уронов за фазу: {damageTakenThisPhase}");
 
@@ -184,6 +185,7 @@ namespace Enemy
             AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);
 
             playerHealth.TakeDamage(attackDamage);
+            soundManager.PlaySound("TolikAttack");
             hitsDoneThisPhase++;
 
             Debug.Log(
@@ -263,7 +265,7 @@ namespace Enemy
             animator.ResetTrigger(AttackTrigger);
             animator.Play("Idle", 0); 
             animator.SetTrigger(RoarTrigger);
-            soundManager?.PlaySound("Roar");
+            //soundManager?.PlaySound("TolikRoar");
 
             yield return StartCoroutine(SpawnEnemiesDuringRoar());
 
@@ -283,6 +285,10 @@ namespace Enemy
             }
         }
 
+        public void PlayRoar()
+        {
+            soundManager.PlaySound("TolikRoar");
+        }
 
         private IEnumerator SpawnEnemiesDuringRoar()
         {
@@ -292,7 +298,7 @@ namespace Enemy
                 yield break;
             }
 
-            float interval = 8f; 
+            float interval = 8f;
             float elapsed = 0f;
             int spawnedCount = 0;
             int maxEnemies = 6;
@@ -310,7 +316,7 @@ namespace Enemy
                 elapsed += interval;
             }
 
-       
+
         }
 
 

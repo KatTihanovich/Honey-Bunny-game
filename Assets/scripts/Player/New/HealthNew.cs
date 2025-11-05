@@ -58,8 +58,6 @@ public class HealthNew : MonoBehaviour
     {
         if (!IsDead)
         {
-
-       
             CurrentHealth = 0;
             OnDeath?.Invoke();
         }

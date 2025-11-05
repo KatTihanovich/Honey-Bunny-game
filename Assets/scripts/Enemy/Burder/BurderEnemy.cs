@@ -70,16 +70,9 @@ public class BurderEnemy : MonoBehaviour
     private Vector3 fleeDirection;
     private bool isFleeing = false;
 
-    private void Awake()
-    {
-        soundManager = SoundManagerNew.Instance;
-    }
-
-
     private void Start()
     {
-
-    
+        soundManager = SoundManagerNew.Instance;
         currentPatrolPoint = pointA;
         anim = GetComponent<Animator>();
         baseScale = transform.localScale;
@@ -326,7 +319,7 @@ public class BurderEnemy : MonoBehaviour
     {
         if (playerHealth != null && PlayerInSight())
         {
-            soundManager.PlaySound("WhipAttack");
+            soundManager.PlaySound("BurderAttack");
             playerHealth.TakeDamage(damage);
         }
     }
@@ -376,7 +369,7 @@ public class BurderEnemy : MonoBehaviour
         isDead = true;
         ResetAllTriggers();
         anim.SetTrigger(DeathTrigger);
-        soundManager.PlaySound("Death");
+        soundManager.PlaySound("MobDeath");
 
         if (TryGetComponent<Collider2D>(out var col)) col.enabled = false;
         if (TryGetComponent<Rigidbody2D>(out var rb)) rb.linearVelocity = Vector2.zero;
@@ -400,11 +393,20 @@ public class BurderEnemy : MonoBehaviour
     public void SpawnThorn()
     {
         Debug.Log("SpawnThorn called");
+
         if (_thornObject != null)
         {
             Instantiate(_thornObject, transform.position, Quaternion.identity);
         }
+
+        // Play sound only if visible to camera
+        Renderer rend = GetComponentInChildren<Renderer>();
+        if (rend != null && rend.isVisible)
+        {
+            soundManager.PlaySound("BurderSpawn");
+        }
+
         isSpawningThorn = false;
-        SetAnimation(State.Walk); // ������������ � ��������������
+        SetAnimation(State.Walk);
     }
 }

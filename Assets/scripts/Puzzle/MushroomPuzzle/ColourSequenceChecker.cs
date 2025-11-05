@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.Audio;
 using System.Collections.Generic;
+using Game.Audio;
 
 public class SequenceChecker : MonoBehaviour
 {
@@ -58,8 +59,13 @@ public class SequenceChecker : MonoBehaviour
 
     private void HideObject()
     {
-        if (objectToHide != null)
-            objectToHide.SetActive(false);
+        foreach (var source in StonePushSound.ActiveStonePushSources.ToArray())
+        {
+            SoundManagerNew.Instance.StopSound(source);
+            StonePushSound.ActiveStonePushSources.Remove(source);
+        }
+
+        objectToHide.SetActive(false);
     }
 
     public void ResetPuzzle()

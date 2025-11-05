@@ -88,37 +88,46 @@ public class MeditationManager : MonoBehaviour
     }
 
     public void Interact()
+{
+    if (playerHealth.CurrentHealth != 100f)
     {
-        if (playerHealth.CurrentHealth != 100f)
+        if (animator != null)
+            animator.SetTrigger("Meditation");
+
+        if (playerAnimator != null)
         {
-            if (animator != null)
-                animator.SetTrigger("Meditation");
+            playerAnimator.SetTrigger("Meditation");
+            _soundManager.PlaySound("Meditation");
+        }
 
-            if (playerAnimator != null)
-            {
-                playerAnimator.SetTrigger("Meditation");
-                _soundManager.PlaySound("Meditation");
-            }
-
-            if (playerHealth != null)
-            {
-                Debug.Log("Restoring full health.");
-                playerHealth.RestoreFull();
-            }
-            else
-            {
-                Debug.LogWarning("Cannot restore health — HealthNew is null.");
-            }
-
-            StartCoroutine(FinishMeditationRoutine());
+        if (playerHealth != null)
+        {
+            Debug.Log("Restoring full health.");
+            playerHealth.RestoreFull();
+        }
+        else
+        {
+            Debug.LogWarning("Cannot restore health — HealthNew is null.");
         }
     }
+    else
+    {
+        Debug.Log("Player already at full health, skipping restoration but keeping animation flow.");
+    }
+
+    // 👇 Всегда запускаем корутину, чтобы сбросить флаг по таймеру
+    StartCoroutine(FinishMeditationRoutine());
+}
+
 
     private IEnumerator FinishMeditationRoutine()
     {
         yield return new WaitForSeconds(_delayAfterAnimation);
         Debug.Log("Meditation completed. Object remains active but cannot be reused.");
         // Здесь можно добавить анимацию покоя или эффект "пустого" алтаря
+        yield return new WaitForSeconds(8f);
+        hasMeditatedOnce = false;
+
     }
 
     private void OnTriggerEnter2D(Collider2D other)

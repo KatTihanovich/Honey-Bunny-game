@@ -70889,8 +70889,6 @@ GameObject:
   - component: {fileID: 261875815}
   - component: {fileID: 261875814}
   - component: {fileID: 261875818}
-  - component: {fileID: 261875819}
-  - component: {fileID: 261875820}
   - component: {fileID: 261875821}
   - component: {fileID: 261875822}
   - component: {fileID: 261875823}
@@ -71033,35 +71031,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 1277575626}
---- !u!114 &261875819
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 261875813}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 11a36b40b917d4399ba460897fbdbaaf, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  restartWindow: {fileID: 0}
-  restartButton: {fileID: 0}
---- !u!114 &261875820
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 261875813}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1c919216ea63d4674b283b7cc68ec8b7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  deathScreenUI: {fileID: 0}
-  firstSelected: {fileID: 0}
-  playerHealth: {fileID: 0}
 --- !u!114 &261875821
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -183306,7 +183275,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1703160121
 Transform:
   m_ObjectHideFlags: 0
@@ -183334,7 +183303,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d31125132b12b4cc8aae8ae81b26de83, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  musicMixerGroup: {fileID: 0}
+  musicMixerGroup: {fileID: 7439933574938557468, guid: b7aad94fe0c3c4ba4a14d95707c80208, type: 2}
   reducedVolume: -20
 --- !u!61 &1703160123
 BoxCollider2D:
@@ -212270,7 +212239,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2014777175
 Transform:
   m_ObjectHideFlags: 0

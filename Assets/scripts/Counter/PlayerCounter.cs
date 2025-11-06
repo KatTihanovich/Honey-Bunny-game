@@ -1,41 +1,74 @@
 using UnityEngine;
 
 /// <summary>
-/// Простой глобальный счётчик количества запусков игры.
-/// Работает на всех сценах, сохраняет данные локально через PlayerPrefs.
+/// Глобальный счётчик количества запусков и рестартов игры.
+/// Работает на всех сценах, данные сохраняются локально через PlayerPrefs.
 /// </summary>
 public static class PlayCounter
 {
-    private const string PlayCountKey = "PlayCount";
+    private const string StartGameKey = "StartGameCount";
+    private const string RestartKey = "RestartCount";
 
+    // ======================
+    // ▶ СТАРТ НОВОЙ ИГРЫ
+    // ======================
     /// <summary>
-    /// Увеличить значение счётчика на 1.
+    /// Увеличить значение счётчика "начатых игр".
     /// </summary>
-    public static void IncrementPlayCount()
+    public static void IncrementStartGameCount()
     {
-        int currentCount = PlayerPrefs.GetInt(PlayCountKey, 0);
+        int currentCount = PlayerPrefs.GetInt(StartGameKey, 0);
         currentCount++;
-        PlayerPrefs.SetInt(PlayCountKey, currentCount);
+        PlayerPrefs.SetInt(StartGameKey, currentCount);
         PlayerPrefs.Save();
 
-        Debug.Log($"▶ Количество запусков игры: {currentCount}");
+        Debug.Log($"▶ Начато игр: {currentCount}");
     }
 
     /// <summary>
-    /// Получить текущее количество запусков.
+    /// Получить текущее количество начатых игр.
     /// </summary>
-    public static int GetPlayCount()
+    public static int GetStartGameCount()
     {
-        return PlayerPrefs.GetInt(PlayCountKey, 0);
+        return PlayerPrefs.GetInt(StartGameKey, 0);
+    }
+
+    // ======================
+    // 🔁 РЕСТАРТ УРОВНЯ
+    // ======================
+    /// <summary>
+    /// Увеличить значение счётчика рестартов.
+    /// </summary>
+    public static void IncrementRestartCount()
+    {
+        int currentCount = PlayerPrefs.GetInt(RestartKey, 0);
+        currentCount++;
+        PlayerPrefs.SetInt(RestartKey, currentCount);
+        PlayerPrefs.Save();
+
+        Debug.Log($"🔁 Рестартов уровня: {currentCount}");
     }
 
     /// <summary>
-    /// Сбросить счётчик (например, для тестов).
+    /// Получить текущее количество рестартов.
     /// </summary>
-    public static void ResetPlayCount()
+    public static int GetRestartCount()
     {
-        PlayerPrefs.DeleteKey(PlayCountKey);
+        return PlayerPrefs.GetInt(RestartKey, 0);
+    }
+
+    // ======================
+    // ⚙️ ОБЩИЕ ОПЕРАЦИИ
+    // ======================
+    /// <summary>
+    /// Сбросить оба счётчика (например, для тестов).
+    /// </summary>
+    public static void ResetAllCounts()
+    {
+        PlayerPrefs.DeleteKey(StartGameKey);
+        PlayerPrefs.DeleteKey(RestartKey);
         PlayerPrefs.Save();
-        Debug.Log("🔄 Счётчик запусков сброшен.");
+
+        Debug.Log("🔄 Счётчики запусков и рестартов сброшены.");
     }
 }

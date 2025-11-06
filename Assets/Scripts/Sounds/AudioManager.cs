@@ -6,9 +6,11 @@ public class AudioManager : MonoBehaviour
 {
     [Header("Audio Sources")]
     [SerializeField] AudioSource MusicSource;
+    [SerializeField] AudioSource UISource;
 
     [Header("Audio Clips")]
     [SerializeField] private AudioClip[] backgroundMusic;
+    [SerializeField] private AudioClip UISound;
 
     public static AudioManager instance;
 
@@ -40,11 +42,17 @@ public class AudioManager : MonoBehaviour
     {
         AudioClip newClip = backgroundMusic[sceneIndex];
 
-        if (MusicSource.clip != newClip) 
+        if (MusicSource.clip != newClip)
         {
             MusicSource.clip = newClip;
             MusicSource.Play();
         }
+    }
+    
+    private void PlayUISound()
+    {
+        UISource.clip = UISound;
+        UISource.Play();
     }
 
     public void SoundControl()

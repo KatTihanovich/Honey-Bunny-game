@@ -1,6 +1,7 @@
 // SoundManagerNew.cs
 using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine.Audio;
 
 namespace Game.Audio
 {
@@ -19,7 +20,6 @@ namespace Game.Audio
 
         private void Awake()
         {
-            // Enforce single instance
             if (_instance != null && _instance != this)
             {
                 Destroy(gameObject);
@@ -27,7 +27,7 @@ namespace Game.Audio
             }
 
             _instance = this;
-            DontDestroyOnLoad(gameObject);
+            //DontDestroyOnLoad(gameObject);
             Initialize();
         }
 
@@ -45,7 +45,6 @@ namespace Game.Audio
             }
         }
 
-        // 🔊 Play SFX (one-shot)
         public void PlaySound(string soundName)
         {
             if (!TryGetSound(soundName, out AudioClip clip, out float volume, out float pitch))
@@ -61,7 +60,6 @@ namespace Game.Audio
             StartCoroutine(ReturnToPoolAfterPlay(source, clip.length));
         }
 
-        // 🔊 Play looped sound (engine, wind, etc.)
         public AudioSource PlaySound(string soundName, bool loop)
         {
             if (!TryGetSound(soundName, out AudioClip clip, out float volume, out float pitch))
@@ -81,7 +79,6 @@ namespace Game.Audio
             return source;
         }
 
-        // ⛔ Stop a looped sound
         public void StopSound(AudioSource source)
         {
             if (source == null) return;
@@ -94,10 +91,8 @@ namespace Game.Audio
                 _audioSourcePool.Enqueue(source);
         }
 
-        // 🎵 Sound lookup helper
         private bool TryGetSound(string soundName, out AudioClip clip, out float volume, out float pitch)
         {
-            // Assign default values first
             clip = null;
             volume = 1f;
             pitch = 1f;
@@ -108,10 +103,10 @@ namespace Game.Audio
                 return false;
             }
 
-            // Assign values from data
             clip = dataClip;
             volume = dataVolume;
             pitch = dataPitch;
+
             return true;
         }
 

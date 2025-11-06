@@ -44,7 +44,8 @@ public class PauseMenu : MonoBehaviour
     {
         Time.timeScale = 1f;
         EndWindow.enemiesDefeated = 0;
-        CoinManager.Instance.totalCoins = 0;
+        if (CoinManager.Instance != null)
+            CoinManager.Instance.totalCoins = 0;
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
     public void ShowSettings()

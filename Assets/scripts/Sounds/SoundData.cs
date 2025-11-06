@@ -1,5 +1,6 @@
-// ����: SoundData.cs
+// SoundData.cs
 using UnityEngine;
+using UnityEngine.Audio;
 
 namespace Game.Audio
 {
@@ -9,7 +10,7 @@ namespace Game.Audio
         [System.Serializable]
         public class SoundEntry
         {
-            public string Name; // ��������� ������������� �����
+            public string Name; 
             public AudioClip Clip;
             [Range(0f, 1f)] public float Volume = 1f;
             [Range(0.1f, 3f)] public float Pitch = 1f;

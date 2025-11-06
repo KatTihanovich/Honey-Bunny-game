@@ -46,7 +46,7 @@ public class MeleeEnemy_0 : MonoBehaviour
     [Header("Audio Settings")]
     [SerializeField] public AudioMixerGroup audioMixerGroup; 
     public AudioClip attackSound;
-    [SerializeField] private float volume = 1.0f;
+    [SerializeField] private float volume = 0.05f;
     public float deathSoundDelay = 1f; 
     private ISoundManager _soundManager;
 

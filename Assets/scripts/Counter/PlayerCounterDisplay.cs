@@ -1,17 +1,14 @@
 using UnityEngine;
-using TMPro; // обязательно, если используешь TextMeshPro
+using TMPro;
 
-/// <summary>
-/// Отображает текущее количество запусков игры на UI-тексте.
-/// Обновляется каждый кадр.
-/// </summary>
 public class PlayCounterDisplay : MonoBehaviour
 {
-    [SerializeField] private TextMeshProUGUI counterText;
+    public TextMeshProUGUI startGameText;
+    public TextMeshProUGUI restartText;
 
-    private void Update()
+    void Update()
     {
-        if (counterText != null)
-            counterText.text = $"Игроков сыграло: {PlayCounter.GetPlayCount()}";
+        startGameText.text = "Начато игр: " + PlayCounter.GetStartGameCount();
+        restartText.text   = "Рестартов: " + PlayCounter.GetRestartCount();
     }
 }

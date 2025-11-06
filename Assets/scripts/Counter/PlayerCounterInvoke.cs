@@ -5,27 +5,18 @@ using UnityEngine;
 /// </summary>
 public class PlayCounterInvoker : MonoBehaviour
 {
-    /// <summary>
-    /// Вызвать увеличение счётчика.
-    /// </summary>
-    public void AddPlay()
+    public void AddStartGame()
     {
-        PlayCounter.IncrementPlayCount();
+        PlayCounter.IncrementStartGameCount();
     }
 
-    /// <summary>
-    /// Вывести текущее значение счётчика в консоль (по желанию).
-    /// </summary>
-    public void ShowPlayCount()
+    public void AddRestart()
     {
-        Debug.Log($"📊 Всего запусков игры: {PlayCounter.GetPlayCount()}");
+        PlayCounter.IncrementRestartCount();
     }
 
-    /// <summary>
-    /// Сбросить счётчик запусков (по желанию).
-    /// </summary>
-    public void ResetCounter()
+    public void ResetAll()
     {
-        PlayCounter.ResetPlayCount();
+        PlayCounter.ResetAllCounts();
     }
 }

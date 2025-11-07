@@ -27,7 +27,7 @@ namespace Game.Audio
             }
 
             _instance = this;
-            DontDestroyOnLoad(gameObject);
+            //DontDestroyOnLoad(gameObject);
             Initialize();
         }
 

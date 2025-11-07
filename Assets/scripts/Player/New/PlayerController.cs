@@ -69,7 +69,6 @@ public class PlayerController : MonoBehaviour
     private bool _isPush;
     private bool _isJumpPress;
     public bool _isFrozen;
-
     private Rigidbody2D _rb;
     private CapsuleCollider2D _coll;
     private PlayerAnimation _playerAnimation;
@@ -95,7 +94,11 @@ public class PlayerController : MonoBehaviour
     public bool IsRunning() => _isRunning;
     public bool JumpTriggered() => _jumpTriggered;
     public void JumpTriggered(bool value) => _jumpTriggered = value;
-    public bool IsFalling() => _rb.linearVelocity.y < -0.1f;
+    public bool IsFalling()
+    {
+        bool groundedNow = Physics2D.OverlapCircle(_groundCheck.position, _groundCheckRadius, _groundLayer);
+        return !groundedNow && _rb.linearVelocity.y < -0.1f;
+    }
     public bool IsFlying()
     {
         bool groundedNow = Physics2D.OverlapCircle(_groundCheck.position, _groundCheckRadius, _groundLayer);

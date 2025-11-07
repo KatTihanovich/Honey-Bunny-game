@@ -341,6 +341,7 @@ public class BurderEnemy : MonoBehaviour
     {
         isFleeing = true;
         fleeTimer = 0f; 
+        soundManager.PlaySound("BurderRun");
 
         ResetAllTriggers();
         anim.SetTrigger(SwitchToRunTrigger);

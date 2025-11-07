@@ -187,6 +187,7 @@ namespace Enemy
         public void Attack()
         {
             Debug.Log("ХРЯСЬ!");
+            _soundManager.PlaySound("TolikTallAttack");
             if (playerHealth != null)
             {
                 playerHealth.TakeDamage(damage);

@@ -24,9 +24,6 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private int _superAttackDamage = 100;
     [SerializeField] private SkeletonGraphic _chargeBall1;
     [SerializeField] private SkeletonGraphic _chargeBall2;
-    [SerializeField] private bool _isSuperAttackReady = true; // Можно включить через прогресс
-
-    public void SetSuperAttackReady(bool ready) => _isSuperAttackReady = ready;
 
     [Header("Movement Settings")]
     [SerializeField] private float _moveSpeed = 9f;
@@ -223,13 +220,19 @@ public class PlayerController : MonoBehaviour
             Invoke(nameof(ResetAttack), _meleeAttack.AttackDuration);
         }
 
-        if (Keyboard.current.qKey.wasPressedThisFrame && _isGrounded && _isSuperAttackReady && !_isSuperAttacking)
+        if (Keyboard.current.qKey.wasPressedThisFrame && _isGrounded && !_isSuperAttacking)
         {
-            Debug.Log("СУПЕР АТАКА!");
-            _isSuperAttacking = true;
-            SuperAttack();
-            _isSuperAttackReady = false;
-            Invoke(nameof(ResetSuperAttack), _meleeAttack.AttackDuration);
+            if (_meleeAttack is PlayerMeleeAttack melee && melee.CanUseSuperAttack)
+            {
+                Debug.Log("СУПЕР АТАКА!");
+                _isSuperAttacking = true;
+                SuperAttack();
+                Invoke(nameof(ResetSuperAttack), _meleeAttack.AttackDuration);
+            }
+            else
+            {
+                Debug.Log("Суператака ещё недоступна!");
+            }
         }
     }
 

@@ -18,7 +18,8 @@ namespace Game.Combat
         private bool _isActive;
 
         private int killCount = 2;
-        private bool canUseSuperAttack = true;
+        private bool canUseSuperAttack = false;
+        public bool CanUseSuperAttack => canUseSuperAttack;
 
         private SkeletonGraphic _ball1Skeleton;
         private SkeletonGraphic _ball2Skeleton;

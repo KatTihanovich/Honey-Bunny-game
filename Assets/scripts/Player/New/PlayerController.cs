@@ -22,6 +22,8 @@ public class PlayerController : MonoBehaviour
     [Header("Super Attack Settings")]
     [SerializeField] private float _superAttackRadius = 1f;
     [SerializeField] private int _superAttackDamage = 100;
+    [SerializeField] private SkeletonGraphic _chargeBall1;
+    [SerializeField] private SkeletonGraphic _chargeBall2;
     [SerializeField] private bool _isSuperAttackReady = true; // Можно включить через прогресс
 
     public void SetSuperAttackReady(bool ready) => _isSuperAttackReady = ready;
@@ -126,6 +128,7 @@ public class PlayerController : MonoBehaviour
         _coll = GetComponent<CapsuleCollider2D>();
         _playerAnimation = GetComponent<PlayerAnimation>();
         _meleeAttack = new PlayerMeleeAttack(_attackDuration);
+        _meleeAttack.Initialize(_chargeBall1, _chargeBall2);
 
         _rb.freezeRotation = true;
         _rb.collisionDetectionMode = CollisionDetectionMode2D.Continuous;

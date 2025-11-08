@@ -65,6 +65,8 @@ public class VineScript : MonoBehaviour
             vineAnimator.SetTrigger("MidToLow");
         else if (from == VineState.High && to == VineState.Low)
             vineAnimator.SetTrigger("HighToLow");
+        else if (from == VineState.Low && to == VineState.High)
+            vineAnimator.SetTrigger("LowToHigh");    
     }
 
     private void ApplyColliderState(VineState state)

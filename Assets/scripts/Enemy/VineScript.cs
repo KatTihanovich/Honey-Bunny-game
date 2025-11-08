@@ -42,8 +42,6 @@ public class VineScript : MonoBehaviour
         float healthPercent = (playerHealth.CurrentHealth / playerHealth.MaxHealth) * 100f;
         VineState newState = GetVineStateFromHealth();
 
-        Debug.Log($"Health: {healthPercent}% → New State: {newState}, Current State: {currentState}");
-
         if (newState != currentState)
         {
             Debug.Log($"Transitioning from {currentState} to {newState}");

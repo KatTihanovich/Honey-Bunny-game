@@ -56,23 +56,25 @@ public class MonsterAI : MonoBehaviour
     }
 
     private void Update()
-{
-    if (isDead || playerHealth == null || playerHealth.IsDead)
-        return;
-
-    float health = playerHealth.CurrentHealth;
-
-    // Добавленный лог
-    Debug.Log($"[MonsterAI] Player HP: {health}, IsStressed: {health <= 70f}, IsMad: {health <= 50f}");
-
-    animator.SetBool("IsMad", health <= 50f);
-    animator.SetBool("IsStressed", health <= 70f);
-
-    if (isPlayerInRange && health <= 70f && attackCoroutine == null)
     {
-        attackCoroutine = StartCoroutine(PerformAttack());
+        if (isDead || playerHealth == null || playerHealth.IsDead)
+            return;
+
+        float health = playerHealth.CurrentHealth;
+
+        bool stressed = health <= 70f;
+        bool mad = health <= 50f;
+
+        if (animator.GetBool("IsStressed") != stressed)
+            animator.SetBool("IsStressed", stressed);
+        if (animator.GetBool("IsMad") != mad)
+            animator.SetBool("IsMad", mad);
+
+        if (isPlayerInRange && health <= 70f && attackCoroutine == null)
+        {
+            attackCoroutine = StartCoroutine(PerformAttack());
+        }
     }
-}
 
     private IEnumerator PerformAttack()
     {

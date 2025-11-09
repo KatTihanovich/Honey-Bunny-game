@@ -91,7 +91,7 @@ public class BurderEnemy : MonoBehaviour
         if (player != null)
             playerTransform = player.transform; 
 
-        SetAnimation(State.Walk); // �������� � ��������������
+        SetAnimation(State.Walk); 
     }
 
     private void Update()
@@ -162,14 +162,12 @@ public class BurderEnemy : MonoBehaviour
             }
             else
             {
-                // ���� ����� �� ������/���� - ����� ������ �� ����� ��� ���� �� ������� (�� �������)
                 SetAnimation(State.Idle);
                 isChasing = false;
             }
         }
         else
         {
-            // ������ ��������� � ���������������
             if (PlayerInSight() && distanceToPlayer <= agroDistance)
             {
                 isChasing = true;

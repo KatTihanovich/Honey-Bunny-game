@@ -8,6 +8,7 @@ public class InteractionZone : MonoBehaviour
     private bool playerInZone = false;
     private static List<string> interactionSequence = new List<string>();
     private static bool puzzleSolved = false; // ✅ защита от сброса после победы
+    private static string lastInteractedObjectName = ""; // ✅ защита от спама одного и того же гриба
 
     [SerializeField] private SequenceChecker sequenceChecker;
     private Animator anim;
@@ -30,6 +31,10 @@ public class InteractionZone : MonoBehaviour
     public void Interact()
     {
         if (!playerInZone || isAnimating || puzzleSolved) return;
+
+        // Защита от спама: если игрок нажал тот же объект, что и последний, ничего не делаем
+        if (gameObject.name == lastInteractedObjectName) return;
+
         StartCoroutine(HandleInteraction());
     }
 
@@ -47,6 +52,8 @@ public class InteractionZone : MonoBehaviour
         if (isCorrect)
         {
             interactionSequence.Add(gameObject.name);
+            lastInteractedObjectName = gameObject.name;
+
             LightUpSymbol();
             OpenColumn();
 
@@ -108,6 +115,7 @@ public class InteractionZone : MonoBehaviour
     {
         interactionSequence.Clear();
         puzzleSolved = false; // ✅ разрешаем повтор после перезапуска
+        lastInteractedObjectName = ""; // сброс последнего объекта
         Debug.Log("Interaction sequence reset.");
     }
 

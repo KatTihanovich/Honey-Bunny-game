@@ -11,8 +11,10 @@ public class InteractableToggle : MonoBehaviour
     private Collider2D doorCollider; 
     private bool isOpen = false;
     private bool playerInside = false;
-    private bool isBusy = false; // <-- защита от спама
+    private bool isBusy = false; 
     private ISoundManager _soundManager;
+    public WaveMovement waveObject;  
+
 
     private void Start()
     {
@@ -90,6 +92,7 @@ public class InteractableToggle : MonoBehaviour
                 doorAnimator.SetTrigger("Open");
                 doorCollider.isTrigger = true;
             }
+            waveObject?.Activate();
 
             isOpen = true;
         }

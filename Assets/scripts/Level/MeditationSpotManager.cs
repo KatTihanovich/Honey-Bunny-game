@@ -1,6 +1,5 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
-using System.Collections;
 using Game.Audio;
 
 public class MeditationManager : MonoBehaviour
@@ -8,21 +7,24 @@ public class MeditationManager : MonoBehaviour
     [SerializeField] private GameObject playerObject;
 
     private bool isPlayerInZone = false;
-    private bool hasMeditatedOnce = false;
+    private bool isOnCooldown = false;
+    private bool isMeditating = false;
 
     private Animator animator;
     private Animator playerAnimator;
     private HealthNew playerHealth;
     private ISoundManager _soundManager;
 
-    [SerializeField] private float _delayAfterAnimation = 3f;
-
     private PlayerInputActions inputActions;
+
+    private float lastHealth; // отслеживаем изменения HP
 
     private void Awake()
     {
         inputActions = new PlayerInputActions();
+
         inputActions.Player.Interact.performed += ctx => TryMeditate();
+        inputActions.Player.Interrupt.performed += ctx => StopMeditation(); // пробел для прерывания
     }
 
     private void OnEnable()
@@ -41,93 +43,102 @@ public class MeditationManager : MonoBehaviour
 
         animator = GetComponent<Animator>();
 
-        // Авто-поиск игрока по тегу, если не задан вручную
         if (playerObject == null)
-        {
-            GameObject foundPlayer = GameObject.FindGameObjectWithTag("Player");
-            if (foundPlayer != null)
-            {
-                playerObject = foundPlayer;
-            }
-            else
-            {
-                Debug.LogError("Игрок с тегом 'Player' не найден.");
-            }
-        }
+            playerObject = GameObject.FindGameObjectWithTag("Player");
 
-        // Получаем компоненты с найденного/заданного объекта
         if (playerObject != null)
         {
             playerHealth = playerObject.GetComponent<HealthNew>();
             playerAnimator = playerObject.GetComponent<Animator>();
 
-            if (playerHealth == null)
-                Debug.LogWarning("HealthNew компонент не найден на игроке.");
-
-            if (playerAnimator == null)
-                Debug.LogWarning("Animator компонент не найден на игроке.");
+            lastHealth = playerHealth.CurrentHealth; // фиксируем начальное HP
         }
         else
         {
-            Debug.LogError("playerObject всё ещё null. MeditationManager работать не сможет.");
+            Debug.LogError("Player object not found!");
         }
+    }
+
+    private void Update()
+    {
+        if (playerHealth == null) return;
+
+        // === ОБНОВЛЕНИЕ АНИМАЦИЙ ===
+        bool healthy = Mathf.Approximately(playerHealth.CurrentHealth, playerHealth.MaxHealth);
+
+        animator?.SetBool("Healthy", healthy);
+        playerAnimator?.SetBool("Healthy", healthy);
+
+        // === АВТО-ВЫХОД ИЗ ПЕРЕЗАРЯДКИ ПРИ ЛЮБОМ ПАДЕНИИ HP ===
+        if (playerHealth.CurrentHealth < lastHealth)
+        {
+            if (isOnCooldown)
+            {
+                Debug.Log("HP dropped → meditation recharged.");
+                isOnCooldown = false;
+            }
+        }
+
+        lastHealth = playerHealth.CurrentHealth;
     }
 
     private void TryMeditate()
     {
-        if (isPlayerInZone && !hasMeditatedOnce)
+        if (!isPlayerInZone)
+            return;
+
+        if (isOnCooldown)
         {
-            Debug.Log("Meditate action triggered.");
-            hasMeditatedOnce = true;
-            Interact();
+            Debug.Log("Meditation is on cooldown.");
+            return;
         }
-        else if (hasMeditatedOnce)
+
+        if (Mathf.Approximately(playerHealth.CurrentHealth, playerHealth.MaxHealth))
         {
-            Debug.Log("Meditation already used. No further interaction allowed.");
+            Debug.Log("HP is full -> meditation not needed.");
+            return;
         }
+
+        Interact();
     }
 
     public void Interact()
-{
-    if (playerHealth.CurrentHealth != 100f)
     {
-        if (animator != null)
-            animator.SetTrigger("Meditation");
+        if (playerHealth == null)
+        {
+            Debug.LogWarning("Player health NULL — cannot restore HP.");
+            return;
+        }
 
+        isOnCooldown = true;
+        isMeditating = true;
+
+        animator?.SetTrigger("Meditation");
         if (playerAnimator != null)
         {
             playerAnimator.SetTrigger("Meditation");
-            _soundManager.PlaySound("Meditation");
+            _soundManager?.PlaySound("Meditation");
         }
 
-        if (playerHealth != null)
-        {
-            Debug.Log("Restoring full health.");
-            playerHealth.RestoreFull();
-        }
-        else
-        {
-            Debug.LogWarning("Cannot restore health — HealthNew is null.");
-        }
-    }
-    else
-    {
-        Debug.Log("Player already at full health, skipping restoration but keeping animation flow.");
+        // лечим игрока
+        playerHealth.RestoreFull();
     }
 
-    // 👇 Всегда запускаем корутину, чтобы сбросить флаг по таймеру
-    StartCoroutine(FinishMeditationRoutine());
-}
-
-
-    private IEnumerator FinishMeditationRoutine()
+    public void StopMeditation()
     {
-        yield return new WaitForSeconds(_delayAfterAnimation);
-        Debug.Log("Meditation completed. Object remains active but cannot be reused.");
-        // Здесь можно добавить анимацию покоя или эффект "пустого" алтаря
-        yield return new WaitForSeconds(8f);
-        hasMeditatedOnce = false;
+        if (!isMeditating) return;
 
+        isMeditating = false;
+
+        if (animator != null)
+            animator.SetTrigger("Stop");
+
+        if (playerAnimator != null)
+            playerAnimator.SetTrigger("Stop");
+
+        isOnCooldown = false; // сброс перезарядки, чтобы можно было начать медитацию снова
+
+        Debug.Log("Meditation interrupted!");
     }
 
     private void OnTriggerEnter2D(Collider2D other)

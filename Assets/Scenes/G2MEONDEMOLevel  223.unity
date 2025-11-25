@@ -3888,6 +3888,16 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1797001029}
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
+--- !u!61 &63953460 stripped
+BoxCollider2D:
+  m_CorrespondingSourceObject: {fileID: 637928333009956087, guid: 8ccdd2ab66ef0424db7cdd397b7ba1b5, type: 3}
+  m_PrefabInstance: {fileID: 1497612327}
+  m_PrefabAsset: {fileID: 0}
+--- !u!68 &63953465 stripped
+EdgeCollider2D:
+  m_CorrespondingSourceObject: {fileID: 8886559967929305159, guid: 8ccdd2ab66ef0424db7cdd397b7ba1b5, type: 3}
+  m_PrefabInstance: {fileID: 1497612327}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &65383745
 GameObject:
   m_ObjectHideFlags: 0
@@ -4938,7 +4948,7 @@ MonoBehaviour:
   m_Intensity: 3
   m_LightVolumeIntensity: 1
   m_LightVolumeEnabled: 0
-  m_ApplyToSortingLayers: 7f34981041a9255c00000000cfecaf7863f86c61a1fb1f3f531e9678
+  m_ApplyToSortingLayers: 7f34981041a9255c00000000cfecaf78a1fb1f3f531e967863f86c61
   m_LightCookieSprite: {fileID: 0}
   m_DeprecatedPointLightCookieSprite: {fileID: 0}
   m_LightOrder: 1
@@ -35664,7 +35674,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   targetCamera: {fileID: 261875816}
-  targetFOV: 80
+  targetFOV: 100
   defaultFOV: 40
   fovTransitionSpeed: 0.5
 --- !u!1 &541101533
@@ -38147,6 +38157,10 @@ PrefabInstance:
     - target: {fileID: 8730794692515677193, guid: 8ccdd2ab66ef0424db7cdd397b7ba1b5, type: 3}
       propertyPath: m_Mesh
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 8886559967929305159, guid: 8ccdd2ab66ef0424db7cdd397b7ba1b5, type: 3}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -122804,34 +122818,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: LeverSystem
       objectReference: {fileID: 0}
-    - target: {fileID: 3836784922064201451, guid: 8ccdd2ab66ef0424db7cdd397b7ba1b5, type: 3}
-      propertyPath: m_SortingOrder
-      value: -3
-      objectReference: {fileID: 0}
-    - target: {fileID: 4668482640996750617, guid: 8ccdd2ab66ef0424db7cdd397b7ba1b5, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 220.80478
-      objectReference: {fileID: 0}
-    - target: {fileID: 4668482640996750617, guid: 8ccdd2ab66ef0424db7cdd397b7ba1b5, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 6.46
-      objectReference: {fileID: 0}
-    - target: {fileID: 4668482640996750617, guid: 8ccdd2ab66ef0424db7cdd397b7ba1b5, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4928625166757703127, guid: 8ccdd2ab66ef0424db7cdd397b7ba1b5, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 220.09
-      objectReference: {fileID: 0}
-    - target: {fileID: 4928625166757703127, guid: 8ccdd2ab66ef0424db7cdd397b7ba1b5, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -5.98
-      objectReference: {fileID: 0}
-    - target: {fileID: 4928625166757703127, guid: 8ccdd2ab66ef0424db7cdd397b7ba1b5, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 6494786233257733286, guid: 8ccdd2ab66ef0424db7cdd397b7ba1b5, type: 3}
       propertyPath: m_LocalPosition.x
       value: -31.777512
@@ -122876,6 +122862,14 @@ PrefabInstance:
       propertyPath: waveObject
       value: 
       objectReference: {fileID: 80759120}
+    - target: {fileID: 6873065243890408137, guid: 8ccdd2ab66ef0424db7cdd397b7ba1b5, type: 3}
+      propertyPath: boxCollider
+      value: 
+      objectReference: {fileID: 63953460}
+    - target: {fileID: 6873065243890408137, guid: 8ccdd2ab66ef0424db7cdd397b7ba1b5, type: 3}
+      propertyPath: edgeCollider
+      value: 
+      objectReference: {fileID: 63953465}
     - target: {fileID: 8730794692515677193, guid: 8ccdd2ab66ef0424db7cdd397b7ba1b5, type: 3}
       propertyPath: m_Mesh
       value: 

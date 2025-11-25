@@ -9,6 +9,7 @@ public class PauseMenu : MonoBehaviour
 {
     [Header("UI Elements")]
     public GameObject pauseMenuUI;
+    public GameObject settingsUI;
     public List<GameObject> menusToDisable = new List<GameObject>();
 
     public void Resume()
@@ -42,6 +43,16 @@ public class PauseMenu : MonoBehaviour
         if (CoinManager.Instance != null)
             CoinManager.Instance.totalCoins = 0;
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+
+    public void ShowSettings()
+    {
+        settingsUI.SetActive(true);
+    }
+    public void HideSettings()
+    {
+        settingsUI.SetActive(false);
+        Resume();
     }
 
     public void Quit(){

@@ -16,7 +16,6 @@ public class SoundManager : MonoBehaviour
     public Slider UISlider;
 
     public float sliderChangeAmount = 0.05f;
-    private bool isSliderSelected = false;
 
     private const string MIXER_MUSIC = "MusicVolume";
     private const string MIXER_FX = "FXVolume";
@@ -26,6 +25,16 @@ public class SoundManager : MonoBehaviour
     private const string PREF_FX = "fxVolume";
     private const string PREF_UI = "uiVolume";
 
+    private void Awake()
+    {
+        float music = PlayerPrefs.HasKey(PREF_MUSIC) ? PlayerPrefs.GetFloat(PREF_MUSIC) : 1f;
+        float fx = PlayerPrefs.HasKey(PREF_FX) ? PlayerPrefs.GetFloat(PREF_FX) : 1f;
+        float ui = PlayerPrefs.HasKey(PREF_UI) ? PlayerPrefs.GetFloat(PREF_UI) : 1f;
+
+        SetMixerVolume(MusicMixer.audioMixer, MIXER_MUSIC, music);
+        SetMixerVolume(FXMixer.audioMixer, MIXER_FX, fx);
+        SetMixerVolume(UIMixer.audioMixer, MIXER_UI, ui);
+    }
     private void Start()
     {
         MusicSlider.value = PlayerPrefs.HasKey(PREF_MUSIC) ? PlayerPrefs.GetFloat(PREF_MUSIC) : 1f;
@@ -33,41 +42,6 @@ public class SoundManager : MonoBehaviour
         UISlider.value = PlayerPrefs.HasKey(PREF_UI) ? PlayerPrefs.GetFloat(PREF_UI) : 1f;
 
         ApplyVolumes();
-    }
-
-    private void Update()
-    {
-        if (isSliderSelected)
-        {
-            if (Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D))
-            {
-                AdjustSelectedSlider(sliderChangeAmount);
-            }
-            else if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A))
-            {
-                AdjustSelectedSlider(-sliderChangeAmount);
-            }
-        }
-    }
-
-    private void AdjustSelectedSlider(float amount)
-    {
-        Slider activeSlider = EventSystem.current.currentSelectedGameObject?.GetComponent<Slider>();
-        if (activeSlider != null)
-        {
-            activeSlider.value = Mathf.Clamp(activeSlider.value + amount, 0f, 1f);
-            ApplyVolumes();
-        }
-    }
-
-    public void OnSliderSelect()
-    {
-        isSliderSelected = true;
-    }
-
-    public void OnSliderDeselect()
-    {
-        isSliderSelected = false;
     }
 
     public void ApplyVolumes()

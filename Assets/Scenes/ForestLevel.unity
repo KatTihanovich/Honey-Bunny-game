@@ -3874,6 +3874,9 @@ MonoBehaviour:
   audioGroup: {fileID: -1040233043583867831, guid: b7aad94fe0c3c4ba4a14d95707c80208, type: 2}
   winClip: {fileID: 8300000, guid: 7db8c7c6e93c14215903d3e9885bba6f, type: 3}
   loseClip: {fileID: 8300000, guid: 5611fb84125e04ca58f961cf5b773227, type: 3}
+  focusObject: {fileID: 780950016}
+  offsetX: -5
+  offsetY: 12
 --- !u!1 &125332421
 GameObject:
   m_ObjectHideFlags: 0
@@ -70905,6 +70908,7 @@ GameObject:
   - component: {fileID: 261875821}
   - component: {fileID: 261875822}
   - component: {fileID: 261875823}
+  - component: {fileID: 261875824}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -71086,6 +71090,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df43e47703d3f63409b272950bf48224, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &261875824
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 261875813}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b78949a9c8522406f8a22403e0f70af0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveSpeed: 2
+  returnDelay: 3
+  player: {fileID: 1277575630}
+  cameraFollow: {fileID: 261875818}
 --- !u!1 &269385703
 GameObject:
   m_ObjectHideFlags: 0
@@ -73254,7 +73274,7 @@ SpriteRenderer:
   m_Size: {x: 54.09403, y: 50}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!4 &353632343
@@ -104684,6 +104704,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animator: {fileID: 663423207}
   doorBlocker: {fileID: 1338430585}
+  boxCollider: {fileID: 0}
+  edgeCollider: {fileID: 0}
+  waveObject: {fileID: 0}
 --- !u!114 &663423206
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -107069,7 +107092,7 @@ SpriteRenderer:
   m_Size: {x: 54.09403, y: 50}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!4 &737109731
@@ -107822,7 +107845,7 @@ SpriteRenderer:
   m_Size: {x: 24.431822, y: 49.17}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!4 &776670418
@@ -113681,7 +113704,7 @@ SpriteRenderer:
   m_Size: {x: 54.09403, y: 46.5}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!4 &954934705
@@ -119883,7 +119906,7 @@ SpriteRenderer:
   m_Size: {x: 54.09403, y: 46.5}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!4 &995193809
@@ -135096,7 +135119,7 @@ SpriteRenderer:
   m_Size: {x: 54.09403, y: 46.5}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!4 &1335035156
@@ -168794,7 +168817,7 @@ SpriteRenderer:
   m_Size: {x: 54.09403, y: 50}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!4 &1415135692
@@ -175962,6 +175985,9 @@ MonoBehaviour:
   - {fileID: 146994799}
   - {fileID: 1237190247}
   triggerZone: {fileID: 1473714184}
+  focusObject: {fileID: 780950016}
+  offsetX: -15
+  offsetY: 5
 --- !u!61 &1473714184
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -199889,7 +199915,7 @@ SpriteRenderer:
   m_Size: {x: 24.431822, y: 49.17}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!4 &1935661447

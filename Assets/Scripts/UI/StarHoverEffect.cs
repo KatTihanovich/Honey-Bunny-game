@@ -81,9 +81,12 @@ public class StarHoverEffect : MonoBehaviour, IPointerEnterHandler, IPointerExit
         if (!hovered) return;
 
         if (leftStar != null)
-            leftTargetPos += new Vector2(clickMoveAmount, 0);
+            leftTargetPos = new Vector2(-hoverOffset + clickMoveAmount, 0);
 
         if (rightStar != null)
-            rightTargetPos += new Vector2(-clickMoveAmount, 0);
+            rightTargetPos = new Vector2(hoverOffset - clickMoveAmount, 0);
+
+        EventSystem.current.SetSelectedGameObject(null);
+        StartCoroutine(HideStarsAfter());
     }
 }

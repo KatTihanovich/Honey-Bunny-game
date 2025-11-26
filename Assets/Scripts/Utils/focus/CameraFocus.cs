@@ -7,19 +7,28 @@ public class CameraFocus : MonoBehaviour
     private Quaternion originalRot;
     private bool focusing = false;
 
-    public float moveSpeed = 3f;
-    public float returnDelay = 1.5f;
+    public float moveSpeed = 1f;
 
     public PlayerController player;
     public CameraFollow cameraFollow;
 
     private float zoomZ = -25f; // must be negative
+    private float offsetX;
+    private float offsetY;
+    private float returnDelay;
 
-    public IEnumerator FocusOnObject(Transform target, float offsetX, float offsetY)
+    public IEnumerator FocusOnObject(Transform target, FocusSettingsForObject focusSettings)
     {
+        offsetX = focusSettings.offsetX;
+        offsetY = focusSettings.offsetY;
+        returnDelay = focusSettings.returnDelay;
+
         if (focusing) yield break;
         focusing = true;
 
+        if (player != null)
+            player.ForceIdle();
+            
         if (player != null)
             player.enabled = false;
 

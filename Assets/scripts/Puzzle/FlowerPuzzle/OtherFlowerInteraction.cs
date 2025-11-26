@@ -20,11 +20,6 @@ public class OtherFlowerInteraction : MonoBehaviour
     private Coroutine visualCoroutine;
     private bool isPlayerInside = false;
 
-    public Transform focusObject; 
-    public float offsetX = 0f;
-    public float offsetY = 2f;
-    private bool hasShownObstacle = false;
-
     private void Start()
     {
         otherFlowerAudioSource = gameObject.AddComponent<AudioSource>();
@@ -53,13 +48,6 @@ public class OtherFlowerInteraction : MonoBehaviour
         Debug.Log($"Entered trigger with: {other.name}");
         if (other.CompareTag("Player") && !isPlayerInside)
         {
-            if (!hasShownObstacle)
-            {
-                hasShownObstacle = true;
-                CameraFocus cam = Camera.main.GetComponent<CameraFocus>();
-                StartCoroutine(cam.FocusOnObject(focusObject, offsetX, offsetY));
-            }
-
             isPlayerInside = true;
 
             if (fadeCoroutine != null)

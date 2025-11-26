@@ -191,7 +191,6 @@ public class PlayerController : MonoBehaviour
 
     private void HandleDeath()
     {
-      
         Die();
     }
 
@@ -502,4 +501,30 @@ public class PlayerController : MonoBehaviour
             _isSlowed = false;
         }
     }
+
+    public void ForceIdle()
+    {
+        if (_rb != null)
+        {
+            _rb.linearVelocity = Vector2.zero;
+            _rb.angularVelocity = 0f;
+            _rb.Sleep();
+        }
+
+        _horizontalInput = 0f;
+        _isRunning = false;
+        _isJumping = false;
+        _isPush = false;
+        _jumpTriggered = false;
+
+        _isAttacking = false;
+        _isSuperAttacking = false;
+        _isTakingDamage = false;
+
+        if (_playerAnimation != null)
+            _playerAnimation.PlayIdle();
+
+        _playerAnimation.SetDoubleJump(false);
+    }
+    
 }

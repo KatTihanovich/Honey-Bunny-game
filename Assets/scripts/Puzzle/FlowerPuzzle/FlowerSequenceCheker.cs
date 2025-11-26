@@ -13,8 +13,7 @@ public class FlowerSequenceChecker : MonoBehaviour
     [SerializeField] private AudioClip loseClip;
 
     public Transform focusObject; 
-    public float offsetX = 0f;
-    public float offsetY = 2f;
+    public FocusSettingsForObject focusSettings;
 
     private void OnEnable()
     {
@@ -68,7 +67,7 @@ public class FlowerSequenceChecker : MonoBehaviour
             Debug.Log("Sleeping flower awakened!");
             
             CameraFocus cam = Camera.main.GetComponent<CameraFocus>();
-            StartCoroutine(cam.FocusOnObject(focusObject, offsetX, offsetY));
+            StartCoroutine(cam.FocusOnObject(focusObject, focusSettings));
         }
         else
         {

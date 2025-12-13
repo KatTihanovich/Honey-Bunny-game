@@ -4,45 +4,40 @@ using Game.Audio;
 
 public class HurtState : IState
 {
-    private readonly EnemyStateMachineRunner _runner;
-    private readonly Blackboard _bb;
-    private readonly IState _nextState;
     private Coroutine _hurtRoutine;
+    private MonoBehaviour _coroutineRunner;
 
-    public HurtState(EnemyStateMachineRunner runner, Blackboard bb, IState nextState)
+    public void Enter(GameObject actor, Blackboard blackboard)
     {
-        _runner = runner;
-        _bb = bb;
-        _nextState = nextState;
-    }
-
-    public void Enter()
-    {
-        _hurtRoutine = _runner.StartCoroutine(HurtRoutine());
-    }
-
-    public void Tick() { }
-
-    public void Exit()
-    {
-        if (_hurtRoutine != null)
+        blackboard.Set(BlackboardKeys.HurtAnimationFinished, false);
+        _coroutineRunner = actor.GetComponent<MonoBehaviour>();
+        if (_coroutineRunner != null)
         {
-            _runner.StopCoroutine(_hurtRoutine);
+            _hurtRoutine = _coroutineRunner.StartCoroutine(HurtRoutine(blackboard));
+        }
+    }
+
+    public void Tick(GameObject actor, Blackboard blackboard) { }
+
+    public void Exit(GameObject actor, Blackboard blackboard)
+    {
+        if (_hurtRoutine != null && _coroutineRunner != null)
+        {
+            _coroutineRunner.StopCoroutine(_hurtRoutine);
             _hurtRoutine = null;
         }
     }
 
-    private IEnumerator HurtRoutine()
+    private IEnumerator HurtRoutine(Blackboard blackboard)
     {
-        var anim = _bb.GetOrDefault<Animator>(BlackboardKeys.Animator);
-        var sound = _bb.GetOrDefault<ISoundManager>(BlackboardKeys.SoundManager);
+        var anim = blackboard.GetOrDefault<Animator>(BlackboardKeys.Animator);
+        var sound = blackboard.GetOrDefault<ISoundManager>(BlackboardKeys.SoundManager);
 
         anim?.SetTrigger("GotHit");
         sound?.PlaySound("Damage");
-
+        
         yield return new WaitForSeconds(0.3f);
-
-        var plant = _runner.GetComponent<PlantAI>();
-        _runner.ChangeState(plant.ChooseIdleState());
+        
+        blackboard.Set(BlackboardKeys.HurtAnimationFinished, true);
     }
 }

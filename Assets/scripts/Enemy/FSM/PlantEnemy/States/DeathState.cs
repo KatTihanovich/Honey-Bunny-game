@@ -4,44 +4,44 @@ using Game.Audio;
 
 public class DeathState : IState
 {
-    private readonly EnemyStateMachineRunner _runner;
-    private readonly Blackboard _bb;
-    private readonly float _deathSoundDelay;
+    private float _deathSoundDelay;
     private Coroutine _deathRoutine;
+    private MonoBehaviour _coroutineRunner;
 
-    public DeathState(EnemyStateMachineRunner runner, Blackboard bb, float deathSoundDelay)
+    public DeathState(float deathSoundDelay = 2f)
     {
-        _runner = runner;
-        _bb = bb;
         _deathSoundDelay = deathSoundDelay;
     }
 
-    public void Enter()
+    public void Enter(GameObject actor, Blackboard blackboard)
     {
-        var anim = _bb.GetOrDefault<Animator>(BlackboardKeys.Animator);
-        var sound = _bb.GetOrDefault<ISoundManager>(BlackboardKeys.SoundManager);
-        var go = _runner.gameObject;
+        var anim = blackboard.GetOrDefault<Animator>(BlackboardKeys.Animator);
+        var sound = blackboard.GetOrDefault<ISoundManager>(BlackboardKeys.SoundManager);
 
         anim?.SetBool("Dead", true);
-
-        if (go.TryGetComponent<Collider2D>(out var bodyCol))
+        
+        if (actor.TryGetComponent(out Collider2D bodyCol))
             bodyCol.enabled = false;
-        if (go.TryGetComponent<Rigidbody2D>(out var rb))
+        
+        if (actor.TryGetComponent(out Rigidbody2D rb))
             rb.linearVelocity = Vector2.zero;
 
-        _deathRoutine = _runner.StartCoroutine(DeathRoutine(sound, go));
+        _coroutineRunner = actor.GetComponent<MonoBehaviour>();
+        if (_coroutineRunner != null)
+        {
+            _deathRoutine = _coroutineRunner.StartCoroutine(DeathRoutine(sound, actor));
+        }
     }
 
-    public void Tick() { }
+    public void Tick(GameObject actor, Blackboard blackboard) { }
 
-    public void Exit() { }
+    public void Exit(GameObject actor, Blackboard blackboard) { }
 
-    private IEnumerator DeathRoutine(ISoundManager sound, GameObject go)
+    private IEnumerator DeathRoutine(ISoundManager sound, GameObject actor)
     {
         yield return new WaitForSeconds(_deathSoundDelay);
         sound?.PlaySound("MobDeath");
-
-        Object.Destroy(go, 4f);
+        Object.Destroy(actor, 4f);
         EndWindow.IncreaseEnemyCount();
     }
 }

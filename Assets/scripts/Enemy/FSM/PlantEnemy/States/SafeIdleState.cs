@@ -2,31 +2,16 @@ using UnityEngine;
 
 public class SafeIdleState : IState
 {
-    private readonly EnemyStateMachineRunner _runner;
-    private readonly Blackboard _bb;
-
-    public SafeIdleState(EnemyStateMachineRunner runner, Blackboard bb)
+    public void Enter(GameObject actor, Blackboard blackboard)
     {
-        _runner = runner;
-        _bb = bb;
+        var anim = blackboard.GetOrDefault<Animator>(BlackboardKeys.Animator);
+        anim?.SetBool("IsStressed", false);
+        anim?.SetBool("IsMad", false);
+        
+        blackboard.Set(BlackboardKeys.AttackFinished, false);
     }
 
-   public void Enter() { } 
+    public void Tick(GameObject actor, Blackboard blackboard) { }
 
-    public void Tick()
-    {
-        if (_bb.GetOrDefault<bool>(BlackboardKeys.IsDead)) return;
-
-        var plant = _runner.GetComponent<PlantAI>();
-        var next = plant.ChooseIdleState();
-
-        if (next.GetType() != typeof(SafeIdleState))
-        {
-            _runner.ChangeState(next);
-            return;
-        }
-    }
-
-
-    public void Exit() { }
+    public void Exit(GameObject actor, Blackboard blackboard) { }
 }

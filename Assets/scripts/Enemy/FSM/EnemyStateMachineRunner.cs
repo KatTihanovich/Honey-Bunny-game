@@ -5,31 +5,21 @@ public class EnemyStateMachineRunner : MonoBehaviour
     public Blackboard Blackboard { get; private set; }
     private StateMachine _stateMachine;
 
-    private IState _pendingState;     
-    private bool _hasPending;
-
     private void Awake()
     {
         Blackboard = new Blackboard();
         _stateMachine = new StateMachine();
+        _stateMachine.Initialize(gameObject, Blackboard);
     }
 
     private void Update()
     {
         _stateMachine.Tick();
-
-        if (_hasPending)
-        {
-            _stateMachine.ChangeState(_pendingState);
-            _pendingState = null;
-            _hasPending = false;
-        }
     }
 
     public void ChangeState(IState state)
     {
-        _pendingState = state;
-        _hasPending = true;
+        _stateMachine.ChangeState(state);
     }
 
     public void SetInitialState(IState state)
@@ -38,4 +28,14 @@ public class EnemyStateMachineRunner : MonoBehaviour
     }
 
     public IState GetCurrentState() => _stateMachine.CurrentState;
+    
+    public void AddTransition(IState fromState, Transition transition)
+    {
+        _stateMachine.AddTransition(fromState, transition);
+    }
+    
+    public void AddAnyTransition(Transition transition)
+    {
+        _stateMachine.AddAnyTransition(transition);
+    }
 }

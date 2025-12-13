@@ -1,6 +1,8 @@
+using UnityEngine;
+
 public interface IState
 {
-    void Enter();
-    void Tick();
-    void Exit();
+    void Enter(GameObject actor, Blackboard blackboard);
+    void Exit(GameObject actor, Blackboard blackboard);
+    void Tick(GameObject actor, Blackboard blackboard);
 }

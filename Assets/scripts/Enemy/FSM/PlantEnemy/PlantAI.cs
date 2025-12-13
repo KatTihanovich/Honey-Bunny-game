@@ -19,12 +19,17 @@ public class PlantAI : MonoBehaviour
     private HealthNew selfHealth;
     private ISoundManager soundManager;
     private EnemyStateMachineRunner _runner;
+    
+    private SafeIdleState _safeIdleState;
+    private RageIdleState _rageIdleState;
+    private AttackState _attackState;
+    private HurtState _hurtState;
+    private DeathState _deathState;
 
     private void Awake()
     {
         selfHealth = GetComponent<HealthNew>();
         _runner = GetComponent<EnemyStateMachineRunner>();
-
         selfHealth.OnDeath += HandleDeath;
         selfHealth.OnDamaged += HandleDamaged;
     }
@@ -44,8 +49,82 @@ public class PlantAI : MonoBehaviour
         bb.Set(BlackboardKeys.AttackDelay, attackDelay);
         bb.Set(BlackboardKeys.IsPlayerInRange, false);
         bb.Set(BlackboardKeys.IsDead, false);
+        bb.Set(BlackboardKeys.HurtAnimationFinished, false);
+        bb.Set(BlackboardKeys.AttackFinished, false);
 
-        _runner.SetInitialState(ChooseIdleState());
+        _safeIdleState = new SafeIdleState();
+        _rageIdleState = new RageIdleState();
+        _attackState = new AttackState();
+        _hurtState = new HurtState();
+        _deathState = new DeathState(deathSoundDelay);
+
+        SetupTransitions();
+        _runner.SetInitialState(GetInitialIdleState());
+    }
+
+    private void SetupTransitions()
+    {
+        _runner.AddAnyTransition(new Transition(_deathState, (actor, bb) =>
+            bb.GetOrDefault<bool>(BlackboardKeys.IsDead)
+        ));
+
+        _runner.AddTransition(_safeIdleState, new Transition(_rageIdleState, (actor, bb) =>
+        {
+            var playerHp = bb.GetOrDefault<HealthNew>(BlackboardKeys.PlayerHealth);
+            return playerHp != null && !playerHp.IsDead && playerHp.CurrentHealth <= 70f;
+        }));
+
+        _runner.AddTransition(_rageIdleState, new Transition(_safeIdleState, (actor, bb) =>
+        {
+            var playerHp = bb.GetOrDefault<HealthNew>(BlackboardKeys.PlayerHealth);
+            return playerHp == null || playerHp.IsDead || playerHp.CurrentHealth > 70f;
+        }));
+
+        _runner.AddTransition(_rageIdleState, new Transition(_attackState, (actor, bb) =>
+            bb.GetOrDefault<bool>(BlackboardKeys.IsPlayerInRange) && !bb.GetOrDefault<bool>(BlackboardKeys.IsDead)
+        ));
+
+        _runner.AddTransition(_attackState, new Transition(_safeIdleState, (actor, bb) =>
+        {
+            if (!bb.GetOrDefault<bool>(BlackboardKeys.AttackFinished)) return false;
+            
+            var playerHp = bb.GetOrDefault<HealthNew>(BlackboardKeys.PlayerHealth);
+            return playerHp == null || playerHp.IsDead || playerHp.CurrentHealth > 70f;
+        }));
+
+        _runner.AddTransition(_attackState, new Transition(_rageIdleState, (actor, bb) =>
+        {
+            if (!bb.GetOrDefault<bool>(BlackboardKeys.AttackFinished)) return false;
+            
+            var playerHp = bb.GetOrDefault<HealthNew>(BlackboardKeys.PlayerHealth);
+            return playerHp != null && !playerHp.IsDead && playerHp.CurrentHealth <= 70f;
+        }));
+
+        _runner.AddTransition(_hurtState, new Transition(_safeIdleState, (actor, bb) =>
+        {
+            if (!bb.GetOrDefault<bool>(BlackboardKeys.HurtAnimationFinished)) return false;
+            var playerHp = bb.GetOrDefault<HealthNew>(BlackboardKeys.PlayerHealth);
+            return playerHp == null || playerHp.IsDead || playerHp.CurrentHealth > 70f;
+        }));
+
+        _runner.AddTransition(_hurtState, new Transition(_rageIdleState, (actor, bb) =>
+        {
+            if (!bb.GetOrDefault<bool>(BlackboardKeys.HurtAnimationFinished)) return false;
+            var playerHp = bb.GetOrDefault<HealthNew>(BlackboardKeys.PlayerHealth);
+            return playerHp != null && !playerHp.IsDead && playerHp.CurrentHealth <= 70f;
+        }));
+    }
+
+    private IState GetInitialIdleState()
+    {
+        if (playerHealth == null || playerHealth.IsDead)
+            return _safeIdleState;
+
+        float hp = playerHealth.CurrentHealth;
+        if (hp > 70f)
+            return _safeIdleState;
+        else
+            return _rageIdleState;
     }
 
     public void SetPlayerInRange(bool value)
@@ -62,58 +141,20 @@ public class PlantAI : MonoBehaviour
             Debug.Log("Монстр не получил урон — здоровье игрока выше 70.");
             return;
         }
-        
+
         selfHealth.TakeDamage(damage);
     }
 
     private void HandleDamaged(float damage)
     {
         if (_runner.Blackboard.GetOrDefault<bool>(BlackboardKeys.IsDead)) return;
-        var nextState = new HurtState(_runner, _runner.Blackboard, ChooseIdleState());
-        _runner.ChangeState(nextState);
+        _runner.ChangeState(_hurtState);
     }
 
     private void HandleDeath()
     {
         var bb = _runner.Blackboard;
         if (bb.GetOrDefault<bool>(BlackboardKeys.IsDead)) return;
-
         bb.Set(BlackboardKeys.IsDead, true);
-        _runner.ChangeState(new DeathState(_runner, bb, deathSoundDelay));
-    }
-
-    public IState ChooseIdleState()
-    {
-        var bb = _runner.Blackboard;
-        var playerHp = bb.GetOrDefault<HealthNew>(BlackboardKeys.PlayerHealth);
-        var anim = bb.GetOrDefault<Animator>(BlackboardKeys.Animator);
-
-        if (playerHp == null || playerHp.IsDead)
-        {
-            anim?.SetBool("IsStressed", false);
-            anim?.SetBool("IsMad", false);
-            return new SafeIdleState(_runner, bb);
-        }
-
-        float hp = playerHp.CurrentHealth;
-
-        if (hp > 70f)
-        {
-            anim?.SetBool("IsStressed", false);
-            anim?.SetBool("IsMad", false);
-            return new SafeIdleState(_runner, bb);
-        }
-        else if (hp > 50f)
-        {
-            anim?.SetBool("IsStressed", true);
-            anim?.SetBool("IsMad", false);
-            return new AlertIdleState(_runner, bb);
-        }
-        else
-        {
-            anim?.SetBool("IsStressed", true);
-            anim?.SetBool("IsMad", true);
-            return new RageIdleState(_runner, bb);
-        }
     }
 }

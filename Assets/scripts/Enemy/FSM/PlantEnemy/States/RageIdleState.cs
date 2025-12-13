@@ -1,38 +1,38 @@
 using UnityEngine;
 
-public class RageIdleState : IState
+public class RageIdleState: IState
 {
-    private readonly EnemyStateMachineRunner _runner;
-    private readonly Blackboard _bb;
-
-    public RageIdleState(EnemyStateMachineRunner runner, Blackboard bb)
+    public void Enter(GameObject actor, Blackboard blackboard)
     {
-        _runner = runner;
-        _bb = bb;
+        UpdateAnimation(blackboard);
+        blackboard.Set(BlackboardKeys.AttackFinished, false);
     }
 
-    public void Enter() { } 
-
-    public void Tick()
+    public void Tick(GameObject actor, Blackboard blackboard) 
     {
-        if (_bb.GetOrDefault<bool>(BlackboardKeys.IsDead)) return;
-
-        var plant = _runner.GetComponent<PlantAI>();
-        var next = plant.ChooseIdleState();
-
-        if (next.GetType() != typeof(RageIdleState))
-        {
-            _runner.ChangeState(next);
-            return;
-        }
-
-        bool inRange = _bb.GetOrDefault<bool>(BlackboardKeys.IsPlayerInRange);
-        if (inRange && _runner.GetCurrentState() is not AttackState)
-        {
-            _runner.ChangeState(new AttackState(_runner, _bb));
-        }
+        UpdateAnimation(blackboard);
     }
 
+    public void Exit(GameObject actor, Blackboard blackboard) { }
 
-    public void Exit() { }
+    private void UpdateAnimation(Blackboard blackboard)
+    {
+        var anim = blackboard.GetOrDefault<Animator>(BlackboardKeys.Animator);
+        var playerHp = blackboard.GetOrDefault<HealthNew>(BlackboardKeys.PlayerHealth);
+
+        if (playerHp == null || playerHp.IsDead) return;
+
+        float hp = playerHp.CurrentHealth;
+        
+        if (hp > 50f) 
+        {
+            anim?.SetBool("IsStressed", true);
+            anim?.SetBool("IsMad", false);
+        }
+        else 
+        {
+            anim?.SetBool("IsStressed", true);
+            anim?.SetBool("IsMad", true);
+        }
+    }
 }

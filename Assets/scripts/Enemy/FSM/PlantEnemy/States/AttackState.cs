@@ -4,60 +4,50 @@ using Game.Audio;
 
 public class AttackState : IState
 {
-    private readonly EnemyStateMachineRunner _runner;
-    private readonly Blackboard _bb;
     private Coroutine _attackRoutine;
+    private MonoBehaviour _coroutineRunner;
 
-    public AttackState(EnemyStateMachineRunner runner, Blackboard bb)
+    public void Enter(GameObject actor, Blackboard blackboard)
     {
-        _runner = runner;
-        _bb = bb;
-    }
-
-    public void Enter()
-    {
-        _attackRoutine = _runner.StartCoroutine(AttackRoutine());
-    }
-
-    public void Tick() { }
-
-    public void Exit()
-    {
-        if (_attackRoutine != null)
+        blackboard.Set(BlackboardKeys.AttackFinished, false);
+        _coroutineRunner = actor.GetComponent<MonoBehaviour>();
+        if (_coroutineRunner != null)
         {
-            _runner.StopCoroutine(_attackRoutine);
+            _attackRoutine = _coroutineRunner.StartCoroutine(AttackRoutine(actor, blackboard));
+        }
+    }
+
+    public void Tick(GameObject actor, Blackboard blackboard) { }
+
+    public void Exit(GameObject actor, Blackboard blackboard)
+    {
+        if (_attackRoutine != null && _coroutineRunner != null)
+        {
+            _coroutineRunner.StopCoroutine(_attackRoutine);
             _attackRoutine = null;
         }
     }
 
-    private IEnumerator AttackRoutine()
+    private IEnumerator AttackRoutine(GameObject actor, Blackboard blackboard)
     {
-        var anim = _bb.GetOrDefault<Animator>(BlackboardKeys.Animator);
-        var sound = _bb.GetOrDefault<ISoundManager>(BlackboardKeys.SoundManager);
-        var playerHp = _bb.GetOrDefault<HealthNew>(BlackboardKeys.PlayerHealth);
-
-        float delay = _bb.GetOrDefault<float>(BlackboardKeys.AttackDelay);
-        float cooldown = _bb.GetOrDefault<float>(BlackboardKeys.AttackCooldown);
-        float damage = _bb.GetOrDefault<float>(BlackboardKeys.AttackDamage);
+        var anim = blackboard.GetOrDefault<Animator>(BlackboardKeys.Animator);
+        var sound = blackboard.GetOrDefault<ISoundManager>(BlackboardKeys.SoundManager);
+        var playerHp = blackboard.GetOrDefault<HealthNew>(BlackboardKeys.PlayerHealth);
+        float delay = blackboard.GetOrDefault<float>(BlackboardKeys.AttackDelay);
+        float cooldown = blackboard.GetOrDefault<float>(BlackboardKeys.AttackCooldown);
+        float damage = blackboard.GetOrDefault<float>(BlackboardKeys.AttackDamage);
 
         anim?.SetTrigger("Attack");
         yield return new WaitForSeconds(delay);
 
         sound?.PlaySound("WhipAttack");
-
         if (playerHp != null && !playerHp.IsDead)
         {
             playerHp.TakeDamage(damage);
         }
 
         yield return new WaitForSeconds(cooldown);
-
-        _runner.ChangeState(ChooseNextIdle());
-    }
-
-        private IState ChooseNextIdle()
-    {
-        var plant = _runner.GetComponent<PlantAI>();
-        return plant.ChooseIdleState();
+        
+        blackboard.Set(BlackboardKeys.AttackFinished, true);
     }
 }

@@ -1,7 +1,7 @@
 using UnityEngine;
 using Game.Audio;
 
-public class ButtonTrigger : MonoBehaviour
+public class ButtonManager : MonoBehaviour
 {
     private Animator buttonAnimator;
     public MovingPlatformForButton linkedPlatform;

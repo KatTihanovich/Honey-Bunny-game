@@ -6,7 +6,6 @@ using Game.Audio;
 public class LevelCompletion : MonoBehaviour
 {
     [SerializeField] private GameObject endScreen;
-    //public GameObject toSelect;
     public int passedLevelNumber;
     private ISoundManager _soundManager;
 
@@ -19,11 +18,14 @@ public class LevelCompletion : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            //EventSystem.current.SetSelectedGameObject(toSelect);
             _soundManager.PlaySound("Finish");
             endScreen.SetActive(true);
             Time.timeScale = 0f;
             MarkLevelComplete(passedLevelNumber);
+            
+            // Сохраняем прогресс в API
+            SaveProgressToAPI();
+            
             Debug.Log("LevelUnlocked = " + PlayerPrefs.GetInt("LevelUnlocked"));
         }
     }
@@ -38,4 +40,16 @@ public class LevelCompletion : MonoBehaviour
         }
     }
 
+    private void SaveProgressToAPI()
+    {
+        LevelProgressTracker tracker = FindObjectOfType<LevelProgressTracker>();
+        if (tracker != null)
+        {
+            tracker.OnLevelComplete();
+        }
+        else
+        {
+            Debug.LogWarning("LevelProgressTracker не найден на сцене!");
+        }
+    }
 }

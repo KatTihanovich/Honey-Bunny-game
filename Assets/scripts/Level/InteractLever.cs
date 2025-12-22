@@ -11,7 +11,6 @@ public class InteractableToggle : MonoBehaviour
     private Animator doorAnimator;
     private Collider2D doorCollider;
 
-    // 🔥 Новые поля
     public BoxCollider2D boxCollider;
     public EdgeCollider2D edgeCollider;
 
@@ -20,8 +19,7 @@ public class InteractableToggle : MonoBehaviour
     private bool isBusy = false;
 
     private ISoundManager _soundManager;
-    public WaveMovement waveObject;
-
+    public WaveMovement[] waveObjects;
 
     private void Start()
     {
@@ -45,7 +43,6 @@ public class InteractableToggle : MonoBehaviour
             Debug.LogWarning("doorBlocker не назначен!");
         }
 
-        // Проверяем наличие коллайдеров
         if (boxCollider == null) Debug.LogWarning("BoxCollider2D НЕ назначен!");
         if (edgeCollider == null) Debug.LogWarning("EdgeCollider2D НЕ назначен!");
     }
@@ -90,7 +87,6 @@ public class InteractableToggle : MonoBehaviour
 //                doorCollider.isTrigger = false;
             }
 
-            // 🔥 Вернуть коллайдеры в состояние закрытой двери
             if (boxCollider) boxCollider.enabled = true;
             if (edgeCollider) edgeCollider.enabled = false;
 
@@ -107,9 +103,14 @@ public class InteractableToggle : MonoBehaviour
 //                doorCollider.isTrigger = true;
             }
 
-            waveObject?.Activate();
+            if (waveObjects != null && waveObjects.Length > 0)
+            {
+                for (int i = 0; i < waveObjects.Length; i++)
+                {
+                    waveObjects[i]?.Activate();
+                }
+            }
 
-            // 🔥 Запускаем корутину переключения коллайдеров
             StartCoroutine(SwitchCollidersDelayed());
 
             isOpen = true;
@@ -118,10 +119,8 @@ public class InteractableToggle : MonoBehaviour
         _soundManager.PlaySound("Lever");
     }
 
-    // 🔥 Корутина переключения коллайдеров
     private IEnumerator SwitchCollidersDelayed()
     {
-        // Ждем 1 секунду
         yield return new WaitForSeconds(6.30f);
 
         if (boxCollider) boxCollider.enabled = false;

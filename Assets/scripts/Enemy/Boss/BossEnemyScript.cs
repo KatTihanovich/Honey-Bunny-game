@@ -358,6 +358,16 @@ namespace Enemy
             PlayerPrefs.SetInt("BossDefeated", 1);
             PlayerPrefs.Save();
             player.GetComponent<PlayerController>().enabled = false;
+
+        LevelProgressTracker tracker = FindObjectOfType<LevelProgressTracker>();
+    if (tracker != null)
+    {
+        tracker.OnLevelComplete();
+    }
+    else
+    {
+        Debug.LogWarning("LevelProgressTracker не найден на сцене босса");
+    }
         }
     }
 }

@@ -7,6 +7,8 @@ public class HurtState : IState
 {
     private Coroutine _hurtRoutine;
     private MonoBehaviour _coroutineRunner;
+    public IState ParentState { get; set; }
+    public bool IsComposite => false;
 
     public void Enter(GameObject actor, Blackboard blackboard)
     {

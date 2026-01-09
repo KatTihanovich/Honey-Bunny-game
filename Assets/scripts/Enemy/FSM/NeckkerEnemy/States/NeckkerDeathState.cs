@@ -5,6 +5,8 @@ using Game.Audio;
 public class NeckkerDeathState : IState
 {
     private float _deathSoundDelay;
+    public IState ParentState { get; set; }
+    public bool IsComposite => false;
     
     public NeckkerDeathState(float deathSoundDelay = 1f)
     {

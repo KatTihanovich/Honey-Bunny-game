@@ -2,6 +2,8 @@ using UnityEngine;
 
 public class NeckkerPatrolState : IState
 {
+    public IState ParentState { get; set; }
+    public bool IsComposite => false;
     public void Enter(GameObject actor, Blackboard blackboard)
     {
         blackboard.Set(BlackboardKeys.IsChasing, false);

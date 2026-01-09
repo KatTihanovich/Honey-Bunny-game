@@ -24,7 +24,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 482179389411195521}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 96.2, y: 22.6, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -54,6 +54,7 @@ GameObject:
   - component: {fileID: 8533261338917268840}
   - component: {fileID: 2575818786023094}
   - component: {fileID: 2025335398626625174}
+  - component: {fileID: 2841115375985686098}
   m_Layer: 9
   m_Name: Neckker
   m_TagString: Enemy
@@ -230,8 +231,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4171455bd44dbbc498ee1fd3d0ef1f98, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _startHealth: 100
-  _maxHealth: 100
+  _startHealth: 200
+  _maxHealth: 200
 --- !u!70 &2553305394803801888
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -332,7 +333,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   leftEdge: {fileID: 7502389688516082949}
   rightEdge: {fileID: 1126415438187947515}
-  speed: 2
+  speed: 3
   waitTimeAtPoint: 1
   playerLayer:
     serializedVersion: 2
@@ -340,7 +341,7 @@ MonoBehaviour:
   obstacleLayer:
     serializedVersion: 2
     m_Bits: 64
-  visionRange: 10
+  visionRange: 15
   visionHeightOffset: 0.5
   chaseStopDistance: 1
   attackCooldown: 2
@@ -352,7 +353,7 @@ MonoBehaviour:
   boxCollider: {fileID: 2025335398626625174}
   contactDamageDelay: 1.5
   canClone: 1
-  cloneOffset: 5
+  cloneOffset: 10
   mobPrefab: {fileID: 935610926531086007}
   attackSound: {fileID: 8300000, guid: 645b0bfbcc32e4135b526567caa787ff, type: 3}
   volume: 0.05
@@ -404,6 +405,22 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 18.330618, y: 11.487705}
   m_EdgeRadius: 0
+--- !u!114 &2841115375985686098
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 935610926531086007}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7f726fb798ad621458c431cb9966d91d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  boneRoot: {fileID: 0}
+  flipBy180DegreeRotation: 0
+  skeletonRenderer: {fileID: 4100900437209481518}
+  skeletonGraphic: {fileID: 0}
 --- !u!1 &3701848720298967431
 GameObject:
   m_ObjectHideFlags: 0
@@ -507,7 +524,7 @@ Transform:
   m_GameObject: {fileID: 3768018532892462750}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -5.7, y: -10.86, z: 0}
+  m_LocalPosition: {x: -6.5, y: -10.86, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -538,7 +555,7 @@ Transform:
   m_GameObject: {fileID: 9160783024789897956}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 19.54, y: -10.56, z: 0}
+  m_LocalPosition: {x: 20.12, y: -10.56, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

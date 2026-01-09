@@ -69,4 +69,46 @@ public static class BlackboardKeys
     public const string CloneFinished = "CloneFinished";
     public const string ContactDamageCooldown = "ContactDamageCooldown";
     public const string ContactDamageDelay = "ContactDamageDelay";
+
+    // ========== Boss-специфичные ключи ==========
+public const string BossAnimator = "BossAnimator";
+public const string BossBoxCollider = "BossBoxCollider";
+public const string BossRenderer = "BossRenderer";
+public const string BossAttackArea = "BossAttackArea";
+public const string BossTails = "BossTails";
+public const string BossInitialScale = "BossInitialScale";
+public const string BossSpawnPoint = "BossSpawnPoint";
+public const string AttackAreaScript = "AttackAreaScript";
+public const string IsFirstAppear = "IsFirstAppear";
+
+// Таймеры и счётчики
+public const string ActiveTimer = "ActiveTimer";
+public const string DamageTakenThisPhase = "DamageTakenThisPhase";
+public const string HitsDoneThisPhase = "HitsDoneThisPhase";
+
+// Флаги состояний
+public const string IsVisible = "IsVisible";
+public const string CanTakeDamage = "CanTakeDamage";
+public const string IsRoaring = "IsRoaring";
+public const string HasRoared = "HasRoared";
+
+// Настройки длительностей
+public const string AppearDuration = "AppearDuration";
+public const string DisappearDuration = "DisappearDuration";
+public const string ActivePhaseDuration = "ActivePhaseDuration";
+public const string HiddenDuration = "HiddenDuration";
+public const string RoarDuration = "RoarDuration";
+
+// Спавн миньонов
+public const string EnemyPrefabs = "EnemyPrefabs";
+public const string SpawnPoints = "SpawnPoints";
+public const string SpawnInterval = "SpawnInterval";
+public const string MaxEnemies = "MaxEnemies";
+
+public static readonly string ChaseStateActive = "ChaseStateActive";
+public static readonly string ChaseCurrentPhase = "ChaseCurrentPhase";
+public static readonly string ChaseTimer = "ChaseTimer";
+public const string ReturningFromAttack = "ReturningFromAttack"; 
+public const string JustHit = "JustHit";                   // bool
+
 }

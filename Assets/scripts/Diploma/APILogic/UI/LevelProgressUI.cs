@@ -6,11 +6,11 @@ using TMPro;
 public class LevelProgressUI : MonoBehaviour
 {
     [Header("UI Elements")]
-    public TMP_Text[] levelProgressTexts; // Массив Text для каждого уровня
+    public TMP_Text[] levelProgressTexts; 
     public Button refreshButton;
     
     [Header("Level IDs")]
-    public long[] levelIds; // ID уровней из вашей БД
+    public long[] levelIds;
 
     void Start()
     {
@@ -22,16 +22,14 @@ public class LevelProgressUI : MonoBehaviour
     {
         refreshButton.interactable = false;
         
-        // Очищаем все тексты
         foreach (TMP_Text text in levelProgressTexts)
         {
-            text.text = "Загрузка...";
+            text.text = "Loading...";
         }
         
-        // Загружаем прогресс для каждого уровня
         for (int i = 0; i < levelIds.Length; i++)
         {
-            int index = i; // Локальная копия для замыкания
+            int index = i;
             StartCoroutine(LoadLevelProgress(levelIds[i], index));
         }
     }
@@ -42,22 +40,19 @@ public class LevelProgressUI : MonoBehaviour
         {
             if (success && progress != null)
             {
-                // Форматируем данные прогресса
-                string progressText = $"Уровень {levelId}\n";
-                progressText += $"⭐ Звёзд: {progress.stars}/3\n";
-                progressText += $"👾 Врагов: {progress.killedEnemiesNumber}\n";
-                progressText += $"🧩 Пазлов: {progress.solvedPuzzlesNumber}\n";
-                progressText += $"⏱️ Время: {progress.timeSpent}\n";
+                string progressText = $"⭐ Stars: {progress.stars}/3\n";
+                progressText += $"👾 Enemies: {progress.killedEnemiesNumber}\n";
+                progressText += $"🧩 Puzzles: {progress.solvedPuzzlesNumber}\n";
+                progressText += $"⏱️ Time: {progress.timeSpent}\n";
                 progressText += $"📅 {progress.createdAt}";
                 
                 levelProgressTexts[textIndex].text = progressText;
             }
             else
             {
-                levelProgressTexts[textIndex].text = $"Уровень {levelId}\nЕщё не пройден";
+                levelProgressTexts[textIndex].text = $"Level is not completed yet";
             }
             
-            // Проверяем, загрузились ли все уровни
             CheckAllLoaded();
         });
     }
@@ -67,7 +62,7 @@ public class LevelProgressUI : MonoBehaviour
         bool allLoaded = true;
         foreach (TMP_Text text in levelProgressTexts)
         {
-            if (text.text == "Загрузка...")
+            if (text.text == "Loading...")
             {
                 allLoaded = false;
                 break;

@@ -2,6 +2,9 @@ using UnityEngine;
 
 public class BurderRunState : IState
 {
+
+    public IState ParentState { get; set; }
+    public bool IsComposite => false;
     private bool _hasTriggeredSwitch = false;
 
     public void Enter(GameObject actor, Blackboard blackboard)

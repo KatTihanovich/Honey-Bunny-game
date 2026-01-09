@@ -3,6 +3,8 @@ using Game.Audio;
 
 public class BurderDeathState : IState
 {
+    public IState ParentState { get; set; }
+    public bool IsComposite => false;
     public void Enter(GameObject actor, Blackboard blackboard)
     {
         var anim = blackboard.GetOrDefault<Animator>(BlackboardKeys.Animator);

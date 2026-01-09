@@ -8,6 +8,8 @@ public class DeathState : IState
     private float _deathSoundDelay;
     private Coroutine _deathRoutine;
     private MonoBehaviour _coroutineRunner;
+    public IState ParentState { get; set; }
+    public bool IsComposite => false;
 
     public DeathState(float deathSoundDelay = 2f)
     {

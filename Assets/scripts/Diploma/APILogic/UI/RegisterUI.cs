@@ -19,37 +19,28 @@ public UserProfileButton profileButton;
 
     void OnRegisterClicked()
     {
-        // Валидация
         if (string.IsNullOrEmpty(nicknameInput.text))
         {
-            ShowMessage("Введите никнейм!", Color.red);
+            ShowMessage("Insert nickname!", Color.red);
             return;
         }
 
         if (string.IsNullOrEmpty(passwordInput.text))
         {
-            ShowMessage("Введите пароль!", Color.red);
-            return;
-        }
-
-        if (string.IsNullOrEmpty(ageInput.text))
-        {
-            ShowMessage("Введите возраст!", Color.red);
+            ShowMessage("Insert password!", Color.red);
             return;
         }
 
         int age;
-        if (!int.TryParse(ageInput.text, out age) || age < 1 || age > 120)
+        if (!int.TryParse(ageInput.text, out age) || age < 10 || age > 120)
         {
-            ShowMessage("Некорректный возраст!", Color.red);
+            ShowMessage("Invalid age!", Color.red);
             return;
         }
 
-        // Отключаем кнопку во время запроса
         registerButton.interactable = false;
-        ShowMessage("Регистрация...", Color.yellow);
+        ShowMessage("Registering...", Color.gray);
 
-        // Вызываем API
         StartCoroutine(GameAPIManager.Instance.Register(
             nicknameInput.text,
             passwordInput.text,
@@ -58,17 +49,17 @@ public UserProfileButton profileButton;
         ));
     }
 
-    void OnRegisterResponse(bool success, string response)
+    void OnRegisterResponse(bool success, string response, long code)
     {
         registerButton.interactable = true;
 
         if (success)
         {
-            ShowMessage("Регистрация успешна!", Color.green);
+                ShowMessage("Registration successful!", Color.green);
         }
         else
         {
-            ShowMessage("Ошибка: " + response, Color.red);
+            ShowMessage("Error: " + response, Color.red);
         }
     }
 

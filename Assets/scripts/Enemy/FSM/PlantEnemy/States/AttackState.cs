@@ -7,6 +7,8 @@ public class AttackState : IState
 {
     private Coroutine _attackRoutine;
     private MonoBehaviour _coroutineRunner;
+    public IState ParentState { get; set; }
+    public bool IsComposite => false;
 
     public void Enter(GameObject actor, Blackboard blackboard)
     {

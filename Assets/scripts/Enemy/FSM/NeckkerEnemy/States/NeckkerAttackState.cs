@@ -7,6 +7,8 @@ public class NeckkerAttackState : IState
     private Coroutine _attackRoutine;
     private MonoBehaviour _coroutineRunner;
     private Vector3 _lockedScale;
+    public IState ParentState { get; set; }
+    public bool IsComposite => false;
 
     public void Enter(GameObject actor, Blackboard blackboard)
     {

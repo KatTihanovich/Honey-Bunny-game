@@ -16,7 +16,7 @@ public class StatisticsUI : MonoBehaviour
 
     void LoadStatistics()
     {
-        messageText.text = "Загрузка статистики...";
+        messageText.text = "Loading...";
         
         StartCoroutine(GameAPIManager.Instance.GetUserStatistics(OnStatisticsLoaded));
     }
@@ -25,18 +25,24 @@ public class StatisticsUI : MonoBehaviour
     {
         if (success)
         {
-            string statsText = "Общая статистика:\n\n";
-            statsText += $"Пройдено уровней: {stats.totalLevelsCompleted}\n";
-            statsText += $"Время в игре: {stats.totalTimePlayed}\n";
-            statsText += $"Убито врагов: {stats.totalKilledEnemies}\n";
-            statsText += $"Решено головоломок: {stats.totalSolvedPuzzles}\n";
-            statsText += $"Всего звёзд: {stats.totalStars}\n";
+            if (stats == null)
+        {
+            messageText.text = "You don't have any statistics yet.";
+            return;
+        }
+
+            string statsText = "Overall Statistics:\n\n";
+            statsText += $"Levels Completed: {stats.totalLevelsCompleted}\n";
+            statsText += $"Time in game: {stats.totalTimePlayed}\n";
+            statsText += $"Killed enemies: {stats.totalKilledEnemies}\n";
+            statsText += $"Solved puzzles: {stats.totalSolvedPuzzles}\n";
+            statsText += $"Total stars: {stats.totalStars}\n";
             
             messageText.text = statsText;
         }
         else
         {
-            messageText.text = "Ошибка загрузки статистики";
+            messageText.text = "Error loading statistics";
         }
     }
 

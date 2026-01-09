@@ -7,6 +7,8 @@ public class BurderFleeState : IState
     private Coroutine _fleeRoutine;
     private MonoBehaviour _coroutineRunner;
     private float _fleeTimer = 0f;
+    public IState ParentState { get; set; }
+    public bool IsComposite => false;
 
     public void Enter(GameObject actor, Blackboard blackboard)
     {

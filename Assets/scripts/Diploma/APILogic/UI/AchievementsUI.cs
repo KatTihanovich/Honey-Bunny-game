@@ -16,7 +16,7 @@ public class AchievementsUI : MonoBehaviour
 
     void LoadAchievements()
     {
-        messageText.text = "Загрузка достижений...";
+        messageText.text = "Loading achievements...";
         
         StartCoroutine(GameAPIManager.Instance.GetUserAchievements(OnAchievementsLoaded));
     }
@@ -27,23 +27,22 @@ public class AchievementsUI : MonoBehaviour
     {
         if (achievements == null || achievements.Length == 0)
         {
-            messageText.text = "У вас пока нет достижений";
+            messageText.text = "You don't have any achievements yet.";
             return;
         }
 
-        string achievementsList = "Ваши достижения:\n\n";
+        string achievementsList = "Your achievements:\n\n";
         foreach (Achievement achievement in achievements)
         {
-            achievementsList += $"🏆 {achievement.achievementName}\n";
-            achievementsList += $"   {achievement.achievementDescription}\n";
-            achievementsList += $"   Получено: {achievement.createdAt}\n\n";
+            achievementsList += $" {achievement.achievementName}\n";
+            achievementsList += $"\n  {achievement.achievementDescription}\n";
         }
         
         messageText.text = achievementsList;
     }
     else
     {
-        messageText.text = "Ошибка загрузки достижений";
+        messageText.text = "Error loading achievements. Please try again later.";
     }
 }
 

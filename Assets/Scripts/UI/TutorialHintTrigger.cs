@@ -1,108 +1,29 @@
 using UnityEngine;
 
-public class TutorialHintTrigger : MonoBehaviour
+public class TutorialHintTriggerNew : MonoBehaviour
 {
-    public GameObject hintUI;
-    public KeyCode keyToPress = KeyCode.E;
-    public KeyCode anotherKeyToPress;
-    public string hintID = "Hint_Tutorial_Move";
-
-    public bool allowSecondKey = false;
-
-    private bool isPlayerInRange = false;
-    private bool hintShown = false;
-    private bool hintActive = false;
-
-    private PlayerController playerController;
-    private PlayerAnimation playerAnimation;
-
+    [Header("UI-подсказка")]
+    public GameObject hintUI; // например, текст или панель в Canvas
 
     private void Start()
     {
-        hintShown = PlayerPrefs.GetInt(hintID, 0) == 1;
-        hintUI.SetActive(false);
-    }
-
-    private void Update()
-    {
-        if (isPlayerInRange && hintActive && !hintShown)
-        {
-            bool pressedKey1 = Input.GetKeyDown(keyToPress);
-            bool pressedKey2 = allowSecondKey && Input.GetKeyDown(anotherKeyToPress);
-
-            if (pressedKey1 || pressedKey2)
-            {
-                hintUI.SetActive(false);
-                hintShown = true;
-                ResumePlayer();
-            }
-        }
+        if (hintUI != null)
+            hintUI.SetActive(false); // скрываем при старте
     }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (!hintShown && other.CompareTag("Player"))
+        if (other.CompareTag("Player") && hintUI != null)
         {
-            isPlayerInRange = true;
-
-            playerController = other.GetComponent<PlayerController>();
-            playerAnimation = other.GetComponent<PlayerAnimation>();
-            if (playerController != null)
-            {
-                ShowHintAndFreezePlayer();
-            }
+            hintUI.SetActive(true); // показать при входе
         }
     }
 
     private void OnTriggerExit2D(Collider2D other)
     {
-        if (other.CompareTag("Player"))
+        if (other.CompareTag("Player") && hintUI != null)
         {
-            isPlayerInRange = false;
-            if (!hintShown)
-                hintUI.SetActive(false);
+            hintUI.SetActive(false); // скрыть при выходе
         }
     }
-
-    private void ShowHintAndFreezePlayer()
-    {
-        hintUI.SetActive(true);
-        hintActive = true;
-        if (playerAnimation != null)
-            playerAnimation.PlayIdle();
-
-        playerController._isFrozen = true;
-    }
-
-    private void ResumePlayer()
-    {
-        hintActive = false;
-        if (playerController != null)
-            playerController._isFrozen = false;
-
-
-        PlayerPrefs.SetInt(hintID, 1);
-        PlayerPrefs.Save();
-
-        if (Input.GetKeyDown(KeyCode.P) || Input.GetKeyDown(KeyCode.Escape))
-        {
-            FindObjectOfType<PauseMenu>()?.Pause();
-        }
-
-    }
-    public static void ClearAllHints()
-    {
-        PlayerPrefs.DeleteKey("move");
-        PlayerPrefs.DeleteKey("jump");
-        PlayerPrefs.DeleteKey("jump2");
-        PlayerPrefs.DeleteKey("interact");
-        PlayerPrefs.DeleteKey("fight");
-        PlayerPrefs.DeleteKey("interact2");
-        PlayerPrefs.DeleteKey("star");
-        PlayerPrefs.DeleteKey("pause");
-        PlayerPrefs.DeleteKey("look");
-        PlayerPrefs.DeleteKey("ultimate");
-        PlayerPrefs.Save();
-    }
-
 }

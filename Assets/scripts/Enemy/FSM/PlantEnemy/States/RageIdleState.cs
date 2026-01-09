@@ -3,6 +3,8 @@ using UnityEngine;
 
 public class RageIdleState: IState
 {
+    public IState ParentState { get; set; }
+    public bool IsComposite => false;
     public void Enter(GameObject actor, Blackboard blackboard)
     {
         UpdateAnimation(blackboard);

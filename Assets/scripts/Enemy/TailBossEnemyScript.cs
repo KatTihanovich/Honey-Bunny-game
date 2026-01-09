@@ -51,9 +51,6 @@ namespace Enemy
 
             meshRenderer = tailBoss.GetComponent<MeshRenderer>();
 
-       
-            StartCoroutine(MoveY(tailBoss, startY, targetY, duration));
-
             _health = GetComponent<HealthNew>();
             if (_health != null)
             {
@@ -110,13 +107,14 @@ namespace Enemy
             StartCoroutine(MoveY(tailBoss, startY, targetY, duration));
             animator.SetTrigger(AppearTrigger);
             tailBossCollider2D.enabled = true;
+            if (_health != null)
+                _health.enabled = true;
         }
 
         public void HideOrKill()
         {
             StopAllCoroutines();
             StartCoroutine(PortalDissapear());
-            //StartCoroutine(MoveY(tailBoss, targetY, startY, duration));
         }
 
         private static IEnumerator MoveY(GameObject target, float fromY, float toY, float time)
@@ -198,5 +196,25 @@ namespace Enemy
                 Debug.LogError("Player health is null!");
             }
         }
+
+        public void HideImmediate()
+        {
+            StopAllCoroutines();
+
+            animator.ResetTrigger(AppearTrigger);
+            animator.ResetTrigger(DissapearTrigger);
+
+            meshRenderer.enabled = false;
+            tailBossCollider2D.enabled = false;
+            transform.GetChild(0).GetComponent<BoxCollider2D>().enabled = false;
+
+            playerInside = false;
+            attackCooldownTimer = 0f;
+
+            var health = GetComponent<HealthNew>();
+            if (health != null)
+                health.enabled = false;
+        }
+
     }
 }

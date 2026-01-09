@@ -19,24 +19,21 @@ public UserProfileButton profileButton;
 
     void OnLoginClicked()
     {
-        // Валидация
         if (string.IsNullOrEmpty(nicknameInput.text))
         {
-            ShowMessage("Введите никнейм!", Color.red);
+            ShowMessage("Insert nickname!", Color.red);
             return;
         }
 
         if (string.IsNullOrEmpty(passwordInput.text))
         {
-            ShowMessage("Введите пароль!", Color.red);
+            ShowMessage("Insert password!", Color.red);
             return;
         }
 
-        // Отключаем кнопку во время запроса
         loginButton.interactable = false;
-        ShowMessage("Вход...", Color.yellow);
+        ShowMessage("Logging in...", Color.gray);
 
-        // Вызываем API
         StartCoroutine(GameAPIManager.Instance.Login(
             nicknameInput.text,
             passwordInput.text,
@@ -44,19 +41,34 @@ public UserProfileButton profileButton;
         ));
     }
 
-    void OnLoginResponse(bool success, string response)
+    void OnLoginResponse(bool success, string response, long code)
     {
         loginButton.interactable = true;
 
-        if (success)
-        {
-            ShowMessage("Вход выполнен!", Color.green);
-        }
-        else
-        {
-            ShowMessage("Ошибка: " + response, Color.red);
-        }
+            if (success)
+            {
+                ShowMessage("Login successful!", Color.green);
+                return;
+            }
+
+            switch (code)
+            {
+                case 400:
+                case 401:
+                    ShowMessage("Invalid credentials", Color.red);
+                    break;
+
+                case 0:
+                    ShowMessage("No internet connection", Color.red);
+                    break;
+
+                default:
+                    ShowMessage("Something went wrong. Please try again.", Color.red);
+                    break;
+            }
     }
+
+
 
     void ShowMessage(string message, Color color)
     {

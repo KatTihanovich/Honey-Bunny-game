@@ -29,6 +29,10 @@ public class DestructiblePlatformController : MonoBehaviour
         initialPosition = transform.position;
         initialRotation = transform.rotation;
         initialScale = transform.localScale;
+    }
+
+    private void Start()
+    {
         _soundManager = SoundManagerNew.Instance;
     }
 

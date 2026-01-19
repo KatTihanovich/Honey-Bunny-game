@@ -7,20 +7,24 @@ public class InteractableToggle : MonoBehaviour
 {
     public Animator animator;
     public GameObject doorBlocker;
-    private Animator doorAnimator;     
-    private Collider2D doorCollider; 
+
+    private Animator doorAnimator;
+    private Collider2D doorCollider;
+
+    public BoxCollider2D boxCollider;
+    public EdgeCollider2D edgeCollider;
+
     private bool isOpen = false;
     private bool playerInside = false;
-    private bool isBusy = false; // <-- защита от спама
-    private ISoundManager _soundManager;
+    private bool isBusy = false;
 
-    private void Awake()
-    {
-        _soundManager = SoundManagerNew.Instance;
-    }
+    private ISoundManager _soundManager;
+    public WaveMovement[] waveObjects;
 
     private void Start()
     {
+        _soundManager = SoundManagerNew.Instance;
+
         if (animator == null)
         {
             animator = GetComponent<Animator>();
@@ -38,6 +42,9 @@ public class InteractableToggle : MonoBehaviour
         {
             Debug.LogWarning("doorBlocker не назначен!");
         }
+
+        if (boxCollider == null) Debug.LogWarning("BoxCollider2D НЕ назначен!");
+        if (edgeCollider == null) Debug.LogWarning("EdgeCollider2D НЕ назначен!");
     }
 
     private void Update()
@@ -55,8 +62,7 @@ public class InteractableToggle : MonoBehaviour
 
         Toggle();
 
-        // Ждём окончания анимации — можно использовать длительность анимации
-        float waitTime = animator.GetCurrentAnimatorStateInfo(0).length; // <-- замените на точную длительность вашей анимации
+        float waitTime = animator.GetCurrentAnimatorStateInfo(0).length;
         yield return new WaitForSeconds(waitTime);
 
         isBusy = false;
@@ -78,8 +84,11 @@ public class InteractableToggle : MonoBehaviour
             if (doorBlocker != null)
             {
                 doorAnimator.SetTrigger("Close");
-                doorCollider.isTrigger = false;
+//                doorCollider.isTrigger = false;
             }
+
+            if (boxCollider) boxCollider.enabled = true;
+            if (edgeCollider) edgeCollider.enabled = false;
 
             isOpen = false;
         }
@@ -91,13 +100,31 @@ public class InteractableToggle : MonoBehaviour
             if (doorBlocker != null)
             {
                 doorAnimator.SetTrigger("Open");
-                doorCollider.isTrigger = true;
+//                doorCollider.isTrigger = true;
             }
+
+            if (waveObjects != null && waveObjects.Length > 0)
+            {
+                for (int i = 0; i < waveObjects.Length; i++)
+                {
+                    waveObjects[i]?.Activate();
+                }
+            }
+
+            StartCoroutine(SwitchCollidersDelayed());
 
             isOpen = true;
         }
 
         _soundManager.PlaySound("Lever");
+    }
+
+    private IEnumerator SwitchCollidersDelayed()
+    {
+        yield return new WaitForSeconds(6.30f);
+
+        if (boxCollider) boxCollider.enabled = false;
+        if (edgeCollider) edgeCollider.enabled = true;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

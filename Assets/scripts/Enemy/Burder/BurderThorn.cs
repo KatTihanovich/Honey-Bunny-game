@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using Game.Audio;
 
 public class BurderThorn : MonoBehaviour
 {
@@ -9,14 +10,17 @@ public class BurderThorn : MonoBehaviour
 
     [Header("Life Settings")]
     [SerializeField] private float _lifeTime = 15f;
+    public float deathSoundDelay = 1f; 
 
     private HealthNew _health;
     private Animator _animator;
     private Coroutine _damageCoroutine;
     private bool _isDead = false;
+    private ISoundManager _soundManager;
 
     private void Start()
     {
+        _soundManager = SoundManagerNew.Instance;
         _health = GetComponent<HealthNew>();
         _animator = GetComponent<Animator>();
 
@@ -34,9 +38,10 @@ public class BurderThorn : MonoBehaviour
     {
         if (_isDead) return;
         _animator.SetTrigger("Damage");
+        _soundManager.PlaySound("Damage");
     }
 
-    public void Destroy() 
+    public void Destroy()
     {
         Destroy(gameObject);
     }
@@ -47,15 +52,24 @@ public class BurderThorn : MonoBehaviour
         _isDead = true;
 
         _animator.SetTrigger("Death");
+        StartCoroutine(DeathRoutine()); 
 
         if (_health != null)
         {
             _health.OnDamageTaken -= Damage;
             _health.OnDeath -= Death;
         }
+        
+        // StopAllCoroutines();
+        // Destroy(gameObject, 2f); // пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+    }
 
+    private IEnumerator DeathRoutine()
+    {
+        yield return new WaitForSeconds(deathSoundDelay);
+        _soundManager.PlaySound("BurderThornDeath");
         StopAllCoroutines();
-        Destroy(gameObject, 2f); // Ожидаем проигрывания анимации
+        Destroy(gameObject, 2f); 
     }
 
     private void SelfDestruct()

@@ -7,14 +7,10 @@ public class Checkpoint : MonoBehaviour
 {
     private SkeletonAnimation skeletonAnim;
     private ISoundManager _soundManager;
-    private void Awake()
-    {
-        _soundManager = SoundManagerNew.Instance;
-    }
 
     private void Start()
     {
-     
+        _soundManager = SoundManagerNew.Instance;
         skeletonAnim = GetComponentInChildren<SkeletonAnimation>();
         Debug.Log(skeletonAnim);
         if (skeletonAnim != null)

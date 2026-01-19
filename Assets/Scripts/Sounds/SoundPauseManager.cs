@@ -6,7 +6,7 @@ public class SoundPauseManager : MonoBehaviour
 {
     public GameObject pauseMenuUI;
     public GameObject settingsUI;
-    //public GameObject toSelect;
+    public GameObject controlsUI;
 
     private bool isPaused = false;
 
@@ -20,7 +20,13 @@ public class SoundPauseManager : MonoBehaviour
             }
             else
             {
-                TogglePauseMenu();
+                if (controlsUI != null && controlsUI.activeSelf)
+                {
+                    controlsUI.SetActive(false);
+                } else
+                {
+                    TogglePauseMenu();
+                }
             }
         }
 
@@ -36,7 +42,6 @@ public class SoundPauseManager : MonoBehaviour
 
         pauseMenuUI.SetActive(isPaused);
         Time.timeScale = isPaused ? 0f : 1f;
-        //EventSystem.current.SetSelectedGameObject(toSelect);
     }
 
     public void SoundControl()

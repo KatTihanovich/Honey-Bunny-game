@@ -10,6 +10,7 @@ public class MonsterAI : MonoBehaviour
     public float attackDamage = 10f;
     public float attackCooldown = 3f;
     public float attackDelay = 0.5f;
+    public float deathSoundDelay = 0.7f; 
 
     [Header("Attack Zone Collider")]
     [SerializeField] private Collider2D attackZoneCollider;
@@ -24,7 +25,6 @@ public class MonsterAI : MonoBehaviour
 
     private void Awake()
     {
-        soundManager = SoundManagerNew.Instance;
         selfHealth = GetComponent<HealthNew>();
 
         if (selfHealth != null)
@@ -36,6 +36,8 @@ public class MonsterAI : MonoBehaviour
 
     private void Start()
     {
+        soundManager = SoundManagerNew.Instance;
+
         GameObject player = GameObject.FindGameObjectWithTag("Player");
         if (player != null)
         {
@@ -54,23 +56,25 @@ public class MonsterAI : MonoBehaviour
     }
 
     private void Update()
-{
-    if (isDead || playerHealth == null || playerHealth.IsDead)
-        return;
-
-    float health = playerHealth.CurrentHealth;
-
-    // Добавленный лог
-    Debug.Log($"[MonsterAI] Player HP: {health}, IsStressed: {health <= 70f}, IsMad: {health <= 50f}");
-
-    animator.SetBool("IsMad", health <= 50f);
-    animator.SetBool("IsStressed", health <= 70f);
-
-    if (isPlayerInRange && health <= 70f && attackCoroutine == null)
     {
-        attackCoroutine = StartCoroutine(PerformAttack());
+        if (isDead || playerHealth == null || playerHealth.IsDead)
+            return;
+
+        float health = playerHealth.CurrentHealth;
+
+        bool stressed = health <= 70f;
+        bool mad = health <= 50f;
+
+        if (animator.GetBool("IsStressed") != stressed)
+            animator.SetBool("IsStressed", stressed);
+        if (animator.GetBool("IsMad") != mad)
+            animator.SetBool("IsMad", mad);
+
+        if (isPlayerInRange && health <= 70f && attackCoroutine == null)
+        {
+            attackCoroutine = StartCoroutine(PerformAttack());
+        }
     }
-}
 
     private IEnumerator PerformAttack()
     {
@@ -120,13 +124,20 @@ public class MonsterAI : MonoBehaviour
 
         isDead = true;
         animator.SetBool("Dead", true);
-        soundManager.PlaySound("MobDeath");
 
         if (TryGetComponent<Collider2D>(out var bodyCol)) bodyCol.enabled = false;
         if (TryGetComponent<Rigidbody2D>(out var rb)) rb.linearVelocity = Vector2.zero;
 
+        StartCoroutine(DeathRoutine());
+
         Destroy(gameObject, 4f);
         EndWindow.IncreaseEnemyCount();
+    }
+
+    private IEnumerator DeathRoutine()
+    {
+        yield return new WaitForSeconds(deathSoundDelay);
+        soundManager.PlaySound("MobDeath");
     }
 
     public void SetPlayerInRange(bool value)

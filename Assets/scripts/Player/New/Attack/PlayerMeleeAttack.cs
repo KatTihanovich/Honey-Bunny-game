@@ -1,10 +1,12 @@
 ﻿using UnityEngine;
+using Spine.Unity;
 
 namespace Game.Combat
 {
     public interface IAttack
     {
         float AttackDuration { get; }
+        void Initialize(SkeletonGraphic ball1, SkeletonGraphic ball2);
         void PerformAttack(Transform attackPoint, float attackRadius, LayerMask enemyLayer, int damage, Vector3 playerPosition);
         void PerformSuperAttack(Transform attackPoint, float attackRadius, LayerMask enemyLayer, int damage, Vector3 playerPosition); 
         void Reset();
@@ -16,12 +18,22 @@ namespace Game.Combat
         private bool _isActive;
 
         private int killCount = 2;
-        private bool canUseSuperAttack = true;
+        private bool canUseSuperAttack = false;
+        public bool CanUseSuperAttack => canUseSuperAttack;
+
+        private SkeletonGraphic _ball1Skeleton;
+        private SkeletonGraphic _ball2Skeleton;
 
         public PlayerMeleeAttack(float attackDuration)
         {
             AttackDuration = attackDuration;
             _isActive = false;
+        }
+
+        public void Initialize(SkeletonGraphic ball1, SkeletonGraphic ball2)
+        {
+            _ball1Skeleton = ball1;
+            _ball2Skeleton = ball2;
         }
 
         public void PerformAttack(Transform attackPoint, float attackRadius, LayerMask enemyLayer, int damage, Vector3 playerPosition)
@@ -72,8 +84,15 @@ namespace Game.Combat
                     killCount++;
                     Debug.Log($"Убито врагов: {killCount}");
 
-                    if (killCount >= 2 && !canUseSuperAttack)
+                    if (killCount % 2 == 1)
                     {
+                        _ball1Skeleton.AnimationState.SetAnimation(0, "transition_Empty_to_Full", false);
+                        _ball1Skeleton.AnimationState.AddAnimation(0, "Full_Idle", true, 0);
+                    }
+                    else
+                    {
+                        _ball2Skeleton.AnimationState.SetAnimation(0, "transition_Empty_to_Full", false);
+                        _ball2Skeleton.AnimationState.AddAnimation(0, "Full_Idle", true, 0);
                         canUseSuperAttack = true;
                         Debug.Log("Суператака снова доступна!");
                     }
@@ -115,6 +134,13 @@ namespace Game.Combat
 
             killCount = 0;
             canUseSuperAttack = false;
+
+            _ball1Skeleton.AnimationState.SetAnimation(0, "transition_Full_to_Empty", false);
+            _ball1Skeleton.AnimationState.AddAnimation(0, "Empty_Idle", true, 0);
+
+            _ball2Skeleton.AnimationState.SetAnimation(0, "transition_Full_to_Empty", false);
+            _ball2Skeleton.AnimationState.AddAnimation(0, "Empty_Idle", true, 0);
+
             _isActive = true;
 
             DebugDrawAttack(attackPoint.position, attackRadius * 1.5f);

@@ -8,13 +8,12 @@ public class EndWindow : MonoBehaviour
 {
     [Header("UI Elements")]
     public GameObject endWindow; 
-    //public Button restartButton;
+   // public Button restartButton;
     [SerializeField] private TextMeshProUGUI starsText; 
     [SerializeField] private TextMeshProUGUI mobsText; 
     [SerializeField] private TextMeshProUGUI puzzlesText; 
     public static int enemiesDefeated = 0;
     public static int puzzlesSolved = 0;
-    public GameObject toSelect; 
 
     void Start()
     {
@@ -40,7 +39,6 @@ public class EndWindow : MonoBehaviour
 
     public void ShowEndWindow()
     {
-        EventSystem.current.SetSelectedGameObject(toSelect);
         endWindow.SetActive(true);
         Time.timeScale = 0f;
     }
@@ -51,4 +49,15 @@ public class EndWindow : MonoBehaviour
         Scene currentScene = SceneManager.GetActiveScene();
         SceneManager.LoadScene(currentScene.name);
     }
+
+    public int GetEnemyCount()
+    {
+        return enemiesDefeated;
+    }
+
+    public int GetPuzzleCount()
+    {
+        return puzzlesSolved;
+    }
+    
 }

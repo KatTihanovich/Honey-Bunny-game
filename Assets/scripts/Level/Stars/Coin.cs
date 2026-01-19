@@ -23,11 +23,11 @@ public class Coin : MonoBehaviour
     private void Awake()
     {
         anim = GetComponent<Animator>();
-        _soundManager = SoundManagerNew.Instance;
     }
 
     private void Start()
     {
+        _soundManager = SoundManagerNew.Instance;
         _coinID = $"{gameObject.scene.name}_{transform.position}";
 
         if (CoinManager.Instance.IsCoinCollected(_coinID))

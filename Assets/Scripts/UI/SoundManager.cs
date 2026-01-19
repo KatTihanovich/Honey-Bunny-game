@@ -5,65 +5,89 @@ using UnityEngine.EventSystems;
 
 public class SoundManager : MonoBehaviour
 {
-    public AudioMixerGroup Mixer;
+    [Header("Audio Mixer Groups")]
+    public AudioMixerGroup MusicMixer;
+    public AudioMixerGroup FXMixer;
+    public AudioMixerGroup UIMixer;
+
+    [Header("UI Sliders")]
     public Slider MusicSlider;
+    public Slider FXSlider;
+    public Slider UISlider;
 
     public float sliderChangeAmount = 0.05f;
-    private bool isSliderSelected = false; 
 
+    private const string MIXER_MUSIC = "MusicVolume";
+    private const string MIXER_FX = "FXVolume";
+    private const string MIXER_UI = "UIVolume";
+
+    private const string PREF_MUSIC = "musicVolume";
+    private const string PREF_FX = "fxVolume";
+    private const string PREF_UI = "uiVolume";
+
+    private void Awake()
+    {
+        float music = PlayerPrefs.HasKey(PREF_MUSIC) ? PlayerPrefs.GetFloat(PREF_MUSIC) : 1f;
+        float fx = PlayerPrefs.HasKey(PREF_FX) ? PlayerPrefs.GetFloat(PREF_FX) : 1f;
+        float ui = PlayerPrefs.HasKey(PREF_UI) ? PlayerPrefs.GetFloat(PREF_UI) : 1f;
+
+        SetMixerVolume(MusicMixer.audioMixer, MIXER_MUSIC, music);
+        SetMixerVolume(FXMixer.audioMixer, MIXER_FX, fx);
+        SetMixerVolume(UIMixer.audioMixer, MIXER_UI, ui);
+    }
     private void Start()
     {
-        if (PlayerPrefs.HasKey("musicVolume"))
-        {
-            LoadValue();
-        }
-        else
-        {
-            changeVolume();
-        }
+        MusicSlider.value = PlayerPrefs.HasKey(PREF_MUSIC) ? PlayerPrefs.GetFloat(PREF_MUSIC) : 1f;
+        FXSlider.value = PlayerPrefs.HasKey(PREF_FX) ? PlayerPrefs.GetFloat(PREF_FX) : 1f;
+        UISlider.value = PlayerPrefs.HasKey(PREF_UI) ? PlayerPrefs.GetFloat(PREF_UI) : 1f;
 
-        // Make sure the slider can be selected and navigated to
-        MusicSlider.Select();
+        ApplyVolumes();
     }
 
-    private void Update()
+    public void ApplyVolumes()
     {
-        if (isSliderSelected)
-        {
-            if (Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D))
-            {
-                MusicSlider.value = Mathf.Min(MusicSlider.value + sliderChangeAmount, 1f);
-                changeVolume();
-            }
-            else if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A))
-            {
-                MusicSlider.value = Mathf.Max(MusicSlider.value - sliderChangeAmount, 0f);
-                changeVolume();
-            }
-        }
+        SetMixerVolume(MusicMixer.audioMixer, MIXER_MUSIC, MusicSlider.value);
+        SetMixerVolume(FXMixer.audioMixer, MIXER_FX, FXSlider.value);
+        SetMixerVolume(UIMixer.audioMixer, MIXER_UI, UISlider.value);
+
+        PlayerPrefs.SetFloat(PREF_MUSIC, MusicSlider.value);
+        PlayerPrefs.SetFloat(PREF_FX, FXSlider.value);
+        PlayerPrefs.SetFloat(PREF_UI, UISlider.value);
     }
 
-    public void OnSliderSelect()
-    {
-        isSliderSelected = true;
-    }
-
-    // This method will be called when the user stops interacting with the slider (e.g., mouse out or press "Tab" to navigate away)
-    public void OnSliderDeselect()
-    {
-        isSliderSelected = false;
-    }
-
-    public void changeVolume()
+    // Called by MusicSlider OnValueChanged
+    public void OnMusicSliderChanged()
     {
         float volume = MusicSlider.value;
-        Mixer.audioMixer.SetFloat("MasterVolume", Mathf.Log10(volume) * 20);
-        PlayerPrefs.SetFloat("musicVolume", volume); 
+        SetMixerVolume(MusicMixer.audioMixer, MIXER_MUSIC, volume);
+        PlayerPrefs.SetFloat(PREF_MUSIC, volume);
     }
 
-    public void LoadValue()
+    // Called by FXSlider OnValueChanged
+    public void OnFXSliderChanged()
     {
-        MusicSlider.value = PlayerPrefs.GetFloat("musicVolume");
-        changeVolume();
+        float volume = FXSlider.value;
+        SetMixerVolume(FXMixer.audioMixer, MIXER_FX, volume);
+        PlayerPrefs.SetFloat(PREF_FX, volume);
+    }
+
+    // Called by UISlider OnValueChanged
+    public void OnUISliderChanged()
+    {
+        float volume = UISlider.value;
+        SetMixerVolume(UIMixer.audioMixer, MIXER_UI, volume);
+        PlayerPrefs.SetFloat(PREF_UI, volume);
+    }
+    private void SetMixerVolume(AudioMixer mixer, string parameterName, float value)
+    {
+        mixer.SetFloat(parameterName, Mathf.Log10(Mathf.Clamp(value, 0.0001f, 1f)) * 20);
+    }
+
+    public void LoadValues()
+    {
+        MusicSlider.value = PlayerPrefs.GetFloat(PREF_MUSIC);
+        FXSlider.value = PlayerPrefs.GetFloat(PREF_FX);
+        UISlider.value = PlayerPrefs.GetFloat(PREF_UI);
+        ApplyVolumes();
     }
 }

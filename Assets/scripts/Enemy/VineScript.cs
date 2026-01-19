@@ -42,8 +42,6 @@ public class VineScript : MonoBehaviour
         float healthPercent = (playerHealth.CurrentHealth / playerHealth.MaxHealth) * 100f;
         VineState newState = GetVineStateFromHealth();
 
-        Debug.Log($"Health: {healthPercent}% → New State: {newState}, Current State: {currentState}");
-
         if (newState != currentState)
         {
             Debug.Log($"Transitioning from {currentState} to {newState}");
@@ -65,6 +63,8 @@ public class VineScript : MonoBehaviour
             vineAnimator.SetTrigger("MidToLow");
         else if (from == VineState.High && to == VineState.Low)
             vineAnimator.SetTrigger("HighToLow");
+        else if (from == VineState.Low && to == VineState.High)
+            vineAnimator.SetTrigger("LowToHigh");    
     }
 
     private void ApplyColliderState(VineState state)

@@ -22,9 +22,8 @@ public class PlayerController : MonoBehaviour
     [Header("Super Attack Settings")]
     [SerializeField] private float _superAttackRadius = 1f;
     [SerializeField] private int _superAttackDamage = 100;
-    [SerializeField] private bool _isSuperAttackReady = true; // Можно включить через прогресс
-
-    public void SetSuperAttackReady(bool ready) => _isSuperAttackReady = ready;
+    [SerializeField] private SkeletonGraphic _chargeBall1;
+    [SerializeField] private SkeletonGraphic _chargeBall2;
 
     [Header("Movement Settings")]
     [SerializeField] private float _moveSpeed = 9f;
@@ -70,7 +69,6 @@ public class PlayerController : MonoBehaviour
     private bool _isPush;
     private bool _isJumpPress;
     public bool _isFrozen;
-
     private Rigidbody2D _rb;
     private CapsuleCollider2D _coll;
     private PlayerAnimation _playerAnimation;
@@ -96,7 +94,11 @@ public class PlayerController : MonoBehaviour
     public bool IsRunning() => _isRunning;
     public bool JumpTriggered() => _jumpTriggered;
     public void JumpTriggered(bool value) => _jumpTriggered = value;
-    public bool IsFalling() => _rb.linearVelocity.y < -0.1f;
+    public bool IsFalling()
+    {
+        bool groundedNow = Physics2D.OverlapCircle(_groundCheck.position, _groundCheckRadius, _groundLayer);
+        return !groundedNow && _rb.linearVelocity.y < -0.1f;
+    }
     public bool IsFlying()
     {
         bool groundedNow = Physics2D.OverlapCircle(_groundCheck.position, _groundCheckRadius, _groundLayer);
@@ -126,7 +128,7 @@ public class PlayerController : MonoBehaviour
         _coll = GetComponent<CapsuleCollider2D>();
         _playerAnimation = GetComponent<PlayerAnimation>();
         _meleeAttack = new PlayerMeleeAttack(_attackDuration);
-        _soundManager = SoundManagerNew.Instance;
+        _meleeAttack.Initialize(_chargeBall1, _chargeBall2);
 
         _rb.freezeRotation = true;
         _rb.collisionDetectionMode = CollisionDetectionMode2D.Continuous;
@@ -140,6 +142,11 @@ public class PlayerController : MonoBehaviour
             _health.OnDeath += HandleDeath;
             _health.OnDamageTaken += GetDamage;
         }
+    }
+
+    private void Start()
+    {
+        _soundManager = SoundManagerNew.Instance;
     }
 
     private void Update()
@@ -184,7 +191,6 @@ public class PlayerController : MonoBehaviour
 
     private void HandleDeath()
     {
-      
         Die();
     }
 
@@ -216,13 +222,19 @@ public class PlayerController : MonoBehaviour
             Invoke(nameof(ResetAttack), _meleeAttack.AttackDuration);
         }
 
-        if (Keyboard.current.qKey.wasPressedThisFrame && _isGrounded && _isSuperAttackReady && !_isSuperAttacking)
+        if (Keyboard.current.qKey.wasPressedThisFrame && _isGrounded && !_isSuperAttacking)
         {
-            Debug.Log("СУПЕР АТАКА!");
-            _isSuperAttacking = true;
-            SuperAttack();
-            _isSuperAttackReady = false;
-            Invoke(nameof(ResetSuperAttack), _meleeAttack.AttackDuration);
+            if (_meleeAttack is PlayerMeleeAttack melee && melee.CanUseSuperAttack)
+            {
+                Debug.Log("СУПЕР АТАКА!");
+                _isSuperAttacking = true;
+                SuperAttack();
+                Invoke(nameof(ResetSuperAttack), _meleeAttack.AttackDuration);
+            }
+            else
+            {
+                Debug.Log("Суператака ещё недоступна!");
+            }
         }
     }
 
@@ -243,6 +255,7 @@ public class PlayerController : MonoBehaviour
                 _isPush = true;
                 return;
             }
+            pushable.StopPushing();
         }
 
         _isPush = false;
@@ -488,4 +501,30 @@ public class PlayerController : MonoBehaviour
             _isSlowed = false;
         }
     }
+
+    public void ForceIdle()
+    {
+        if (_rb != null)
+        {
+            _rb.linearVelocity = Vector2.zero;
+            _rb.angularVelocity = 0f;
+            _rb.Sleep();
+        }
+
+        _horizontalInput = 0f;
+        _isRunning = false;
+        _isJumping = false;
+        _isPush = false;
+        _jumpTriggered = false;
+
+        _isAttacking = false;
+        _isSuperAttacking = false;
+        _isTakingDamage = false;
+
+        if (_playerAnimation != null)
+            _playerAnimation.PlayIdle();
+
+        _playerAnimation.SetDoubleJump(false);
+    }
+    
 }

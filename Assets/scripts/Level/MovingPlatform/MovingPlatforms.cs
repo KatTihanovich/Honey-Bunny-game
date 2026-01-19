@@ -71,11 +71,6 @@ public class MovingPlatform : MonoBehaviour
 
         rb.MovePosition(newPos);
 
-        foreach (var body in carriedBodies)
-        {
-            body.MovePosition(body.position + platformVelocity * Time.fixedDeltaTime);
-        }
-
         if (Vector2.Distance(newPos, currentTarget) < 0.01f)
         {
             if (waitTime > 0f)
@@ -97,11 +92,11 @@ public class MovingPlatform : MonoBehaviour
         {
             foreach (var contact in collision.contacts)
             {
-                if (contact.normal.y < -0.5f)
+                if (contact.normal.y > 0.5f)
                 {
-                    Rigidbody2D playerRb = collision.rigidbody;
-                    if (playerRb != null)
-                        carriedBodies.Add(playerRb);
+                    Transform player = collision.collider.transform.root; 
+                    if (player != null && player.parent != transform)
+                        player.SetParent(transform); 
                 }
             }
         }
@@ -111,11 +106,11 @@ public class MovingPlatform : MonoBehaviour
     {
         if (collision.collider.CompareTag("PlayerFoot"))
         {
-            Rigidbody2D playerRb = collision.rigidbody;
-            if (playerRb != null)
-                carriedBodies.Remove(playerRb);
+            Transform player = collision.collider.transform.root;
+            if (player != null && player.parent == transform)
+                player.SetParent(null); 
         }
-    }
+    } 
 
     private void OnDrawGizmos()
     {

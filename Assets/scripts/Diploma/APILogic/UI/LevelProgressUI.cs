@@ -15,6 +15,10 @@ public class LevelProgressUI : MonoBehaviour
     void Start()
     {
         refreshButton.onClick.AddListener(LoadAllLevelProgress);
+    }
+
+    void OnEnable()
+    {
         LoadAllLevelProgress();
     }
 
@@ -40,11 +44,10 @@ public class LevelProgressUI : MonoBehaviour
         {
             if (success && progress != null)
             {
-                string progressText = $"⭐ Stars: {progress.stars}/3\n";
-                progressText += $"👾 Enemies: {progress.killedEnemiesNumber}\n";
-                progressText += $"🧩 Puzzles: {progress.solvedPuzzlesNumber}\n";
-                progressText += $"⏱️ Time: {progress.timeSpent}\n";
-                progressText += $"📅 {progress.createdAt}";
+                string progressText = $" Stars: {progress.stars}\n";
+                progressText += $" Enemies: {progress.killedEnemiesNumber}\n";
+                progressText += $" Puzzles: {progress.solvedPuzzlesNumber}\n";
+                progressText += $" Time: {progress.timeSpent}\n";
                 
                 levelProgressTexts[textIndex].text = progressText;
             }

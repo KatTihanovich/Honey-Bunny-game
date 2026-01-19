@@ -20,24 +20,21 @@ public class UpdateProfileUI : MonoBehaviour
 
     void OnUpdateClicked()
     {
-        // Validate nickname
         if (string.IsNullOrEmpty(nicknameInput.text))
         {
-            ShowMessage("Insert new nickname!", Color.red);
+            ShowMessage("Insert new nickname!", Color.gray);
             return;
         }
 
-        // Validate password
         if (string.IsNullOrEmpty(passwordInput.text))
         {
-            ShowMessage("Insert new password!", Color.red);
+            ShowMessage("Insert new password!", Color.gray);
             return;
         }
 
-        // Password strength validation
         if (passwordInput.text.Length < 6)
         {
-            ShowMessage("Password must be at least 6 characters!", Color.red);
+            ShowMessage("Password must be at least 6 characters!", Color.gray);
             return;
         }
 
@@ -57,18 +54,16 @@ public class UpdateProfileUI : MonoBehaviour
 
         if (success)
         {
-            ShowMessage("Profile updated successfully!", Color.green);
+            ShowMessage("Profile updated successfully!", Color.gray);
             
-            // Save new nickname
             PlayerPrefs.SetString("User_Nickname", nicknameInput.text);
             PlayerPrefs.Save();
             
-            // Clear input fields
             ClearInputFields();
         }
         else
         {
-            ShowMessage("Error: " + response, Color.red);
+            ShowMessage("Error: " + response, Color.gray);
         }
     }
 
@@ -76,8 +71,6 @@ public class UpdateProfileUI : MonoBehaviour
     {
         ClearInputFields();
         ShowMessage("", Color.white);
-        // Add scene navigation if needed
-        // SceneManager.LoadScene("PreviousScene");
     }
 
     void ClearInputFields()

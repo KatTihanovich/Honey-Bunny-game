@@ -21,7 +21,7 @@ public class DeleteAccountUI : MonoBehaviour
         if (messageText != null)
         {
             messageText.text = "Are you sure you want to delete your account? This action cannot be undone!";
-            messageText.color = Color.red;
+            messageText.color = Color.gray;
         }
     }
 
@@ -44,7 +44,7 @@ public class DeleteAccountUI : MonoBehaviour
         {
             if (messageText != null)
             {
-                ShowMessage("Account deleted successfully!", Color.green);
+                ShowMessage("Account deleted successfully!", Color.gray);
             }
             
             Debug.Log("Account deleted, redirecting to login");
@@ -58,7 +58,7 @@ public class DeleteAccountUI : MonoBehaviour
             
             if (messageText != null)
             {
-                ShowMessage("Error: " + response, Color.red);
+                ShowMessage("Error: " + response, Color.gray);
             }
         }
     }

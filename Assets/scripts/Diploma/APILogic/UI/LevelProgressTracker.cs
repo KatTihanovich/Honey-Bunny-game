@@ -11,13 +11,12 @@ public class LevelProgressTracker : MonoBehaviour
     public EndWindow endWindow;
     
     private float startTime;
-    private string levelName; // Теперь не публичное поле
+    private string levelName; 
 
     void Start()
     {
         startTime = Time.time;
         
-        // Автоматически получаем имя текущей сцены
         levelName = SceneManager.GetActiveScene().name;
         
         Debug.Log($"Level Name: {levelName}");
@@ -36,7 +35,6 @@ public class LevelProgressTracker : MonoBehaviour
         int killedEnemies = endWindow.GetEnemyCount();
         int solvedPuzzles = endWindow.GetPuzzleCount();
         
-        // Используем то же имя что и TotalCoinTracker
         int stars = TotalCoinTracker.GetCoinsForLevel(levelName);
         
         Debug.Log($"Уровень '{levelName}' завершён! Звёзд: {stars}, Врагов: {killedEnemies}, Пазлов: {solvedPuzzles}, Время: {timeString}");

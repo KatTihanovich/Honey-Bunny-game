@@ -14,6 +14,11 @@ public class AchievementsUI : MonoBehaviour
         LoadAchievements();
     }
 
+    void OnEnable()
+    {
+        LoadAchievements();
+    }
+
     void LoadAchievements()
     {
         messageText.text = "Loading achievements...";
@@ -34,15 +39,15 @@ public class AchievementsUI : MonoBehaviour
         string achievementsList = "Your achievements:\n\n";
         foreach (Achievement achievement in achievements)
         {
-            achievementsList += $" {achievement.achievementName}\n";
-            achievementsList += $"\n  {achievement.achievementDescription}\n";
+            achievementsList += $"\n {achievement.achievementName}\n";
+            achievementsList += $"\n  ●  {achievement.achievementDescription}\n\n";
         }
         
         messageText.text = achievementsList;
     }
     else
     {
-        messageText.text = "Error loading achievements. Please try again later.";
+        messageText.text = "Error loading achievements. Please try to login again.";
     }
 }
 

@@ -21,20 +21,20 @@ public UserProfileButton profileButton;
     {
         if (string.IsNullOrEmpty(nicknameInput.text))
         {
-            ShowMessage("Insert nickname!", Color.red);
+            ShowMessage("Insert nickname!", Color.gray);
             return;
         }
 
         if (string.IsNullOrEmpty(passwordInput.text))
         {
-            ShowMessage("Insert password!", Color.red);
+            ShowMessage("Insert password!", Color.gray);
             return;
         }
 
         int age;
         if (!int.TryParse(ageInput.text, out age) || age < 10 || age > 120)
         {
-            ShowMessage("Invalid age!", Color.red);
+            ShowMessage("Invalid age!", Color.gray);
             return;
         }
 
@@ -55,11 +55,11 @@ public UserProfileButton profileButton;
 
         if (success)
         {
-                ShowMessage("Registration successful!", Color.green);
+                ShowMessage("Registration successful!", Color.gray);
         }
         else
         {
-            ShowMessage("Error: " + response, Color.red);
+            ShowMessage("Error: " + response, Color.gray);
         }
     }
 

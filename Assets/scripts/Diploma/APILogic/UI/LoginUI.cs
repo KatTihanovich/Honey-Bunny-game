@@ -21,13 +21,13 @@ public UserProfileButton profileButton;
     {
         if (string.IsNullOrEmpty(nicknameInput.text))
         {
-            ShowMessage("Insert nickname!", Color.red);
+            ShowMessage("Insert nickname!", Color.gray);
             return;
         }
 
         if (string.IsNullOrEmpty(passwordInput.text))
         {
-            ShowMessage("Insert password!", Color.red);
+            ShowMessage("Insert password!", Color.gray);
             return;
         }
 
@@ -47,7 +47,7 @@ public UserProfileButton profileButton;
 
             if (success)
             {
-                ShowMessage("Login successful!", Color.green);
+                ShowMessage("Login successful!", Color.gray);
                 return;
             }
 
@@ -55,15 +55,15 @@ public UserProfileButton profileButton;
             {
                 case 400:
                 case 401:
-                    ShowMessage("Invalid credentials", Color.red);
+                    ShowMessage("Invalid credentials", Color.gray);
                     break;
 
                 case 0:
-                    ShowMessage("No internet connection", Color.red);
+                    ShowMessage("No internet connection", Color.gray);
                     break;
 
                 default:
-                    ShowMessage("Something went wrong. Please try again.", Color.red);
+                    ShowMessage("Something went wrong. Please try again.", Color.gray);
                     break;
             }
     }

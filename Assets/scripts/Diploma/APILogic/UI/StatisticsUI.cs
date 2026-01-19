@@ -11,9 +11,13 @@ public class StatisticsUI : MonoBehaviour
     void Start()
     {
         backButton.onClick.AddListener(OnBackClicked);
-        LoadStatistics();
     }
 
+    void OnEnable()
+    {
+        LoadStatistics();
+    }
+    
     void LoadStatistics()
     {
         messageText.text = "Loading...";
@@ -32,17 +36,17 @@ public class StatisticsUI : MonoBehaviour
         }
 
             string statsText = "Overall Statistics:\n\n";
-            statsText += $"Levels Completed: {stats.totalLevelsCompleted}\n";
-            statsText += $"Time in game: {stats.totalTimePlayed}\n";
-            statsText += $"Killed enemies: {stats.totalKilledEnemies}\n";
-            statsText += $"Solved puzzles: {stats.totalSolvedPuzzles}\n";
-            statsText += $"Total stars: {stats.totalStars}\n";
-            
+            statsText += $"\n Levels Completed: {stats.totalLevelsCompleted}\n";
+            statsText += $"\n Time in game: {stats.totalTimePlayed}\n";
+            statsText += $"\n Killed enemies: {stats.totalKilledEnemies}\n";
+            statsText += $"\n Solved puzzles: {stats.totalSolvedPuzzles}\n";
+            statsText += $"\n Total stars: {stats.totalStars}\n";
+
             messageText.text = statsText;
         }
         else
         {
-            messageText.text = "Error loading statistics";
+            messageText.text = "Error loading statistics. Try to login again.";
         }
     }
 

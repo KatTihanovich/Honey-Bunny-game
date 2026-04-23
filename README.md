@@ -1,9 +1,13 @@
 # Honey & Bunny
 
+The main implementation developed as part of this diploma project is concentrated in:
+
+- `Assets/Scripts/Diploma`
+- `Assets/Scripts/Enemy/FSM`
+
 **Honey & Bunny** is a cross-platform 2D platformer with narrative and psychological elements, developed in **Unity**.
 
 The project focuses on building a stable, scalable, and maintainable technical architecture that combines gameplay systems, physics simulation, and interaction with remote server infrastructure.
-
 ---
 
 ## Project Goals

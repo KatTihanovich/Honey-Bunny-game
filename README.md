@@ -2,12 +2,26 @@
 
 The main implementation developed as part of this diploma project is concentrated in:
 
-- `Assets/Scripts/Diploma`
-- `Assets/Scripts/Enemy/FSM`
+- [`Assets/Scripts/Diploma`](https://github.com/KatTihanovich/Honey-Bunny-diploma/tree/main/Assets/scripts/Diploma)
+- [`Assets/Scripts/Enemy/FSM`](https://github.com/KatTihanovich/Honey-Bunny-diploma/tree/main/Assets/scripts/Enemy/FSM)
+---
+## Service Availability
+
+The backend services are currently not deployed due to infrastructure cost limitations.
+
+However, the full server-side implementation is included in repositories [game-progress-api](https://github.com/KatTihanovich/game-progress-api) and [game-progress-db](https://github.com/KatTihanovich/game-progress-db) :
+- REST API (Java Spring Boot)
+- Database integration (PostgreSQL)
+- CI/CD configuration (GitHub Actions, Docker)
+
+The system can be deployed locally or on external infrastructure if needed.
+
+---
 
 **Honey & Bunny** is a cross-platform 2D platformer with narrative and psychological elements, developed in **Unity**.
 
 The project focuses on building a stable, scalable, and maintainable technical architecture that combines gameplay systems, physics simulation, and interaction with remote server infrastructure.
+
 ---
 
 ## Project Goals
